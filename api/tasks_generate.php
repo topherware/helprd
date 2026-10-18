@@ -89,8 +89,8 @@ if ($pending) {
             }
             foreach ($r['tasks'] as $t) {
                 Database::run(
-                    'INSERT INTO tasks (project_id, feature_id, sub_feature_id, title, phase, milestone, priority, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                    [$id, $f['id'], $t['sub_feature_id'], $t['title'], $f['fase'], $t['milestone'], $t['priority'], ++$order]
+                    'INSERT INTO tasks (project_id, feature_id, sub_feature_id, title, phase, milestone, koordinasi, priority, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    [$id, $f['id'], $t['sub_feature_id'], $t['title'], $f['fase'], $t['milestone'], $t['koordinasi'], $t['priority'], ++$order]
                 );
             }
         }

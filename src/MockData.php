@@ -68,7 +68,8 @@ final class MockData
             'bendera' => [],
             'stack_id' => $b->stackChoice === 'bebas' || $b->stackChoice === 'tulis_sendiri' ? 'standar_planku' : $b->stackChoice,
             'stack_kustom' => $b->stackChoice === 'tulis_sendiri' ? ['mirip' => 'standar_planku', 'db' => 'postgresql', 'bahasa_skema' => 'sql', 'rls' => false, 'serverless' => false] : new stdClass(),
-            'peran' => array_merge(['pengunjung anonim', 'pelanggan'], $admin ? ['admin'] : []),
+            'peran' => array_merge([['nama' => 'pengunjung anonim', 'asal' => 'ide'], ['nama' => 'pelanggan', 'asal' => 'ide']], $admin ? [['nama' => 'admin', 'asal' => 'ide']] : []),
+            'invarian' => [], // pola kata di Triggers::INVARIAN yang menangkap invarian dari masukan
             'alasan_stack' => 'Stack ini paling cepat dipakai untuk MVP web yang ramah HP dan mudah dikelola pemilik.',
         ]];
     }
@@ -82,10 +83,16 @@ final class MockData
     {
         [$stack, $flags, $roles] = [$ctx['stack'], $ctx['flags'], $ctx['roles']];
         $names = array_column($b->features, 'nama');
-        $tables = self::tables($flags, $ctx['security'] ?? []);
+        $invariants = $ctx['invariants'] ?? Triggers::invariants($b);
+        $angka = Triggers::angka($b);
+        $tables = self::tables($flags, $ctx['security'] ?? [], $invariants, $angka);
         $fr = [];
         foreach ($b->features as $i => $f) {
             $fr[] = ['id' => sprintf('FR-%02d', $i + 1), 'teks' => "Pengguna dapat memakai {$f['nama']}: " . implode(', ', $f['sub_fitur']) . '.', 'fitur' => [$f['nama']]];
+        }
+        if ($flags['hasGuestFlow'] && !$b->uiOnly) {
+            // P3: data milik tamu hanya dengan pasangan kode rahasia + nomor kontak.
+            $fr[] = ['id' => sprintf('FR-%02d', count($fr) + 1), 'teks' => 'Pengunjung tanpa akun dapat mengecek status transaksinya dengan kode transaksi yang diterbitkan saat transaksi dan nomor kontak yang dipakai; satu pengenal saja ditolak.', 'fitur' => [$names[0]]];
         }
         $applied = [];
         foreach ($b->noteItems() as $rule) {
@@ -112,6 +119,15 @@ final class MockData
                 'di_luar_cakupan' => ['Aplikasi mobile native.', 'Integrasi pihak ketiga di luar yang disebut di bab 12.'],
                 'pertanyaan_terbuka' => [['id' => 'OQ-01', 'teks' => 'Berapa batas jumlah item per transaksi yang diinginkan pemilik?', 'fitur' => []]],
                 'catatan_diterapkan' => $applied,
+                'usulan_tambahan' => array_map(fn ($u) => ['fitur' => $u['nama'], 'alasan' => $u['alasan'] !== '' ? $u['alasan'] : 'Usulan AI; belum diminta pengguna.'], array_slice($b->usulan, 0, 3)),
+                'seo' => $flags['hasPublicPages'] ? [
+                    'Judul dan meta description dinamis di setiap halaman publik.',
+                    'Tag Open Graph dan Twitter Card untuk halaman publik.',
+                    'sitemap.xml dan robots.txt dibuat otomatis.',
+                    'Halaman privat, login, dan admin diberi noindex.',
+                    'Gambar dioptimalkan (format WebP/AVIF, ukuran responsif, lazy loading).',
+                    'Data publik di-cache dengan revalidasi berkala dan revalidasi saat pengelola mengubah data.',
+                ] : [],
             ],
             'fitur' => array_map(fn ($f) => [
                 'deskripsi' => "Membantu pengguna lewat {$f['nama']}.",
@@ -134,24 +150,31 @@ final class MockData
                 'stack' => $b->stackChoice === 'tulis_sendiri' ? "Pilihan pengguna: {$b->stackCustom}" : $stack['nama'],
                 'alasan' => "Dipakai {$stack['ringkas']} karena paling cepat untuk MVP dan sesuai pilihan di langkah Teknologi.",
             ],
+            'kedalaman' => self::depth($b, $stack, $flags),
             'design' => self::design($b, $flags),
-            'rute' => self::routes($b, $roles),
+            'rute' => self::routes($b, $roles, $flags),
             'dummy' => self::dummy($b, $tables, $flags),
-            'milestone' => self::milestones($b, $stack),
         ];
         if (!$b->uiOnly) {
-            $prd['database'] = self::database($tables, $stack, $flags);
+            $prd['database'] = self::database($tables, $stack, $flags, $invariants, $roles);
             // Kontrol keamanan dihitung ulang setelah tabel & tech stack ada, sama seperti pipeline sungguhan.
             $ctx = Pipeline::context($b, ['stack' => $stack, 'bendera' => $flags, 'peran' => $roles], $prd);
             $prd['keamanan'] = self::security($b, $ctx, $tables, $roles);
             $prd['layanan'] = self::services($stack, $flags, $roles);
         }
+        $prd['profil'] = ['peran' => $roles];
+        $prd['milestone'] = self::milestones($b, $stack, $flags, $prd);
+        unset($prd['profil']);
         return $prd;
     }
 
-    /** Tabel tiruan: [nama => [deskripsi, teknis, kolom: [[nama, jenis, boleh_kosong, keterangan]]]]. */
-    private static function tables(array $flags, array $security): array
+    /**
+     * Tabel tiruan: [nama => [deskripsi, teknis, kolom: [[nama, jenis, boleh_kosong, keterangan, nilai_bawaan?]], tunggal?]].
+     * v1.2.1: kolom rentang waktu & kode tamu, stok, sumber transaksi luring, dan tabel pengaturan dari angka masukan.
+     */
+    private static function tables(array $flags, array $security, array $invariants = [], array $angka = []): array
     {
+        $jenisInv = array_column($invariants, 'jenis');
         $priced = $flags['hasPricedEntity'];
         $user = [['id', 'pk', false, ''], ['nama', 'text', false, ''], ['email', 'text', false, 'unik'], ['telepon', 'text', true, ''], ['peran', 'enum', false, 'enum: pelanggan, admin'], ['dibuat_pada', 'time', false, '']];
         if (isset($security['anak'])) {
@@ -162,6 +185,7 @@ final class MockData
         }
         $item = array_values(array_filter([['id', 'pk', false, ''], ['nama', 'text', false, ''], ['deskripsi', 'text', true, ''],
             $priced ? ['harga_rp', 'int', false, 'rupiah'] : null, $flags['usesFileStorage'] ? ['gambar_url', 'text', true, ''] : null,
+            in_array('stok', $jenisInv, true) ? ['stok', 'int', false, 'tidak boleh negatif'] : null,
             ['aktif', 'bool', false, ''], ['dibuat_pada', 'time', false, '']]));
         $tables = ['pengguna' => ['Akun pelanggan dan admin', false, $user], 'item' => ['Item utama yang ditampilkan', false, $item]];
         if ($flags['hasTransactionRecord']) {
@@ -169,11 +193,30 @@ final class MockData
                 ['id', 'pk', false, ''], ['user_id', 'fk:pengguna', $flags['hasGuestFlow'], ''],
                 $flags['hasGuestFlow'] ? ['nama_tamu', 'text', true, 'diisi bila tanpa akun'] : null,
                 $flags['hasGuestFlow'] ? ['kontak_tamu', 'text', true, 'nomor WhatsApp tamu'] : null,
+                $flags['hasGuestFlow'] ? ['kode', 'text', false, 'unik, kode rahasia 6 karakter untuk cek status'] : null,
                 ['item_id', 'fk:item', false, ''], ['nama_item_snapshot', 'text', false, 'salinan nama saat transaksi'],
                 $priced ? ['harga_satuan_snapshot', 'int', false, 'rupiah, salinan harga saat transaksi'] : null,
                 ['jumlah', 'int', false, ''], $priced ? ['total_rp', 'int', false, 'rupiah'] : null,
+                in_array('rentang', $jenisInv, true) ? ['mulai_pada', 'tstz', false, 'awal rentang'] : null,
+                in_array('rentang', $jenisInv, true) ? ['selesai_pada', 'tstz', false, 'akhir rentang'] : null,
+                $flags['hasOfflineChannel'] ? ['sumber', 'enum', false, 'enum: online, manual'] : null,
                 ['status', 'enum', false, 'enum: menunggu, diproses, selesai, dibatalkan'], ['dibuat_pada', 'time', false, ''],
             ]))];
+        }
+        // P7: angka dari masukan pengguna menjadi kolom pengaturan dengan nilai bawaan; template pesan juga disimpan di sini.
+        $settings = [['id', 'pk', false, '']];
+        foreach ($angka as $a) {
+            $settings[] = [$a['kunci'], 'int', false, "nilai dari masukan: {$a['kalimat']}", (int) $a['nilai']];
+        }
+        if ($flags['usesWhatsappApi'] || $flags['usesEmail'] || $flags['hasScheduler']) {
+            $settings[] = ['template_konfirmasi', 'text', false, 'isi pesan konfirmasi, placeholder {nama} {kode}', 'Halo {nama}, transaksi Anda sudah kami terima. Kode: {kode}.'];
+            if ($flags['hasScheduler']) {
+                $settings[] = ['template_pengingat', 'text', false, 'isi pesan pengingat, placeholder {nama} {waktu}', 'Pengingat: jadwal Anda {waktu}. Sampai jumpa!'];
+            }
+        }
+        if (count($settings) > 1) {
+            $settings[] = ['diperbarui_pada', 'time', false, ''];
+            $tables['pengaturan'] = ['Pengaturan aplikasi (satu baris), diubah pengelola', false, $settings, true];
         }
         if ($flags['hasAdminMutation']) {
             $tables['log_audit'] = ['Catatan aksi admin', true, [['id', 'pk', false, ''], ['aktor_id', 'fk:pengguna', false, ''], ['aksi', 'text', false, ''],
@@ -182,7 +225,7 @@ final class MockData
         return $tables;
     }
 
-    private static function database(array $tables, array $stack, array $flags): array
+    private static function database(array $tables, array $stack, array $flags, array $invariants, array $roles): array
     {
         $tipe = fn ($c) => trim(match (true) {
             $c[1] === 'pk' => 'uuid, PK',
@@ -190,12 +233,13 @@ final class MockData
             $c[1] === 'int' => 'integer',
             $c[1] === 'bool' => 'boolean',
             $c[1] === 'time' => 'timestamp',
+            $c[1] === 'tstz' => 'timestamptz (UTC)',
             $c[1] === 'json' => 'json',
             default => 'text',
-        } . ($c[3] !== '' && !str_starts_with($c[3], 'enum') ? ", {$c[3]}" : ($c[3] !== '' ? ", {$c[3]}" : '')) . ($c[2] ? ', boleh kosong' : ''), ', ');
+        } . ($c[3] !== '' ? ", {$c[3]}" : '') . ($c[2] ? ', boleh kosong' : '') . (isset($c[4]) ? ', bawaan ' . (is_int($c[4]) ? $c[4] : 'teks templat') : ''), ', ');
         $out = [];
-        foreach ($tables as $name => [$desc, $technical, $cols]) {
-            $out[] = ['nama' => $name, 'deskripsi' => $desc, 'tunggal' => false, 'teknis' => $technical, 'kolom' => array_map(fn ($c) => ['nama' => $c[0], 'tipe' => $tipe($c)], $cols)];
+        foreach ($tables as $name => $t) {
+            $out[] = ['nama' => $name, 'deskripsi' => $t[0], 'tunggal' => !empty($t[3]), 'teknis' => $t[1], 'kolom' => array_map(fn ($c) => ['nama' => $c[0], 'tipe' => $tipe($c)], $t[2])];
         }
         $relasi = [['dari' => 'pengguna', 'ke' => 'transaksi', 'jenis' => 'satu-ke-banyak', 'label' => 'membuat'], ['dari' => 'item', 'ke' => 'transaksi', 'jenis' => 'satu-ke-banyak', 'label' => 'dipesan']];
         if (!isset($tables['transaksi'])) {
@@ -203,6 +247,13 @@ final class MockData
         }
         if (isset($tables['log_audit'])) {
             $relasi[] = ['dari' => 'pengguna', 'ke' => 'log_audit', 'jenis' => 'satu-ke-banyak', 'label' => 'mencatat'];
+        }
+        [$inv, $custom] = self::invariantMechanisms($invariants, $tables, $stack);
+        $settings = [];
+        foreach ($tables['pengaturan'][2] ?? [] as $c) {
+            if (isset($c[4])) {
+                $settings[] = ['kunci' => $c[0], 'nilai_bawaan' => (string) $c[4], 'lokasi' => "pengaturan.{$c[0]}", 'pengubah' => in_array('admin', $roles, true) ? 'admin' : 'pemilik aplikasi'];
+            }
         }
         $policies = $stack['rls']
             ? array_map(fn ($t) => ['tabel' => $t, 'aturan' => "Row Level Security aktif: pengguna hanya membaca dan mengubah baris $t miliknya; admin lewat peran admin."], array_values(array_intersect(['pengguna', 'transaksi'], array_keys($tables))))
@@ -218,7 +269,44 @@ final class MockData
                 'tamu' => $flags['hasGuestFlow'] ? 'Transaksi tamu (user_id kosong) dihitung sama dengan transaksi akun untuk rekap jumlah per hari; kontak_tamu dipakai untuk konfirmasi.' : '',
             ],
             'kebijakan_akses' => $policies,
+            'invarian' => $inv,
+            'migrasi_kustom' => $custom,
+            'pengaturan' => $settings,
         ];
+    }
+
+    /**
+     * P1: tiap invarian dijaga di database sesuai resep stacks.json, lengkap dengan konkurensi dan uji balapan.
+     * @return array [invarian, sql_migrasi_kustom]
+     */
+    private static function invariantMechanisms(array $invariants, array $tables, array $stack): array
+    {
+        $db = $stack['db'];
+        $recipes = Brief::stackConfig()['resep_invarian'][$db] ?? Brief::stackConfig()['resep_invarian']['postgresql'];
+        $out = [];
+        $sql = [];
+        foreach ($invariants as $i => $inv) {
+            $id = sprintf('INV-%02d', $i + 1);
+            [$mekanisme, $konkurensi] = match ($inv['jenis']) {
+                'rentang' => $db === 'd1' || $db === 'sqlite'
+                    ? ['Penyimpanan atomik INSERT INTO transaksi ... SELECT ... WHERE NOT EXISTS (SELECT 1 FROM transaksi WHERE item_id = ? AND status <> \'dibatalkan\' AND mulai_pada < ? AND selesai_pada > ?) — rentang mulai_pada & selesai_pada, bukan hanya titik mulai.', 'Satu pernyataan atomik dalam ' . ($db === 'd1' ? 'db.batch()' : 'transaksi BEGIN IMMEDIATE') . '; jumlah baris tersimpan 0 berarti bentrok dan pengguna diminta memilih waktu lain.']
+                    : ['Exclusion constraint transaksi_tanpa_tumpang_tindih: EXCLUDE USING gist (item_id WITH =, tstzrange(mulai_pada, selesai_pada, \'[)\') WITH &&) untuk baris berstatus aktif (ekstensi btree_gist).', 'Transaksi database dengan SELECT ... FOR UPDATE pada baris item sebagai lapisan kedua; galat 23P01 diterjemahkan menjadi pesan "waktu ini baru saja diambil".'],
+                'stok' => ['CHECK (stok >= 0) pada item.stok dan pengurangan atomik UPDATE item SET stok = stok - ? WHERE id = ? AND stok >= ?.', 'Pengurangan stok dan penyimpanan transaksi dalam satu transaksi database; bila baris terubah 0, transaksi dibatalkan.'],
+                'kuota' => ['Batas dibaca dari tabel pengaturan lalu dihitung ulang di dalam transaksi: ' . $recipes['kuota'] . '.', 'Penguncian baris induk selama hitung ulang supaya dua permintaan tidak sama-sama lolos.'],
+                default => ['UNIQUE index pada kolom yang dijaga: ' . $recipes['unik'] . '.', 'Galat pelanggaran unik diterjemahkan menjadi pesan ramah pengguna.'],
+            };
+            $out[] = ['id' => $id, 'jenis' => $inv['jenis'], 'aturan' => $inv['aturan'], 'mekanisme' => $mekanisme, 'konkurensi' => $konkurensi,
+                'uji' => "Uji dua permintaan bersamaan untuk $id: hanya satu yang berhasil, yang lain menerima pesan gagal yang jelas."];
+            if ($inv['jenis'] === 'rentang' && isset($tables['transaksi'])) {
+                $sql[] = $db === 'd1' || $db === 'sqlite'
+                    ? "-- $id: simpan atomik tanpa tumpang tindih rentang (mulai_pada, selesai_pada)\nINSERT INTO transaksi (id, item_id, mulai_pada, selesai_pada, status)\nSELECT ?, ?, ?, ?, 'menunggu'\nWHERE NOT EXISTS (\n  SELECT 1 FROM transaksi\n  WHERE item_id = ? AND status <> 'dibatalkan' AND mulai_pada < ? AND selesai_pada > ?\n);"
+                    : "-- $id: tidak boleh ada dua transaksi aktif untuk item yang sama pada rentang yang bertabrakan\nCREATE EXTENSION IF NOT EXISTS btree_gist;\nALTER TABLE transaksi\n  ADD CONSTRAINT transaksi_tanpa_tumpang_tindih\n  EXCLUDE USING gist (item_id WITH =, tstzrange(mulai_pada, selesai_pada, '[)') WITH &&)\n  WHERE (status <> 'dibatalkan');";
+            }
+            if ($inv['jenis'] === 'stok' && isset($tables['item'])) {
+                $sql[] = "-- $id: stok tidak boleh negatif\nALTER TABLE item ADD CONSTRAINT item_stok_tidak_negatif CHECK (stok >= 0);";
+            }
+        }
+        return [$out, implode("\n\n", $sql)];
     }
 
     /** Kode skema sesuai bahasa stack: SQL, Drizzle (TypeScript), atau Prisma. */
@@ -236,19 +324,22 @@ final class MockData
                         str_starts_with($c[1], 'fk:') => ($sqlite ? "text('{$c[0]}')" : "uuid('{$c[0]}')") . '.references(() => ' . substr($c[1], 3) . '.id)',
                         $c[1] === 'int' => "integer('{$c[0]}')",
                         $c[1] === 'bool' => $sqlite ? "integer('{$c[0]}', { mode: 'boolean' })" : "boolean('{$c[0]}')",
-                        $c[1] === 'time' => $sqlite ? "integer('{$c[0]}', { mode: 'timestamp' })" : "timestamp('{$c[0]}').defaultNow()",
+                        $c[1] === 'time' => $sqlite ? "integer('{$c[0]}', { mode: 'timestamp' })" : "timestamp('{$c[0]}', { withTimezone: true }).defaultNow()",
+                        $c[1] === 'tstz' => $sqlite ? "text('{$c[0]}')" : "timestamp('{$c[0]}', { withTimezone: true })",
                         $c[1] === 'json' => $sqlite ? "text('{$c[0]}', { mode: 'json' })" : "jsonb('{$c[0]}')",
                         default => "text('{$c[0]}')",
                     };
-                    return "  {$c[0]}: $base" . (!$c[2] && $c[1] !== 'pk' ? '.notNull()' : '') . ',';
+                    $default = isset($c[4]) ? '.default(' . (is_int($c[4]) ? $c[4] : json_encode($c[4], JSON_UNESCAPED_UNICODE)) . ')' : '';
+                    return "  {$c[0]}: $base" . (!$c[2] && $c[1] !== 'pk' ? '.notNull()' : '') . $default . ',';
                 }, $cols);
                 $blocks[] = "export const $name = $fn('$name', {\n" . implode("\n", $lines) . "\n});";
             } elseif ($lang === 'prisma') {
                 $lines = array_map(function ($c) {
                     $type = match (true) {
-                        $c[1] === 'int' => 'Int', $c[1] === 'bool' => 'Boolean', $c[1] === 'time' => 'DateTime', $c[1] === 'json' => 'Json', default => 'String',
+                        $c[1] === 'int' => 'Int', $c[1] === 'bool' => 'Boolean', $c[1] === 'time', $c[1] === 'tstz' => 'DateTime', $c[1] === 'json' => 'Json', default => 'String',
                     };
-                    $attr = $c[1] === 'pk' ? ' @id @default(uuid())' : ($c[1] === 'time' ? ' @default(now())' : '');
+                    $attr = $c[1] === 'pk' ? ' @id @default(uuid())' : ($c[1] === 'time' ? ' @default(now()) @db.Timestamptz' : ($c[1] === 'tstz' ? ' @db.Timestamptz' : ''));
+                    $attr .= isset($c[4]) ? ' @default(' . (is_int($c[4]) ? $c[4] : json_encode($c[4], JSON_UNESCAPED_UNICODE)) . ')' : '';
                     return "  {$c[0]} $type" . ($c[2] ? '?' : '') . $attr;
                 }, $cols);
                 $blocks[] = 'model ' . str_replace('_', '', ucwords($name, '_')) . " {\n" . implode("\n", $lines) . "\n\n  @@map(\"$name\")\n}";
@@ -259,9 +350,11 @@ final class MockData
                         str_starts_with($c[1], 'fk:') => ($sqlite ? 'TEXT' : 'UUID') . ' REFERENCES ' . substr($c[1], 3) . '(id)',
                         $c[1] === 'int' => 'INTEGER', $c[1] === 'bool' => $sqlite ? 'INTEGER' : 'BOOLEAN',
                         $c[1] === 'time' => $sqlite ? 'TEXT DEFAULT CURRENT_TIMESTAMP' : 'TIMESTAMPTZ DEFAULT now()',
+                        $c[1] === 'tstz' => $sqlite ? 'TEXT' : 'TIMESTAMPTZ',
                         $c[1] === 'json' => $sqlite ? 'TEXT' : 'JSONB', default => 'TEXT',
                     };
-                    return "  {$c[0]} $type" . (!$c[2] && $c[1] !== 'pk' ? ' NOT NULL' : '');
+                    $default = isset($c[4]) ? ' DEFAULT ' . (is_int($c[4]) ? $c[4] : "'" . str_replace("'", "''", $c[4]) . "'") : '';
+                    return "  {$c[0]} $type" . (!$c[2] && $c[1] !== 'pk' ? ' NOT NULL' : '') . $default;
                 }, $cols);
                 $blocks[] = "CREATE TABLE $name (\n" . implode(",\n", $lines) . "\n);";
             }
@@ -287,7 +380,7 @@ final class MockData
                 ['lapisan' => 'Frontend', 'pilihan' => $stack['lapisan']['Frontend'], 'alasan' => 'Komponen siap pakai dan cepat dibuat.'],
                 ['lapisan' => 'Data', 'pilihan' => 'Data tiruan statis dari bab 11 (berkas JSON di repositori)', 'alasan' => 'Prototipe tanpa backend.'],
                 ['lapisan' => 'Rahasia & Konfigurasi', 'pilihan' => 'Tidak ada rahasia; konfigurasi publik lewat variabel lingkungan build', 'alasan' => 'Mode hanya-UI.'],
-                ['lapisan' => 'Deployment', 'pilihan' => 'Hosting statis (mis. Vercel atau Cloudflare Pages)', 'alasan' => 'Gratis untuk prototipe kecil.'],
+                ['lapisan' => 'Deployment', 'pilihan' => $stack['kedalaman']['deployment'] ?? 'Hosting statis', 'alasan' => 'Hosting statis cukup untuk prototipe tanpa backend.'],
                 ['lapisan' => 'Pengujian', 'pilihan' => 'Playwright untuk alur tampilan', 'alasan' => 'Menjaga halaman tetap tampil benar.'],
             ];
         }
@@ -297,6 +390,29 @@ final class MockData
         }
         $rows[] = ['lapisan' => 'Rahasia & Konfigurasi', 'pilihan' => 'Variabel lingkungan di server (.env, tidak di-commit; contoh di .env.example)', 'alasan' => 'Kunci tidak pernah sampai ke browser atau repositori.'];
         return $rows;
+    }
+
+    /** Bab 7 kedalaman teknis (P5) langsung dari stacks.json; zona waktu dan penjadwal hanya bila benderanya aktif. */
+    private static function depth(Brief $b, array $stack, array $flags): array
+    {
+        $k = $stack['kedalaman'];
+        $cron = $flags['hasScheduler'] ? [
+            'berkas' => $k['penjadwal']['berkas'],
+            'endpoint' => str_replace('{tugas}', 'pengingat', $k['penjadwal']['endpoint']),
+            'interval' => $k['penjadwal']['interval'],
+            'rahasia' => $k['penjadwal']['rahasia'],
+            'idempotensi' => str_replace('{aksi}', 'pengingat', $k['penjadwal']['idempotensi']),
+        ] : ['berkas' => '', 'endpoint' => '', 'interval' => '', 'rahasia' => '', 'idempotensi' => ''];
+        return [
+            'versi' => $k['versi'],
+            'auth' => $b->uiOnly ? 'Tidak ada autentikasi (mode hanya-UI).' : $k['auth'],
+            'orm_migrasi' => $b->uiOnly ? 'Tidak ada database (mode hanya-UI); data tiruan dari berkas JSON.' : $k['orm_migrasi'],
+            'validasi' => $k['validasi'],
+            'zona_waktu' => $flags['hasTimeFields'] ? $k['zona_waktu'] : '',
+            'penjadwal' => $cron,
+            'uji' => $k['uji'],
+            'deployment' => $k['deployment'],
+        ];
     }
 
     private static function design(Brief $b, array $flags): array
@@ -336,7 +452,39 @@ final class MockData
         ];
     }
 
-    private static function routes(Brief $b, array $roles): array
+    private static function routes(Brief $b, array $roles, array $flags = []): array
+    {
+        $routes = self::baseRoutes($b, $roles);
+        $public = $roles[0];
+        $admin = in_array('admin', $roles, true) ? 'admin' : null;
+        $guestFr = sprintf('FR-%02d', count($b->features) + 1); // FR cek status tamu ditulis tepat setelah FR fitur
+        // P3: cek data milik tamu dengan kode + nomor kontak (bukan satu pengenal).
+        if (!empty($flags['hasGuestFlow']) && !$b->uiOnly) {
+            $routes['rute'][] = ['path' => '/cek-status', 'halaman' => 'Cek status dengan kode transaksi + nomor kontak', 'peran' => [$public], 'layout' => 'Publik', 'sumber' => [$b->features[0]['nama'], $guestFr]];
+            $routes['navigasi'][0]['item'][] = 'Cek status';
+            $routes['penjaga_akses'][] = 'Rute /cek-status hanya menampilkan data bila kode transaksi dan nomor kontak cocok, dengan pembatasan laju percobaan; kontak ditampilkan tersamar.';
+        }
+        // Cakupan pengelola untuk entitas yang dibuat lewat alur publik, dan pencatatan manual kanal luring.
+        if ($admin && !empty($flags['hasTransactionRecord'])) {
+            $routes['rute'][] = ['path' => '/admin/transaksi', 'halaman' => 'Daftar transaksi (filter & ubah status)', 'peran' => [$admin], 'layout' => 'Admin', 'sumber' => [$b->features[0]['nama']]];
+            $routes['rute'][] = ['path' => '/admin/transaksi/[id]', 'halaman' => 'Detail transaksi & riwayat status', 'peran' => [$admin], 'layout' => 'Admin', 'sumber' => [$b->features[0]['nama']]];
+            if (!empty($flags['hasOfflineChannel'])) {
+                $routes['rute'][] = ['path' => '/admin/transaksi/baru', 'halaman' => 'Pencatatan manual kanal luring (aturan ketersediaan sama)', 'peran' => [$admin], 'layout' => 'Admin', 'sumber' => [$b->features[0]['nama']]];
+            }
+            foreach ($routes['navigasi'] as &$nav) {
+                if ($nav['peran'] === 'admin') {
+                    $nav['item'][] = 'Transaksi';
+                }
+            }
+            unset($nav);
+        }
+        if ($admin && (Triggers::angka($b) || !empty($flags['hasScheduler']))) {
+            $routes['rute'][] = ['path' => '/admin/pengaturan', 'halaman' => 'Pengaturan (nilai bawaan & template pesan)', 'peran' => [$admin], 'layout' => 'Admin', 'sumber' => [$b->features[0]['nama']]];
+        }
+        return $routes;
+    }
+
+    private static function baseRoutes(Brief $b, array $roles): array
     {
         $public = $roles[0];
         $member = $roles[1] ?? $roles[0];
@@ -404,6 +552,10 @@ final class MockData
             }
             $sets[] = ['DUMMY-TRANSAKSI', 'transaksi', $cols, $rows];
         }
+        if (isset($tables['pengaturan'])) {
+            $cols = array_values(array_map(fn ($c) => $c[0], array_filter($tables['pengaturan'][2], fn ($c) => isset($c[4]))));
+            $sets[] = ['DUMMY-PENGATURAN', 'pengaturan', $cols, [array_values(array_map(fn ($c) => $c[4], array_filter($tables['pengaturan'][2], fn ($c) => isset($c[4]))))]];
+        }
         $total = $priced ? ' Total Rp30.000.' : '';
         return [
             'dataset' => array_map(fn ($s) => ['id' => $s[0], 'tabel' => $s[1], 'kolom' => $s[2], 'baris' => $s[3]], $sets),
@@ -416,7 +568,8 @@ final class MockData
                 'nada' => 'Santai, sopan, dan langsung ke inti.',
                 'sapaan' => '"Kak" untuk pengguna umum; nama depan bila sudah masuk.',
                 'istilah' => ['Item: barang atau layanan yang dijual', 'Transaksi: pesanan yang dibuat pengguna'],
-                'microcopy' => ['kosong' => 'Belum ada data. Yuk mulai dari tombol di bawah.', 'error' => 'Maaf, ada gangguan. Coba lagi sebentar ya.', 'sukses' => 'Berhasil disimpan.', 'konfirmasi' => 'Yakin ingin melanjutkan? Tindakan ini tidak bisa dibatalkan.'],
+                'microcopy' => ['judul_utama' => "{$b->judul}: semua kebutuhanmu, lebih cepat tanpa antre chat.", 'cta' => 'Mulai Sekarang', 'kosong' => 'Belum ada data. Yuk mulai dari tombol di bawah.', 'error' => 'Maaf, ada gangguan. Coba lagi sebentar ya.',
+                    'penuh' => 'Maaf, pilihan ini baru saja diambil orang lain. Silakan pilih yang lain.', 'sukses' => 'Berhasil disimpan.', 'konfirmasi' => 'Yakin ingin melanjutkan? Tindakan ini tidak bisa dibatalkan.'],
             ],
         ];
     }
@@ -439,6 +592,16 @@ final class MockData
             $sec[] = ['id' => $id, 'kelompok' => $group, 'teks' => mb_substr(implode(' ', $g['teks']), 0, 495), 'kontrol' => $g['kontrol'], 'fitur' => $g['fitur'] ?: $names];
             foreach ($g['kontrol'] as $code) {
                 $ids[$code] = $id;
+            }
+        }
+
+        if (!empty($ctx['flags']['hasGuestFlow'])) {
+            // P3: bukti kepemilikan untuk data tamu + kontak tersamar.
+            $guestText = 'Data milik tamu hanya ditampilkan bila kode transaksi rahasia dan nomor kontak cocok, dengan pembatasan laju percobaan; kontak pelanggan ditampilkan tersamar (contoh 0812-xxxx-1234) di mana pun selain panel pengelola.';
+            if (count($sec) < 12) {
+                $sec[] = ['id' => sprintf('SEC-%02d', count($sec) + 1), 'kelompok' => 'Otorisasi', 'teks' => $guestText, 'kontrol' => [], 'fitur' => [$names[0]]];
+            } else {
+                $sec[0]['teks'] = mb_substr($sec[0]['teks'] . ' ' . $guestText, 0, 495);
             }
         }
 
@@ -508,7 +671,8 @@ final class MockData
         return ['layanan' => $rows, 'rate_limit' => $rate, 'env_example' => $groups];
     }
 
-    private static function milestones(Brief $b, array $stack): array
+    /** Bab 13: milestone, Rencana Pengerjaan Terkoordinasi (P4), aturan checkpoint, Master Prompt bergerbang izin (P10). */
+    private static function milestones(Brief $b, array $stack, array $flags = [], array $prd = []): array
     {
         $names = array_column($b->features, 'nama');
         $cp = 'CHECKPOINT: berhenti, perbarui PROGRESS.md, ringkas hasil, tunggu persetujuan, dan sarankan memulai percakapan baru bila konteks sudah panjang.';
@@ -528,15 +692,29 @@ final class MockData
             'fase' => 'Cara kerja Bertahap per Fase: checkpoint di akhir setiap milestone; tunggu persetujuan sebelum milestone berikutnya.',
             'sekaligus' => 'Cara kerja Sekaligus Semua: checkpoint di akhir M1 dan di akhir proyek; berhenti dan laporkan jika ada uji yang gagal.',
         ][$b->aiWorkflow];
+        $gate = [
+            'task' => 'Kerjakan SATU tugas terkoordinasi per giliran. Tugas berikutnya hanya dimulai setelah saya memberi izin.',
+            'fase' => 'Kerjakan satu milestone penuh per giliran. Milestone berikutnya hanya dimulai setelah saya memberi izin.',
+            'sekaligus' => 'Kamu boleh lanjut antar-tugas tanpa menunggu, tetapi berhenti dan minta izin di akhir M1 dan sebelum M4 Rilis; bila ada uji yang gagal, berhenti dan laporkan.',
+        ][$b->aiWorkflow];
         $folder = $b->uiOnly ? "src/\n  pages/\n  components/\n  data/dummy/\ntests/" : "src/\n  app/ (halaman & rute)\n  components/\n  lib/ (adapter layanan, validasi)\n  db/ (skema & migrasi)\ndata/dummy/\ntests/";
+        $ids = array_column($list, 'id');
+        $master = "Halo! Kamu berperan sebagai senior fullstack developer yang membangun \"{$b->judul}\": " . self::topik($b->ide) . ".\n\n"
+            . "Baca dulu berkas berikut: CLAUDE.md, PRD.md, semua berkas di folder features/, dan PROGRESS.md.\n\n"
+            . "TECH STACK TERKUNCI (jangan diganti): {$stack['ringkas']}" . ($b->uiOnly ? ' (hanya UI, tanpa backend).' : '.') . "\n\n"
+            . "ATURAN KERJA:\n"
+            . "1. Sebelum menulis kode apa pun, berikan ringkasan pemahamanmu maksimal 10 poin, sebutkan rencana berkas untuk milestone pertama ({$ids[0]} lalu {$ids[1]}), lalu tanyakan apakah saya siap kamu mulai.\n"
+            . "2. $gate\n"
+            . "3. Ikuti Rencana Pengerjaan Terkoordinasi di bab 13 (Task M<n>.<k>) dan $rule\n"
+            . "4. Patuhi skema database (bab 6), peta rute (bab 10), hak akses (bab 8), aturan bisnis dan invarian (bab 2 dan bab 6), serta design system (bab 9).\n"
+            . "5. Jangan mengarang data di luar bab 11 (Data Dummy & Copywriting).\n"
+            . "6. Jalankan uji setelah setiap perubahan, perbarui PROGRESS.md, dan berhenti di setiap CHECKPOINT.\n"
+            . "7. Tanya bila PRD ambigu. Rahasia hanya di variabel lingkungan; jangan menulis kunci asli ke kode.";
         return [
             'daftar' => $list,
+            'rencana' => self::workPlan($b, $stack, $flags, $prd),
             'aturan_checkpoint' => $rule,
-            'master_prompt' => "Kamu membangun {$b->judul}: " . self::topik($b->ide) . ".\nStack: {$stack['ringkas']}" . ($b->uiOnly ? ' (hanya UI, tanpa backend).' : '.') . "\n\n"
-                . "Sebelum mulai, baca berkas berikut: CLAUDE.md, PRD.md, semua berkas di features/, dan PROGRESS.md.\n\nAturan kerja:\n"
-                . "1. $rule\n2. Kerjakan milestone berurutan (" . implode(' → ', array_column($list, 'id')) . "), task berawalan [M1]/[M2]/[M3] sesuai urutan.\n"
-                . "3. Jalankan uji setelah setiap perubahan dan perbarui PROGRESS.md.\n4. Berhenti di setiap CHECKPOINT dan tunggu persetujuan.\n"
-                . "5. Tanya bila PRD ambigu. Jangan mengarang data di luar bab 11 (Data Dummy & Copywriting).\n6. Rahasia hanya di variabel lingkungan; jangan menulis kunci asli ke kode.",
+            'master_prompt' => $master,
             'claude_md' => [
                 'struktur_folder' => $folder,
                 'konvensi' => ['Nama berkas dan variabel dalam bahasa Inggris, teks UI dalam Bahasa Indonesia.', 'Satu komponen per berkas.', 'Data tiruan hanya dari data/dummy (bab 11).'],
@@ -546,26 +724,121 @@ final class MockData
     }
 
     /**
+     * Rencana Pengerjaan Terkoordinasi (P4): tugas gemuk "M<n>.<k>" berisi berkas, perilaku, dataset/SEC, FR, tabel,
+     * dan Selesai bila. Maksimal 10 per milestone dan 30 total.
+     */
+    private static function workPlan(Brief $b, array $stack, array $flags, array $prd): array
+    {
+        $s = $stack['struktur'];
+        $page = fn (string $path) => str_replace('{rute}', trim(preg_replace('/\[(\w+)\]/', '[$1]', $path), '/') ?: 'beranda', $s['halaman']);
+        $module = fn (string $kind, string $name) => str_replace('{modul}', $name, $s[$kind]);
+        $datasets = array_column($prd['dummy']['dataset'] ?? [], 'id');
+        $tables = array_column($prd['database']['tabel'] ?? [], 'nama');
+        $secIds = array_column($prd['keamanan']['persyaratan'] ?? [], 'id');
+        $frByFeature = [];
+        foreach ($prd['requirements']['fungsional'] ?? [] as $fr) {
+            foreach ($fr['fitur'] as $name) {
+                $frByFeature[$name][] = $fr['id'];
+            }
+        }
+        $routesByFeature = [];
+        foreach ($prd['rute']['rute'] ?? [] as $r) {
+            foreach ($r['sumber'] as $src) {
+                $routesByFeature[$src][] = $r['path'];
+            }
+        }
+        $groups = array_chunk($b->features, (int) max(1, ceil(count($b->features) / 5)));
+        $plan = [];
+        $add = function (string $m, string $judul, array $berkas, string $perilaku, string $selesai, array $extra = []) use (&$plan) {
+            $k = count(array_filter($plan, fn ($t) => str_starts_with($t['id'], "$m."))) + 1;
+            $plan[] = ['id' => "$m.$k", 'judul' => $judul, 'berkas' => $berkas, 'perilaku' => $perilaku, 'dataset' => $extra['dataset'] ?? [],
+                'sec' => $extra['sec'] ?? [], 'fr' => $extra['fr'] ?? [], 'tabel' => $extra['tabel'] ?? [], 'selesai_bila' => $selesai];
+        };
+
+        $add('M0', 'Siapkan proyek, dependensi, dan konfigurasi', ['package.json', '.env.example', 'CLAUDE.md', 'PROGRESS.md'],
+            'Inisialisasi proyek ' . $stack['ringkas'] . ' dengan versi di bab 7, salin .env.example, isi CLAUDE.md dan PROGRESS.md.', 'Perintah ' . $stack['perintah']['jalan'] . ' membuka halaman kosong tanpa galat.');
+        $add('M1', 'Bangun layout, navigasi, dan token design system', [$s['layout'], $s['token']],
+            'Layout per peran sesuai bab 10 dan token warna/tipografi bab 9 sebagai CSS variable.', 'Semua layout di bab 10 tampil dengan token bab 9 di lebar 360 px dan 1280 px.', ['dataset' => array_slice($datasets, 0, 1)]);
+        foreach ($groups as $g) {
+            $paths = array_values(array_unique(array_merge(...array_map(fn ($f) => $routesByFeature[$f['nama']] ?? [], $g))));
+            $add('M1', 'Bangun halaman ' . implode(', ', array_column($g, 'nama')) . ' dengan data tiruan', array_map($page, $paths ?: ['/']),
+                'Halaman ' . implode(', ', $paths ?: ['/']) . ' lengkap dengan keadaan kosong, memuat, dan gagal.', 'Semua halaman kelompok ini tampil memakai dataset ' . implode(', ', $datasets) . ' tanpa backend.',
+                ['dataset' => $datasets, 'fr' => array_merge(...array_map(fn ($f) => $frByFeature[$f['nama']] ?? [], $g))]);
+        }
+        $add('M1', 'Buat komponen bersama dan keadaan antarmuka', [$module('lib', 'ui')],
+            'Komponen tombol, kartu, badge status, dialog, toast, dan keadaan kosong sesuai bab 9.', 'Komponen dipakai ulang di semua halaman M1 dan lolos cek kontras 4.5:1.', ['dataset' => $datasets]);
+        if (!$b->uiOnly) {
+            $add('M2', 'Buat skema, migrasi, dan benih data', [$s['skema'], $s['seed'], $s['migrasi_kustom']],
+                'Tabel ' . implode(', ', $tables) . ' sesuai bab 6, migrasi kustom invarian, dan berkas benih data dari dataset bab 11.', 'Migrasi berjalan bersih dan benih data mengisi semua tabel dari ' . implode(', ', $datasets) . '.', ['tabel' => $tables, 'dataset' => $datasets]);
+            if (!empty($prd['database']['invarian'])) {
+                $add('M2', 'Terapkan invarian dan transaksi penyimpanan', [$module('lib', 'invarian'), $s['migrasi_kustom']],
+                    'Fungsi simpan atomik untuk ' . implode(', ', array_column($prd['database']['invarian'], 'id')) . ' sesuai mekanisme bab 6.', 'Penyimpanan yang melanggar invarian ditolak database dengan pesan ramah.', ['tabel' => array_values(array_intersect(['transaksi', 'item'], $tables))]);
+            }
+            if (count($prd['profil']['peran'] ?? []) > 1 || count(array_filter($prd['keamanan']['hak_akses'] ?? [], fn ($r) => !Triggers::isAnonymous($r['peran']))) > 0) {
+                $add('M2', 'Pasang autentikasi dan penjaga akses per peran', [$module('lib', 'auth'), $module('aksi', 'masuk')],
+                    ($stack['kedalaman']['auth'] ?? 'Autentikasi') . '; penjaga rute sesuai bab 10.', 'Rute terlindungi menolak pengguna tanpa peran yang benar.', ['tabel' => array_values(array_intersect(['pengguna'], $tables))]);
+            }
+            foreach ($groups as $g) {
+                $slug = Documents::slug($g[0]['nama']) ?: 'fitur';
+                $add('M2', 'Hubungkan ' . implode(', ', array_column($g, 'nama')) . ' ke database', [$module('aksi', $slug)],
+                    'Aksi server dengan validasi ' . ($stack['kedalaman']['validasi'] ?? 'input') . ' menggantikan data tiruan.', 'Data kelompok ini dibaca dan disimpan ke database, dataset tiruan tidak dipakai lagi.',
+                    ['tabel' => array_values(array_diff($tables, ['log_audit'])), 'fr' => array_merge(...array_map(fn ($f) => $frByFeature[$f['nama']] ?? [], $g))]);
+            }
+            if (Triggers::services($flags) || !empty($flags['hasScheduler'])) {
+                $add('M2', 'Buat adapter layanan dan penjadwal', array_values(array_filter([$module('lib', 'layanan'), $prd['kedalaman']['penjadwal']['berkas'] ?? null])),
+                    'Antarmuka adapter dengan implementasi tiruan untuk layanan bab 12' . (!empty($flags['hasScheduler']) ? ', serta penjadwal di ' . $prd['kedalaman']['penjadwal']['endpoint'] : '') . '.', 'Adapter tiruan dipakai di lokal dan dapat diganti vendor asli lewat variabel lingkungan.', ['tabel' => array_values(array_intersect(['pengaturan'], $tables))]);
+            }
+            $add('M3', 'Terapkan persyaratan keamanan Wajib MVP', [$module('lib', 'keamanan')],
+                'Kontrol ' . implode(', ', $secIds) . ' di server.', 'Setiap SEC punya uji otomatis yang lulus.', ['sec' => $secIds]);
+            if (!empty($prd['database']['invarian'])) {
+                $add('M3', 'Uji konkurensi invarian', ['tests/invarian.test.ts'],
+                    'Skenario dua permintaan bersamaan untuk ' . implode(', ', array_column($prd['database']['invarian'], 'id')) . '.', 'Dari dua permintaan bersamaan hanya satu yang berhasil, untuk setiap invarian.', ['sec' => array_slice($secIds, 0, 1)]);
+            }
+            $add('M3', 'Uji alur utama end-to-end', ['tests/e2e/alur-utama.spec.ts'],
+                'Uji alur pengguna di bab 4 dan penjaga akses bab 10.', 'Semua alur utama lulus di lebar 360 px dan 1280 px.', ['sec' => $secIds]);
+            if (!empty($flags['hasPublicPages'])) {
+                $add('M3', 'Terapkan SEO dan performa halaman publik', [$s['layout']], 'Butir SEO & performa di bab 2.', 'Halaman publik punya meta, Open Graph, sitemap, dan noindex untuk halaman privat.');
+            }
+            $add('M4', 'Konfigurasi produksi dan penjadwal', array_values(array_filter(['.env.example', $prd['kedalaman']['penjadwal']['berkas'] ?? null])),
+                'Variabel produksi, migrasi produksi, dan penjadwal sesuai bab 7.', 'Build produksi lulus dan penjadwal berjalan di lingkungan produksi.');
+            $add('M4', 'Jalankan daftar periksa rilis', ['PROGRESS.md'], 'HTTPS, header keamanan, cadangan database, dan uji asap.', 'Semua butir daftar periksa rilis tercentang.');
+        }
+        return $plan;
+    }
+
+    /**
      * Hasil Bikin Task tiruan bertanda milestone (bentuk sama dengan hasil AI).
      * @param array $refs dataset (ID DUMMY-*), sec_fitur (SEC => nama fitur), ui_only
      */
     public static function tasks(array $chunk, array $refs = []): array
     {
         $dataset = in_array('DUMMY-ITEM', $refs['dataset'] ?? [], true) ? 'DUMMY-ITEM' : ($refs['dataset'][0] ?? 'DUMMY-ITEM');
-        return ['fitur' => array_map(function ($f) use ($dataset, $refs) {
-            $n = $f['nama'];
-            $tasks = [['judul' => "Buat halaman $n dengan data tiruan $dataset", 'milestone' => 'M1', 'sub_fitur' => '', 'prioritas' => 'utama']];
-            foreach (array_slice($f['subs'], 0, 8) as $s) {
-                $tasks[] = ['judul' => "Buat tampilan {$s['nama']}", 'milestone' => 'M1', 'sub_fitur' => $s['nama'], 'prioritas' => 'utama'];
+        $plan = $refs['rencana'] ?? [];
+        // Tugas terkoordinasi yang menaungi fitur: yang judulnya menyebut fitur, lalu tugas pertama milestone itu.
+        $coord = function (string $m, string $feature, string $hint = '') use ($plan): ?string {
+            $inMilestone = array_values(array_filter($plan, fn ($r) => str_starts_with($r['id'], "$m.")));
+            foreach ($inMilestone as $r) {
+                if (str_contains($r['judul'], $feature) || ($hint !== '' && stripos($r['judul'], $hint) !== false)) {
+                    return $r['id'];
+                }
             }
-            $tasks[] = ['judul' => "Tampilkan keadaan kosong, memuat, dan gagal di $n", 'milestone' => 'M1', 'sub_fitur' => '', 'prioritas' => 'penting'];
+            return $inMilestone[0]['id'] ?? null;
+        };
+        return ['fitur' => array_map(function ($f) use ($dataset, $refs, $coord) {
+            $n = $f['nama'];
+            $tasks = [['judul' => "Buat halaman $n dengan data tiruan $dataset", 'milestone' => 'M1', 'koordinasi' => $coord('M1', $n), 'sub_fitur' => '', 'prioritas' => 'utama']];
+            // P8: maksimal 8 task per fitur; sub fitur lebih dari 3 digabung ke task halaman.
+            foreach (array_slice($f['subs'], 0, 3) as $s) {
+                $tasks[] = ['judul' => "Buat tampilan {$s['nama']}", 'milestone' => 'M1', 'koordinasi' => $coord('M1', $n), 'sub_fitur' => $s['nama'], 'prioritas' => 'utama'];
+            }
+            $tasks[] = ['judul' => "Tampilkan keadaan kosong, memuat, dan gagal di $n", 'milestone' => 'M1', 'koordinasi' => $coord('M1', $n, 'komponen bersama'), 'sub_fitur' => '', 'prioritas' => 'penting'];
             if (empty($refs['ui_only'])) {
                 $secs = array_keys(array_filter($refs['sec_fitur'] ?? [], fn ($names) => in_array($n, $names, true)));
-                $tasks[] = ['judul' => "Simpan data $n ke database dan ganti data tiruan", 'milestone' => 'M2', 'sub_fitur' => '', 'prioritas' => 'utama'];
-                $tasks[] = ['judul' => "Terapkan " . (implode(' dan ', array_slice($secs, 0, 2)) ?: 'aturan keamanan') . " pada $n", 'milestone' => 'M3', 'sub_fitur' => '', 'prioritas' => 'utama'];
-                $tasks[] = ['judul' => "Tulis uji alur utama $n", 'milestone' => 'M3', 'sub_fitur' => '', 'prioritas' => 'penting'];
+                $tasks[] = ['judul' => "Simpan data $n ke database dan ganti data tiruan", 'milestone' => 'M2', 'koordinasi' => $coord('M2', $n), 'sub_fitur' => '', 'prioritas' => 'utama'];
+                $tasks[] = ['judul' => "Terapkan " . (implode(' dan ', array_slice($secs, 0, 2)) ?: 'aturan keamanan') . " pada $n", 'milestone' => 'M3', 'koordinasi' => $coord('M3', $n, 'keamanan'), 'sub_fitur' => '', 'prioritas' => 'utama'];
+                $tasks[] = ['judul' => "Tulis uji alur utama $n", 'milestone' => 'M3', 'koordinasi' => $coord('M3', $n, 'alur utama'), 'sub_fitur' => '', 'prioritas' => 'penting'];
             } else {
-                $tasks[] = ['judul' => "Rapikan tampilan responsif $n", 'milestone' => 'M1', 'sub_fitur' => '', 'prioritas' => 'penting'];
+                $tasks[] = ['judul' => "Rapikan tampilan responsif $n", 'milestone' => 'M1', 'koordinasi' => $coord('M1', $n), 'sub_fitur' => '', 'prioritas' => 'penting'];
             }
             return [
                 'nama' => $n,

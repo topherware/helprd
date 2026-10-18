@@ -123,6 +123,36 @@ final class Triggers
         return $out;
     }
 
+    /** Satuan angka di masukan pengguna yang mungkin berubah dan harus menjadi pengaturan (P7). */
+    public const SATUAN_ANGKA = 'jam|hari|menit|minggu|bulan|tahun|persen|%|kali|orang|porsi|item|slot|sesi|km|kg';
+
+    /**
+     * Nilai yang disebut pengguna dan bisa berubah (P7): angka bersatuan dan nominal rupiah.
+     * @return array<int, array{nilai: string, satuan: string, kalimat: string, kunci: string}>
+     */
+    public static function angka(Brief $b): array
+    {
+        $out = [];
+        $text = $b->ide . "\n" . $b->extraNotes . "\n" . implode("\n", array_column($b->qa, 'jawaban'));
+        foreach (preg_split('/(?<=[.!?])\s+|\R+/u', $text) as $sentence) {
+            if (!preg_match_all('/\b(\d+(?:[.,]\d+)?)\s*(' . self::SATUAN_ANGKA . ')\b|\bRp\s?(\d{1,3}(?:\.\d{3})+|\d+)/iu', $sentence, $m, PREG_SET_ORDER)) {
+                continue;
+            }
+            foreach ($m as $hit) {
+                $nilai = $hit[1] !== '' ? $hit[1] : str_replace('.', '', $hit[3]);
+                $satuan = $hit[1] !== '' ? mb_strtolower($hit[2]) : 'rupiah';
+                // Kunci pengaturan: kata bermakna pertama kalimat + satuan, mis. "pengingat_jam".
+                $words = array_values(array_filter(preg_split('/[^\p{L}]+/u', mb_strtolower($sentence)), fn ($w) => mb_strlen($w) >= 4
+                    && !in_array($w, ['yang', 'untuk', 'dengan', 'setiap', 'harus', 'boleh', 'tidak', 'maksimal', 'minimal', 'paling', 'banyak', 'sebelum', 'sesudah', 'setelah', 'dikirim', 'dalam'], true)));
+                $kunci = preg_replace('/[^a-z0-9_]/', '', ($words[0] ?? 'nilai') . '_' . ($satuan === '%' ? 'persen' : $satuan));
+                if (!in_array($kunci, array_column($out, 'kunci'), true)) {
+                    $out[] = ['nilai' => $nilai, 'satuan' => $satuan, 'kalimat' => trim($sentence), 'kunci' => $kunci];
+                }
+            }
+        }
+        return $out;
+    }
+
     /** Nama peran dari daftar peran profil (string, atau objek {nama, asal} sejak v1.2.1). */
     public static function roleNames(array $roles): array
     {

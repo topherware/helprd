@@ -57,7 +57,7 @@ final class Pipeline
         $tasks = [];
         foreach ($chunk as $f) {
             foreach ($result[$f['id']]['tasks'] as $t) {
-                $tasks[] = ['fitur' => $f['nama'], 'title' => $t['title'], 'milestone' => $t['milestone'], 'status' => 'belum_mulai'];
+                $tasks[] = ['fitur' => $f['nama'], 'title' => $t['title'], 'milestone' => $t['milestone'], 'koordinasi' => $t['koordinasi'], 'status' => 'belum_mulai'];
             }
         }
         return $tasks;
@@ -72,6 +72,7 @@ final class Pipeline
             'sec' => array_column($sec, 'teks', 'id'),
             'sec_fitur' => array_column($sec, 'fitur', 'id'),
             'ui_only' => !empty($prd['profil']['bendera']['uiOnly']),
+            'rencana' => array_map(fn ($r) => ['id' => $r['id'], 'judul' => $r['judul']], $prd['milestone']['rencana'] ?? []),
         ];
     }
 
@@ -79,7 +80,7 @@ final class Pipeline
     public static function projectTasks(int $projectId): array
     {
         return Database::run(
-            'SELECT f.nama AS fitur, t.title, t.milestone, t.status FROM tasks t JOIN features f ON f.id = t.feature_id
+            'SELECT f.nama AS fitur, t.title, t.milestone, t.koordinasi, t.status FROM tasks t JOIN features f ON f.id = t.feature_id
              WHERE t.project_id = ? ORDER BY f.fase, f.urutan, f.id, t.sort_order, t.id',
             [$projectId]
         )->fetchAll();

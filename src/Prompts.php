@@ -79,11 +79,13 @@ TXT;
         'profil' => ['profil'],
         'p1' => ['overview', 'requirements'],
         'p2' => ['fitur', 'user_flow', 'arsitektur'],
-        'p3' => ['database', 'tech_stack', 'keputusan_teknologi'],
+        'p3' => ['database', 'tech_stack', 'keputusan_teknologi', 'kedalaman'],
         'p4' => ['keamanan'],
         'p5' => ['design', 'rute'],
         'p6' => ['dummy'],
-        'p7' => ['layanan', 'milestone'],
+        'p7' => ['layanan'],
+        // v1.2.1: bab 13 dipisah karena Rencana Pengerjaan Terkoordinasi membuat jawaban panjang.
+        'p8' => ['milestone'],
     ];
 
     /** Kunci yang tidak ada pada mode hanya-UI (bab 6, 8, 12). */
@@ -92,7 +94,7 @@ TXT;
     /** Nomor bab tiap kunci PRD. */
     public const BAB = [
         'overview' => 1, 'requirements' => 2, 'fitur' => 3, 'user_flow' => 4, 'arsitektur' => 5, 'database' => 6,
-        'tech_stack' => 7, 'keputusan_teknologi' => 7, 'keamanan' => 8, 'design' => 9, 'rute' => 10, 'dummy' => 11,
+        'tech_stack' => 7, 'keputusan_teknologi' => 7, 'kedalaman' => 7, 'keamanan' => 8, 'design' => 9, 'rute' => 10, 'dummy' => 11,
         'layanan' => 12, 'milestone' => 13,
     ];
 
@@ -104,7 +106,8 @@ TXT;
         'p4' => ['database', 'tech_stack'],
         'p5' => ['requirements'],
         'p6' => ['database', 'rute'],
-        'p7' => ['tech_stack', 'keputusan_teknologi', 'database', 'keamanan', 'dummy'],
+        'p7' => ['tech_stack', 'keputusan_teknologi', 'kedalaman', 'database', 'keamanan'],
+        'p8' => ['requirements', 'tech_stack', 'kedalaman', 'database', 'keamanan', 'rute', 'dummy', 'layanan'],
     ];
 
     /** Potongan PRD yang berlaku untuk profil ini: nama potongan => kunci. */
@@ -142,7 +145,8 @@ TXT;
     /** Potongan "profil": bendera Triggers, stack terkunci, dan daftar peran. */
     public static function profil(Brief $b): string
     {
-        $flags = implode("\n", array_map(fn ($f) => "  - $f: " . Triggers::LABELS[$f], array_diff(Triggers::FLAGS, ['uiOnly', 'hasDatabase', 'serverless'])));
+        $flags = implode("\n", array_map(fn ($f) => "  - $f: " . Triggers::LABELS[$f], array_diff(Triggers::FLAGS, ['uiOnly', 'hasDatabase', 'serverless', 'hasTimeRange'])));
+        $invJenis = implode(', ', array_keys(Triggers::INVARIAN));
         $stacks = implode("\n", array_map(fn ($s) => "  - {$s['id']}: {$s['ringkas']}", Brief::stackConfig()['stacks']));
         $valid = Brief::stackConfig()['nilai_sah'];
         $stackRule = match ($b->stackChoice) {
@@ -160,10 +164,11 @@ Aturan:
 - "bendera": true/false untuk tiap bendera berikut. Pilih true hanya bila ide, jawaban, catatan, atau peta fitur benar-benar membutuhkannya:
 {$flags}
 {$stackRule}
-- "peran": daftar peran pengguna dalam huruf kecil, elemen pertama WAJIB "pengunjung anonim", maksimal 5 peran (mis. "pengunjung anonim", "pelanggan", "admin").
+- "peran": daftar peran pengguna, elemen pertama WAJIB {"nama":"pengunjung anonim","asal":"ide"}, maksimal 5 peran, nama huruf kecil. "asal" = dari mana peran itu disebut: "ide", "jawaban", "catatan", atau "keputusan". JANGAN menambah peran (akun login) yang tidak disebut atau tersirat jelas sebagai pengguna aktif di input.
+- "invarian": aturan bisnis yang tidak boleh dilanggar data, hanya yang tersirat dari input: "jenis" salah satu dari {$invJenis} (rentang = sumber daya yang sama tidak boleh dipakai pada rentang waktu/jumlah yang bertabrakan; kuota = batas jumlah; stok = tidak boleh negatif; unik = tidak boleh kembar), "aturan" satu kalimat, "sumber_daya" yang dijaga, "asal". Kosongkan bila tidak ada.
 
 Format JSON:
-{"profil":{"bendera":{"hasPricedEntity":true},"stack_id":"...","stack_kustom":{"db":"postgresql","bahasa_skema":"sql","rls":false,"serverless":false},"peran":["pengunjung anonim"],"alasan_stack":"..."}}
+{"profil":{"bendera":{"hasPricedEntity":true},"stack_id":"...","stack_kustom":{"db":"postgresql","bahasa_skema":"sql","rls":false,"serverless":false},"peran":[{"nama":"pengunjung anonim","asal":"ide"}],"invarian":[{"jenis":"rentang","aturan":"...","sumber_daya":"...","asal":"catatan"}],"alasan_stack":"..."}}
 TXT;
     }
 
@@ -223,6 +228,37 @@ TXT;
         $milestones = $b->uiOnly ? 'M0 Persiapan dan M1 Prototipe UI (data tiruan) saja' : 'M0 Persiapan, M1 Prototipe UI (data tiruan), M2 Backend & Data, M3 Keamanan & Uji, M4 Rilis';
         $owasp = implode('; ', array_map(fn ($o) => "{$o['kode']} {$o['nama']}", $std['owasp']['kategori']));
 
+        // --- v1.2.1 (paritas) ---
+        $recipes = Brief::stackConfig()['resep_invarian'][$stack['db']] ?? Brief::stackConfig()['resep_invarian']['postgresql'];
+        $invText = '';
+        foreach ($ctx['invariants'] ?? [] as $inv) {
+            $invText .= "  - [{$inv['jenis']}] {$inv['aturan']} → resep {$stack['db']}: {$recipes[$inv['jenis']]}\n";
+        }
+        $angkaText = '';
+        foreach (Triggers::angka($b) as $a) {
+            $angkaText .= "  - {$a['nilai']} {$a['satuan']} (\"{$a['kalimat']}\") → kunci usulan \"{$a['kunci']}\"\n";
+        }
+        $usulanText = implode("\n", array_map(fn ($u) => "  - {$u['nama']}" . ($u['alasan'] !== '' ? " — {$u['alasan']}" : ''), array_slice($b->usulan, 0, 3)));
+        $kd = $stack['kedalaman'] ?? [];
+        $cron = $kd['penjadwal'] ?? [];
+        $dbRules[] = $invText !== ''
+            ? "- \"database.invarian\": SETIAP invarian berikut dijaga DI DATABASE sesuai resep stack (bukan hanya di UI), dengan id INV-01.., \"aturan\", \"mekanisme\" (constraint/kueri konkret, sebut nama tabel & kolom), \"konkurensi\" (transaksi/penguncian), dan \"uji\" (skenario dua permintaan bersamaan, hanya satu yang berhasil):\n$invText"
+                . '- Aturan rentang WAJIB mencakup mulai DAN selesai (kolom mulai_pada & selesai_pada); unique(sumber_daya, waktu_mulai) saja TIDAK cukup. Tulis SQL constraint/kueri tambahan di "database.migrasi_kustom".'
+            : '- "database.invarian": kosongkan bila tidak ada aturan bisnis yang harus dijaga database. "database.migrasi_kustom": kosong bila tidak perlu.';
+        $dbRules[] = '- "database.pengaturan": nilai yang bisa berubah menjadi pengaturan, disimpan di tabel pengaturan satu baris ("tunggal": true) di skema DAN didaftar di sini: "kunci" (nama kolom), "nilai_bawaan", "lokasi" (tabel.kolom atau variabel .env), "pengubah" (peran yang boleh mengubah).'
+            . ($angkaText !== '' ? " WAJIB memuat angka dari input berikut dengan nilai bawaan yang sama:\n$angkaText" : "\n")
+            . ($flags['usesWhatsappApi'] || $flags['usesEmail'] || $flags['hasScheduler'] ? '- Template pesan (konfirmasi, pengingat, pembatalan bila relevan) disimpan sebagai kolom pengaturan (mis. template_pengingat) dengan isi bawaan, bukan hanya di kode.' . "\n" : '')
+            . ($flags['hasGuestFlow'] ? '- Transaksi tamu menerbitkan kode rahasia acak (kolom "kode", unik, 6-8 karakter tanpa karakter membingungkan) yang dipakai bersama nomor kontak untuk mengecek data milik tamu.' : '');
+
+        $rules_v121 = [
+            'requirements' => ($usulanText !== '' ? "\n" . '- "requirements.usulan_tambahan": fitur usulan AI yang BELUM disertakan pengguna (maksimal 3), masing-masing "fitur" dan "alasan" satu kalimat. JANGAN dimasukkan ke FR, rute, milestone, atau tugas:' . "\n" . $usulanText : "\n" . '- "requirements.usulan_tambahan": kosongkan (tidak ada usulan).')
+                . ($flags['hasPublicPages'] ? "\n" . '- "requirements.seo": maksimal 8 butir ringkas untuk halaman publik: judul & meta dinamis, tag sosial (Open Graph), sitemap & robots, noindex untuk halaman privat/admin, optimasi gambar, strategi cache/revalidasi data publik.' : "\n" . '- "requirements.seo": kosongkan (tidak ada halaman publik).'),
+            'kedalaman' => '- "kedalaman": rincian teknis stack terkunci, satu keputusan per butir (DILARANG "mis. A / B", "A/B", atau "atau" untuk memilih alat): "versi" (versi mayor paket inti dari daftar: ' . implode(', ', $kd['versi'] ?? []) . '), "auth" (jenis sesi + hashing: ' . ($kd['auth'] ?? '') . '), "orm_migrasi" (' . ($kd['orm_migrasi'] ?? '') . '), "validasi" (' . ($kd['validasi'] ?? '') . '), '
+                . ($flags['hasTimeFields'] ? '"zona_waktu" (' . ($kd['zona_waktu'] ?? '') . '), ' : '"zona_waktu" kosong, ')
+                . ($flags['hasScheduler'] ? '"penjadwal" {"berkas": "' . ($cron['berkas'] ?? '') . '", "endpoint", "interval": "' . ($cron['interval'] ?? '') . '", "rahasia", "idempotensi" (agar tidak terkirim ganda)}, ' : '"penjadwal" kosong, ')
+                . '"uji" (' . ($kd['uji'] ?? '') . '), "deployment" (' . ($kd['deployment'] ?? '') . ').',
+        ];
+
         $rules = [
             'overview' => '- "overview.deskripsi": 1-2 kalimat, sebut nama produk dan apa itu.' . "\n"
                 . '- "overview.masalah": cerita singkat satu calon pengguna (beri nama orang Indonesia), apa yang ia lakukan sekarang, dan kesulitannya.' . "\n"
@@ -230,21 +266,26 @@ TXT;
             'requirements' => '- "requirements.fungsional": FR-01, FR-02, ... konkret dan bisa diuji; "fitur" berisi nama fitur PERSIS dari peta fitur. Minimal satu FR per fitur.' . "\n"
                 . '- "requirements.non_fungsional": NFR-01, ... dengan kriteria terukur (angka atau kondisi yang bisa diperiksa).' . "\n"
                 . '- "requirements.pertanyaan_terbuka": OQ-01, ... hal yang belum jelas (boleh kosong).' . "\n"
-                . '- "requirements.catatan_diterapkan": SETIAP aturan bisnis dari catatan tambahan pengguna dipetakan ke ID FR/NFR/OQ yang memuatnya. Jangan membuang aturan diam-diam; aturan yang belum jelas atau tidak diterima ditulis sebagai OQ. Kosongkan bila tidak ada catatan.',
+                . '- "requirements.catatan_diterapkan": SETIAP aturan bisnis dari catatan tambahan pengguna dipetakan ke ID FR/NFR/OQ yang memuatnya. Jangan membuang aturan diam-diam; aturan yang belum jelas atau tidak diterima ditulis sebagai OQ. Kosongkan bila tidak ada catatan.'
+                . ($flags['hasGuestFlow'] ? "\n" . '- Pengguna tanpa akun hanya boleh melihat data miliknya dengan pasangan pengenal + kode rahasia yang diterbitkan saat transaksi (mis. kode transaksi + nomor kontak); pencarian dengan satu pengenal publik (nomor HP, email, atau nama saja) DILARANG.' : '')
+                . $rules_v121['requirements'],
             'fitur' => '- "fitur": TEPAT ' . $count . ' item, urutannya sama dengan peta fitur. "deskripsi" berisi 1 kalimat manfaat fitur. "sub_fitur" berisi string deskripsi 1 kalimat untuk tiap sub fitur, urutannya sama dengan peta.',
             'user_flow' => '- "user_flow": 3-8 alur utama pengguna (termasuk admin bila ada). "fase" berisi nomor fase terkait (mis. "1" atau "2 → 3"). "langkah" ditulis sebagai rangkaian "Langkah → Langkah → ...".',
             'arsitektur' => '- "arsitektur.sequence_mermaid": diagram Mermaid sequenceDiagram yang valid untuk alur utama, baris dipisah "\n", alias participant tanpa spasi.',
             'database' => implode("\n", $dbRules),
             'tech_stack' => '- "tech_stack": tiap lapisan (frontend, backend, database, autentikasi, penyimpanan berkas, rahasia & konfigurasi, deployment, pengujian) sesuai stack terkunci, beserta alasannya. Lapisan "Rahasia & Konfigurasi" wajib menyebut variabel lingkungan di server.'
                 . ($b->uiOnly ? ' Mode hanya-UI: cukup lapisan frontend, data tiruan, hosting statis, dan pengujian.' : ''),
-            'keputusan_teknologi' => '- "keputusan_teknologi": "stack" = nama stack terkunci, "alasan" satu kalimat mengapa stack ini dipakai.',
+            'keputusan_teknologi' => '- "keputusan_teknologi": "stack" = nama stack terkunci, "alasan" satu kalimat mengapa stack ini dipakai. Pakai HANYA stack terkunci di seluruh dokumen (framework, ORM, autentikasi, database); jangan menyebut alternatif.',
+            'kedalaman' => $rules_v121['kedalaman'],
             'keamanan' => '- "keamanan.klasifikasi_data": data → "sensitivitas" (publik/internal/pribadi/sensitif), "lokasi" tabel.kolom, "akses", "retensi" usulan, "boleh_masuk_log" (false untuk pribadi/sensitif). Data anak, kesehatan/alergi, pembayaran, dan kata sandi/token wajib sensitif. Setiap tabel berisi data pribadi wajib muncul.' . "\n"
                 . '- "keamanan.hak_akses": baris peran × sumber daya dengan "aksi" (baca/tulis/hapus/setujui), peran PERSIS dari daftar peran.' . "\n"
                 . '- "keamanan.persyaratan": tingkat Wajib MVP, MAKSIMAL 12 aturan, SEC-01, SEC-02, ... Tiap aturan konkret, bisa dikerjakan dan diuji di M2/M3, "fitur" berisi nama fitur PERSIS, "kontrol" berisi kode kontrol MVP yang dipenuhi (satu SEC boleh memenuhi beberapa kontrol). Setiap kode kontrol MVP berikut wajib muncul minimal sekali:' . "\n" . $controls
                 . '- DILARANG di tingkat MVP: ambang waktu mikro (mis. "respons < 200 ms"), ritual berkala (per kuartal, bulanan, uji pemulihan bencana, rotasi kunci terjadwal), sertifikasi, dan angka yang tidak bisa diuji otomatis. Hal seperti itu masuk "hardening".' . "\n"
                 . '- "keamanan.hardening": maksimal 8 butir satu baris tanpa ID, untuk setelah MVP. Bahan:' . "\n" . $hardening
                 . '- "keamanan.owasp": edisi "' . $std['owasp']['edisi'] . '", 10 kategori, masing-masing dengan SEC terkait atau "alasan" singkat bila tidak relevan: ' . $owasp . '.' . "\n"
-                . '- "keamanan.risiko_tersisa": hal yang belum tertangani, termasuk "kepatuhan UU Pelindungan Data Pribadi (UU No. 27/2022) perlu ditinjau ahli hukum".',
+                . '- "keamanan.risiko_tersisa": hal yang belum tertangani, termasuk "kepatuhan UU Pelindungan Data Pribadi (UU No. 27/2022) perlu ditinjau ahli hukum".'
+                . ($flags['hasGuestFlow'] ? "\n" . '- Wajib ada SEC Wajib MVP: data milik tamu hanya ditampilkan dengan pasangan kode rahasia + nomor kontak (dengan pembatasan laju percobaan), dan kontak pelanggan ditampilkan tersamar (mis. 0812-xxxx-1234) di mana pun selain panel pengelola.' : '')
+                . "\n" . '- "keamanan.hardening" tidak boleh mengulang aturan Wajib MVP; gabungkan butir sejenis agar tetap maksimal 8.',
             'design' => '- "design.alasan": satu kalimat alasan gaya yang dipakai (untuk gaya Bebas: gaya konkret yang kamu putuskan). Jangan menulis "terserah" atau "sesuai selera".' . "\n"
                 . '- "design.warna.terang": 11 token primary, secondary, accent, background, surface, text, text_muted, border, success, warning, danger dengan nilai HEX #RRGGBB. Kontras text terhadap background minimal 4.5:1.' . "\n"
                 . '- "design.warna.gelap": ' . ($flags['hasDarkTheme'] ? 'WAJIB diisi 11 token yang sama untuk tema gelap (kontras text terhadap background minimal 4.5:1).' : 'objek kosong {} (tema gelap tidak diminta).') . "\n"
@@ -255,34 +296,43 @@ TXT;
             'rute' => '- "rute.rute": path final dan unik (huruf kecil, diawali "/"), halaman, "peran" berisi nama peran PERSIS dari daftar peran, layout, "sumber" berisi nama fitur PERSIS dan/atau ID FR. SETIAP fitur wajib punya minimal satu rute.' . "\n"
                 . '- "rute.navigasi": satu baris per peran yang ada di tabel rute: komponen navigasi (mis. header + footer, bottom navigation, sidebar) dan item menu.' . "\n"
                 . '- "rute.rute_khusus": wajib jenis "404", "403", dan "error"' . (count($roles) > 1 ? ', plus "masuk" dan "keluar"' : '') . '.' . "\n"
-                . '- "rute.penjaga_akses": rute mana yang butuh login dan peran apa (rujuk ID SEC bila ada, jangan diulang panjang).',
+                . '- "rute.penjaga_akses": rute mana yang butuh login dan peran apa (rujuk ID SEC bila ada, jangan diulang panjang).'
+                . ($flags['hasAdminMutation'] ? "\n" . '- Setiap entitas yang dibuat lewat alur publik punya rute kelola untuk pengelola: daftar, detail, dan ubah status.' : '')
+                . ($flags['hasOfflineChannel'] ? "\n" . '- Ada rute pencatatan manual oleh pengelola untuk kanal luring (datang langsung/telepon) yang memakai aturan ketersediaan yang sama.' : '')
+                . ($flags['hasGuestFlow'] ? "\n" . '- Rute pengecekan data milik tamu wajib meminta kode rahasia + nomor kontak; JANGAN membuat rute riwayat/data yang cukup dengan nomor, email, atau nama.' : ''),
             'dummy' => '- "dummy.dataset": dataset baku untuk ' . ($b->uiOnly ? 'tiap entitas yang tampil di UI ("tabel" = nama entitas huruf kecil)' : 'SETIAP tabel yang tidak teknis') . ': "id" DUMMY-<ENTITAS> huruf besar, "tabel" nama tabel PERSIS, "kolom" nama kolom PERSIS dari skema, "baris" minimal 3 baris realistis (1 baris untuk entitas tunggal), jumlah nilai per baris sama dengan jumlah kolom. Kolom uang berisi bilangan bulat rupiah; di teks uang ditulis "Rp15.000", tanggal "Sen, 12 Jan 2026".' . "\n"
                 . '- "dummy.template": template pesan (WhatsApp, email, notifikasi) bila relevan: "isi" memakai placeholder bernama seperti {nama_pelanggan}, "contoh" versi terisi tanpa placeholder.' . "\n"
-                . '- "dummy.copywriting": nada bahasa, sapaan, istilah baku, dan microcopy untuk kosong, error, sukses, konfirmasi.',
+                . '- "dummy.copywriting": nada bahasa, sapaan, istilah baku, dan microcopy Bahasa Indonesia (tanpa "Lorem ipsum") untuk judul utama, CTA, kosong, error, penuh/tidak tersedia, sukses, konfirmasi.',
             'layanan' => '- "layanan.layanan": satu baris untuk SETIAP kebutuhan berikut (kebutuhan = kode persis), vendor default dari stack, atau "mock": true bila MVP memakai adapter tiruan; isi alasan, biaya, "env" (nama variabel), dan mode_mvp:' . "\n" . ($services ?: "  - (tidak ada kebutuhan layanan khusus)\n")
                 . '- "layanan.rate_limit": ' . ($flags['serverless'] && $flags['usesRateLimit'] ? 'lingkungan serverless: sebut mekanisme penyimpanan terpusat (bukan memori proses) atau tulis bahwa MVP memakai adapter tiruan beserta batasannya.' : 'mekanisme pembatasan laju yang dipakai (boleh kosong bila tidak ada).') . "\n"
                 . '- "layanan.env_example": variabel dikelompokkan (aplikasi, database, autentikasi, tiap layanan) dengan komentar. SEMUA variabel lingkungan yang disebut di PRD wajib ada. Nilai berupa penampung "isi_dengan_..." TANPA rahasia asli.' . "\n"
                 . '- Setiap layanan punya antarmuka adapter dengan implementasi tiruan supaya M1/M2 tidak terblokir akun vendor.',
             'milestone' => "- \"milestone.daftar\": $milestones. Tiap milestone: tujuan, \"selesai_bila\" 2-4 kriteria terukur, \"cakupan\" (nama fitur PERSIS atau bab), dan \"checkpoint\" (kalimat diawali \"CHECKPOINT:\" berisi: berhenti, perbarui PROGRESS.md, ringkas hasil, tunggu persetujuan, sarankan memulai percakapan baru bila konteks panjang).\n"
                 . "- \"milestone.aturan_checkpoint\": cara kerja AI \"{$b->workflowLabel()}\" → $checkpoint.\n"
-                . '- "milestone.master_prompt": prompt siap tempel untuk AI coding assistant: ringkasan proyek, stack, daftar berkas wajib dibaca (CLAUDE.md, PRD.md, features/, PROGRESS.md), aturan: kerjakan sesuai aturan checkpoint di atas, jalankan uji, perbarui PROGRESS.md, berhenti di checkpoint, tanya bila ambigu, jangan mengarang data di luar bab 11.' . "\n"
+                . '- "milestone.rencana": Rencana Pengerjaan Terkoordinasi, tugas gemuk ber-id "M1.1", "M1.2", ... (MAKSIMAL 10 per milestone, total MAKSIMAL 30). Tiap tugas: "judul", "berkas" (jalur berkas/folder yang dibuat atau diubah sesuai struktur stack: ' . json_encode($stack['struktur'] ?? [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '), "perilaku" (fungsi, rute, tabel yang dibuat), "dataset" (ID DUMMY-* untuk tugas M1), "sec" (ID SEC untuk tugas M3), "fr" (ID FR yang dipenuhi), "tabel" (tabel yang disentuh), dan "selesai_bila" satu kalimat terukur. Tugas M1 menyebut halaman/rute dan dataset; tugas M2 menyebut berkas, fungsi/aksi, dan tabel, dan tugas M2 PERTAMA membuat skema, migrasi, dan berkas benih data dari dataset bab 11; tugas M3 menyebut SEC dan skenario uji, termasuk uji dua permintaan bersamaan untuk tiap invarian.' . "\n"
+                . '- "milestone.master_prompt": prompt siap tempel untuk AI coding assistant berisi: ringkasan proyek dan stack terkunci; perintah membaca CLAUDE.md, PRD.md, folder features/, dan PROGRESS.md; perintah memberi RINGKASAN PEMAHAMAN maksimal 10 poin sebelum mulai; rencana berkas untuk milestone pertama; pertanyaan kesiapan sebelum menulis kode; gerbang izin sesuai cara kerja "' . $b->workflowLabel() . '" (' . [
+                    'task' => 'tugas berikutnya hanya dimulai setelah izin pengguna',
+                    'fase' => 'milestone berikutnya hanya dimulai setelah izin pengguna',
+                    'sekaligus' => 'boleh lanjut tanpa izin antar-tugas, tetapi berhenti meminta izin di akhir M1 dan sebelum rilis, serta berhenti dan laporkan bila ada uji yang gagal',
+                ][$b->aiWorkflow] . '); larangan mengarang data di luar bab 11; kepatuhan pada skema (bab 6), rute (bab 10), hak akses (bab 8), aturan bisnis/invarian, dan design system (bab 9); jalankan uji dan perbarui PROGRESS.md di setiap checkpoint; tanya bila ambigu.' . "\n"
                 . '- "milestone.claude_md": "struktur_folder" (pohon folder singkat, baris dipisah "\n"), "konvensi" (daftar), "perintah" {"jalan","uji"}.',
         ];
         $formats = [
             'overview' => '"overview":{"deskripsi":"...","masalah":"...","tujuan":["..."],"prinsip":["..."],"sukses":"..."}',
-            'requirements' => '"requirements":{"fungsional":[{"id":"FR-01","teks":"...","fitur":["..."]}],"non_fungsional":[{"id":"NFR-01","teks":"..."}],"di_luar_cakupan":["..."],"pertanyaan_terbuka":[{"id":"OQ-01","teks":"..."}],"catatan_diterapkan":[{"aturan":"...","ref":["FR-01"]}]}',
+            'requirements' => '"requirements":{"fungsional":[{"id":"FR-01","teks":"...","fitur":["..."]}],"non_fungsional":[{"id":"NFR-01","teks":"..."}],"di_luar_cakupan":["..."],"pertanyaan_terbuka":[{"id":"OQ-01","teks":"..."}],"catatan_diterapkan":[{"aturan":"...","ref":["FR-01"]}],"usulan_tambahan":[{"fitur":"...","alasan":"..."}],"seo":["..."]}',
+            'kedalaman' => '"kedalaman":{"versi":["..."],"auth":"...","orm_migrasi":"...","validasi":"...","zona_waktu":"...","penjadwal":{"berkas":"...","endpoint":"...","interval":"...","rahasia":"...","idempotensi":"..."},"uji":"...","deployment":"..."}',
             'fitur' => '"fitur":[{"deskripsi":"...","sub_fitur":["..."]}]',
             'user_flow' => '"user_flow":[{"judul":"...","fase":"1","langkah":"..."}]',
             'arsitektur' => '"arsitektur":{"ringkasan":"...","komponen":[{"nama":"...","deskripsi":"..."}],"sequence_mermaid":"sequenceDiagram\n..."}',
-            'database' => '"database":{"catatan":"...","tabel":[{"nama":"pengguna","deskripsi":"...","tunggal":false,"teknis":false,"kolom":[{"nama":"id","tipe":"uuid, PK"}]}],"relasi":[{"dari":"pengguna","ke":"pesanan","jenis":"satu-ke-banyak","label":"membuat"}],"kode_skema":"...","aturan_pemicu":{"snapshot":"","log_audit":"","tamu":""},"kebijakan_akses":[{"tabel":"...","aturan":"..."}]}',
+            'database' => '"database":{"catatan":"...","tabel":[{"nama":"pengguna","deskripsi":"...","tunggal":false,"teknis":false,"kolom":[{"nama":"id","tipe":"uuid, PK"}]}],"relasi":[{"dari":"pengguna","ke":"pesanan","jenis":"satu-ke-banyak","label":"membuat"}],"kode_skema":"...","aturan_pemicu":{"snapshot":"","log_audit":"","tamu":""},"kebijakan_akses":[{"tabel":"...","aturan":"..."}],"invarian":[{"id":"INV-01","jenis":"rentang","aturan":"...","mekanisme":"...","konkurensi":"...","uji":"..."}],"migrasi_kustom":"...","pengaturan":[{"kunci":"...","nilai_bawaan":"...","lokasi":"pengaturan.kolom","pengubah":"..."}]}',
             'tech_stack' => '"tech_stack":[{"lapisan":"...","pilihan":"...","alasan":"..."}]',
             'keputusan_teknologi' => '"keputusan_teknologi":{"stack":"...","alasan":"..."}',
             'keamanan' => '"keamanan":{"klasifikasi_data":[{"data":"...","sensitivitas":"pribadi","lokasi":"pengguna.email","akses":"...","retensi":"...","boleh_masuk_log":false}],"prinsip_akses":"...","hak_akses":[{"peran":"pengunjung anonim","sumber_daya":"...","aksi":["baca"]}],"persyaratan":[{"id":"SEC-01","kelompok":"...","teks":"...","kontrol":["dasar.otorisasi"],"fitur":["..."]}],"hardening":["..."],"owasp":{"edisi":"...","kategori":[{"kode":"A01:2025","nama":"...","sec":["SEC-01"],"alasan":""}]},"risiko_tersisa":["..."]}',
             'design' => '"design":{"alasan":"...","warna":{"terang":{"primary":"#4F46E5","secondary":"#...","accent":"#...","background":"#FFFFFF","surface":"#...","text":"#0F172A","text_muted":"#...","border":"#...","success":"#...","warning":"#...","danger":"#..."},"gelap":{}},"tipografi":{"font_judul":"...","font_isi":"...","skala":[12,14,16,20,24,32],"tinggi_baris":"1.5","sumber":"Google Fonts"},"ukuran":{"ketuk_min":44,"spasi":[4,8,12,16,24,32],"radius":"...","bayangan":"...","lebar_maks":"...","breakpoint":["640px"]},"komponen":[{"nama":"Tombol primer","gaya":"..."}],"nuansa":{"sifat":["..."],"hindari":["..."]},"keadaan":{"loading":"...","kosong":"...","error":"..."},"aksesibilitas":["..."]}',
             'rute' => '"rute":{"rute":[{"path":"/","halaman":"...","peran":["pengunjung anonim"],"layout":"...","sumber":["..."]}],"navigasi":[{"peran":"...","komponen":"...","item":["..."]}],"rute_khusus":[{"jenis":"404","path":"/404","halaman":"..."}],"penjaga_akses":["..."]}',
-            'dummy' => '"dummy":{"dataset":[{"id":"DUMMY-MENU","tabel":"menu","kolom":["nama","harga_rp"],"baris":[["Nasi Ayam",15000]]}],"template":[{"nama":"...","isi":"Halo {nama_pelanggan} ...","contoh":"Halo Bu Rina ..."}],"copywriting":{"nada":"...","sapaan":"...","istilah":["..."],"microcopy":{"kosong":"...","error":"...","sukses":"...","konfirmasi":"..."}}}',
+            'dummy' => '"dummy":{"dataset":[{"id":"DUMMY-MENU","tabel":"menu","kolom":["nama","harga_rp"],"baris":[["Nasi Ayam",15000]]}],"template":[{"nama":"...","isi":"Halo {nama_pelanggan} ...","contoh":"Halo Bu Rina ..."}],"copywriting":{"nada":"...","sapaan":"...","istilah":["..."],"microcopy":{"judul_utama":"...","cta":"...","kosong":"...","error":"...","penuh":"...","sukses":"...","konfirmasi":"..."}}}',
             'layanan' => '"layanan":{"layanan":[{"kebutuhan":"otp","vendor":"...","mock":true,"alasan":"...","biaya":"...","env":["..."],"mode_mvp":"adapter tiruan"}],"rate_limit":"...","env_example":[{"grup":"Aplikasi","komentar":"...","variabel":[{"nama":"APP_URL","nilai":"isi_dengan_url_aplikasi","komentar":"..."}]}]}',
-            'milestone' => '"milestone":{"daftar":[{"id":"M0","nama":"Persiapan","tujuan":"...","selesai_bila":["..."],"cakupan":["..."],"checkpoint":"CHECKPOINT: ..."}],"aturan_checkpoint":"...","master_prompt":"...","claude_md":{"struktur_folder":"...","konvensi":["..."],"perintah":{"jalan":"...","uji":"..."}}}',
+            'milestone' => '"milestone":{"daftar":[{"id":"M0","nama":"Persiapan","tujuan":"...","selesai_bila":["..."],"cakupan":["..."],"checkpoint":"CHECKPOINT: ..."}],"rencana":[{"id":"M1.1","judul":"...","berkas":["..."],"perilaku":"...","dataset":["DUMMY-..."],"sec":[],"fr":["FR-01"],"tabel":["..."],"selesai_bila":"..."}],"aturan_checkpoint":"...","master_prompt":"...","claude_md":{"struktur_folder":"...","konvensi":["..."],"perintah":{"jalan":"...","uji":"..."}}}',
         ];
         [$task, $ruleText, $format, $previous] = self::partSpec('PRD (Project Requirements Document) Standar PlanKu v1.2', $rules, $formats, $keys, $done);
         $current = $fixes !== '' ? json_encode(array_intersect_key($ctx['current'] ?? [], array_flip($keys)), JSON_UNESCAPED_UNICODE) : '';
@@ -372,6 +422,7 @@ TXT;
         }
         $datasets = implode(', ', $refs['dataset'] ?? []) ?: '(belum ada; tulis "data tiruan" tanpa ID)';
         $secs = implode("\n", array_map(fn ($id, $t) => "- $id: $t", array_keys($refs['sec'] ?? []), $refs['sec'] ?? [])) ?: '- (tidak ada)';
+        $plan = implode("\n", array_map(fn ($r) => "- Task {$r['id']}: {$r['judul']}", $refs['rencana'] ?? [])) ?: '- (belum ada; kosongkan "koordinasi")';
         $milestones = !empty($refs['ui_only'])
             ? '- Mode hanya-UI: SEMUA task bermilestone "M1".'
             : '- "milestone": M1 (prototipe UI dengan data tiruan, belum ada backend), M2 (skema/migrasi, API, integrasi layanan atau adapter tiruan, mengganti data tiruan), M3 (persyaratan keamanan SEC dan pengujian). Urutkan M1 → M2 → M3 dalam tiap fitur.' . "\n"
@@ -389,13 +440,16 @@ PRD terbaru (markdown; bisa saja sudah diedit pengguna):
 ID dataset tiruan di bab 11: {$datasets}
 Persyaratan keamanan Wajib MVP:
 {$secs}
+Rencana Pengerjaan Terkoordinasi (bab 13):
+{$plan}
 
 Susun rencana kerja untuk fitur berikut (nama fitur dan sub fitur PERSIS seperti ini):
 {$list}
 Aturan:
 - Untuk tiap fitur: "deskripsi" 1 kalimat manfaat, "tujuan" 1-2 kalimat, "selesai_bila" 3-5 kriteria yang bisa diuji.
 - Untuk tiap sub fitur (urutan sama dengan daftar): "tujuan" 1 kalimat dan "selesai_bila" 2-3 kriteria.
-- "tasks": 6-14 task per fitur (MAKSIMAL 14; gabungkan task sepele, pecah task besar). "judul" kalimat perintah pendek (maksimal 70 karakter) diawali kata kerja, tanpa awalan [M1].
+- "tasks": 4-8 task per fitur (MAKSIMAL 8; gabungkan task sepele). "judul" kalimat perintah pendek (maksimal 70 karakter) diawali kata kerja, tanpa awalan [M1].
+- "koordinasi": id tugas terkoordinasi yang menaungi task ini (mis. "M1.2") dari daftar Rencana Pengerjaan Terkoordinasi di atas, dengan milestone yang sama.
 {$milestones}
 - Task yang memakai data tiruan WAJIB menyebut ID dataset dari daftar di atas (mis. "pakai DUMMY-MENU").
 - "sub_fitur" berisi nama sub fitur PERSIS bila task milik sub fitur tertentu; kosongkan bila task berlaku untuk fitur secara umum.
@@ -403,7 +457,7 @@ Aturan:
 - Jangan membuat task yang tidak berasal dari fitur di atas. Jangan menulis klaim "aman 100%" atau "anti-hack".
 
 Format JSON:
-{"fitur":[{"nama":"...","deskripsi":"...","tujuan":"...","selesai_bila":["..."],"sub_fitur":[{"nama":"...","tujuan":"...","selesai_bila":["..."]}],"tasks":[{"judul":"...","milestone":"M1","sub_fitur":"","fase":1,"prioritas":"utama"}]}]}
+{"fitur":[{"nama":"...","deskripsi":"...","tujuan":"...","selesai_bila":["..."],"sub_fitur":[{"nama":"...","tujuan":"...","selesai_bila":["..."]}],"tasks":[{"judul":"...","milestone":"M1","koordinasi":"M1.1","sub_fitur":"","fase":1,"prioritas":"utama"}]}]}
 TXT;
     }
 

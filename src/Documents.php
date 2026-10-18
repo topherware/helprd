@@ -132,6 +132,13 @@ final class Documents
                 $md[] = "### 2.5 Catatan Tambahan Pengguna yang Diterapkan\n\n" . self::table(['Aturan dari catatan', 'Dipenuhi oleh'],
                     array_map(fn ($c) => [$c['aturan'], implode(', ', $c['ref'])], $r['catatan_diterapkan']));
             }
+            if (!empty($r['usulan_tambahan'])) {
+                $md[] = "### 2.6 Usulan Tambahan (belum dijadwalkan)\n\nUsulan AI yang tidak diminta pengguna; tidak masuk milestone sampai disertakan dari peta fitur.\n\n"
+                    . self::bullets(array_map(fn ($u) => "**{$u['fitur']}** — {$u['alasan']}", $r['usulan_tambahan']));
+            }
+            if (!empty($r['seo'])) {
+                $md[] = "### 2.7 SEO & Performa Halaman Publik\n\n" . self::bullets($r['seo']);
+            }
         }
 
         if ($show('fitur')) {
@@ -188,6 +195,9 @@ final class Documents
                 $md[] = "**Keputusan teknologi:** {$k['stack']}" . ($k['alasan'] !== '' ? " — {$k['alasan']}" : '');
             }
             $md[] = self::table(['Lapisan', 'Pilihan', 'Alasan'], array_map(fn ($t) => [$t['lapisan'], $t['pilihan'], $t['alasan']], $prd['tech_stack']));
+            if (!empty($prd['kedalaman']['versi'])) {
+                $md[] = self::renderDepth($prd['kedalaman']);
+            }
         }
 
         if ($uiOnly && $v12 && $show('design')) {
@@ -211,7 +221,7 @@ final class Documents
             $md[] = self::renderServices($prd['layanan']);
         }
         if ($show('milestone')) {
-            $md[] = self::renderMilestones($prd['milestone']);
+            $md[] = self::renderMilestones($prd["milestone"], $prd);
         }
 
         return implode("\n\n", $md) . "\n";
@@ -244,7 +254,35 @@ final class Documents
         if (!empty($db['kebijakan_akses'])) {
             $md[] = "### 6.3 Kebijakan Akses Data\n\n" . self::table(['Tabel', 'Aturan'], array_map(fn ($r) => [$r['tabel'], $r['aturan']], $db['kebijakan_akses']));
         }
+        if (!empty($db['invarian'])) {
+            $md[] = "### 6.4 Invarian Bisnis & Konkurensi\n\n" . self::table(['ID', 'Aturan', 'Mekanisme di database', 'Konkurensi', 'Uji'],
+                array_map(fn ($i) => [$i['id'], $i['aturan'], $i['mekanisme'], $i['konkurensi'], $i['uji']], $db['invarian']));
+        }
+        if (($db['migrasi_kustom'] ?? '') !== '') {
+            $md[] = "**Migrasi kustom invarian:**\n\n```sql\n{$db['migrasi_kustom']}\n```";
+        }
+        if (!empty($db['pengaturan'])) {
+            $md[] = "### 6.5 Pengaturan (nilai yang bisa diubah)\n\n" . self::table(['Kunci', 'Nilai bawaan', 'Lokasi', 'Boleh diubah oleh'],
+                array_map(fn ($p) => [$p['kunci'], $p['nilai_bawaan'], $p['lokasi'], $p['pengubah']], $db['pengaturan']));
+        }
         return implode("\n\n", $md);
+    }
+
+    /** Bab 7 rincian teknis (P5): versi, autentikasi, ORM & migrasi, validasi, zona waktu, penjadwal, uji, deployment. */
+    private static function renderDepth(array $k): string
+    {
+        $j = $k['penjadwal'] ?? [];
+        $rows = array_filter([
+            ['Versi paket inti', implode(', ', $k['versi'])],
+            ['Autentikasi', $k['auth']],
+            ['ORM & migrasi', $k['orm_migrasi']],
+            ['Validasi input', $k['validasi']],
+            ['Zona waktu', $k['zona_waktu']],
+            ['Penjadwal', ($j['berkas'] ?? '') !== '' ? "{$j['berkas']} — {$j['endpoint']}, jadwal `{$j['interval']}`; {$j['rahasia']}; idempotensi: {$j['idempotensi']}" : ''],
+            ['Pengujian', $k['uji']],
+            ['Deployment', $k['deployment']],
+        ], fn ($r) => $r[1] !== '');
+        return "### 7.1 Rincian Teknis\n\n" . self::table(['Aspek', 'Keputusan'], array_values($rows));
     }
 
     /** PRD bab 8 Keamanan & Privasi (v1.2: Wajib MVP + Hardening; tabel ancaman/pihak ketiga v1.1 tetap dirender bila ada). */
@@ -398,7 +436,7 @@ final class Documents
         return implode("\n\n", $md);
     }
 
-    private static function renderMilestones(array $m): string
+    private static function renderMilestones(array $m, array $prd = []): string
     {
         $md = ["---\n\n## 13. Milestone Pembangunan & Master Prompt"];
         foreach ($m['daftar'] as $x) {
@@ -408,10 +446,40 @@ final class Documents
         if ($m['aturan_checkpoint'] !== '') {
             $md[] = "**Aturan checkpoint:** {$m['aturan_checkpoint']}";
         }
+        if (!empty($m['rencana'])) {
+            $lines = array_map(fn ($t) => "- [ ] **Task {$t['id']} — {$t['judul']}**"
+                . ($t['berkas'] ? "\n  - Berkas: " . implode(', ', array_map(fn ($f) => "`$f`", $t['berkas'])) : '')
+                . ($t['perilaku'] !== '' ? "\n  - Perilaku: {$t['perilaku']}" : '')
+                . ($t['dataset'] ? "\n  - Data: " . implode(', ', $t['dataset']) : '')
+                . ($t['sec'] ? "\n  - Keamanan: " . implode(', ', $t['sec']) : '')
+                . ($t['fr'] ? "\n  - Memenuhi: " . implode(', ', $t['fr']) : '')
+                . ($t['selesai_bila'] !== '' ? "\n  - Selesai bila: {$t['selesai_bila']}" : ''), $m['rencana']);
+            $md[] = "### Rencana Pengerjaan Terkoordinasi\n\n" . implode("\n", $lines);
+            if ($trace = self::traceability($prd, $m['rencana'])) {
+                $md[] = "### Keterlacakan FR → Rute, Tabel, Tugas\n\n" . $trace;
+            }
+        }
         if ($m['master_prompt'] !== '') {
             $md[] = "### Master Prompt\n\n```text\n{$m['master_prompt']}\n```";
         }
         return implode("\n\n", $md);
+    }
+
+    /** Tabel keterlacakan: tiap FR ke rute (lewat sumber rute), tabel, dan tugas terkoordinasi yang memenuhinya. */
+    private static function traceability(array $prd, array $plan): string
+    {
+        $rows = [];
+        foreach ($prd['requirements']['fungsional'] ?? [] as $fr) {
+            if (!is_array($fr) || ($fr['id'] ?? '') === '') {
+                continue;
+            }
+            $routes = array_column(array_filter($prd['rute']['rute'] ?? [], fn ($r) => in_array($fr['id'], $r['sumber'], true)
+                || array_intersect($fr['fitur'] ?? [], $r['sumber'])), 'path');
+            $tasks = array_filter($plan, fn ($t) => in_array($fr['id'], $t['fr'], true));
+            $tables = array_values(array_unique(array_merge([], ...array_map(fn ($t) => $t['tabel'], $tasks))));
+            $rows[] = [$fr['id'], implode(', ', array_map(fn ($p) => "`$p`", array_unique($routes))) ?: '–', implode(', ', $tables) ?: '–', implode(', ', array_column($tasks, 'id')) ?: '–'];
+        }
+        return $rows ? self::table(['FR', 'Rute', 'Tabel', 'Tugas'], $rows) : '';
     }
 
     /* ---------- Berkas pendamping ZIP v1.2 ---------- */
@@ -442,7 +510,8 @@ final class Documents
         $md = [
             "# CLAUDE.md — $judul",
             'Panduan untuk AI coding assistant. Baca berkas ini sebelum mengerjakan apa pun.',
-            "## Stack\n\n" . ($stack ? "{$stack['nama']}: {$stack['ringkas']}" : implode(', ', array_column($prd['tech_stack'], 'pilihan'))),
+            "## Stack\n\n" . ($stack ? "{$stack['nama']}: {$stack['ringkas']}" : implode(', ', array_column($prd['tech_stack'], 'pilihan')))
+                . (!empty($prd['kedalaman']['versi']) ? "\n\nVersi: " . implode(', ', $prd['kedalaman']['versi']) . '. Jangan mengganti framework, ORM, atau autentikasi.' : ''),
             "## Struktur Folder\n\n```text\n{$c['struktur_folder']}\n```",
             "## Konvensi\n\n" . self::bullets($c['konvensi']),
             "## Perintah\n\n- Jalankan: `{$c['perintah']['jalan']}`\n- Uji: `{$c['perintah']['uji']}`",
@@ -483,7 +552,7 @@ final class Documents
             [$projectId]
         )->fetchAll(PDO::FETCH_GROUP);
         $tasks = Database::run(
-            'SELECT t.feature_id, t.title, t.status, t.priority, t.phase, t.milestone, s.nama AS sub_nama
+            'SELECT t.feature_id, t.title, t.status, t.priority, t.phase, t.milestone, t.koordinasi, s.nama AS sub_nama
              FROM tasks t LEFT JOIN sub_features s ON s.id = t.sub_feature_id
              WHERE t.project_id = ? ORDER BY t.sort_order, t.id',
             [$projectId]
@@ -557,7 +626,8 @@ final class Documents
         $status = ['belum_mulai' => '', 'dikerjakan' => 'sedang dikerjakan', 'selesai' => '', 'gagal' => 'gagal'][$t['status']];
         $meta = array_filter([$withSub ? $t['sub_nama'] : null, ucfirst($t['priority']), $status]);
         $prefix = !empty($t['milestone']) ? "[{$t['milestone']}] " : '';
-        return '- [' . ($t['status'] === 'selesai' ? 'x' : ' ') . "] $prefix{$t['title']}" . ($meta ? ' _(' . implode(' · ', $meta) . ')_' : '');
+        $ref = !empty($t['koordinasi']) ? " → Task {$t['koordinasi']}" : '';
+        return '- [' . ($t['status'] === 'selesai' ? 'x' : ' ') . "] $prefix{$t['title']}$ref" . ($meta ? ' _(' . implode(' · ', $meta) . ')_' : '');
     }
 
     /**

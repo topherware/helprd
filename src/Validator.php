@@ -312,6 +312,9 @@ final class Validator
                     'aturan' => self::clip($c['aturan'] ?? '', 400),
                     'ref' => self::strings($c['ref'] ?? null, 6, 20),
                 ], self::objects($r['catatan_diterapkan'] ?? null, 30, 'aturan')),
+                // v1.2.1: usulan AI yang belum dijadwalkan (P2) dan NFR SEO/performa halaman publik (P6).
+                'usulan_tambahan' => self::rows($r['usulan_tambahan'] ?? null, 3, ['fitur' => 100, 'alasan' => 300]),
+                'seo' => self::strings($r['seo'] ?? null, 8, 300),
             ],
             'fitur' => array_map(fn ($f) => [
                 'deskripsi' => self::clip(self::arr($f, true)['deskripsi'] ?? '', 400),
@@ -329,6 +332,7 @@ final class Validator
                 'stack' => self::clip(self::arr($data['keputusan_teknologi'] ?? null, true)['stack'] ?? '', 200),
                 'alasan' => self::clip(self::arr($data['keputusan_teknologi'] ?? null, true)['alasan'] ?? '', 500),
             ],
+            'kedalaman' => self::kedalaman($data['kedalaman'] ?? null),
             'keamanan' => self::keamanan($data['keamanan'] ?? null),
             'design' => self::design($data['design'] ?? null),
             'rute' => self::rute($data['rute'] ?? null),
@@ -357,6 +361,7 @@ final class Validator
             'database' => !$prd['database']['tabel'],
             'tech_stack' => !$prd['tech_stack'],
             'keputusan_teknologi' => $prd['keputusan_teknologi']['stack'] === '',
+            'kedalaman' => !$prd['kedalaman']['versi'],
             'keamanan' => !$prd['keamanan']['persyaratan'],
             'design' => !$prd['design']['warna']['terang'],
             'rute' => !$prd['rute']['rute'],
@@ -391,6 +396,22 @@ final class Validator
                 'tamu' => self::clip($rules['tamu'] ?? '', 600),
             ],
             'kebijakan_akses' => self::rows($db['kebijakan_akses'] ?? null, 20, ['tabel' => 60, 'aturan' => 500]),
+            // v1.2.1 (P1, P7)
+            'invarian' => array_map(fn ($i) => [
+                'id' => self::clip($i['id'] ?? '', 10),
+                'jenis' => self::clip($i['jenis'] ?? '', 20),
+                'aturan' => self::clip($i['aturan'] ?? '', 400),
+                'mekanisme' => self::clip($i['mekanisme'] ?? '', 800),
+                'konkurensi' => self::clip($i['konkurensi'] ?? '', 500),
+                'uji' => self::clip($i['uji'] ?? '', 500),
+            ], self::objects($db['invarian'] ?? null, 10, 'aturan')),
+            'migrasi_kustom' => trim(preg_replace('/^```\w*|```$/m', '', is_string($db['migrasi_kustom'] ?? null) ? mb_substr($db['migrasi_kustom'], 0, 8000) : '')),
+            'pengaturan' => array_map(fn ($p) => [
+                'kunci' => self::clip($p['kunci'] ?? '', 60),
+                'nilai_bawaan' => self::clip(is_scalar($p['nilai_bawaan'] ?? null) ? (string) $p['nilai_bawaan'] : '', 500),
+                'lokasi' => self::clip($p['lokasi'] ?? '', 100),
+                'pengubah' => self::clip($p['pengubah'] ?? '', 60),
+            ], self::objects($db['pengaturan'] ?? null, 20, 'kunci')),
         ];
     }
 
@@ -510,7 +531,9 @@ final class Validator
                 'sapaan' => self::clip($c['sapaan'] ?? '', 200),
                 'istilah' => self::strings($c['istilah'] ?? null, 20, 200),
                 'microcopy' => [
+                    'judul_utama' => self::clip($m['judul_utama'] ?? '', 300), 'cta' => self::clip($m['cta'] ?? '', 200),
                     'kosong' => self::clip($m['kosong'] ?? '', 300), 'error' => self::clip($m['error'] ?? '', 300),
+                    'penuh' => self::clip($m['penuh'] ?? '', 300),
                     'sukses' => self::clip($m['sukses'] ?? '', 300), 'konfirmasi' => self::clip($m['konfirmasi'] ?? '', 300),
                 ],
             ],
@@ -553,6 +576,18 @@ final class Validator
                 'cakupan' => self::strings($x['cakupan'] ?? null, 20, 100),
                 'checkpoint' => self::clip($x['checkpoint'] ?? '', 600),
             ], self::objects($m['daftar'] ?? null, 6, 'id')),
+            // v1.2.1 (P4): Rencana Pengerjaan Terkoordinasi "Task M<n>.<k>".
+            'rencana' => array_map(fn ($x) => [
+                'id' => strtoupper(trim(str_ireplace('Task', '', self::clip($x['id'] ?? '', 12)))),
+                'judul' => self::clip($x['judul'] ?? '', 150),
+                'berkas' => self::strings($x['berkas'] ?? null, 12, 160),
+                'perilaku' => self::clip($x['perilaku'] ?? '', 800),
+                'dataset' => self::strings($x['dataset'] ?? null, 8, 60),
+                'sec' => self::secIds($x['sec'] ?? null),
+                'fr' => self::strings($x['fr'] ?? null, 12, 12),
+                'tabel' => self::strings($x['tabel'] ?? null, 12, 60),
+                'selesai_bila' => self::clip($x['selesai_bila'] ?? '', 400),
+            ], self::objects($m['rencana'] ?? null, 40, 'id')),
             'aturan_checkpoint' => self::clip($m['aturan_checkpoint'] ?? '', 800),
             'master_prompt' => is_string($m['master_prompt'] ?? null) ? mb_substr(trim($m['master_prompt']), 0, 8000) : '',
             'claude_md' => [
@@ -560,6 +595,27 @@ final class Validator
                 'konvensi' => self::strings($c['konvensi'] ?? null, 15, 300),
                 'perintah' => ['jalan' => self::clip($cmd['jalan'] ?? '', 200), 'uji' => self::clip($cmd['uji'] ?? '', 200)],
             ],
+        ];
+    }
+
+    /** Bab 7 kedalaman teknis stack (P5). */
+    private static function kedalaman($value): array
+    {
+        $k = self::arr($value, true);
+        $j = self::arr($k['penjadwal'] ?? null, true);
+        return [
+            'versi' => self::strings($k['versi'] ?? null, 16, 80),
+            'auth' => self::clip($k['auth'] ?? '', 400),
+            'orm_migrasi' => self::clip($k['orm_migrasi'] ?? '', 400),
+            'validasi' => self::clip($k['validasi'] ?? '', 300),
+            'zona_waktu' => self::clip($k['zona_waktu'] ?? '', 400),
+            'penjadwal' => [
+                'berkas' => self::clip($j['berkas'] ?? '', 120), 'endpoint' => self::clip($j['endpoint'] ?? '', 160),
+                'interval' => self::clip($j['interval'] ?? '', 60), 'rahasia' => self::clip($j['rahasia'] ?? '', 200),
+                'idempotensi' => self::clip($j['idempotensi'] ?? '', 400),
+            ],
+            'uji' => self::clip($k['uji'] ?? '', 300),
+            'deployment' => self::clip($k['deployment'] ?? '', 300),
         ];
     }
 
@@ -613,6 +669,7 @@ final class Validator
                     'milestone' => $uiOnly ? 'M1' : (in_array($milestone, ['M1', 'M2', 'M3'], true) ? $milestone : 'M2'),
                     'sub_feature_id' => $subIds[$key($t['sub_fitur'] ?? '')] ?? null,
                     'priority' => in_array($t['prioritas'] ?? '', $priorities, true) ? $t['prioritas'] : 'penting',
+                    'koordinasi' => preg_match('/^M[0-4]\.\d{1,2}$/', strtoupper(trim(str_ireplace('Task', '', (string) ($t['koordinasi'] ?? ''))))) ? strtoupper(trim(str_ireplace('Task', '', (string) $t['koordinasi']))) : null,
                 ];
             }
             // Urut M1 → M2 → M3, urutan asli dipertahankan di dalam milestone yang sama.
