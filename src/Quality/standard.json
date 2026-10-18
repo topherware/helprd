@@ -1,0 +1,213 @@
+{
+  "versi": "1.2",
+  "nama": "Standar Kualitas PlanKu",
+  "bobot": {
+    "konsistensi": 15,
+    "keterukuran": 12,
+    "kejujuran": 12,
+    "keamanan": 10,
+    "kecocokan_stack": 8,
+    "keterlacakan": 8,
+    "struktur": 5,
+    "keterbacaan": 5,
+    "kesiapan_bangun": 25
+  },
+  "dinilai_otomatis": [
+    "konsistensi",
+    "keterukuran",
+    "kejujuran",
+    "keamanan",
+    "kecocokan_stack",
+    "keterlacakan",
+    "struktur",
+    "kesiapan_bangun"
+  ],
+  "lulus": {
+    "skor_minimal": 85,
+    "keamanan_minimal": 80,
+    "kesiapan_bangun_minimal": 80,
+    "tanpa_temuan_kritis": true
+  },
+  "penalti": {
+    "K": 25,
+    "M": 10,
+    "m": 3
+  },
+  "validator_keamanan": {
+    "SecBagianLengkap": "M",
+    "SecPemicuTerpenuhi": "K",
+    "SecMatriksAkses": "M",
+    "SecKeterlacakan": "K",
+    "SecRahasia": "M",
+    "SecDataSensitifTerlindungi": "K",
+    "SecOwasp": "M",
+    "SecLogBersih": "M"
+  },
+  "kesiapan_bangun": [
+    "V12DesignToken",
+    "V13PetaRute",
+    "V14DataDummy",
+    "V15SkemaKode",
+    "V16LayananPihakKetiga",
+    "V17BebanKeamanan",
+    "V18UrutanMilestone",
+    "V19BatasTugas"
+  ],
+  "kekurangan": [
+    {
+      "no": 1,
+      "judul": "Design system konkret",
+      "validator": "V12"
+    },
+    {
+      "no": 2,
+      "judul": "Peta rute & layout per peran",
+      "validator": "V13"
+    },
+    {
+      "no": 3,
+      "judul": "Data dummy & copywriting",
+      "validator": "V14"
+    },
+    {
+      "no": 4,
+      "judul": "Skema database kode siap pakai (snapshot, audit, tamu)",
+      "validator": "V15"
+    },
+    {
+      "no": 5,
+      "judul": "Layanan pihak ketiga & .env.example",
+      "validator": "V16"
+    },
+    {
+      "no": 6,
+      "judul": "Keamanan realistis untuk MVP",
+      "validator": "V17"
+    },
+    {
+      "no": 7,
+      "judul": "Milestone, checkpoint, CLAUDE.md & PROGRESS.md",
+      "validator": "V18"
+    }
+  ],
+  "kelompok_sec": [
+    "Autentikasi & Sesi",
+    "Otorisasi",
+    "Validasi Input & Output",
+    "Unggah File",
+    "Rahasia & Konfigurasi",
+    "Transport & Header",
+    "Pembatasan Laju & Anti-Penyalahgunaan",
+    "Logging & Audit",
+    "Backup & Pemulihan",
+    "Privasi",
+    "Pihak Ketiga & Dependensi",
+    "Fitur AI"
+  ],
+  "owasp": {
+    "edisi": "OWASP Top 10:2025",
+    "catatan": "Acuan awal edisi 2021; dipakai edisi terbaru yang berlaku. Ganti daftar ini bila terbit edisi baru.",
+    "kategori": [
+      {
+        "kode": "A01:2025",
+        "nama": "Broken Access Control",
+        "kontrol": [
+          "admin.otorisasi_server",
+          "multi.akses_baris",
+          "unggah.akses_privat",
+          "dasar.otorisasi"
+        ]
+      },
+      {
+        "kode": "A02:2025",
+        "nama": "Security Misconfiguration",
+        "kontrol": [
+          "dasar.header",
+          "dasar.rahasia"
+        ]
+      },
+      {
+        "kode": "A03:2025",
+        "nama": "Software Supply Chain Failures",
+        "kontrol": [
+          "dasar.dependensi"
+        ]
+      },
+      {
+        "kode": "A04:2025",
+        "nama": "Cryptographic Failures",
+        "kontrol": [
+          "dasar.https",
+          "akun.sandi",
+          "bayar.tokenisasi"
+        ]
+      },
+      {
+        "kode": "A05:2025",
+        "nama": "Injection",
+        "kontrol": [
+          "dasar.validasi",
+          "publik.sanitasi",
+          "ai.injeksi_prompt"
+        ]
+      },
+      {
+        "kode": "A06:2025",
+        "nama": "Insecure Design",
+        "kontrol": [
+          "dasar.otorisasi",
+          "ai.keluaran_tidak_dipercaya",
+          "bayar.idempoten"
+        ]
+      },
+      {
+        "kode": "A07:2025",
+        "nama": "Authentication Failures",
+        "kontrol": [
+          "akun.sandi",
+          "akun.batas_percobaan",
+          "akun.sesi",
+          "akun.pemulihan"
+        ]
+      },
+      {
+        "kode": "A08:2025",
+        "nama": "Software or Data Integrity Failures",
+        "kontrol": [
+          "bayar.webhook_tanda_tangan",
+          "unggah.verifikasi_isi",
+          "dasar.dependensi"
+        ]
+      },
+      {
+        "kode": "A09:2025",
+        "nama": "Security Logging and Alerting Failures",
+        "kontrol": [
+          "dasar.log_bersih",
+          "admin.log_audit"
+        ]
+      },
+      {
+        "kode": "A10:2025",
+        "nama": "Mishandling of Exceptional Conditions",
+        "kontrol": [
+          "api.error_aman",
+          "dasar.validasi"
+        ]
+      }
+    ]
+  },
+  "kata_klaim_berlebih": [
+    "aman 100%",
+    "100% aman",
+    "terjamin aman",
+    "dijamin aman",
+    "pasti aman",
+    "anti-hack",
+    "anti hack",
+    "tidak bisa diretas",
+    "tidak dapat diretas",
+    "tidak bisa dibobol",
+    "kebal peretasan"
+  ]
+}

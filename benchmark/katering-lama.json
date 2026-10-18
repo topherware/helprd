@@ -1,0 +1,3406 @@
+{
+    "catatan": "Diekspor dari project #9 pada 2026-10-18 20:58",
+    "brief": {
+        "judul": "Katering Sekolah Online",
+        "ide": "Website untuk usaha katering makan siang anak sekolah. Orang tua murid bisa melihat menu minggu ini, membandingkan paket dan harga, melihat foto masakan, lalu memesan lewat WhatsApp. Pemilik katering yang tidak paham teknis bisa mengganti menu, foto, dan harga sendiri. Orang tua juga bisa membuat akun untuk menyimpan data anak beserta alergi, melihat riwayat pesanan, dan menerima pengingat saat ada menu baru. Target awal: satu kecamatan, sekitar 10 sekolah dasar.",
+        "qa": [
+            {
+                "teks": "Coba ceritakan siapa saja yang paling butuh website ini dan bagaimana mereka mengatasinya sekarang. Misalnya: 'Ibu pekerja yang anaknya di SD, sekarang harus nanya menu lewat chat ke admin katering tiap pagi' atau 'Pemilik katering yang tiap minggu kirim foto menu ke 8 grup WhatsApp sekolah satu-satu'. Semakin detail ceritanya, semakin pas fitur yang kami susun.",
+                "jawaban": "Orang tua murid SD yang sibuk, membuka dari HP. Sekarang menu dan harga tersebar di chat WhatsApp dan Instagram, dan admin harus menjawab pertanyaan yang sama berulang kali."
+            },
+            {
+                "teks": "Saat orang tua pertama kali membuka website ini, apa yang paling ingin mereka lakukan?",
+                "jawaban": "Lihat menu minggu ini"
+            },
+            {
+                "teks": "Dari semua fitur, mana yang paling wajib ada di versi pertama?",
+                "jawaban": "Menu mingguan dengan foto, Tombol pesan ke WhatsApp, Daftar paket dan harga"
+            },
+            {
+                "teks": "Dibanding cara lama (chat grup atau tanya admin), keunggulan apa yang paling ingin kamu tonjolkan?",
+                "jawaban": "Informasi selalu terbaru dan lengkap dalam satu halaman"
+            },
+            {
+                "teks": "Menurut kamu, apa yang paling bikin orang tua kembali buka website ini tiap minggu?",
+                "jawaban": "Menu berganti tiap minggu dan ada riwayat pesanan"
+            }
+        ],
+        "features": [
+            {
+                "id": 67,
+                "nama": "Menu Minggu Ini",
+                "fase": 1,
+                "ikon": "kalender",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Menu per hari Senin-Jumat",
+                    "Foto masakan asli",
+                    "Catatan bahan utama",
+                    "Tanda menu habis"
+                ]
+            },
+            {
+                "id": 68,
+                "nama": "Paket & Harga",
+                "fase": 1,
+                "ikon": "uang",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Bandingkan paket berdampingan",
+                    "Harga harian & bulanan",
+                    "Isi tiap paket",
+                    "Pilihan porsi anak"
+                ]
+            },
+            {
+                "id": 69,
+                "nama": "Pesan via WhatsApp",
+                "fase": 1,
+                "ikon": "chat",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Tombol pesan sekali klik",
+                    "Pesan otomatis terisi",
+                    "Pilih paket sebelum kirim",
+                    "Nomor admin per wilayah"
+                ]
+            },
+            {
+                "id": 70,
+                "nama": "Tampilan Ramah HP",
+                "fase": 1,
+                "ikon": "rumah",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Buka cepat di sinyal lemah",
+                    "Menu langsung di halaman awal",
+                    "Info kontak & jam pesan",
+                    "Bisa dibagikan ke grup"
+                ]
+            },
+            {
+                "id": 71,
+                "nama": "Kelola Menu Sendiri",
+                "fase": 1,
+                "ikon": "pengaturan",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Ganti menu tiap minggu",
+                    "Unggah foto dari HP",
+                    "Ubah harga & paket",
+                    "Login aman pemilik"
+                ]
+            },
+            {
+                "id": 72,
+                "nama": "Akun Orang Tua",
+                "fase": 2,
+                "ikon": "pengguna",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Daftar pakai nomor HP",
+                    "Simpan data anak",
+                    "Catatan alergi anak",
+                    "Alamat & sekolah anak"
+                ]
+            },
+            {
+                "id": 73,
+                "nama": "Riwayat Pesanan",
+                "fase": 2,
+                "ikon": "dokumen",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Daftar pesanan lalu",
+                    "Pesan ulang cepat",
+                    "Status bayar sederhana",
+                    "Rekap per bulan"
+                ]
+            },
+            {
+                "id": 74,
+                "nama": "Pengingat Menu Baru",
+                "fase": 3,
+                "ikon": "notifikasi",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Notifikasi menu mingguan",
+                    "Pengingat batas pesan",
+                    "Info libur katering",
+                    "Atur mau\/tidak diingatkan"
+                ]
+            },
+            {
+                "id": 75,
+                "nama": "Galeri & Testimoni",
+                "fase": 3,
+                "ikon": "gambar",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Album foto masakan",
+                    "Ulasan orang tua",
+                    "Foto dapur & higienitas",
+                    "Sertifikat\/izin usaha"
+                ]
+            },
+            {
+                "id": 76,
+                "nama": "Laporan Penjualan",
+                "fase": 4,
+                "ikon": "grafik",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Pesanan per sekolah",
+                    "Menu paling diminati",
+                    "Perkiraan porsi harian",
+                    "Unduh rekap Excel"
+                ]
+            }
+        ],
+        "design_style": "bebas",
+        "design_custom": "",
+        "stack_choice": "bebas",
+        "stack_custom": "",
+        "ui_only": false,
+        "ai_workflow": "fase",
+        "extra_notes": ""
+    },
+    "prd": {
+        "overview": {
+            "deskripsi": "Katering Sekolah Online adalah website ramah HP untuk usaha katering makan siang anak SD, tempat orang tua melihat menu minggu ini, membandingkan paket dan harga, lalu memesan lewat WhatsApp dalam satu klik. Pemilik katering bisa mengganti menu, foto, dan harga sendiri lewat form sederhana, tanpa bantuan teknisi.",
+            "masalah": "Bu Rina bekerja kantoran dan anaknya kelas 2 SD. Tiap pagi ia harus scroll chat grup sekolah dan Instagram katering untuk mencari menu hari ini, dan sering kali informasinya sudah tertimbun pesan lain atau fotonya menu minggu lalu. Kalau tidak yakin, ia chat admin katering untuk tanya harga paket dan apakah menunya mengandung bahan yang bikin anaknya alergi, lalu menunggu balasan sambil bersiap ke kantor. Di sisi admin, pertanyaan yang sama datang berulang kali dari banyak orang tua setiap minggu.",
+            "tujuan": [
+                "Menjadikan satu halaman sebagai sumber informasi menu, paket, dan harga yang selalu terbaru, sehingga orang tua tidak perlu bertanya lagi ke admin.",
+                "Membuat orang tua bisa dari buka website sampai kirim pesanan di WhatsApp tanpa mengisi formulir panjang dan tanpa harus punya akun.",
+                "Memberi pemilik katering kendali penuh untuk mengganti menu, foto, dan harga sendiri setiap minggu dari HP.",
+                "Mengurangi pertanyaan berulang yang masuk ke admin, terutama soal menu, harga, dan isi paket.",
+                "Membuat orang tua punya alasan untuk kembali setiap minggu lewat menu yang berganti dan riwayat pesanan yang tersimpan."
+            ],
+            "prinsip": [
+                "Menu minggu ini harus terlihat lebih dulu. Tidak ada login, popup, atau halaman perantara sebelum orang tua melihat menu.",
+                "Pemesanan tetap berakhir di WhatsApp, karena itu kebiasaan yang sudah berjalan. Website mempercepat jalannya, bukan menggantinya.",
+                "Pemilik katering harus bisa memperbarui semua isi website sendiri. Kalau sebuah perubahan butuh teknisi, berarti rancangannya salah.",
+                "Foto masakan harus foto asli masakan yang dijual, bukan foto stok, karena itu dasar kepercayaan orang tua.",
+                "Data anak dan catatan alergi hanya boleh dilihat oleh orang tua pemilik data dan admin katering, dan dikumpulkan sesedikit mungkin sesuai kebutuhan pesanan."
+            ],
+            "sukses": "Produk dianggap berhasil kalau orang tua di satu kecamatan sasaran membuka website lebih dulu dibanding bertanya ke admin: menu minggu ini selalu terisi sebelum minggu berjalan, mayoritas pesanan masuk lewat tombol WhatsApp dengan pesan yang sudah terisi otomatis (bukan chat kosong 'menu hari ini apa?'), pemilik katering mengganti menu sendiri tanpa bantuan teknisi selama beberapa minggu berturut-turut, dan tautan website ikut dibagikan di grup WhatsApp sekolah sebagai gantinya broadcast foto menu satu per satu."
+        },
+        "requirements": {
+            "fungsional": [
+                "Halaman awal langsung menampilkan Menu Minggu Ini tanpa login dan tanpa klik tambahan.",
+                "Menu ditampilkan terpisah untuk hari Senin sampai Jumat, dan setiap hari memuat nama masakan, foto masakan, serta catatan bahan utama.",
+                "Hari yang sedang berjalan ditandai jelas, dan orang tua bisa melihat seluruh menu minggu itu dalam satu halaman tanpa pindah halaman.",
+                "Menu yang sudah habis bisa ditandai 'habis' oleh pemilik, dan tanda itu langsung terlihat oleh orang tua beserta keterangan bahwa menu tersebut tidak bisa dipesan.",
+                "Halaman Paket & Harga menampilkan paket-paket berdampingan sehingga bisa dibandingkan di layar HP, lengkap dengan isi tiap paket, harga harian, dan harga bulanan.",
+                "Setiap paket punya pilihan porsi anak, dan pilihan porsi yang dipilih orang tua ikut terbawa ke pesan WhatsApp.",
+                "Tombol Pesan via WhatsApp membuka aplikasi WhatsApp dengan pesan yang sudah terisi otomatis berisi nama paket, porsi, periode pesanan, dan sekolah yang dipilih.",
+                "Tombol kirim hanya aktif setelah orang tua memilih paket, agar tidak ada pesanan masuk tanpa keterangan paket.",
+                "Nomor admin WhatsApp bisa diatur per wilayah atau sekolah, dan sistem mengarahkan pesan ke nomor yang sesuai dengan sekolah yang dipilih orang tua.",
+                "Informasi kontak, jam pesan, dan batas waktu pemesanan terlihat di halaman utama tanpa perlu dicari.",
+                "Setiap halaman menu dan paket punya tautan yang bisa dibagikan ke grup WhatsApp, dengan pratinjau berisi judul dan foto masakan.",
+                "Pemilik katering masuk ke panel admin lewat halaman login terpisah dari halaman orang tua.",
+                "Di panel admin, pemilik bisa mengganti menu satu minggu penuh, mengunggah foto langsung dari galeri HP, mengubah harga dan isi paket, serta menandai menu habis, semuanya lewat form sederhana tanpa menyentuh kode.",
+                "Perubahan yang disimpan di panel admin langsung tampil di website tanpa proses teknis tambahan, dan pemilik bisa melihat pratinjau sebelum menyimpan.",
+                "Pemilik bisa menyiapkan menu minggu berikutnya lebih dulu dan menentukan kapan menu itu mulai tampil.",
+                "Orang tua bisa mendaftar dan masuk menggunakan nomor HP (Fase 2).",
+                "Orang tua bisa menyimpan data anak berisi nama anak, sekolah, alamat, dan catatan alergi; catatan alergi ikut terbawa otomatis ke pesan WhatsApp saat memesan untuk anak tersebut (Fase 2).",
+                "Satu akun orang tua bisa menyimpan lebih dari satu anak, dan orang tua memilih anak mana yang dipesankan sebelum kirim pesan (Fase 2).",
+                "Riwayat pesanan menampilkan daftar pesanan sebelumnya, tombol pesan ulang yang mengisi otomatis pilihan paket dan porsi yang sama, status bayar sederhana yang diperbarui manual oleh admin, dan rekap per bulan (Fase 2).",
+                "Orang tua yang sudah punya akun bisa menerima pengingat menu mingguan baru, pengingat batas waktu pesan, dan info libur katering, serta bisa mematikan pengingat tersebut kapan saja (Fase 3)."
+            ],
+            "non_fungsional": [
+                "Halaman Menu Minggu Ini harus tetap terbaca di jaringan lambat; foto dikompres dan diubah ukurannya otomatis saat diunggah supaya halaman tidak berat, dan teks menu tampil lebih dulu sebelum foto selesai dimuat.",
+                "Rancangan mengutamakan HP: semua aksi utama (lihat menu, pilih paket, kirim WhatsApp) bisa diselesaikan satu tangan di layar HP kecil, dan tombol pesan selalu mudah dijangkau.",
+                "Halaman menu dan paket bisa ditemukan lewat pencarian Google: punya judul, deskripsi, dan tautan yang rapi untuk tiap halaman.",
+                "Panel admin bisa dipakai tanpa pelatihan teknis: semua istilah dalam Bahasa Indonesia sehari-hari, alur ganti menu satu minggu bisa diselesaikan dalam beberapa langkah, dan ada konfirmasi sebelum perubahan tersimpan.",
+                "Data anak dan catatan alergi diperlakukan sebagai data sensitif: akses dibatasi hanya ke akun orang tua pemilik data dan admin katering, dengan mitigasi berupa autentikasi, aturan akses di tingkat database, dan pengiriman data lewat HTTPS.",
+                "Akun orang tua dan akun pemilik katering dipisah; percobaan masuk yang gagal berulang dibatasi sebagai mitigasi penyalahgunaan.",
+                "Unggahan foto dibatasi jenis dan ukuran berkasnya sebagai mitigasi, dan foto disimpan di penyimpanan terkelola dengan tautan yang tidak mudah ditebak.",
+                "Kapasitas awal harus cukup untuk cakupan satu kecamatan dengan sekitar 10 sekolah dasar pada paket layanan awal, dan bisa ditingkatkan tanpa membangun ulang sistem.",
+                "Database dicadangkan secara rutin, dan menu minggu sebelumnya tetap tersimpan sehingga bisa dipulihkan atau dipakai ulang.",
+                "Jika panel admin sedang bermasalah, halaman menu yang sudah terbit tetap bisa dibuka orang tua.",
+                "Tampilan memenuhi dasar aksesibilitas: kontras teks cukup, ukuran huruf nyaman dibaca dan bisa diperbesar, serta setiap foto punya teks alternatif.",
+                "Persyaratan data: ada kebijakan privasi sederhana, orang tua memberi persetujuan sebelum data anak disimpan, dan tersedia cara meminta penghapusan data akun beserta data anaknya.",
+                "Pemesanan via WhatsApp tetap bisa dilakukan oleh orang tua yang tidak punya akun, sehingga akun bersifat tambahan dan bukan penghalang."
+            ],
+            "di_luar_cakupan": [
+                "Pembayaran online lewat payment gateway, dompet digital, atau tagihan otomatis. Pembayaran tetap diurus di luar website.",
+                "Konfirmasi pembayaran otomatis dari mutasi bank; status bayar diperbarui manual oleh admin.",
+                "Aplikasi Android atau iOS; versi ini hanya website yang nyaman dibuka dari browser HP.",
+                "Pelacakan pengiriman atau posisi kurir secara langsung.",
+                "Fitur chat di dalam website; semua percakapan tetap lewat WhatsApp.",
+                "Pencatatan stok dapur, belanja bahan, dan perhitungan harga pokok produksi.",
+                "Integrasi dengan sistem akuntansi, kasir, atau pelaporan pajak.",
+                "Blast WhatsApp massal otomatis ke seluruh orang tua; pengingat di Fase 3 hanya untuk orang tua yang punya akun dan menyetujuinya.",
+                "Pengelolaan banyak cabang atau banyak kecamatan dengan harga dan menu berbeda per cabang; versi ini fokus pada satu kecamatan.",
+                "Beberapa akun admin dengan tingkat hak akses berbeda; versi awal cukup satu akun pemilik."
+            ]
+        },
+        "fitur": [
+            {
+                "deskripsi": "Halaman utama yang langsung menunjukkan masakan apa saja yang disajikan minggu ini, supaya orang tua tidak perlu scroll chat grup atau bertanya ke admin.",
+                "sub_fitur": [
+                    "Menu ditampilkan terpisah untuk Senin sampai Jumat dalam satu halaman, dengan hari yang sedang berjalan ditandai jelas.",
+                    "Setiap hari menampilkan foto asli masakan yang benar-benar dijual, bukan foto stok, supaya orang tua tahu persis apa yang anaknya makan.",
+                    "Catatan bahan utama di tiap menu membantu orang tua mengira-ngira kecocokan dengan anaknya, termasuk soal alergi.",
+                    "Pemilik bisa menandai menu yang sudah habis dan tandanya langsung terlihat, lengkap dengan keterangan bahwa menu itu tidak bisa dipesan."
+                ]
+            },
+            {
+                "deskripsi": "Satu halaman untuk membandingkan semua paket katering beserta harganya, jadi orang tua bisa memutuskan sendiri tanpa menunggu balasan admin.",
+                "sub_fitur": [
+                    "Paket ditampilkan berdampingan dan tetap nyaman dibandingkan di layar HP kecil.",
+                    "Harga ditulis untuk hitungan harian dan bulanan, supaya orang tua bisa memilih sesuai kebiasaan bayarnya.",
+                    "Isi tiap paket dijabarkan terang-terangan, jadi tidak ada lagi pertanyaan 'dapat apa saja?'.",
+                    "Tiap paket punya pilihan porsi anak, dan pilihan itu ikut terbawa ke pesan WhatsApp."
+                ]
+            },
+            {
+                "deskripsi": "Jalur pemesanan yang tetap berakhir di WhatsApp seperti kebiasaan sekarang, tapi dengan pesan yang sudah rapi terisi otomatis.",
+                "sub_fitur": [
+                    "Satu klik langsung membuka WhatsApp admin, tanpa formulir panjang dan tanpa harus punya akun.",
+                    "Isi pesan sudah terisi otomatis berisi nama paket, porsi, periode pesanan, dan sekolah yang dipilih.",
+                    "Tombol kirim baru aktif setelah paket dipilih, supaya tidak ada chat masuk tanpa keterangan.",
+                    "Nomor admin bisa diatur per wilayah atau sekolah, dan pesan diarahkan ke nomor yang sesuai dengan sekolah anak."
+                ]
+            },
+            {
+                "deskripsi": "Website dirancang untuk dibuka sambil bersiap ke kantor: ringan, cepat, dan semua aksi penting bisa diselesaikan satu tangan.",
+                "sub_fitur": [
+                    "Teks menu tampil lebih dulu sebelum foto selesai dimuat, dan foto dikompres otomatis supaya halaman tetap terbuka di sinyal lemah.",
+                    "Menu minggu ini ada di halaman awal, tanpa login, popup, atau halaman perantara.",
+                    "Nomor kontak, jam pesan, dan batas waktu pemesanan terlihat tanpa perlu dicari.",
+                    "Tautan halaman menu dan paket bisa dibagikan ke grup WhatsApp dengan pratinjau berisi judul dan foto masakan."
+                ]
+            },
+            {
+                "deskripsi": "Panel sederhana yang membuat pemilik katering bisa memperbarui isi website sendiri dari HP, tanpa memanggil teknisi.",
+                "sub_fitur": [
+                    "Menu satu minggu penuh bisa diganti lewat form berbahasa sehari-hari, dan menu minggu berikutnya bisa disiapkan lebih dulu beserta waktu tayangnya.",
+                    "Foto masakan bisa diunggah langsung dari galeri HP dengan batasan jenis dan ukuran berkas sebagai mitigasi.",
+                    "Harga, isi paket, dan tanda menu habis bisa diubah sendiri, dengan pratinjau dan konfirmasi sebelum tersimpan.",
+                    "Pemilik masuk lewat halaman login terpisah dari halaman orang tua, dengan mitigasi berupa autentikasi, aturan akses di tingkat database, dan pembatasan percobaan masuk yang gagal berulang."
+                ]
+            },
+            {
+                "deskripsi": "Akun opsional yang membuat orang tua tidak perlu mengetik ulang data anak setiap kali memesan.",
+                "sub_fitur": [
+                    "Pendaftaran dan masuk cukup memakai nomor HP, dan akun tetap bersifat tambahan karena memesan tanpa akun tetap bisa dilakukan.",
+                    "Satu akun bisa menyimpan lebih dari satu anak, dan orang tua memilih anak mana yang dipesankan sebelum kirim pesan.",
+                    "Catatan alergi anak tersimpan dan ikut terbawa otomatis ke pesan WhatsApp, jadi tidak pernah lupa disebutkan.",
+                    "Alamat dan sekolah anak tersimpan sebagai data pesanan, dikumpulkan sesedikit mungkin dan hanya bisa dilihat orang tua pemilik data serta admin katering."
+                ]
+            },
+            {
+                "deskripsi": "Catatan pesanan yang sudah lewat, supaya orang tua bisa pesan ulang cepat dan punya pegangan rekap tiap bulan.",
+                "sub_fitur": [
+                    "Daftar pesanan sebelumnya ditampilkan lengkap dengan paket, porsi, dan periodenya.",
+                    "Tombol pesan ulang mengisi otomatis paket dan porsi yang sama, lalu langsung membuka WhatsApp.",
+                    "Status bayar ditampilkan sederhana dan diperbarui manual oleh admin, bukan dari sistem pembayaran otomatis.",
+                    "Rekap per bulan membantu orang tua melihat total pesanan dalam satu periode."
+                ]
+            },
+            {
+                "deskripsi": "Pengingat yang menarik orang tua kembali tiap minggu tanpa perlu admin broadcast satu per satu.",
+                "sub_fitur": [
+                    "Orang tua yang punya akun diberi tahu saat menu mingguan baru sudah terbit.",
+                    "Pengingat batas waktu pesan muncul sebelum jendela pemesanan tutup.",
+                    "Info libur katering diumumkan lebih dulu, jadi orang tua bisa menyiapkan bekal sendiri.",
+                    "Pengingat bisa dinyalakan atau dimatikan kapan saja oleh orang tua."
+                ]
+            },
+            {
+                "deskripsi": "Halaman pembangun kepercayaan untuk orang tua yang belum pernah pesan dan masih menimbang-nimbang.",
+                "sub_fitur": [
+                    "Album foto masakan dari minggu-minggu sebelumnya menunjukkan konsistensi sajian.",
+                    "Ulasan orang tua baru tampil setelah ditinjau dan disetujui pemilik katering.",
+                    "Foto dapur dan proses kebersihan memperlihatkan bagaimana makanan disiapkan.",
+                    "Dokumen sertifikat atau izin usaha diunggah pemilik dan bisa dilihat orang tua."
+                ]
+            },
+            {
+                "deskripsi": "Rekap angka pesanan yang membantu pemilik memutuskan menu dan menyiapkan porsi tanpa mencatat manual.",
+                "sub_fitur": [
+                    "Jumlah pesanan dipecah per sekolah supaya pemilik tahu wilayah mana yang paling ramai.",
+                    "Menu yang paling banyak dipesan terlihat jelas sebagai bahan pertimbangan menu minggu depan.",
+                    "Perkiraan porsi harian membantu pemilik menyiapkan masakan sesuai kebutuhan.",
+                    "Rekap bisa diunduh dalam format Excel untuk dipakai di luar website."
+                ]
+            }
+        ],
+        "user_flow": [
+            {
+                "judul": "Orang tua baru: dari buka website sampai pesanan masuk WhatsApp",
+                "fase": "1",
+                "langkah": "Orang tua membuka tautan dari grup WhatsApp sekolah di HP → halaman awal langsung menampilkan Menu Minggu Ini dengan hari ini ditandai → menggeser ke bawah melihat foto dan catatan bahan utama tiap hari → membuka halaman Paket & Harga dan membandingkan paket berdampingan → memilih paket, porsi anak, periode pesanan, dan sekolah → menekan tombol Pesan via WhatsApp → WhatsApp terbuka dengan pesan sudah terisi otomatis → orang tua menekan kirim dan admin membalas untuk konfirmasi serta pembayaran di luar website"
+            },
+            {
+                "judul": "Pemilik katering menyiapkan menu minggu depan dari HP",
+                "fase": "1",
+                "langkah": "Pemilik membuka halaman login admin dari HP → masuk dengan akun pemiliknya → memilih minggu yang mau diisi → mengetik nama masakan dan catatan bahan utama untuk Senin sampai Jumat → mengunggah foto masakan langsung dari galeri HP, foto otomatis dikecilkan → mengecek pratinjau tampilan seperti yang dilihat orang tua → menentukan kapan menu mulai tampil → menyimpan dengan konfirmasi → menu terbit di website dan tautannya dibagikan ke grup sekolah"
+            },
+            {
+                "judul": "Pemilik menandai menu habis di tengah hari",
+                "fase": "1",
+                "langkah": "Admin menerima pesanan melebihi kesiapan dapur → pemilik masuk ke panel admin → membuka hari yang bersangkutan → menandai menu tersebut 'habis' → menyimpan → tanda 'habis' langsung terlihat orang tua beserta keterangan menu itu tidak bisa dipesan → tombol pesan untuk menu tersebut tidak lagi mengarahkan pesanan baru"
+            },
+            {
+                "judul": "Orang tua membuat akun dan menyimpan data anak beserta alergi",
+                "fase": "2",
+                "langkah": "Orang tua yang sudah pernah pesan memilih Daftar → memasukkan nomor HP dan memverifikasinya → membaca kebijakan privasi sederhana dan memberi persetujuan sebelum data anak disimpan → menambahkan data anak: nama, sekolah, alamat, dan catatan alergi → menyimpan, dan bisa menambahkan anak kedua bila perlu → saat memesan berikutnya cukup memilih anak mana yang dipesankan → catatan alergi anak ikut terbawa otomatis ke pesan WhatsApp"
+            },
+            {
+                "judul": "Pesan ulang cepat dari riwayat pesanan",
+                "fase": "2",
+                "langkah": "Orang tua masuk ke akunnya → membuka Riwayat Pesanan dan melihat daftar pesanan bulan lalu beserta status bayar → menekan Pesan Ulang pada pesanan yang diinginkan → paket, porsi, dan data anak terisi otomatis → orang tua mengganti periode pesanan bila perlu → menekan kirim ke WhatsApp → admin mengonfirmasi dan memperbarui status bayar secara manual → rekap bulan berjalan ikut terbarui"
+            },
+            {
+                "judul": "Orang tua diingatkan saat menu baru terbit",
+                "fase": "2 → 3",
+                "langkah": "Pemilik menerbitkan menu minggu berikutnya dari panel admin → orang tua yang punya akun dan menyetujui pengingat menerima notifikasi menu mingguan baru → orang tua membuka tautan dan melihat menu minggu depan → menjelang jendela pesan tutup, pengingat batas pesan dikirim → orang tua memesan lewat tombol WhatsApp atau mematikan pengingat kapan saja dari pengaturan akunnya"
+            },
+            {
+                "judul": "Orang tua baru menimbang dulu lewat galeri dan testimoni",
+                "fase": "3",
+                "langkah": "Orang tua mendengar tentang katering dari tetangga lalu membuka website → melihat Menu Minggu Ini → membuka halaman Galeri & Testimoni → melihat album foto masakan, foto dapur dan proses kebersihan, serta dokumen izin usaha → membaca ulasan orang tua lain yang sudah disetujui pemilik → kembali ke Paket & Harga → memilih paket dan mengirim pesanan lewat WhatsApp"
+            },
+            {
+                "judul": "Pemilik mengecek laporan untuk menyiapkan porsi dan menu",
+                "fase": "4",
+                "langkah": "Pemilik masuk ke panel admin di akhir bulan → membuka Laporan Penjualan → melihat jumlah pesanan per sekolah dan menu yang paling banyak dipesan → melihat perkiraan porsi harian untuk minggu berjalan → mengunduh rekap dalam format Excel → memakai temuan itu saat menyusun menu dan harga minggu berikutnya di panel Kelola Menu Sendiri"
+            }
+        ],
+        "arsitektur": {
+            "ringkasan": "Semuanya berdiri di atas dua layanan saja: Next.js yang di-hosting di Vercel untuk tampilan (halaman orang tua dan panel admin ada di satu aplikasi, beda rute), dan Supabase sebagai gudang data, penyimpanan foto, serta pengelola akun. Halaman Menu Minggu Ini dirender di server lalu disimpan sebagai salinan cache, jadi pembukaan dari HP di sinyal lemah tetap ringan dan halaman yang sudah terbit tetap bisa dibuka meski panel admin sedang bermasalah. Pemesanan tidak diproses di server mana pun: website hanya menyusun tautan WhatsApp berisi pesan yang sudah terisi otomatis, lalu percakapan berlanjut di WhatsApp seperti kebiasaan sekarang. Fitur fase berikutnya (akun orang tua, riwayat, pengingat, laporan) menempel di pondasi yang sama tanpa menambah layanan baru yang rumit.",
+            "komponen": [
+                {
+                    "nama": "Website Orang Tua (Next.js di Vercel)",
+                    "deskripsi": "Halaman publik yang bisa dibuka tanpa login: Menu Minggu Ini, Paket & Harga, kontak dan jam pesan, lalu Galeri & Testimoni di fase 3. Dirender di server supaya teks menu tampil lebih dulu sebelum foto selesai dimuat, judul dan deskripsi tiap halaman disiapkan agar terbaca Google, dan tiap tautan punya pratinjau judul serta foto saat dibagikan ke grup WhatsApp."
+                },
+                {
+                    "nama": "Panel Admin (rute terlindungi di aplikasi yang sama)",
+                    "deskripsi": "Kumpulan form berbahasa sehari-hari untuk mengganti menu satu minggu penuh, mengunggah foto dari galeri HP, mengubah harga dan isi paket, menandai menu habis, serta memperbarui status bayar. Punya pratinjau sebelum menyimpan dan konfirmasi sebelum perubahan terbit. Alamatnya terpisah dari halaman orang tua dan hanya terbuka untuk akun berperan pemilik."
+                },
+                {
+                    "nama": "Supabase Auth",
+                    "deskripsi": "Mengurus akun pemilik katering sejak fase 1 dan akun orang tua berbasis nomor HP di fase 2. Kedua jenis akun dipisah lewat peran, dan pembatasan percobaan masuk yang gagal berulang dipakai sebagai mitigasi penyalahgunaan. Memesan tanpa akun tetap bisa dilakukan, jadi login bukan penghalang."
+                },
+                {
+                    "nama": "Supabase Postgres dengan aturan akses per baris",
+                    "deskripsi": "Tempat semua data tersimpan: menu mingguan, paket dan harga, sekolah dan nomor admin, data anak beserta catatan alergi, pesanan, ulasan, dan preferensi pengingat. Aturan akses di tingkat database jadi mitigasi utama supaya data anak hanya terbaca oleh akun orang tua pemiliknya dan akun pemilik katering, sedangkan menu dan paket yang sudah terbit boleh dibaca publik."
+                },
+                {
+                    "nama": "Supabase Storage untuk foto dan dokumen",
+                    "deskripsi": "Menyimpan foto masakan, foto dapur, dan dokumen izin usaha. Jenis serta ukuran berkas dibatasi saat unggah sebagai mitigasi, gambar dikecilkan dan dikompres otomatis supaya halaman tetap ringan, dan tautan berkas dibuat tidak mudah ditebak."
+                },
+                {
+                    "nama": "Penyusun tautan WhatsApp",
+                    "deskripsi": "Bagian kecil di sisi website yang merangkai pesan dari pilihan orang tua, yaitu nama paket, porsi, periode pesanan, sekolah, dan catatan alergi anak bila orang tua sudah punya akun, lalu mengarahkannya ke nomor admin yang cocok dengan sekolah atau wilayah tersebut. Tidak ada integrasi API WhatsApp dan tidak ada blast massal."
+                },
+                {
+                    "nama": "Lapisan penerbitan dan cache halaman",
+                    "deskripsi": "Menu yang disimpan di panel admin langsung memicu pembaruan salinan halaman publik, termasuk menu yang dijadwalkan tayang di waktu tertentu. Karena orang tua membaca salinan ini, halaman menu yang sudah terbit tetap terbuka walau panel admin sedang bermasalah."
+                },
+                {
+                    "nama": "Penjadwal pengingat (Fase 3)",
+                    "deskripsi": "Tugas terjadwal yang berjalan berkala, memeriksa menu baru yang terbit dan batas waktu pesan, lalu mengirim pengingat hanya ke orang tua yang punya akun dan menyalakan pengingat. Setiap pengiriman dicatat agar tidak terkirim ganda, dan orang tua bisa mematikannya kapan saja."
+                },
+                {
+                    "nama": "Modul laporan dan ekspor (Fase 4)",
+                    "deskripsi": "Kumpulan kueri rangkuman di atas tabel pesanan untuk menampilkan jumlah pesanan per sekolah, menu paling diminati, dan perkiraan porsi harian, plus tombol unduh rekap Excel. Hanya terbuka di panel admin."
+                },
+                {
+                    "nama": "Pencadangan dan pemantauan",
+                    "deskripsi": "Pencadangan database rutin dari Supabase, menu minggu sebelumnya diarsip bukan dihapus supaya bisa dipulihkan atau dipakai ulang, serta pencatatan error aplikasi agar gangguan cepat terlihat. Pengiriman data lewat HTTPS dan pembatasan akses adalah persyaratan dasar, bukan jaminan."
+                }
+            ],
+            "sequence_mermaid": "sequenceDiagram\n    actor Pemilik as Pemilik_Katering\n    actor Ortu as Orang_Tua\n    participant Web as Website_Next_js\n    participant Auth as Supabase_Auth\n    participant DB as Supabase_Postgres\n    participant Store as Supabase_Storage\n    participant WA as WhatsApp\n    Pemilik->>Web: Buka halaman login admin dari HP\n    Web->>Auth: Periksa akun dan peran pemilik\n    Auth-->>Web: Sesi admin aktif\n    Pemilik->>Web: Isi menu Senin sampai Jumat dan catatan bahan utama\n    Pemilik->>Web: Unggah foto masakan dari galeri HP\n    Web->>Store: Simpan foto setelah dikecilkan dan dibatasi jenis serta ukuran\n    Store-->>Web: Tautan foto\n    Web->>DB: Simpan menu mingguan sebagai draf\n    Pemilik->>Web: Cek pratinjau lalu tentukan waktu tayang dan terbitkan\n    Web->>DB: Tandai menu terbit beserta waktu tayang\n    Web->>Web: Perbarui salinan halaman publik\n    Ortu->>Web: Buka tautan dari grup WhatsApp sekolah\n    Web->>DB: Ambil menu minggu ini, paket, harga, dan info kontak\n    DB-->>Web: Data menu dan paket yang sudah terbit\n    Web-->>Ortu: Tampilkan Menu Minggu Ini, teks dulu lalu foto menyusul\n    Web->>Store: Minta foto masakan ukuran kecil\n    Store-->>Web: Foto masakan\n    Ortu->>Web: Bandingkan paket lalu pilih paket, porsi, periode, dan sekolah\n    Web->>DB: Ambil nomor admin sesuai sekolah atau wilayah\n    DB-->>Web: Nomor admin yang cocok\n    Web-->>Ortu: Aktifkan tombol Pesan via WhatsApp\n    Ortu->>Web: Tekan tombol Pesan via WhatsApp\n    Web->>DB: Catat pesanan untuk riwayat bila orang tua punya akun, Fase 2\n    Web-->>Ortu: Buka WhatsApp dengan pesan yang sudah terisi otomatis\n    Ortu->>WA: Tekan kirim\n    WA-->>Pemilik: Pesanan masuk ke WhatsApp admin\n    Pemilik->>WA: Konfirmasi pesanan dan pembayaran di luar website\n    Pemilik->>Web: Perbarui status bayar secara manual, Fase 2\n    Web->>DB: Simpan status bayar pada riwayat pesanan"
+        },
+        "database": {
+            "catatan": "Semua tabel memakai id uuid sebagai kunci utama dan kolom waktu bertipe timestamptz supaya rekap bulanan tidak kacau karena zona waktu. Harga disimpan sebagai angka rupiah utuh tanpa pecahan, dan tidak ada angka contoh yang ditetapkan di sini karena harga sepenuhnya diisi pemilik dari panel admin. Tabel fase 1 (wilayah, sekolah, paket, porsi_paket, menu_mingguan, menu_harian, media, pengaturan) dibuat lebih dulu; tabel akun, pesanan, pengingat, ulasan, dan laporan menyusul sesuai fasenya. Aturan akses per baris dipasang di setiap tabel sebagai mitigasi: data menu, paket, dan ulasan yang sudah ",
+            "tabel": [
+                {
+                    "nama": "profil_pengguna",
+                    "deskripsi": "Data tambahan untuk tiap akun yang terdaftar di Supabase Auth, baik pemilik katering maupun orang tua. Dipakai untuk membedakan hak akses.",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK, FK→auth.users"
+                        },
+                        {
+                            "nama": "peran",
+                            "tipe": "enum: pemilik, orang_tua"
+                        },
+                        {
+                            "nama": "nama",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "nomor_hp",
+                            "tipe": "text, unik"
+                        },
+                        {
+                            "nama": "disetujui_privasi_pada",
+                            "tipe": "timestamptz, boleh kosong"
+                        },
+                        {
+                            "nama": "permintaan_hapus_pada",
+                            "tipe": "timestamptz, boleh kosong"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz, default sekarang"
+                        }
+                    ]
+                },
+                {
+                    "nama": "wilayah",
+                    "deskripsi": "Pengelompokan sekolah per wilayah layanan, sekaligus tempat nomor admin WhatsApp bawaan untuk wilayah tersebut.",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "nama",
+                            "tipe": "text, unik"
+                        },
+                        {
+                            "nama": "nomor_admin_wa",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "aktif",
+                            "tipe": "boolean, default benar"
+                        }
+                    ]
+                },
+                {
+                    "nama": "sekolah",
+                    "deskripsi": "Daftar sekolah dasar yang dilayani. Bisa punya nomor admin sendiri yang menimpa nomor wilayah.",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "wilayah_id",
+                            "tipe": "uuid, FK→wilayah"
+                        },
+                        {
+                            "nama": "nama",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "alamat",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "nomor_admin_wa",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "aktif",
+                            "tipe": "boolean, default benar"
+                        }
+                    ]
+                },
+                {
+                    "nama": "paket",
+                    "deskripsi": "Paket katering yang dibandingkan orang tua di halaman Paket & Harga, beserta isi dan harganya.",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "nama",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "deskripsi_singkat",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "isi_paket",
+                            "tipe": "text[]"
+                        },
+                        {
+                            "nama": "harga_harian",
+                            "tipe": "numeric, rupiah"
+                        },
+                        {
+                            "nama": "harga_bulanan",
+                            "tipe": "numeric, rupiah"
+                        },
+                        {
+                            "nama": "urutan_tampil",
+                            "tipe": "integer"
+                        },
+                        {
+                            "nama": "aktif",
+                            "tipe": "boolean, default benar"
+                        },
+                        {
+                            "nama": "diubah_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "porsi_paket",
+                    "deskripsi": "Pilihan porsi anak untuk tiap paket. Pilihan yang dipilih orang tua ikut terbawa ke pesan WhatsApp.",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "paket_id",
+                            "tipe": "uuid, FK→paket"
+                        },
+                        {
+                            "nama": "nama_porsi",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "keterangan",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "selisih_harga_harian",
+                            "tipe": "numeric, rupiah, boleh kosong"
+                        },
+                        {
+                            "nama": "urutan_tampil",
+                            "tipe": "integer"
+                        },
+                        {
+                            "nama": "aktif",
+                            "tipe": "boolean, default benar"
+                        }
+                    ]
+                },
+                {
+                    "nama": "menu_mingguan",
+                    "deskripsi": "Satu baris mewakili satu minggu menu. Menyimpan status draf, terjadwal, terbit, atau arsip, sehingga pemilik bisa menyiapkan menu minggu depan lebih dulu.",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "tanggal_senin",
+                            "tipe": "date, unik"
+                        },
+                        {
+                            "nama": "status",
+                            "tipe": "enum: draf, terjadwal, terbit, arsip"
+                        },
+                        {
+                            "nama": "tayang_pada",
+                            "tipe": "timestamptz, boleh kosong"
+                        },
+                        {
+                            "nama": "catatan_libur",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "dibuat_oleh",
+                            "tipe": "uuid, FK→profil_pengguna"
+                        },
+                        {
+                            "nama": "diubah_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "menu_harian",
+                    "deskripsi": "Menu untuk satu hari dalam satu minggu, lengkap dengan nama masakan, catatan bahan utama, foto, dan tanda habis.",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "menu_mingguan_id",
+                            "tipe": "uuid, FK→menu_mingguan"
+                        },
+                        {
+                            "nama": "hari",
+                            "tipe": "enum: senin, selasa, rabu, kamis, jumat"
+                        },
+                        {
+                            "nama": "nama_masakan",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "catatan_bahan_utama",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "media_id",
+                            "tipe": "uuid, FK→media, boleh kosong"
+                        },
+                        {
+                            "nama": "ketersediaan",
+                            "tipe": "enum: tersedia, habis"
+                        },
+                        {
+                            "nama": "keterangan_habis",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "diubah_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "media",
+                    "deskripsi": "Catatan setiap berkas yang diunggah pemilik ke Supabase Storage: foto masakan, foto dapur, album galeri, dan dokumen izin usaha.",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "path_storage",
+                            "tipe": "text, unik"
+                        },
+                        {
+                            "nama": "jenis",
+                            "tipe": "enum: foto_menu, foto_dapur, album_galeri, dokumen_izin"
+                        },
+                        {
+                            "nama": "teks_alternatif",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "ukuran_byte",
+                            "tipe": "integer"
+                        },
+                        {
+                            "nama": "tipe_berkas",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "diunggah_oleh",
+                            "tipe": "uuid, FK→profil_pengguna"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz, default sekarang"
+                        }
+                    ]
+                },
+                {
+                    "nama": "pengaturan",
+                    "deskripsi": "Isi website yang sesekali diubah pemilik tanpa butuh tabel sendiri, misalnya nomor kontak utama, jam pesan, batas waktu pemesanan, dan teks pengumuman.",
+                    "kolom": [
+                        {
+                            "nama": "kunci",
+                            "tipe": "text, PK"
+                        },
+                        {
+                            "nama": "nilai",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "label_tampil",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "diubah_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "anak",
+                    "deskripsi": "Data anak yang disimpan orang tua di akunnya (Fase 2). Catatan alergi dari sini ikut terbawa otomatis ke pesan WhatsApp.",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "orang_tua_id",
+                            "tipe": "uuid, FK→profil_pengguna"
+                        },
+                        {
+                            "nama": "nama_anak",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "sekolah_id",
+                            "tipe": "uuid, FK→sekolah"
+                        },
+                        {
+                            "nama": "kelas",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "alamat_antar",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "catatan_alergi",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz, default sekarang"
+                        }
+                    ]
+                },
+                {
+                    "nama": "pesanan",
+                    "deskripsi": "Catatan pesanan yang dikirim lewat tombol WhatsApp oleh orang tua yang punya akun (Fase 2), dipakai untuk riwayat, pesan ulang, rekap bulanan, dan laporan fase 4.",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "orang_tua_id",
+                            "tipe": "uuid, FK→profil_pengguna"
+                        },
+                        {
+                            "nama": "anak_id",
+                            "tipe": "uuid, FK→anak, boleh kosong"
+                        },
+                        {
+                            "nama": "paket_id",
+                            "tipe": "uuid, FK→paket"
+                        },
+                        {
+                            "nama": "porsi_paket_id",
+                            "tipe": "uuid, FK→porsi_paket"
+                        },
+                        {
+                            "nama": "sekolah_id",
+                            "tipe": "uuid, FK→sekolah"
+                        },
+                        {
+                            "nama": "jenis_periode",
+                            "tipe": "enum: harian, bulanan"
+                        },
+                        {
+                            "nama": "tanggal_mulai",
+                            "tipe": "date"
+                        },
+                        {
+                            "nama": "tanggal_selesai",
+                            "tipe": "date"
+                        },
+                        {
+                            "nama": "status_pesanan",
+                            "tipe": "enum: menunggu_konfirmasi, dikonfirmasi, dibatalkan"
+                        },
+                        {
+                            "nama": "status_bayar",
+                            "tipe": "enum: belum_dibayar, sudah_dibayar"
+                        },
+                        {
+                            "nama": "status_bayar_diubah_oleh",
+                            "tipe": "uuid, FK→profil_pengguna, boleh kosong"
+                        },
+                        {
+                            "nama": "teks_pesan_wa",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "nomor_admin_tujuan",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz, default sekarang"
+                        }
+                    ]
+                },
+                {
+                    "nama": "preferensi_pengingat",
+                    "deskripsi": "Satu baris per akun orang tua yang menentukan pengingat apa saja yang mau diterima (Fase 3), dan bisa dimatikan kapan saja.",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "orang_tua_id",
+                            "tipe": "uuid, FK→profil_pengguna, unik"
+                        },
+                        {
+                            "nama": "menu_baru",
+                            "tipe": "boolean, default benar"
+                        },
+                        {
+                            "nama": "batas_pesan",
+                            "tipe": "boolean, default benar"
+                        },
+                        {
+                            "nama": "info_libur",
+                            "tipe": "boolean, default benar"
+                        },
+                        {
+                            "nama": "diubah_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "log_pengingat",
+                    "deskripsi": "Catatan pengingat yang sudah dikirim supaya tidak terkirim dua kali dan gangguan pengiriman bisa ditelusuri (Fase 3).",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "orang_tua_id",
+                            "tipe": "uuid, FK→profil_pengguna"
+                        },
+                        {
+                            "nama": "menu_mingguan_id",
+                            "tipe": "uuid, FK→menu_mingguan, boleh kosong"
+                        },
+                        {
+                            "nama": "jenis",
+                            "tipe": "enum: menu_baru, batas_pesan, info_libur"
+                        },
+                        {
+                            "nama": "status",
+                            "tipe": "enum: terkirim, gagal"
+                        },
+                        {
+                            "nama": "dikirim_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "ulasan",
+                    "deskripsi": "Ulasan orang tua yang baru tampil di halaman Galeri & Testimoni setelah ditinjau dan disetujui pemilik (Fase 3).",
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "orang_tua_id",
+                            "tipe": "uuid, FK→profil_pengguna, boleh kosong"
+                        },
+                        {
+                            "nama": "nama_tampil",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "sekolah_id",
+                            "tipe": "uuid, FK→sekolah, boleh kosong"
+                        },
+                        {
+                            "nama": "isi",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "status",
+                            "tipe": "enum: menunggu_tinjauan, disetujui, ditolak"
+                        },
+                        {
+                            "nama": "ditinjau_oleh",
+                            "tipe": "uuid, FK→profil_pengguna, boleh kosong"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz, default sekarang"
+                        }
+                    ]
+                }
+            ],
+            "relasi": [
+                {
+                    "dari": "wilayah",
+                    "ke": "sekolah",
+                    "jenis": "satu-ke-banyak",
+                    "label": "menaungi, dan jadi nomor admin bawaan"
+                },
+                {
+                    "dari": "profil_pengguna",
+                    "ke": "anak",
+                    "jenis": "satu-ke-banyak",
+                    "label": "menyimpan data anak"
+                },
+                {
+                    "dari": "sekolah",
+                    "ke": "anak",
+                    "jenis": "satu-ke-banyak",
+                    "label": "tempat anak bersekolah"
+                },
+                {
+                    "dari": "menu_mingguan",
+                    "ke": "menu_harian",
+                    "jenis": "satu-ke-banyak",
+                    "label": "berisi menu Senin sampai Jumat"
+                },
+                {
+                    "dari": "media",
+                    "ke": "menu_harian",
+                    "jenis": "satu-ke-banyak",
+                    "label": "dipakai sebagai foto masakan"
+                },
+                {
+                    "dari": "profil_pengguna",
+                    "ke": "media",
+                    "jenis": "satu-ke-banyak",
+                    "label": "mengunggah"
+                },
+                {
+                    "dari": "profil_pengguna",
+                    "ke": "menu_mingguan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "menyusun dan menerbitkan"
+                },
+                {
+                    "dari": "paket",
+                    "ke": "porsi_paket",
+                    "jenis": "satu-ke-banyak",
+                    "label": "punya pilihan porsi"
+                },
+                {
+                    "dari": "paket",
+                    "ke": "pesanan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "dipesan pada"
+                },
+                {
+                    "dari": "porsi_paket",
+                    "ke": "pesanan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "porsi yang dipilih"
+                },
+                {
+                    "dari": "profil_pengguna",
+                    "ke": "pesanan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "mengirim pesanan"
+                },
+                {
+                    "dari": "anak",
+                    "ke": "pesanan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "dipesankan untuk"
+                },
+                {
+                    "dari": "sekolah",
+                    "ke": "pesanan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "tujuan pengantaran dan nomor admin"
+                },
+                {
+                    "dari": "profil_pengguna",
+                    "ke": "preferensi_pengingat",
+                    "jenis": "satu-ke-satu",
+                    "label": "mengatur pengingat"
+                },
+                {
+                    "dari": "profil_pengguna",
+                    "ke": "log_pengingat",
+                    "jenis": "satu-ke-banyak",
+                    "label": "menerima pengingat"
+                },
+                {
+                    "dari": "menu_mingguan",
+                    "ke": "log_pengingat",
+                    "jenis": "satu-ke-banyak",
+                    "label": "memicu pengingat menu baru"
+                },
+                {
+                    "dari": "profil_pengguna",
+                    "ke": "ulasan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "menulis ulasan"
+                },
+                {
+                    "dari": "sekolah",
+                    "ke": "ulasan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "asal ulasan"
+                }
+            ]
+        },
+        "tech_stack": [
+            {
+                "lapisan": "Frontend",
+                "pilihan": "Next.js (App Router) dengan render di server, satu aplikasi untuk halaman orang tua dan panel admin di rute berbeda",
+                "alasan": "Halaman Menu Minggu Ini disusun di server lalu dikirim sebagai halaman siap baca, jadi teks menu sudah tampil sebelum foto selesai dimuat dan tetap kebuka di sinyal lemah. Karena halaman orang tua dan panel admin tinggal di satu aplikasi, pemilik cukup mengingat satu alamat website dan tidak ada sistem kedua yang harus dirawat.",
+                "data_pengguna": ""
+            },
+            {
+                "lapisan": "Bahasa & Pemeriksa Kode",
+                "pilihan": "TypeScript plus ESLint",
+                "alasan": "Tipe data yang jelas jadi mitigasi untuk kesalahan sepele yang paling mahal di produk ini, misalnya harga atau porsi yang salah terbawa ke pesan WhatsApp. Kesalahan seperti ini ketangkap saat ditulis, bukan setelah orang tua mengirim pesanan.",
+                "data_pengguna": ""
+            },
+            {
+                "lapisan": "Tampilan & Styling",
+                "pilihan": "Tailwind CSS",
+                "alasan": "Cocok untuk merancang dari ukuran HP dulu, baru melebar ke layar besar. Mempermudah menjaga ukuran huruf nyaman, kontras cukup, dan tombol pesan yang gampang dijangkau satu tangan, tanpa menumpuk banyak berkas gaya yang bikin halaman berat.",
+                "data_pengguna": ""
+            },
+            {
+                "lapisan": "Backend",
+                "pilihan": "Server Actions dan Route Handlers di dalam Next.js, tanpa server terpisah",
+                "alasan": "Pekerjaan backend di produk ini tidak banyak: menyimpan menu, mengunggah foto, menyusun pesan WhatsApp, dan nanti mencatat pesanan. Semua itu cukup ditangani di dalam aplikasi yang sama, jadi tidak ada layanan tambahan yang harus dibayar dan dipantau sejak awal.",
+                "data_pengguna": ""
+            },
+            {
+                "lapisan": "Database",
+                "pilihan": "Supabase Postgres dengan aturan akses per baris (Row Level Security)",
+                "alasan": "Menu, paket, harga, sekolah, data anak, dan pesanan semuanya saling terhubung, dan Postgres memang kuat untuk data berelasi seperti ini sekaligus untuk rekap bulanan di fase 4. Aturan akses per baris dipasang sebagai mitigasi supaya data anak dan catatan alergi hanya terbaca oleh akun orang tua pemiliknya dan akun pemilik katering, sementara menu serta paket yang sudah terbit boleh dibaca publik.",
+                "data_pengguna": "Data akun orang tua (nama, nomor HP), data anak (nama, sekolah, kelas, alamat antar, catatan alergi), riwayat pesanan, ulasan, dan preferensi pengingat tersimpan di server Supabase sebagai penyedia infrastruktur."
+            },
+            {
+                "lapisan": "Autentikasi",
+                "pilihan": "Supabase Auth dengan peran terpisah: akun pemilik katering sejak fase 1, akun orang tua berbasis nomor HP di fase 2",
+                "alasan": "Pengelolaan akun, sesi, dan reset kata sandi sudah tersedia siap pakai, jadi tidak perlu dibangun sendiri. Peran pemilik dan orang tua dipisah, pembatasan percobaan masuk yang gagal berulang dipakai sebagai mitigasi, dan memesan tanpa akun tetap bisa dilakukan sehingga login bukan penghalang.",
+                "data_pengguna": "Nomor HP atau email akun, kata sandi dalam bentuk teracak, serta catatan waktu dan alamat IP percobaan masuk."
+            },
+            {
+                "lapisan": "Pengiriman OTP & Pengingat",
+                "pilihan": "Penyedia pengiriman pesan pihak ketiga yang disambungkan ke Supabase Auth untuk kode verifikasi nomor HP (Fase 2), dan saluran pengingat yang ditentukan saat Fase 3 dimulai",
+                "alasan": "Verifikasi nomor HP butuh penyedia pengiriman pesan di luar Supabase, dan biayanya baru relevan saat akun orang tua dibuka. Vendornya belum dipilih di dokumen ini supaya tidak mengarang biaya atau kemampuan; keputusannya diambil menjelang fase 2 dengan persyaratan: bisa mengirim ke nomor Indonesia dan punya kebijakan privasi yang bisa dirujuk di kebijakan privasi website.",
+                "data_pengguna": "Nomor HP orang tua dan isi pesan yang dikirim, yaitu kode verifikasi serta pengingat menu baru, batas pesan, dan info libur."
+            },
+            {
+                "lapisan": "Penyimpanan Berkas",
+                "pilihan": "Supabase Storage, dengan kompresi dan pengecilan ukuran gambar saat diunggah serta next\/image di sisi tampilan",
+                "alasan": "Foto masakan adalah isi paling berat di website ini sekaligus dasar kepercayaan orang tua, jadi tidak boleh bikin halaman lambat. Foto dari galeri HP yang biasanya besar dikecilkan otomatis saat diunggah, jenis dan ukuran berkas dibatasi sebagai mitigasi, dan tautan berkas dibuat tidak mudah ditebak.",
+                "data_pengguna": "Foto masakan, foto dapur, dan dokumen izin usaha yang diunggah pemilik katering."
+            },
+            {
+                "lapisan": "Pemesanan via WhatsApp",
+                "pilihan": "Tautan wa.me berisi pesan yang disusun otomatis di sisi website, tanpa WhatsApp Business API",
+                "alasan": "Pemesanan tetap berakhir di WhatsApp karena itu kebiasaan yang sudah berjalan, dan website cuma mempercepat jalannya. Tautan biasa tidak butuh pendaftaran API, tidak ada biaya per pesan, dan tidak ada blast massal. Konsekuensinya website tidak tahu apakah pesan benar-benar terkirim, jadi pencatatan pesanan di fase 2 terjadi saat tombol ditekan dan statusnya tetap dikonfirmasi admin di WhatsApp.",
+                "data_pengguna": "Isi pesan pesanan yang dikirim orang tua, yaitu nama paket, porsi, periode pesanan, sekolah, dan catatan alergi anak bila ada, beserta nomor HP pengirim, masuk ke WhatsApp mengikuti kebijakan Meta."
+            },
+            {
+                "lapisan": "Penerbitan & Cache Halaman",
+                "pilihan": "Salinan halaman statis Next.js yang diperbarui ulang saat pemilik menyimpan menu (revalidate per tag), ditambah pengecekan menu terjadwal",
+                "alasan": "Orang tua membaca salinan halaman, bukan menembak database tiap kali buka, jadi halaman ringan dan hemat kuota layanan di paket awal. Efek sampingnya bagus: halaman menu yang sudah terbit tetap bisa dibuka walau panel admin sedang bermasalah.",
+                "data_pengguna": ""
+            },
+            {
+                "lapisan": "Tugas Terjadwal",
+                "pilihan": "Vercel Cron Jobs yang memanggil rute terlindungi di aplikasi",
+                "alasan": "Dibutuhkan untuk dua hal: menayangkan menu yang dijadwalkan pemilik dan mengirim pengingat di fase 3. Karena sudah menyatu dengan hosting, tidak ada server tambahan yang harus dinyalakan, dan setiap pengiriman pengingat dicatat supaya tidak terkirim dua kali.",
+                "data_pengguna": ""
+            },
+            {
+                "lapisan": "Rahasia & Konfigurasi",
+                "pilihan": "Environment Variables di Vercel (dipisah untuk Production, Preview, dan Development) sebagai tempat penyimpanan rahasia, dipadukan dengan pengaturan proyek di dashboard Supabase. Berkas .env tidak per",
+                "alasan": "Kunci yang berbeda butuh perlakuan berbeda: kunci publik Supabase (anon key) boleh ikut ke browser karena aksesnya dibatasi aturan akses per baris, sedangkan kunci istimewa (service role) dan kunci penyedia pengiriman pesan hanya dibaca di sisi server dan tidak pernah dikirim ke HP orang tua. Menyimpannya sebagai variabel lingkungan di platform jadi mitigasi supaya rahasia tidak bocor lewat kode s",
+                "data_pengguna": ""
+            },
+            {
+                "lapisan": "Deployment & Hosting",
+                "pilihan": "Vercel untuk aplikasi Next.js, Supabase untuk database, autentikasi, dan penyimpanan; dipublikasikan otomatis dari repositori Git dengan Preview Deployment tiap perubahan",
+                "alasan": "Cukup untuk cakupan satu kecamatan dengan sekitar 10 sekolah dasar di paket layanan awal, dan bisa ditingkatkan tanpa membangun ulang sistem. Setiap perubahan dapat alamat pratinjau sendiri, jadi tampilan baru bisa dicek dari HP dulu sebelum dilihat orang tua, dan versi lama bisa dipulihkan kalau ada yang keliru.",
+                "data_pengguna": "Data teknis kunjungan yang tercatat di log hosting, misalnya alamat IP, jenis perangkat dan browser, serta halaman yang dibuka."
+            },
+            {
+                "lapisan": "Pengujian",
+                "pilihan": "Vitest untuk pengujian unit dan Playwright untuk pengujian alur di ukuran layar HP",
+                "alasan": "Yang paling wajib diuji adalah penyusun pesan WhatsApp (paket, porsi, periode, sekolah, catatan alergi harus selalu benar) dan aturan tombol kirim yang baru aktif setelah paket dipilih. Alur orang tua dari buka halaman sampai tautan WhatsApp terbentuk, serta alur pemilik mengganti menu satu minggu, dijalankan otomatis di ukuran layar HP supaya kerusakan ketangkap sebelum sampai ke pengguna.",
+                "data_pengguna": ""
+            }
+        ],
+        "keamanan": {
+            "klasifikasi_data": [
+                {
+                    "data": "Nama dan peran akun (pemilik katering \/ orang tua)",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "profil_pengguna.nama, profil_pengguna.peran",
+                    "akses": "Pemilik akun untuk barisnya sendiri; pemilik katering hanya sebatas nama orang tua yang punya pesanan aktif",
+                    "retensi": "Selama akun aktif; dihapus maksimal 30 hari setelah permintaan_hapus_pada terisi",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Nomor HP akun (orang tua dan pemilik katering)",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "profil_pengguna.nomor_hp",
+                    "akses": "Pemilik akun; pemilik katering untuk menghubungi terkait pesanan saja",
+                    "retensi": "Selama akun aktif; dihapus maksimal 30 hari setelah permintaan hapus",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Kata sandi teracak (hash) dan token sesi",
+                    "sensitivitas": "sensitif",
+                    "lokasi": "auth.users.encrypted_password, auth.sessions.id (dikelola Supabase Auth, tidak disalin ke tabel aplikasi)",
+                    "akses": "Tidak ada manusia; hanya layanan autentikasi. Persyaratan: token sesi diganti setelah login dan sesi bisa dikedaluwarsakan",
+                    "retensi": "Hash selama akun aktif; sesi kedaluwarsa otomatis dan hilang saat logout",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Kode OTP verifikasi nomor HP (Fase 2)",
+                    "sensitivitas": "sensitif",
+                    "lokasi": "auth.users (kode sekali pakai dikelola Supabase Auth bersama penyedia pengiriman pesan; tidak disimpan di tabel aplikasi)",
+                    "akses": "Hanya layanan autentikasi dan penerima di nomor HP tujuan",
+                    "retensi": "Kedaluwarsa dalam hitungan menit dan sekali pakai",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Catatan waktu dan alamat IP percobaan masuk",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "auth.audit_log_entries.ip_address, auth.audit_log_entries.created_at",
+                    "akses": "Pemilik proyek untuk penelusuran percobaan masuk gagal dan pembatasan laju",
+                    "retensi": "Usulan 90 hari, lalu dibuang",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Jejak persetujuan privasi dan permintaan hapus data",
+                    "sensitivitas": "internal",
+                    "lokasi": "profil_pengguna.disetujui_privasi_pada, profil_pengguna.permintaan_hapus_pada",
+                    "akses": "Pemilik akun dan pemilik katering, sebagai bukti persetujuan wali sebelum data anak dikumpulkan",
+                    "retensi": "Usulan 24 bulan setelah akun ditutup, hanya berupa penanda waktu tanpa isi data pribadi",
+                    "boleh_masuk_log": true
+                },
+                {
+                    "data": "Nama anak",
+                    "sensitivitas": "sensitif",
+                    "lokasi": "anak.nama_anak",
+                    "akses": "Orang tua pemilik baris; pemilik katering hanya saat ada pesanan aktif untuk anak tersebut",
+                    "retensi": "Retensi pendek: dihapus maksimal 3 bulan setelah pesanan terakhir selesai, atau segera saat orang tua minta hapus",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Sekolah dan kelas anak",
+                    "sensitivitas": "sensitif",
+                    "lokasi": "anak.sekolah_id, anak.kelas",
+                    "akses": "Orang tua pemilik baris; pemilik katering untuk mengatur pengantaran",
+                    "retensi": "Sama dengan data anak: maksimal 3 bulan setelah pesanan terakhir",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Alamat antar anak",
+                    "sensitivitas": "sensitif",
+                    "lokasi": "anak.alamat_antar",
+                    "akses": "Orang tua pemilik baris; pemilik katering saat pengantaran berjalan",
+                    "retensi": "Sama dengan data anak: maksimal 3 bulan setelah pesanan terakhir",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Catatan alergi dan pantangan makan anak (data kesehatan)",
+                    "sensitivitas": "sensitif",
+                    "lokasi": "anak.catatan_alergi",
+                    "akses": "Orang tua pemilik baris dan pemilik katering yang menyiapkan masakan. Persyaratan: tidak dipakai untuk promosi, tidak dikirim ke analitik, dan tidak pernah ditulis ke log",
+                    "retensi": "Sama dengan data anak; ikut terhapus saat data anak dihapus",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Isi pesan WhatsApp pesanan (paket, porsi, periode, sekolah, catatan alergi bila diisi)",
+                    "sensitivitas": "sensitif",
+                    "lokasi": "pesanan.teks_pesan_wa",
+                    "akses": "Orang tua pengirim dan pemilik katering. Mitigasi: catatan alergi hanya disertakan bila orang tua memilih menyertakannya",
+                    "retensi": "Usulan 12 bulan untuk riwayat pesanan, setelah itu isi pesan dibuang dan hanya rekap tanpa identitas anak yang disimpan",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Rincian pesanan (anak, sekolah, paket, porsi, periode, status pesanan)",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "pesanan.orang_tua_id, pesanan.anak_id, pesanan.sekolah_id, pesanan.paket_id, pesanan.porsi_paket_id, pesanan.jenis_periode, pesanan.tanggal_mulai, pesanan.tanggal_selesai, pesanan.status_pesanan",
+                    "akses": "Orang tua pemilik pesanan dan pemilik katering",
+                    "retensi": "Usulan 12 bulan, lalu diringkas jadi rekap penjualan tanpa pengenal orang tua dan anak",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Status bayar sederhana dan penandanya",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "pesanan.status_bayar, pesanan.status_bayar_diubah_oleh",
+                    "akses": "Orang tua pemilik pesanan (baca) dan pemilik katering (ubah). Persyaratan: tidak ada data kartu atau rekening yang disimpan di sistem ini; bila kelak ada pembayaran online, nomor kartu ditokenisasi di penyedia pembayaran, webhook diverifikasi tanda tangannya, diproses idempoten, dan direkonsiliasi b",
+                    "retensi": "Mengikuti retensi pesanan, usulan 12 bulan",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Nomor WhatsApp admin katering per wilayah dan sekolah",
+                    "sensitivitas": "publik",
+                    "lokasi": "wilayah.nomor_admin_wa, sekolah.nomor_admin_wa, pesanan.nomor_admin_tujuan",
+                    "akses": "Semua pengunjung; nomor kontak usaha yang memang dipublikasikan",
+                    "retensi": "Selama wilayah atau sekolah masih aktif",
+                    "boleh_masuk_log": true
+                },
+                {
+                    "data": "Preferensi pengingat orang tua",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "preferensi_pengingat.orang_tua_id, preferensi_pengingat.menu_baru, preferensi_pengingat.batas_pesan, preferensi_pengingat.info_libur",
+                    "akses": "Orang tua pemilik baris; pemilik katering hanya lewat proses kirim pengingat. Persyaratan: pengingat dikirim setelah opt-in dan selalu ada cara berhenti",
+                    "retensi": "Selama akun aktif; ikut terhapus saat akun dihapus",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Catatan pengiriman pengingat (penerima, jenis, status, waktu)",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "log_pengingat.orang_tua_id, log_pengingat.menu_mingguan_id, log_pengingat.jenis, log_pengingat.status, log_pengingat.dikirim_pada",
+                    "akses": "Pemilik katering untuk memeriksa kegagalan kirim dan batas frekuensi. Isi pesan dan nomor HP tidak disimpan di baris ini",
+                    "retensi": "Usulan 90 hari",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Ulasan orang tua (nama tampil, isi, sekolah, pengirim)",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "ulasan.orang_tua_id, ulasan.nama_tampil, ulasan.sekolah_id, ulasan.isi, ulasan.status",
+                    "akses": "Pengunjung anonim hanya untuk baris berstatus disetujui; pengirim untuk ulasannya sendiri; pemilik katering untuk meninjau, menolak, atau menghapus. Persyaratan: isi disanitasi saat ditampilkan",
+                    "retensi": "Disetujui: selama masih ditayangkan. Menunggu tinjauan atau ditolak: dihapus maksimal 30 hari",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Jejak peninjau ulasan",
+                    "sensitivitas": "internal",
+                    "lokasi": "ulasan.ditinjau_oleh",
+                    "akses": "Pemilik katering, sebagai bagian log audit moderasi",
+                    "retensi": "Usulan 12 bulan",
+                    "boleh_masuk_log": true
+                },
+                {
+                    "data": "Foto masakan, foto dapur, dan album galeri beserta teks alternatif",
+                    "sensitivitas": "publik",
+                    "lokasi": "media.path_storage, media.teks_alternatif, media.jenis, media.tipe_berkas, media.ukuran_byte",
+                    "akses": "Semua pengunjung untuk berkas publik; unggah dan hapus hanya pemilik katering. Persyaratan: ukuran dan tipe berkas divalidasi di server, isi berkas diverifikasi, nama berkas diacak, dan berkas disimpan di Supabase Storage terpisah dari kode aplikasi",
+                    "retensi": "Selama ditayangkan, ditambah arsip usulan 12 bulan setelah menu diarsipkan",
+                    "boleh_masuk_log": true
+                },
+                {
+                    "data": "Dokumen izin usaha dan sertifikat",
+                    "sensitivitas": "internal",
+                    "lokasi": "media.path_storage (jenis dokumen_izin)",
+                    "akses": "Pemilik katering; dibagikan hanya lewat tautan bertanda tangan berumur pendek bila perlu ditampilkan",
+                    "retensi": "Selama izin berlaku, ditambah usulan 12 bulan setelah kedaluwarsa",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Identitas pengunggah berkas",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "media.diunggah_oleh",
+                    "akses": "Pemilik katering, sebagai jejak audit unggahan",
+                    "retensi": "Mengikuti masa simpan berkasnya",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Menu mingguan dan menu harian",
+                    "sensitivitas": "publik",
+                    "lokasi": "menu_mingguan.tanggal_senin, menu_mingguan.status, menu_mingguan.catatan_libur, menu_harian.hari, menu_harian.nama_masakan, menu_harian.catatan_bahan_utama, menu_harian.ketersediaan, menu_harian.keter",
+                    "akses": "Semua pengunjung untuk status terbit; draf dan terjadwal hanya pemilik katering",
+                    "retensi": "Disimpan sebagai arsip menu, usulan 24 bulan",
+                    "boleh_masuk_log": true
+                },
+                {
+                    "data": "Paket, porsi, dan harga",
+                    "sensitivitas": "publik",
+                    "lokasi": "paket.nama, paket.deskripsi_singkat, paket.isi_paket, paket.harga_harian, paket.harga_bulanan, porsi_paket.nama_porsi, porsi_paket.keterangan, porsi_paket.selisih_harga_harian",
+                    "akses": "Semua pengunjung untuk baris aktif; ubah hanya pemilik katering",
+                    "retensi": "Selama paket dipakai; versi lama diarsipkan untuk kebutuhan rekap",
+                    "boleh_masuk_log": true
+                },
+                {
+                    "data": "Daftar wilayah dan sekolah",
+                    "sensitivitas": "publik",
+                    "lokasi": "wilayah.nama, wilayah.aktif, sekolah.nama, sekolah.alamat, sekolah.aktif",
+                    "akses": "Semua pengunjung; ubah hanya pemilik katering",
+                    "retensi": "Selama layanan berjalan di wilayah tersebut",
+                    "boleh_masuk_log": true
+                },
+                {
+                    "data": "Pengaturan situs (jam pesan, batas pesan, info kontak)",
+                    "sensitivitas": "internal",
+                    "lokasi": "pengaturan.kunci, pengaturan.nilai, pengaturan.label_tampil",
+                    "akses": "Pemilik katering untuk mengubah; sebagian nilai ditampilkan ke publik. Persyaratan: kunci API dan rahasia tidak disimpan di tabel ini, hanya di Environment Variables Vercel",
+                    "retensi": "Selama aplikasi berjalan",
+                    "boleh_masuk_log": true
+                },
+                {
+                    "data": "Jejak audit aksi pemilik katering (siapa, apa, kapan)",
+                    "sensitivitas": "internal",
+                    "lokasi": "menu_mingguan.dibuat_oleh, menu_mingguan.diubah_pada, menu_harian.diubah_pada, paket.diubah_pada, porsi_paket.urutan_tampil, pesanan.status_bayar_diubah_oleh, pengaturan.diubah_pada",
+                    "akses": "Pemilik katering (baca saja, tidak bisa diubah dari panel)",
+                    "retensi": "Usulan 12 bulan",
+                    "boleh_masuk_log": true
+                },
+                {
+                    "data": "Data teknis kunjungan (alamat IP, perangkat, browser, halaman yang dibuka)",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "log platform Vercel dan Supabase, di luar tabel aplikasi; tidak disalin ke tabel manapun",
+                    "akses": "Pemilik proyek untuk penelusuran gangguan dan penyalahgunaan",
+                    "retensi": "Mengikuti bawaan platform, usulan maksimal 30 hari",
+                    "boleh_masuk_log": false
+                }
+            ],
+            "prinsip_akses": "Tiap peran hanya dapat hak paling kecil yang cukup untuk tugasnya: orang tua hanya menyentuh barisnya sendiri beserta data anaknya, pemilik katering hanya melihat data orang tua dan anak yang relevan dengan pesanan berjalan, dan pengunjung anonim hanya membaca konten publik. Pemeriksaan hak akses dilakukan di server pada setiap permintaan lewat Row Level Security Supabase plus pengecekan peran di Server Action dan Route Handler, bukan dengan menyembunyikan tombol atau merahasiakan URL.",
+            "hak_akses": [
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Menu mingguan dan menu harian berstatus terbit",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Paket, porsi, dan harga yang aktif",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Foto masakan, foto dapur, dan album galeri (berkas publik di Supabase Storage)",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Ulasan berstatus disetujui",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Formulir kirim ulasan (masuk antrean menunggu_tinjauan, dengan honeypot dan pembatasan laju per IP)",
+                    "aksi": [
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Tautan pesan WhatsApp otomatis dan nomor admin per wilayah atau sekolah",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Halaman kebijakan privasi dan informasi kontak serta jam pesan",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Menu berstatus draf atau terjadwal, panel pemilik, dan seluruh data akun, data anak, pesanan, serta log",
+                    "aksi": []
+                },
+                {
+                    "peran": "orang_tua",
+                    "sumber_daya": "Profil akunnya sendiri (profil_pengguna baris sendiri)",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "orang_tua",
+                    "sumber_daya": "Data anak miliknya, termasuk sekolah, kelas, dan alamat antar (anak)",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "orang_tua",
+                    "sumber_daya": "Catatan alergi anaknya (anak.catatan_alergi)",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "orang_tua",
+                    "sumber_daya": "Pesanan miliknya, termasuk pesan ulang cepat dan rekap per bulan (pesanan)",
+                    "aksi": [
+                        "baca",
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "orang_tua",
+                    "sumber_daya": "Status bayar pesanannya (pesanan.status_bayar)",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "orang_tua",
+                    "sumber_daya": "Preferensi pengingat miliknya, termasuk berhenti berlangganan (preferensi_pengingat)",
+                    "aksi": [
+                        "baca",
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "orang_tua",
+                    "sumber_daya": "Ulasan yang ia kirim sendiri (ulasan baris sendiri)",
+                    "aksi": [
+                        "baca",
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "orang_tua",
+                    "sumber_daya": "Menu terbit, paket, harga, foto publik, dan daftar sekolah",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "orang_tua",
+                    "sumber_daya": "Data orang tua lain, anak orang lain, pesanan orang lain, log pengingat, dan pengaturan situs",
+                    "aksi": []
+                },
+                {
+                    "peran": "orang_tua",
+                    "sumber_daya": "Laporan penjualan, dokumen izin usaha, dan antrean moderasi ulasan",
+                    "aksi": []
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Menu mingguan dan menu harian, termasuk menerbitkan, menandai habis, dan mengarsipkan",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus",
+                        "setujui"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Paket, porsi paket, dan harga",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Media foto masakan, foto dapur, dan album galeri",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Dokumen izin usaha dan sertifikat (media jenis dokumen_izin)",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Wilayah, sekolah, dan nomor admin WhatsApp",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Pengaturan situs (jam pesan, batas pesan, info kontak)",
+                    "aksi": [
+                        "baca",
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Seluruh pesanan dan status pesanan serta status bayar",
+                    "aksi": [
+                        "baca",
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Data anak dan catatan alergi, dibatasi pada anak dengan pesanan aktif",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Profil orang tua (nama dan nomor HP) serta pemrosesan permintaan hapus data",
+                    "aksi": [
+                        "baca",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Ulasan: meninjau, menyetujui, menolak, menyembunyikan, dan menghapus",
+                    "aksi": [
+                        "baca",
+                        "hapus",
+                        "setujui"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Preferensi pengingat dan catatan pengiriman pengingat (log_pengingat)",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Laporan penjualan, menu paling diminati, perkiraan porsi, dan unduh rekap",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Jejak audit aksi admin",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pemilik",
+                    "sumber_daya": "Kata sandi teracak, token sesi, dan kode OTP (dikelola Supabase Auth) serta rahasia di Environment Variables",
+                    "aksi": []
+                }
+            ],
+            "ancaman": [
+                {
+                    "aset": "Akun pemilik katering di panel pengelolaan menu",
+                    "ancaman": "Pihak tak berwenang mencoba masuk berulang dengan menebak kata sandi atau memakai sandi yang pernah bocor di layanan lain",
+                    "dampak": "Menu, harga, dan nomor admin WhatsApp bisa diubah sehingga orang tua menerima informasi dan tujuan pesanan yang salah",
+                    "mitigasi": "Persyaratan panjang kata sandi dan penyimpanan hash, pembatasan percobaan masuk per akun dan per IP, serta rotasi token sesi setelah login sebagai mitigasi",
+                    "sec": "SEC-02",
+                    "fitur": "Kelola Menu Sendiri"
+                },
+                {
+                    "aset": "Riwayat pesanan dan status bayar milik orang tua",
+                    "ancaman": "Pengguna yang sudah masuk mencoba membuka data pesanan akun lain dengan menukar pengenal baris pada permintaan ke server",
+                    "dampak": "Data pesanan, sekolah, dan nama anak keluarga lain bisa terlihat oleh orang yang tidak berhak",
+                    "mitigasi": "Row Level Security dengan kebijakan tolak-semua sebagai dasar, ditambah pengecekan kepemilikan dan peran di server pada setiap permintaan sebagai mitigasi",
+                    "sec": "SEC-09",
+                    "fitur": "Riwayat Pesanan"
+                },
+                {
+                    "aset": "Catatan alergi dan data anak",
+                    "ancaman": "Data sensitif tersebar lebih luas dari yang dibutuhkan, misalnya terbaca saat anak sudah tidak berlangganan atau ikut terbawa ke rekap penjualan",
+                    "dampak": "Informasi kesehatan anak diketahui pihak yang tidak membutuhkannya dan tersimpan lebih lama dari perlunya",
+                    "mitigasi": "Klasifikasi sensitif dengan akses pemilik dibatasi pada anak berpesanan aktif, pengecualian dari laporan dan unduhan, serta retensi pendek dengan penghapusan terjadwal sebagai mitigasi",
+                    "sec": "SEC-36",
+                    "fitur": "Akun Orang Tua"
+                },
+                {
+                    "aset": "Log aplikasi dan pesan kesalahan",
+                    "ancaman": "Data pribadi mentah seperti nomor HP, nama anak, atau catatan alergi ikut tercatat saat terjadi kegagalan proses",
+                    "dampak": "Data sensitif menumpuk di tempat yang kontrol aksesnya lebih longgar dan masa simpannya tidak direncanakan",
+                    "mitigasi": "Daftar larangan isi log, pencatatan identitas hanya sebagai uuid, pesan kesalahan generik berkode korelasi, dan pengujian otomatis pola terlarang sebagai mitigasi",
+                    "sec": "SEC-29",
+                    "fitur": "Akun Orang Tua"
+                },
+                {
+                    "aset": "Berkas yang diunggah pemilik lewat HP",
+                    "ancaman": "Berkas berbahaya atau bukan gambar diunggah dengan menyamarkan ekstensi dan tipe yang dilaporkan peramban",
+                    "dampak": "Berkas tak terduga tersaji ke pengunjung dan menambah risiko pada sisi tampilan maupun penyimpanan",
+                    "mitigasi": "Validasi ukuran dan tipe di server, verifikasi isi berkas lewat magic bytes, pemrosesan ulang gambar, nama berkas acak, serta penyimpanan terpisah tanpa eksekusi sebagai mitigasi",
+                    "sec": "SEC-18",
+                    "fitur": "Kelola Menu Sendiri"
+                },
+                {
+                    "aset": "Dokumen izin usaha dan sertifikat",
+                    "ancaman": "Tautan berkas tersebar di luar yang dimaksud dan tetap bisa dibuka siapa saja dalam jangka panjang",
+                    "dampak": "Dokumen usaha yang bersifat internal bisa diunduh dan dipakai pihak lain tanpa izin",
+                    "mitigasi": "Penyimpanan di bucket privat dan akses hanya lewat tautan bertanda tangan berumur pendek yang diterbitkan setelah pengecekan peran sebagai mitigasi",
+                    "sec": "SEC-21",
+                    "fitur": "Galeri & Testimoni"
+                },
+                {
+                    "aset": "Formulir ulasan publik",
+                    "ancaman": "Pengiriman otomatis dalam jumlah besar berisi promosi atau tautan tidak relevan",
+                    "dampak": "Antrean moderasi penuh, halaman testimoni kehilangan kepercayaan, dan biaya layanan naik",
+                    "mitigasi": "Honeypot dan pemeriksaan waktu pengisian, batas kirim per akun dan per IP, serta antrean moderasi dengan status menunggu_tinjauan sebagai mitigasi",
+                    "sec": "SEC-26",
+                    "fitur": "Galeri & Testimoni"
+                },
+                {
+                    "aset": "Halaman testimoni yang dibaca pengunjung",
+                    "ancaman": "Isi ulasan memuat penggalan markup atau skrip yang berharap dieksekusi di peramban pembaca lain",
+                    "dampak": "Pengunjung bisa diarahkan ke halaman palsu atau sesi akunnya terganggu",
+                    "mitigasi": "Penampilan teks pengguna selalu di-escape tanpa penyisipan HTML mentah, Content-Security-Policy yang membatasi sumber skrip, dan moderasi sebelum tayang sebagai mitigasi",
+                    "sec": "SEC-12",
+                    "fitur": "Galeri & Testimoni"
+                },
+                {
+                    "aset": "Nomor HP orang tua dan kanal pengiriman pesan",
+                    "ancaman": "Pengingat terkirim berulang atau ke penerima yang belum menyetujui, termasuk saat tugas terjadwal berjalan dua kali",
+                    "dampak": "Orang tua terganggu, kepercayaan turun, dan biaya pengiriman pesan membengkak",
+                    "mitigasi": "Persyaratan opt-in per jenis pengingat, batas frekuensi yang diperiksa lewat log_pengingat sebelum kirim, dan cara berhenti di setiap pesan sebagai mitigasi",
+                    "sec": "SEC-27",
+                    "fitur": "Pengingat Menu Baru"
+                },
+                {
+                    "aset": "Kunci service role Supabase dan token penyedia pengiriman pesan",
+                    "ancaman": "Rahasia ikut terbawa ke bundel sisi klien, repositori, atau Preview Deployment yang dibagikan",
+                    "dampak": "Pihak luar bisa membaca dan mengubah data melewati aturan akses per baris",
+                    "mitigasi": "Penyimpanan rahasia hanya di Environment Variables per environment, pembatasan variabel klien pada awalan NEXT_PUBLIC_, pemeriksaan kebocoran di pipeline, dan rotasi bila diduga bocor sebagai mitigasi",
+                    "sec": "SEC-22",
+                    "fitur": "Kelola Menu Sendiri"
+                },
+                {
+                    "aset": "Route Handler publik dan rute tugas terjadwal",
+                    "ancaman": "Permintaan bertubi-tubi dari luar atau pemanggilan rute terjadwal oleh pihak yang tidak berhak",
+                    "dampak": "Halaman menu melambat di jam sibuk, kuota layanan terpakai habis, dan proses terjadwal berjalan di luar rencana",
+                    "mitigasi": "Pembatasan laju per IP dan per akun dengan respons 429, serta rute terjadwal yang hanya menerima permintaan dengan rahasia dari Environment Variables sebagai mitigasi",
+                    "sec": "SEC-25",
+                    "fitur": "Menu Minggu Ini"
+                },
+                {
+                    "aset": "Basis data pesanan, menu, dan arsip foto",
+                    "ancaman": "Kehilangan data akibat salah hapus dari panel, kegagalan migrasi, atau gangguan layanan penyedia",
+                    "dampak": "Riwayat pesanan dan arsip menu tidak bisa dipakai lagi sehingga rekap dan pesan ulang terganggu",
+                    "mitigasi": "Backup harian dengan retensi yang ditetapkan, arsip berkas bulanan, log audit aksi penghapusan, dan uji pemulihan berkala bersasaran RTO dan RPO sebagai mitigasi",
+                    "sec": "SEC-30",
+                    "fitur": "Riwayat Pesanan"
+                }
+            ],
+            "persyaratan": [
+                {
+                    "id": "SEC-01",
+                    "kelompok": "Autentikasi & Sesi",
+                    "teks": "Akun pemilik katering memakai kata sandi dengan panjang minimal 12 karakter (target usulan), dicek di server saat daftar dan ganti sandi, dan kata sandi hanya disimpan sebagai hash kuat oleh Supabase Auth (tidak pernah disalin ke tabel aplikasi). Akun orang tua di Fase 2 memakai OTP nomor HP sekali pakai dengan masa berlaku 5 menit (target usulan) dan panjang minimal 6 angka. Uji terima: percobaan menyimpan sandi di bawah batas ditolak server, dan pencarian di seluruh tabel aplikasi tidak menemu",
+                    "kontrol": [
+                        "akun.sandi"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Akun Orang Tua"
+                    ]
+                },
+                {
+                    "id": "SEC-02",
+                    "kelompok": "Autentikasi & Sesi",
+                    "teks": "Percobaan masuk yang gagal dibatasi per akun dan per alamat IP: maksimal 5 kegagalan dalam 15 menit lalu dijeda 15 menit (target usulan), dengan jeda yang bertambah pada kegagalan berikutnya. Permintaan OTP dibatasi 3 kali per nomor HP per jam dan 10 kali per IP per jam (target usulan). Uji terima: percobaan ke-6 mengembalikan penolakan pembatasan laju tanpa menyebut sebab kegagalan sebelumnya.",
+                    "kontrol": [
+                        "akun.batas_percobaan",
+                        "dasar.batas_laju"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Akun Orang Tua"
+                    ]
+                },
+                {
+                    "id": "SEC-03",
+                    "kelompok": "Autentikasi & Sesi",
+                    "teks": "Sesi punya masa kedaluwarsa tidak aktif 8 jam dan batas mutlak 30 hari (target usulan), token sesi diganti (dirotasi) setelah login berhasil, dan tersedia tombol keluar yang mencabut sesi di sisi server, bukan hanya menghapus cookie di peramban. Cookie sesi memakai atribut HttpOnly, Secure, dan SameSite=Lax. Uji terima: token sesi sebelum login berbeda dari sesudah login, dan permintaan dengan sesi yang sudah dicabut ditolak.",
+                    "kontrol": [
+                        "akun.sesi"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Akun Orang Tua"
+                    ]
+                },
+                {
+                    "id": "SEC-04",
+                    "kelompok": "Autentikasi & Sesi",
+                    "teks": "Pemulihan akun hanya lewat tautan atau kode sekali pakai yang kedaluwarsa dalam 15 menit (target usulan) dan hangus setelah dipakai sekali. Setelah kata sandi berhasil diganti, seluruh sesi lain akun tersebut dicabut. Uji terima: tautan pemulihan yang sama ditolak pada pemakaian kedua, dan sesi lama tidak bisa dipakai lagi setelah penggantian sandi.",
+                    "kontrol": [
+                        "akun.pemulihan"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Akun Orang Tua"
+                    ]
+                },
+                {
+                    "id": "SEC-05",
+                    "kelompok": "Autentikasi & Sesi",
+                    "teks": "Pesan pada alur masuk, daftar, kirim OTP, dan lupa sandi memakai kalimat netral yang sama untuk akun terdaftar maupun tidak (misalnya \"Jika data cocok, kode verifikasi sudah kami kirim\"), dengan kode status HTTP dan selisih waktu respons yang seragam (selisih di bawah 200 ms, target usulan). Uji terima: respons untuk nomor HP terdaftar dan tidak terdaftar tidak bisa dibedakan dari isi pesan maupun kode status.",
+                    "kontrol": [
+                        "akun.tanpa_enumerasi"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Akun Orang Tua"
+                    ]
+                },
+                {
+                    "id": "SEC-06",
+                    "kelompok": "Otorisasi",
+                    "teks": "Matriks peran tertulis untuk tiga peran (pengunjung anonim, orang_tua, pemilik) disimpan sebagai satu sumber acuan di repositori dan menjadi dasar kebijakan Row Level Security serta pengecekan peran di kode. Setiap peran hanya diberi hak paling kecil yang cukup: nomor admin WhatsApp dan tautan pesanan boleh dibaca publik, sedangkan perubahan nomor admin hanya oleh pemilik. Uji terima: ada berkas matriks peran yang terawat dan pengujian otomatis menolak kombinasi peran-aksi yang tidak tercantum d",
+                    "kontrol": [
+                        "admin.matriks_peran"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Pesan via WhatsApp",
+                        "Akun Orang Tua"
+                    ]
+                },
+                {
+                    "id": "SEC-07",
+                    "kelompok": "Otorisasi",
+                    "teks": "Setiap Server Action dan Route Handler memverifikasi sesi dan peran di server pada setiap permintaan sebelum menyentuh data, termasuk saat pengenal baris (id pesanan, id anak, id menu) dikirim dari klien. Menyembunyikan tombol atau halaman di tampilan tidak dihitung sebagai kontrol. Uji terima: permintaan langsung ke aksi admin atau ke data milik akun lain mengembalikan penolakan 403 tanpa membocorkan keberadaan baris.",
+                    "kontrol": [
+                        "admin.otorisasi_server",
+                        "dasar.otorisasi"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Riwayat Pesanan",
+                        "Laporan Penjualan"
+                    ]
+                },
+                {
+                    "id": "SEC-08",
+                    "kelompok": "Otorisasi",
+                    "teks": "Seluruh rute panel pemilik wajib sesi aktif berperan pemilik, dicek di middleware sekaligus diulang di setiap aksi dan kueri data. Kerahasiaan alamat URL tidak dipakai sebagai pengaman, dan rute panel dikecualikan dari pengindeksan mesin pencari. Uji terima: pengunjung tanpa sesi dan orang tua yang sudah masuk sama-sama diarahkan ke halaman masuk atau ditolak saat membuka rute panel dan saat memanggil aksinya langsung.",
+                    "kontrol": [
+                        "admin.area_terlindungi"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri"
+                    ]
+                },
+                {
+                    "id": "SEC-09",
+                    "kelompok": "Otorisasi",
+                    "teks": "Row Level Security Supabase diaktifkan dengan kebijakan bawaan tolak-semua pada semua tabel berisi data pribadi (profil_pengguna, anak, pesanan, preferensi_pengingat, log_pengingat, ulasan, media), lalu dibuka selektif: orang tua hanya untuk baris dengan orang_tua_id sama dengan auth.uid() atau anak miliknya, pemilik hanya untuk data yang terkait pesanan dan konten yang ia kelola. Kunci service role tidak dipakai di jalur permintaan pengguna. Uji terima: pengujian otomatis dengan token orang tua",
+                    "kontrol": [
+                        "multi.akses_baris"
+                    ],
+                    "fitur": [
+                        "Akun Orang Tua",
+                        "Riwayat Pesanan"
+                    ]
+                },
+                {
+                    "id": "SEC-10",
+                    "kelompok": "Otorisasi",
+                    "teks": "Ulasan yang masuk berstatus menunggu_tinjauan dan tidak tampil ke publik sebelum disetujui pemilik. Pemilik bisa menyetujui, menolak, menyembunyikan kembali, dan menghapus ulasan, serta setiap pengunjung bisa melaporkan ulasan yang tampil. Uji terima: ulasan baru tidak muncul di halaman publik, dan tindakan setujui, sembunyikan, serta hapus hanya berhasil dengan sesi berperan pemilik.",
+                    "kontrol": [
+                        "publik.moderasi"
+                    ],
+                    "fitur": [
+                        "Galeri & Testimoni"
+                    ]
+                },
+                {
+                    "id": "SEC-11",
+                    "kelompok": "Validasi Input & Output",
+                    "teks": "Semua masukan divalidasi dengan skema di server (misalnya Zod) sebelum diproses: tipe, panjang maksimal, rentang angka untuk harga dan porsi, format tanggal Senin untuk menu mingguan, format nomor HP, serta daftar nilai enum yang sah. Akses database memakai kueri berparameter lewat klien Supabase, tanpa penyusunan SQL dari teks mentah. Uji terima: muatan permintaan yang tidak sesuai skema ditolak dengan 400 dan tidak menghasilkan perubahan data.",
+                    "kontrol": [
+                        "api.validasi_skema",
+                        "dasar.validasi"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Akun Orang Tua",
+                        "Paket & Harga"
+                    ]
+                },
+                {
+                    "id": "SEC-12",
+                    "kelompok": "Validasi Input & Output",
+                    "teks": "Teks dari pengguna (isi ulasan, nama tampil, catatan alergi, catatan menu, teks pesan WhatsApp) selalu ditampilkan sebagai teks yang di-escape oleh React tanpa penyisipan HTML mentah, dan tautan wa.me dibentuk dengan encoding URL yang benar sehingga isi pesan tidak bisa menyelipkan parameter tambahan. Uji terima: ulasan berisi penggalan markup tampil sebagai teks biasa di halaman publik, dan tautan WhatsApp yang dihasilkan tetap mengarah ke nomor admin yang benar.",
+                    "kontrol": [
+                        "publik.sanitasi"
+                    ],
+                    "fitur": [
+                        "Galeri & Testimoni",
+                        "Pesan via WhatsApp"
+                    ]
+                },
+                {
+                    "id": "SEC-13",
+                    "kelompok": "Validasi Input & Output",
+                    "teks": "Pesan kesalahan yang sampai ke pengguna berisi kalimat ringkas dan kode korelasi acak saja, tanpa stack trace, nama tabel, isi kueri, path berkas, atau nama variabel lingkungan. Detail teknis hanya masuk log server yang terikat kode korelasi tersebut. Uji terima: memaksa kegagalan pada aksi simpan menu dan pembuatan tautan pesanan menghasilkan respons tanpa detail internal.",
+                    "kontrol": [
+                        "api.error_aman"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Pesan via WhatsApp"
+                    ]
+                },
+                {
+                    "id": "SEC-14",
+                    "kelompok": "Pihak Ketiga & Dependensi",
+                    "teks": "Sistem tidak menyimpan data kartu, CVV, atau kredensial rekening. Status bayar di Riwayat Pesanan hanya penanda sederhana (belum_dibayar atau sudah_dibayar) yang diubah manual oleh pemilik. Bila kelak pembayaran online ditambahkan, nomor kartu ditokenisasi di penyedia pembayaran dan aplikasi hanya menyimpan token beserta pengenal transaksi. Uji terima: penelusuran skema dan kode tidak menemukan kolom atau log yang memuat nomor kartu.",
+                    "kontrol": [
+                        "bayar.tokenisasi"
+                    ],
+                    "fitur": [
+                        "Riwayat Pesanan"
+                    ]
+                },
+                {
+                    "id": "SEC-15",
+                    "kelompok": "Validasi Input & Output",
+                    "teks": "Jika webhook pembayaran diaktifkan, tanda tangan setiap permintaan diverifikasi dengan rahasia di Environment Variables sebelum muatannya diproses, dan pemrosesan dibuat idempoten dengan menyimpan pengenal event unik sehingga event yang sama tidak mengubah status dua kali. Uji terima: permintaan dengan tanda tangan tidak valid ditolak 401, dan event yang sama dikirim dua kali hanya menghasilkan satu perubahan status.",
+                    "kontrol": [
+                        "bayar.webhook_tanda_tangan",
+                        "bayar.idempoten"
+                    ],
+                    "fitur": [
+                        "Riwayat Pesanan"
+                    ]
+                },
+                {
+                    "id": "SEC-16",
+                    "kelompok": "Validasi Input & Output",
+                    "teks": "Status bayar direkonsiliasi berkala: selama pembayaran masih manual, rekap pesanan berstatus belum_dibayar yang melewati 7 hari (target usulan) ditampilkan di panel pemilik untuk dicocokkan dengan catatan penerimaan; bila penyedia pembayaran dipakai, tugas terjadwal mingguan membandingkan status di aplikasi dengan status di penyedia dan menandai selisihnya. Uji terima: tugas rekonsiliasi berjalan sesuai jadwal dan selisih status muncul di daftar tinjauan pemilik.",
+                    "kontrol": [
+                        "bayar.rekonsiliasi"
+                    ],
+                    "fitur": [
+                        "Riwayat Pesanan",
+                        "Laporan Penjualan"
+                    ]
+                },
+                {
+                    "id": "SEC-17",
+                    "kelompok": "Unggah File",
+                    "teks": "Unggahan dibatasi di server: ukuran maksimal 5 MB per berkas gambar dan 10 MB per dokumen izin (target usulan), dengan daftak tipe yang diizinkan hanya image\/jpeg, image\/png, image\/webp untuk foto dan application\/pdf untuk dokumen izin. Batas yang sama diterapkan di kebijakan bucket Supabase Storage, bukan hanya di formulir. Uji terima: berkas melewati batas ukuran atau bertipe lain ditolak oleh server meskipun formulir di peramban dilewati.",
+                    "kontrol": [
+                        "unggah.batas"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Menu Minggu Ini",
+                        "Galeri & Testimoni"
+                    ]
+                },
+                {
+                    "id": "SEC-18",
+                    "kelompok": "Unggah File",
+                    "teks": "Isi berkas diverifikasi berdasarkan tipe sebenarnya (pemeriksaan magic bytes), bukan hanya ekstensi atau header Content-Type dari klien. Semua gambar yang lolos diproses ulang (dikompresi dan dikecilkan) sehingga keluarannya berupa gambar baru, dan metadata EXIF termasuk koordinat lokasi dibuang. Uji terima: berkas non-gambar yang diberi ekstensi .jpg ditolak, dan gambar hasil unggahan tidak lagi memuat EXIF lokasi.",
+                    "kontrol": [
+                        "unggah.verifikasi_isi"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Menu Minggu Ini",
+                        "Galeri & Testimoni"
+                    ]
+                },
+                {
+                    "id": "SEC-19",
+                    "kelompok": "Unggah File",
+                    "teks": "Nama berkas yang disimpan dibuat acak di server (UUID ditambah satu ekstensi hasil deteksi tipe) dan nama asli dari HP pemilik tidak dipakai sebagai bagian path. Path disimpan di media.path_storage yang bersifat unik, tanpa ekstensi ganda dan tanpa karakter path traversal. Uji terima: mengunggah berkas bernama panjang atau berisi karakter khusus menghasilkan path acak yang bersih.",
+                    "kontrol": [
+                        "unggah.nama_acak"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Menu Minggu Ini"
+                    ]
+                },
+                {
+                    "id": "SEC-20",
+                    "kelompok": "Unggah File",
+                    "teks": "Berkas disimpan di Supabase Storage, terpisah dari kode dan berkas aplikasi di Vercel, dan tidak pernah ditulis ke direktori yang bisa dieksekusi atau ikut ter-deploy. Penyajian berkas memakai Content-Type tetap hasil deteksi server ditambah header X-Content-Type-Options: nosniff, dan dokumen diunduh dengan Content-Disposition: attachment. Uji terima: tidak ada berkas unggahan di repositori atau artefak build, dan membuka berkas langsung tidak menjalankan skrip apa pun.",
+                    "kontrol": [
+                        "unggah.penyimpanan_terpisah"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Galeri & Testimoni"
+                    ]
+                },
+                {
+                    "id": "SEC-21",
+                    "kelompok": "Unggah File",
+                    "teks": "Bucket publik hanya memuat foto menu, foto dapur, dan album galeri yang memang ditayangkan. Dokumen izin usaha dan sertifikat disimpan di bucket privat dan hanya dapat dibuka lewat tautan bertanda tangan berumur 15 menit (target usulan) yang diterbitkan setelah pengecekan peran di server. Uji terima: path dokumen izin tanpa tanda tangan mengembalikan penolakan, dan tautan bertanda tangan berhenti berlaku setelah masa berlakunya habis.",
+                    "kontrol": [
+                        "unggah.akses_privat"
+                    ],
+                    "fitur": [
+                        "Galeri & Testimoni",
+                        "Kelola Menu Sendiri"
+                    ]
+                },
+                {
+                    "id": "SEC-22",
+                    "kelompok": "Rahasia & Konfigurasi",
+                    "teks": "Seluruh rahasah (kunci service role Supabase, token penyedia pengiriman pesan, rahasia rute cron) hanya disimpan di Environment Variables Vercel yang dipisah untuk Production, Preview, dan Development, dan hanya dibaca di kode sisi server. Variabel yang boleh sampai ke peramban hanya yang berawalan NEXT_PUBLIC_ dan berisi nilai non-rahasia. Berkas .env tidak masuk repositori, ada pemeriksaan kebocoran rahasia di pipeline, dan rahasia dirotasi dalam 24 jam (target usulan) bila diduga bocor. Uji t",
+                    "kontrol": [
+                        "dasar.rahasia"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Pengingat Menu Baru"
+                    ]
+                },
+                {
+                    "id": "SEC-23",
+                    "kelompok": "Transport & Header",
+                    "teks": "Seluruh lalu lintas memakai HTTPS: permintaan HTTP dialihkan otomatis ke HTTPS dan header Strict-Transport-Security dipasang dengan max-age 1 tahun (target usulan). Semua pemanggilan ke Supabase, Supabase Storage, dan penyedia pengiriman pesan memakai HTTPS. Uji terima: pemeriksaan header pada domain produksi menunjukkan HSTS aktif dan tidak ada sumber daya campuran (mixed content) di halaman menu maupun panel.",
+                    "kontrol": [
+                        "dasar.https"
+                    ],
+                    "fitur": [
+                        "Tampilan Ramah HP",
+                        "Pesan via WhatsApp"
+                    ]
+                },
+                {
+                    "id": "SEC-24",
+                    "kelompok": "Transport & Header",
+                    "teks": "Header keamanan dasar dipasang di seluruh respons: Content-Security-Policy yang membatasi sumber skrip dan gambar (termasuk domain Supabase Storage), X-Content-Type-Options, Referrer-Policy, dan frame-ancestors untuk mencegah pembingkaian halaman panel. Kebijakan CORS pada Route Handler hanya mengizinkan asal domain produksi dan Preview Deployment resmi, bukan wildcard. Sesi berbasis cookie memakai SameSite=Lax dan mengandalkan perlindungan CSRF bawaan Server Actions Next.js. Uji terima: pemerik",
+                    "kontrol": [
+                        "dasar.header"
+                    ],
+                    "fitur": [
+                        "Tampilan Ramah HP",
+                        "Kelola Menu Sendiri"
+                    ]
+                },
+                {
+                    "id": "SEC-25",
+                    "kelompok": "Pembatasan Laju & Anti-Penyalahgunaan",
+                    "teks": "Semua Route Handler publik dibatasi lajunya per IP (60 permintaan per menit, target usulan) dan aksi tulis dibatasi lebih ketat (10 permintaan per menit per akun, target usulan), dengan respons 429 dan header Retry-After. Rute yang dipanggil Vercel Cron Jobs hanya menerima permintaan yang membawa rahasia dari Environment Variables dan tetap dibatasi lajunya. Uji terima: permintaan berlebih mendapat 429, dan rute cron tanpa rahasia yang benar ditolak.",
+                    "kontrol": [
+                        "api.batas_laju",
+                        "dasar.batas_laju"
+                    ],
+                    "fitur": [
+                        "Pesan via WhatsApp",
+                        "Menu Minggu Ini"
+                    ]
+                },
+                {
+                    "id": "SEC-26",
+                    "kelompok": "Pembatasan Laju & Anti-Penyalahgunaan",
+                    "teks": "Formulir ulasan publik memakai kolom honeypot tersembunyi plus pemeriksaan waktu pengisian minimal 3 detik (target usulan), dengan batas kirim 3 ulasan per akun per hari dan 5 pengiriman per IP per jam (target usulan). Pengiriman yang terjaring anti-spam ditolak tanpa menjelaskan alasan teknisnya. Uji terima: pengisian honeypot atau pengiriman di atas batas ditolak dan tidak membuat baris baru di tabel ulasan.",
+                    "kontrol": [
+                        "publik.antispam",
+                        "publik.batas_laju"
+                    ],
+                    "fitur": [
+                        "Galeri & Testimoni"
+                    ]
+                },
+                {
+                    "id": "SEC-27",
+                    "kelompok": "Pembatasan Laju & Anti-Penyalahgunaan",
+                    "teks": "Pengiriman pengingat dibatasi maksimal 2 pesan per orang tua per minggu dan 1 pesan per jenis pengingat per menu mingguan (target usulan). Sebelum mengirim, proses terjadwal memeriksa log_pengingat untuk memastikan batas belum terlampaui dan pesan yang sama tidak dikirim ulang. Uji terima: menjalankan tugas pengingat dua kali untuk menu mingguan yang sama hanya menghasilkan satu pengiriman per penerima.",
+                    "kontrol": [
+                        "notif.frekuensi"
+                    ],
+                    "fitur": [
+                        "Pengingat Menu Baru"
+                    ]
+                },
+                {
+                    "id": "SEC-28",
+                    "kelompok": "Logging & Audit",
+                    "teks": "Setiap aksi pemilik yang mengubah data dicatat di log audit: menerbitkan atau mengarsipkan menu, menandai menu habis, mengubah harga dan paket, menyetujui atau menolak ulasan, mengubah status bayar, menghapus media, dan memproses permintaan hapus data. Tiap catatan memuat siapa (uuid pemilik), apa (jenis aksi dan pengenal baris), dan kapan (penanda waktu), bersifat hanya-tambah, dan tidak bisa diubah atau dihapus dari panel. Uji terima: setiap aksi di daftar tersebut menghasilkan satu baris audi",
+                    "kontrol": [
+                        "admin.log_audit"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Laporan Penjualan"
+                    ]
+                },
+                {
+                    "id": "SEC-29",
+                    "kelompok": "Logging & Audit",
+                    "teks": "Log aplikasi dan log kejadian keamanan tidak boleh memuat kata sandi, kode OTP, token sesi, nomor HP, alamat antar, nama anak, isi pesan WhatsApp, atau catatan alergi. Identitas pengguna dicatat sebagai uuid saja, dan catatan alergi tidak pernah masuk log maupun pesan kesalahan dalam bentuk apa pun. Uji terima: pengujian otomatis menjalankan alur daftar, pesan, dan kirim pengingat lalu memeriksa keluaran log terhadap daftar pola terlarang, dan hasilnya nol temuan.",
+                    "kontrol": [
+                        "dasar.log_bersih",
+                        "sehat.tanpa_log"
+                    ],
+                    "fitur": [
+                        "Akun Orang Tua",
+                        "Pengingat Menu Baru"
+                    ]
+                },
+                {
+                    "id": "SEC-30",
+                    "kelompok": "Backup & Pemulihan",
+                    "teks": "Database Supabase dibackup otomatis setiap hari dengan retensi 7 hari (target usulan), dan berkas penting di Storage (foto menu terbit serta dokumen izin) disalin ke arsip bulanan. Uji pemulihan dilakukan setiap kuartal ke proyek terpisah dengan sasaran RTO 4 jam dan RPO 24 jam (target usulan), lalu hasilnya dicatat. Uji terima: ada catatan uji pemulihan terakhir beserta tanggal dan durasi, serta bukti data pesanan dan menu bisa dibaca kembali setelah pemulihan.",
+                    "kontrol": [
+                        "dasar.backup"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Sendiri",
+                        "Riwayat Pesanan"
+                    ]
+                },
+                {
+                    "id": "SEC-31",
+                    "kelompok": "Privasi",
+                    "teks": "Tersedia halaman kebijakan privasi berbahasa sederhana yang menyebut data apa yang dikumpulkan, dasar penggunaannya, masa simpan per jenis data, daftar layanan pihak ketiga penerima data, dan cara meminta penghapusan. Orang tua bisa mengirim permintaan hapus dari halaman akunnya; permintaan mengisi profil_pengguna.permintaan_hapus_pada dan dieksekusi maksimal 30 hari (target usulan), menghapus data anak, preferensi pengingat, dan isi pesan pesanan, serta menyisakan rekap penjualan tanpa pengenal",
+                    "kontrol": [
+                        "dasar.privasi"
+                    ],
+                    "fitur": [
+                        "Akun Orang Tua",
+                        "Riwayat Pesanan"
+                    ]
+                },
+                {
+                    "id": "SEC-32",
+                    "kelompok": "Privasi",
+                    "teks": "Data anak hanya boleh disimpan setelah orang tua atau wali memberi persetujuan eksplisit lewat centang terpisah (tidak tercentang otomatis) yang merujuk kebijakan privasi, dan waktu persetujuan dicatat di profil_pengguna.disetujui_privasi_pada. Pengecekan persetujuan dilakukan di server sebelum baris anak dibuat. Uji terima: permintaan menyimpan data anak dari akun tanpa penanda persetujuan ditolak server, meskipun formulir di peramban dilewati.",
+                    "kontrol": [
+                        "anak.persetujuan_wali"
+                    ],
+                    "fitur": [
+                        "Akun Orang Tua"
+                    ]
+                },
+                {
+                    "id": "SEC-33",
+                    "kelompok": "Privasi",
+                    "teks": "Data anak dibatasi pada yang benar-benar diperlukan untuk menyiapkan dan mengantar makan siang: nama anak, sekolah, kelas, alamat antar, dan catatan alergi. Tanggal lahir, nomor induk siswa, foto anak, dan nomor HP anak tidak dikumpulkan. Isi pesan WhatsApp juga hanya memuat data yang perlu untuk memproses pesanan, dan catatan alergi disertakan hanya bila orang tua memilih menyertakannya. Uji terima: skema tabel anak tidak punya kolom di luar daftar tersebut, dan penambahan kolom baru butuh pers",
+                    "kontrol": [
+                        "anak.minimisasi"
+                    ],
+                    "fitur": [
+                        "Akun Orang Tua",
+                        "Paket & Harga"
+                    ]
+                },
+                {
+                    "id": "SEC-34",
+                    "kelompok": "Privasi",
+                    "teks": "Data anak punya retensi pendek: tugas terjadwal menghapus baris anak beserta catatan alergi 3 bulan (target usulan) setelah pesanan terakhir anak tersebut selesai, dan isi pesan WhatsApp pada pesanan dikosongkan setelah 12 bulan (target usulan) sehingga hanya rekap tanpa identitas anak yang tersisa. Penghapusan juga bisa dipicu segera atas permintaan orang tua. Uji terima: data uji dengan pesanan terakhir melewati tenggat hilang setelah tugas terjadwal berjalan, dan rekap penjualan tetap utuh.",
+                    "kontrol": [
+                        "anak.retensi_pendek"
+                    ],
+                    "fitur": [
+                        "Akun Orang Tua",
+                        "Riwayat Pesanan"
+                    ]
+                },
+                {
+                    "id": "SEC-35",
+                    "kelompok": "Privasi",
+                    "teks": "Data anak dan catatan alergi tidak dipakai untuk promosi, penargetan pesan, maupun dikirim ke layanan analitik atau iklan. Pengingat menu baru dan batas pesan hanya disusun dari preferensi_pengingat dan jadwal menu, tidak dari profil anak, dan isi pesan pengingat tidak menyebut nama anak atau alerginya. Uji terima: templat pesan pengingat diperiksa dan tidak memuat ruang (placeholder) untuk nama anak atau catatan alergi, serta tidak ada pengiriman data anak ke pihak ketiga selain penyedia infras",
+                    "kontrol": [
+                        "anak.tanpa_promosi"
+                    ],
+                    "fitur": [
+                        "Pengingat Menu Baru",
+                        "Akun Orang Tua"
+                    ]
+                },
+                {
+                    "id": "SEC-36",
+                    "kelompok": "Privasi",
+                    "teks": "Catatan alergi diklasifikasikan sebagai data sensitif: dibaca hanya oleh orang tua pemiliknya dan oleh pemilik katering terbatas pada anak yang punya pesanan berstatus menunggu_konfirmasi atau dikonfirmasi dan belum melewati tanggal_selesai, lewat tampilan khusus persiapan masakan. Kolom ini tidak ikut dalam laporan penjualan, rekap menu favorit, maupun berkas unduhan Excel. Uji terima: permintaan baca alergi untuk anak tanpa pesanan aktif mengembalikan nol baris, dan berkas rekap yang diunduh t",
+                    "kontrol": [
+                        "sehat.sensitif"
+                    ],
+                    "fitur": [
+                        "Akun Orang Tua",
+                        "Laporan Penjualan"
+                    ]
+                },
+                {
+                    "id": "SEC-37",
+                    "kelompok": "Privasi",
+                    "teks": "Pengingat hanya dikirim setelah orang tua menyetujui secara aktif (opt-in), dengan pilihan terpisah per jenis pengingat (menu baru, batas pesan, info libur) dan kanal pengiriman disebut jelas di halaman pengaturan sebelum disetujui. Tanpa baris preferensi_pengingat yang menyala, proses kirim melewati penerima tersebut. Uji terima: akun baru tidak menerima pengingat sampai ia menyalakan pilihan, dan daftar penerima pada tugas terjadwal hanya memuat akun yang opt-in.",
+                    "kontrol": [
+                        "notif.optin"
+                    ],
+                    "fitur": [
+                        "Pengingat Menu Baru"
+                    ]
+                },
+                {
+                    "id": "SEC-38",
+                    "kelompok": "Privasi",
+                    "teks": "Setiap pengingat memuat cara berhenti yang mudah: tautan berhenti berlangganan sekali klik atau kata kunci balasan, yang mematikan jenis pengingat terkait tanpa perlu masuk akun. Permintaan berhenti berlaku paling lama 24 jam (target usulan) dan dicatat perubahannya di preferensi_pengingat.diubah_pada. Uji terima: menekan tautan berhenti mematikan preferensi yang dimaksud dan pengiriman berikutnya melewati penerima tersebut.",
+                    "kontrol": [
+                        "notif.berhenti"
+                    ],
+                    "fitur": [
+                        "Pengingat Menu Baru"
+                    ]
+                },
+                {
+                    "id": "SEC-39",
+                    "kelompok": "Pihak Ketiga & Dependensi",
+                    "teks": "Daftar layanan pihak ketiga penerima data pengguna (Vercel, Supabase, penyedia pengiriman pesan untuk OTP dan pengingat, serta WhatsApp sebagai tujuan tautan wa.me) didokumentasikan beserta jenis data dan tujuannya, ditinjau setiap kuartal, dan ditampilkan di halaman kebijakan privasi. Dependensi diperbarui berkala: pemeriksaan kerentanan otomatis tiap minggu, perbaikan celah tingkat tinggi dalam 7 hari (target usulan), dan versi paket dipasang terkunci (pinned). Uji terima: ada laporan pemeriks",
+                    "kontrol": [
+                        "dasar.dependensi"
+                    ],
+                    "fitur": [
+                        "Pesan via WhatsApp",
+                        "Pengingat Menu Baru"
+                    ]
+                }
+            ],
+            "pihak_ketiga": [
+                {
+                    "layanan": "Vercel (hosting aplikasi Next.js, Preview Deployment, dan Cron Jobs)",
+                    "data": "Data teknis kunjungan di log platform: alamat IP, jenis perangkat dan peramban, halaman yang dibuka, serta isi permintaan yang lewat saat orang tua memesan atau pemilik menyimpan menu",
+                    "tujuan": "Menjalankan dan menyajikan website, menerbitkan ulang halaman menu, menjalankan tugas terjadwal, serta menelusuri gangguan dan penyalahgunaan"
+                },
+                {
+                    "layanan": "Supabase Postgres (database)",
+                    "data": "Data akun orang tua (nama, nomor HP), data anak (nama, sekolah, kelas, alamat antar, catatan alergi), riwayat pesanan beserta isi pesan WhatsApp, ulasan, dan preferensi pengingat",
+                    "tujuan": "Menyimpan data aplikasi sebagai penyedia infrastruktur database, dengan aturan akses per baris (Row Level Security) sebagai persyaratan"
+                },
+                {
+                    "layanan": "Supabase Auth (autentikasi)",
+                    "data": "Nomor HP atau email akun, kata sandi dalam bentuk hash, kode OTP sekali pakai, token sesi, serta catatan waktu dan alamat IP percobaan masuk",
+                    "tujuan": "Memverifikasi identitas pemilik katering (Fase 1) dan orang tua berbasis nomor HP (Fase 2), mengelola sesi, dan membatasi percobaan masuk"
+                },
+                {
+                    "layanan": "Supabase Storage (penyimpanan berkas)",
+                    "data": "Foto masakan, foto dapur, album galeri, dan dokumen izin usaha yang diunggah pemilik katering",
+                    "tujuan": "Menyimpan dan menyajikan berkas gambar publik, serta menyimpan dokumen izin di bucket privat yang hanya dibuka lewat tautan bertanda tangan berumur pendek"
+                },
+                {
+                    "layanan": "Penyedia pengiriman pesan pihak ketiga yang disambungkan ke Supabase Auth (OTP Fase 2) dan saluran p",
+                    "data": "Nomor HP orang tua dan isi pesan yang dikirim: kode verifikasi, pengingat menu baru, pengingat batas pesan, dan info libur. Nama anak dan catatan alergi tidak disertakan sebagai persyaratan",
+                    "tujuan": "Mengirim kode verifikasi nomor HP dan pengingat yang sudah di-opt-in, termasuk tautan atau kata kunci berhenti berlangganan"
+                },
+                {
+                    "layanan": "WhatsApp (Meta), lewat tautan wa.me",
+                    "data": "Isi pesan pesanan yang disusun otomatis (nama paket, porsi, periode pesanan, sekolah, dan catatan alergi anak bila orang tua memilih menyertakannya) beserta nomor HP pengirim",
+                    "tujuan": "Meneruskan pesanan dari orang tua ke nomor admin katering lewat aplikasi WhatsApp di HP masing-masing, mengikuti kebijakan Meta. Tidak memakai WhatsApp Business API dan isi percakapan tidak ditarik ke"
+                }
+            ],
+            "owasp": {
+                "edisi": "OWASP Top 10:2025",
+                "kategori": [
+                    {
+                        "kode": "A01:2025",
+                        "nama": "Broken Access Control",
+                        "sec": [
+                            "SEC-06",
+                            "SEC-07",
+                            "SEC-08",
+                            "SEC-09",
+                            "SEC-10",
+                            "SEC-21",
+                            "SEC-36"
+                        ],
+                        "fitur": [
+                            "Kelola Menu Sendiri",
+                            "Akun Orang Tua",
+                            "Riwayat Pesanan",
+                            "Galeri & Testimoni",
+                            "Laporan Penjualan"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A02:2025",
+                        "nama": "Security Misconfiguration",
+                        "sec": [
+                            "SEC-20",
+                            "SEC-22",
+                            "SEC-23",
+                            "SEC-24",
+                            "SEC-25"
+                        ],
+                        "fitur": [
+                            "Tampilan Ramah HP",
+                            "Kelola Menu Sendiri",
+                            "Pesan via WhatsApp"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A03:2025",
+                        "nama": "Software Supply Chain Failures",
+                        "sec": [
+                            "SEC-22",
+                            "SEC-39"
+                        ],
+                        "fitur": [
+                            "Pesan via WhatsApp",
+                            "Pengingat Menu Baru",
+                            "Kelola Menu Sendiri"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A04:2025",
+                        "nama": "Cryptographic Failures",
+                        "sec": [
+                            "SEC-01",
+                            "SEC-03",
+                            "SEC-21",
+                            "SEC-22",
+                            "SEC-23"
+                        ],
+                        "fitur": [
+                            "Kelola Menu Sendiri",
+                            "Akun Orang Tua",
+                            "Galeri & Testimoni"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A05:2025",
+                        "nama": "Injection",
+                        "sec": [
+                            "SEC-11",
+                            "SEC-12"
+                        ],
+                        "fitur": [
+                            "Kelola Menu Sendiri",
+                            "Paket & Harga",
+                            "Galeri & Testimoni",
+                            "Pesan via WhatsApp"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A06:2025",
+                        "nama": "Insecure Design",
+                        "sec": [
+                            "SEC-14",
+                            "SEC-26",
+                            "SEC-27",
+                            "SEC-31",
+                            "SEC-32",
+                            "SEC-33",
+                            "SEC-34",
+                            "SEC-35",
+                            "SEC-37",
+                            "SEC-38"
+                        ],
+                        "fitur": [
+                            "Akun Orang Tua",
+                            "Riwayat Pesanan",
+                            "Pengingat Menu Baru",
+                            "Galeri & Testimoni"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A07:2025",
+                        "nama": "Authentication Failures",
+                        "sec": [
+                            "SEC-01",
+                            "SEC-02",
+                            "SEC-03",
+                            "SEC-04",
+                            "SEC-05"
+                        ],
+                        "fitur": [
+                            "Kelola Menu Sendiri",
+                            "Akun Orang Tua"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A08:2025",
+                        "nama": "Software or Data Integrity Failures",
+                        "sec": [
+                            "SEC-15",
+                            "SEC-16",
+                            "SEC-18",
+                            "SEC-28",
+                            "SEC-30"
+                        ],
+                        "fitur": [
+                            "Riwayat Pesanan",
+                            "Kelola Menu Sendiri",
+                            "Laporan Penjualan"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A09:2025",
+                        "nama": "Security Logging and Alerting Failures",
+                        "sec": [
+                            "SEC-13",
+                            "SEC-28",
+                            "SEC-29"
+                        ],
+                        "fitur": [
+                            "Kelola Menu Sendiri",
+                            "Akun Orang Tua",
+                            "Pengingat Menu Baru",
+                            "Laporan Penjualan"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A10:2025",
+                        "nama": "Mishandling of Exceptional Conditions",
+                        "sec": [
+                            "SEC-05",
+                            "SEC-13",
+                            "SEC-25",
+                            "SEC-27",
+                            "SEC-30"
+                        ],
+                        "fitur": [
+                            "Pesan via WhatsApp",
+                            "Kelola Menu Sendiri",
+                            "Pengingat Menu Baru",
+                            "Riwayat Pesanan"
+                        ],
+                        "alasan": ""
+                    }
+                ]
+            },
+            "risiko_tersisa": [
+                "Kepatuhan terhadap UU Pelindungan Data Pribadi (UU No. 27\/2022) perlu ditinjau ahli hukum, terutama soal dasar pemrosesan data anak, bentuk persetujuan wali, kewajiban pemberitahuan bila terjadi kebocoran, dan apakah usaha sekecil ini wajib menunjuk pejabat pelindungan data.",
+                "Server Vercel dan Supabase bisa berada di luar Indonesia, sehingga pengiriman data ke luar negeri dan perjanjian pemrosesan data dengan penyedia perlu ditinjau ahli hukum sebelum peluncuran.",
+                "Uji penetrasi dan tinjauan keamanan oleh pihak independen belum dilakukan. Seluruh persyaratan di dokumen ini baru rencana dan uji terima internal, belum diverifikasi penguji luar.",
+                "Semua angka ambang (panjang sandi, masa sesi, batas laju, masa retensi, RTO dan RPO) masih target usulan dan belum diuji di beban nyata; perlu disetel ulang setelah dipakai 10 sekolah.",
+                "Isi pesan WhatsApp keluar dari kendali website begitu terkirim. Pesan tersimpan di HP orang tua, HP admin, dan layanan Meta, lalu bisa diteruskan ke grup. Mitigasi hanya berupa pembatasan isi pesan dan pilihan menyertakan catatan alergi, bukan kontrol teknis setelah pesan terkirim.",
+                "Pemilik katering secara operasional memang perlu membaca catatan alergi dan alamat antar. Tidak ada kontrol teknis yang mencegah ia menyalin, memfoto, atau membawa data itu ke luar sistem; pengendaliannya berupa kesepakatan kerja dan log audit.",
+                "Akun pemilik katering belum memakai verifikasi dua langkah, dan risiko HP hilang, sandi dipakai bersama karyawan, atau sesi tertinggal di perangkat orang lain belum tertangani. Perlu diputuskan sebelum Fase 2.",
+                "Pembatasan laju di lingkungan serverless Vercel butuh penyimpanan hitungan bersama (misalnya Redis terkelola) yang belum dipilih. Tanpa itu, hitungan per instansi bisa longgar dan angka di SEC-02, SEC-25, serta SEC-26 belum tentu tercapai.",
+                "Pemantauan dan peringatan dini (alerting) belum dirancang: belum ada ambang, saluran notifikasi, maupun runbook penanganan insiden. Log audit dan log kejadian baru dicatat, belum ada yang memeriksanya secara rutin.",
+                "Tugas terjadwal penghapusan data anak, pengosongan isi pesan pesanan, dan pengiriman pengingat bergantung pada Vercel Cron Jobs. Bila gagal diam-diam, data bisa tersimpan lebih lama dari persyaratan retensi; perlu pemeriksaan hasil tugas yang bisa dilihat pemilik.",
+                "Backup harian mengandalkan fitur bawaan Supabase dan uji pemulihan belum pernah dijalankan, jadi kemampuan pulih dalam 4 jam belum terbukti. Arsip bulanan berkas Storage juga belum punya prosedur tertulis.",
+                "Penyedia saluran pengingat Fase 3 belum ditentukan, sehingga persyaratan keamanan, retensi, dan perjanjian pemrosesan data untuknya belum bisa dinilai. Perlu tinjauan ulang bagian ini saat Fase 3 dimulai.",
+                "Foto masakan dan foto dapur berpotensi memuat wajah anak atau karyawan tanpa izin. Belum ada panduan tertulis dan langkah pemeriksaan sebelum foto diunggah ke galeri publik.",
+                "Moderasi ulasan masih manual oleh satu orang pemilik, jadi ada jeda sebelum konten bermasalah ditangani dan risiko salah setujui saat sedang sibuk.",
+                "Jika pembayaran online ditambahkan kelak, persyaratan tokenisasi, verifikasi tanda tangan webhook, idempotensi, dan rekonsiliasi (SEC-14 sampai SEC-16) baru berupa rencana dan perlu tinjauan ulang bersama penyedia pembayaran yang dipilih."
+            ]
+        }
+    },
+    "tasks": [
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Buat halaman Menu Minggu Ini dengan data tiruan lima hari",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Tandai kartu hari berjalan secara visual dan untuk pembaca layar",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Tampilkan foto masakan dengan next\/image dan teks alternatif",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Buat tampilan pengganti saat foto masakan belum tersedia",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Tampilkan catatan bahan utama di tiap kartu hari",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Tampilkan label habis beserta keterangannya di kartu hari",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Buat tabel menu_mingguan, menu_harian, dan media di Supabase",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Aktifkan RLS tolak-semua lalu buka baca publik untuk menu terbit",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Ambil menu minggu berjalan dari database di server component",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Hitung hari berjalan memakai timestamptz dan zona waktu Asia\/Jakarta",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Nonaktifkan jalur pesan untuk menu berstatus habis",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Batasi laju Route Handler publik per IP dengan respons 429",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Tampilkan pesan kesalahan ringkas berkode korelasi tanpa detail teknis",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Tulis uji unit penentuan hari berjalan dan pemilihan menu minggu ini",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Minggu Ini",
+            "title": "Tulis uji RLS: menu draf dan terjadwal tak terbaca pengunjung anonim",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Buat halaman Paket & Harga dengan data tiruan beberapa paket",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Susun tata letak pembanding paket yang sejajar di layar HP",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Tampilkan isi paket sebagai daftar poin yang di-escape",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Tampilkan harga harian dan bulanan dalam format rupiah utuh",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Buat pemilih porsi anak per paket beserta keterangannya",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Simpan pilihan paket dan porsi di state halaman",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Buat tabel paket dan porsi_paket di Supabase",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Buka baca publik untuk paket dan porsi aktif lewat kebijakan RLS",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Ambil paket dan porsi aktif dari database di server component",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Hitung harga akhir dari harga paket plus selisih harga porsi",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Validasi skema harga dan porsi di server sebelum disimpan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Batasi tulis paket dan porsi hanya untuk peran pemilik di server",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Tulis uji unit perhitungan harga harian, bulanan, dan selisih porsi",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Tulis uji halaman: paket nonaktif tidak tampil ke pengunjung",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Tulis uji alur pilih paket dan porsi di ukuran layar HP",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Buat pemilih sekolah dan periode pesanan dengan data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Buat tombol Pesan via WhatsApp yang mudah dijangkau satu tangan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Nonaktifkan tombol kirim sampai paket dipilih",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Tambahkan status aria pada tombol kirim yang masih nonaktif",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Buat modul penyusun teks pesan dari paket, porsi, periode, sekolah",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Bentuk tautan wa.me dengan encoding URL yang benar",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Buat tabel wilayah dan sekolah beserta kolom nomor_admin_wa",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Buka baca publik daftar wilayah dan sekolah aktif lewat RLS",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Terapkan aturan nomor sekolah menimpa nomor wilayah",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Validasi format nomor admin WhatsApp di server dengan skema",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Batasi laju pembuatan tautan pesanan per IP dengan respons 429",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Pastikan pesanan tetap bisa dikirim tanpa akun",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Tulis uji unit penyusun pesan WhatsApp untuk semua kombinasi pilihan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Tulis uji unit pemilihan nomor admin sekolah dan wilayah",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan via WhatsApp",
+            "title": "Tulis uji alur HP: pilih paket sampai tautan WhatsApp terbentuk",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Siapkan Tailwind dengan rancangan HP dulu untuk seluruh halaman",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Render Menu Minggu Ini langsung di alamat utama tanpa pengalihan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Hapus popup dan halaman perantara sebelum menu terlihat",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Tampilkan info kontak dan jam pesan dengan data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Tampilkan teks menu lebih dulu lalu foto menyusul",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Atur ukuran foto responsif dan pemuatan bertahap via next\/image",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Buat tabel pengaturan untuk kontak, jam pesan, dan batas pesan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Kompres dan kecilkan foto di server serta buang EXIF saat unggah",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Terapkan revalidate per tag agar halaman terbit jadi salinan cache",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Buat metadata judul, deskripsi, dan Open Graph per halaman",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Pakai foto masakan terbit sebagai gambar pratinjau tautan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Pasang HTTPS wajib dan header Strict-Transport-Security",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Pasang CSP, nosniff, Referrer-Policy, dan frame-ancestors",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Periksa kontras, ukuran huruf, dan teks alternatif tiap foto",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Tampilan Ramah HP",
+            "title": "Tulis uji Playwright alur HP di jaringan lambat untuk menu dan paket",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Buat kerangka rute panel admin terpisah dari halaman orang tua",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Buat halaman login pemilik dengan form data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Buat form menu Senin-Jumat dengan data tiruan di layar HP",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Tampilkan pratinjau menu seperti yang dilihat orang tua",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Buat form ubah harga, isi paket, dan porsi dengan data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Buat kontrol tandai menu habis beserta keterangannya",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Buat tabel menu_mingguan, menu_harian, paket, porsi_paket, dan media",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Aktifkan RLS tolak-semua lalu buka baca publik untuk menu terbit",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Siapkan Supabase Auth akun pemilik dan peran di profil_pengguna",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Tambahkan pengecekan sesi dan peran pemilik di middleware dan tiap aksi",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Batasi percobaan masuk gagal per akun dan per IP (SEC-02)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Samakan pesan dan kode status alur masuk serta lupa sandi (SEC-05)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Rotasi token sesi setelah login dan buat tombol keluar sisi server",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Simpan menu satu minggu sebagai draf lewat Server Action",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Terbitkan menu dan jadwalkan waktu tayang lewat cron terlindungi",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Arsipkan menu minggu lalu agar bisa dipulihkan dan dipakai ulang",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Perbarui salinan halaman publik saat menu disimpan (revalidate tag)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Buat alur unggah foto dari galeri HP ke Supabase Storage",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Validasi ukuran dan tipe berkas di server dan kebijakan bucket (SEC-17)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Sendiri",
+            "title": "Verifikasi magic bytes, proses ulang gambar, dan buang EXIF (SEC-18)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Buat halaman daftar & masuk nomor HP dengan data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Buat halaman kelola data anak dengan daftar anak tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Tampilkan pemilih anak di alur pesan sebelum tombol kirim",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Buat tabel profil_pengguna dan anak sesuai skema PRD",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Sambungkan Supabase Auth OTP nomor HP dan pemisahan peran",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Batasi permintaan OTP per nomor dan per IP (SEC-02)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Seragamkan pesan netral di alur masuk dan kirim OTP (SEC-05)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Atur masa sesi, rotasi token, dan tombol keluar (SEC-03)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Simpan data anak lewat Server Action dengan validasi skema (SEC-11)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Wajibkan centang persetujuan privasi sebelum simpan anak (SEC-32)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Pasang RLS tolak-semua lalu buka per pemilik baris (SEC-09)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Bawa catatan alergi ke pesan WhatsApp dengan opsi sertakan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Batasi baca alergi pemilik hanya untuk anak berpesanan aktif (SEC-36)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Larang data pribadi dan alergi masuk log aplikasi (SEC-29)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Isi sekolah anak dari daftar sekolah aktif dan nomor admin tujuan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Buat halaman permintaan hapus akun dan data anak (SEC-31)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Buat tugas terjadwal hapus data anak sesuai retensi (SEC-34)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Tulis uji unit validasi nomor HP dan skema data anak",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Tulis uji RLS akses lintas akun orang tua ditolak",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Orang Tua",
+            "title": "Tulis uji Playwright alur daftar, simpan anak, lalu pesan di layar HP",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Buat halaman Riwayat Pesanan dengan daftar tiruan di layar HP",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Tampilkan penanda status bayar dan status pesanan di tiap baris",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Tampilkan kartu rekap bulanan dengan pemilih bulan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Buat tabel pesanan sesuai skema PRD beserta indeksnya",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Catat pesanan saat tombol Pesan via WhatsApp ditekan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Ambil riwayat pesanan milik akun lewat kueri berparameter",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Pasang RLS pesanan per pemilik baris dan akses pemilik katering (SEC-09)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Verifikasi sesi dan kepemilikan baris di setiap aksi pesanan (SEC-07)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Buat aksi Pesan Ulang yang mengisi paket, porsi, dan anak",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Susun ulang tautan wa.me pesan ulang dengan encoding benar (SEC-12)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Buat aksi ubah status bayar khusus peran pemilik",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Catat perubahan status bayar ke log audit hanya-tambah (SEC-28)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Tampilkan daftar tinjauan pesanan belum dibayar lewat tenggat (SEC-16)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Hitung rekap bulanan dengan zona waktu konsisten",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Kosongkan isi pesan WhatsApp pesanan setelah masa retensi (SEC-34)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Tulis uji unit penyusun pesan WhatsApp dan hitungan rekap",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Tulis uji akses pesanan akun lain ditolak 403",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Tulis uji orang tua tidak bisa mengubah status bayar",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Tulis uji Playwright alur pesan ulang dari riwayat di layar HP",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Riwayat Pesanan",
+            "title": "Jalankan uji pemulihan backup data pesanan dan catat hasilnya (SEC-30)",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Buat halaman pengaturan pengingat dengan data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Rancang templat pesan untuk tiga jenis pengingat",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Buat tabel preferensi_pengingat beserta aturan akses per baris",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Buat tabel log_pengingat untuk mencatat tiap pengiriman",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Simpan pilihan opt-in per jenis pengingat lewat server action",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Simpan rahasia penyedia pesan di Environment Variables Vercel",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Buat rute cron terlindungi rahasia untuk kirim pengingat",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Kirim notifikasi saat menu mingguan baru terbit",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Kirim pengingat sebelum jendela pesan tutup",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Kirim info libur dari catatan libur menu mingguan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Terapkan batas frekuensi kirim lewat pemeriksaan log_pengingat",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Tambahkan tautan berhenti berlangganan sekali klik di tiap pesan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Pastikan isi pengingat tidak memuat nama anak atau alergi",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Bersihkan log pengiriman dari nomor HP dan isi pesan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pengingat Menu Baru",
+            "title": "Tulis uji otomatis anti-kirim ganda dan penerima non-opt-in",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Buat halaman Galeri & Testimoni dengan data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Tampilkan album foto masakan dengan teks alternatif tiap foto",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Tampilkan foto dapur dan proses kebersihan di bagian terpisah",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Tampilkan ulasan yang disetujui sebagai teks ter-escape",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Buat form kirim ulasan dengan honeypot dan jeda isi 3 detik",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Buat tabel ulasan dengan status tinjauan dan aturan akses per baris",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Simpan ulasan baru berstatus menunggu_tinjauan dan batasi lajunya",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Buat antrean moderasi ulasan dengan catatan jejak audit",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Buat form unggah media di panel untuk foto dan dokumen izin",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Validasi tipe, ukuran, dan isi berkas unggahan di server",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Olah ulang gambar, buang EXIF, dan simpan dengan nama acak",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Pisahkan bucket publik foto dan bucket privat dokumen izin",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Terbitkan tautan bertanda tangan 15 menit untuk dokumen izin",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Ambil arsip foto menu terbit sebagai sumber album galeri",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Galeri & Testimoni",
+            "title": "Tulis uji alur ulasan, unggah berkas, dan akses dokumen izin",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Buat rangka halaman Laporan Penjualan di panel admin",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Buat pemilih periode laporan (bulan dan minggu) dengan data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Tampilkan tabel pesanan per sekolah memakai data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Tampilkan daftar menu paling diminati memakai data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Tampilkan perkiraan porsi Senin-Jumat memakai data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Buat kueri rangkuman pesanan per sekolah per periode",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Buat kueri menu dan paket paling banyak dipesan per periode",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Buat kueri perkiraan porsi harian dari periode pesanan aktif",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Sambungkan halaman laporan ke kueri asli, ganti data tiruan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Kecualikan data anak dan catatan alergi dari semua kueri laporan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Lindungi rute laporan dengan pengecekan sesi dan peran pemilik",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Verifikasi peran di server pada setiap aksi laporan dan ekspor",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Buat aksi server pembuat berkas Excel rekap per periode",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Tambahkan tombol unduh rekap Excel di halaman laporan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Validasi parameter periode laporan dengan skema di server",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Catat aksi lihat dan unduh laporan ke log audit hanya-tambah",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Pastikan log laporan hanya memuat uuid, tanpa data pribadi",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Tambahkan pesan kesalahan ringkas berkode korelasi di laporan",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Batasi laju permintaan laporan dan unduhan dengan respons 429",
+            "milestone": null,
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Laporan Penjualan",
+            "title": "Tampilkan daftar pesanan belum dibayar lewat 7 hari di panel",
+            "milestone": null,
+            "status": "belum_mulai"
+        }
+    ]
+}

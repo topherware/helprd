@@ -1,0 +1,166 @@
+{
+    "katering": {
+        "judul": "Katering Sekolah Online",
+        "ide": "Website katering makan siang anak SD: orang tua melihat menu minggu ini, membandingkan paket dan harga, lalu memesan tanpa akun atau dengan akun. Pemilik katering mengelola menu, foto, dan harga sendiri. Data alergi anak dicatat.",
+        "qa": [
+            {
+                "teks": "Siapa penggunanya?",
+                "jawaban": "Orang tua murid SD yang anaknya punya alergi makanan."
+            }
+        ],
+        "features": [
+            {
+                "nama": "Menu Minggu Ini",
+                "fase": 1,
+                "sub_fitur": [
+                    "Jadwal Menu Harian",
+                    "Foto Masakan"
+                ]
+            },
+            {
+                "nama": "Paket & Harga",
+                "fase": 1,
+                "sub_fitur": [
+                    "Perbandingan Paket",
+                    "Harga per Porsi"
+                ]
+            },
+            {
+                "nama": "Pesan via WhatsApp",
+                "fase": 1,
+                "sub_fitur": [
+                    "Pesan Tanpa Akun",
+                    "Pesan Otomatis Terisi"
+                ]
+            },
+            {
+                "nama": "Akun Orang Tua",
+                "fase": 2,
+                "sub_fitur": [
+                    "Daftar & Masuk",
+                    "Data Anak & Alergi"
+                ]
+            },
+            {
+                "nama": "Riwayat Pesanan",
+                "fase": 2,
+                "sub_fitur": [
+                    "Daftar Pesanan",
+                    "Pesan Ulang"
+                ]
+            },
+            {
+                "nama": "Kelola Menu Sendiri",
+                "fase": 3,
+                "sub_fitur": [
+                    "Ubah Menu",
+                    "Unggah Foto",
+                    "Ubah Harga"
+                ]
+            }
+        ],
+        "stack_choice": "full_supabase",
+        "design_style": "bebas",
+        "ai_workflow": "fase",
+        "extra_notes": "Kupon diskon persentase untuk pelanggan baru\nAudit log untuk setiap perubahan status pesanan"
+    },
+    "kebersihan": {
+        "judul": "BeresinAja",
+        "ide": "Aplikasi pemesanan jasa bersih rumah: pelanggan memilih layanan dan tarif per jam, booking jadwal, menerima email konfirmasi, dan admin menyetujui serta menugaskan petugas.",
+        "qa": [
+            {
+                "teks": "Masalahnya apa?",
+                "jawaban": "Pelanggan bingung tarif dan jadwal kosong."
+            }
+        ],
+        "features": [
+            {
+                "nama": "Katalog Layanan",
+                "fase": 1,
+                "sub_fitur": [
+                    "Daftar Layanan",
+                    "Tarif per Jam"
+                ]
+            },
+            {
+                "nama": "Booking Jadwal",
+                "fase": 1,
+                "sub_fitur": [
+                    "Pilih Tanggal",
+                    "Pilih Jam",
+                    "Email Konfirmasi"
+                ]
+            },
+            {
+                "nama": "Akun Pelanggan",
+                "fase": 2,
+                "sub_fitur": [
+                    "Daftar & Masuk",
+                    "Riwayat Booking"
+                ]
+            },
+            {
+                "nama": "Dasbor Admin",
+                "fase": 2,
+                "sub_fitur": [
+                    "Setujui Booking",
+                    "Tugaskan Petugas",
+                    "Kelola Tarif"
+                ]
+            },
+            {
+                "nama": "Ulasan Pelanggan",
+                "fase": 3,
+                "sub_fitur": [
+                    "Beri Rating",
+                    "Tampilkan Ulasan"
+                ]
+            }
+        ],
+        "stack_choice": "react_node",
+        "design_style": "korporat",
+        "ai_workflow": "task",
+        "extra_notes": "Booking maksimal 3 jam per sesi"
+    },
+    "lab": {
+        "judul": "PinjamLab",
+        "ide": "Prototipe tampilan peminjaman alat laboratorium kampus: mahasiswa melihat katalog alat, status tersedia, dan mengajukan pinjam; laboran melihat daftar pengajuan.",
+        "qa": [
+            {
+                "teks": "Kebutuhan utama?",
+                "jawaban": "Mahasiswa tahu alat mana yang tersedia sebelum datang."
+            }
+        ],
+        "features": [
+            {
+                "nama": "Katalog Alat",
+                "fase": 1,
+                "sub_fitur": [
+                    "Daftar Alat",
+                    "Status Tersedia"
+                ]
+            },
+            {
+                "nama": "Ajukan Pinjam",
+                "fase": 1,
+                "sub_fitur": [
+                    "Form Pengajuan",
+                    "Pilih Tanggal Kembali"
+                ]
+            },
+            {
+                "nama": "Daftar Pengajuan",
+                "fase": 2,
+                "sub_fitur": [
+                    "Antrian Pengajuan",
+                    "Detail Pengajuan"
+                ]
+            }
+        ],
+        "stack_choice": "react_cloudflare",
+        "ui_only": true,
+        "design_style": "dark_premium",
+        "ai_workflow": "sekaligus",
+        "extra_notes": ""
+    }
+}

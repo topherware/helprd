@@ -1,0 +1,1541 @@
+{
+    "catatan": "Mode tiruan: React Vite + Node.js",
+    "brief": {
+        "judul": "BeresinAja",
+        "ide": "Aplikasi pemesanan jasa bersih rumah: pelanggan memilih layanan dan tarif per jam, booking jadwal, menerima email konfirmasi, dan admin menyetujui serta menugaskan petugas.",
+        "qa": [
+            {
+                "teks": "Masalahnya apa?",
+                "jawaban": "Pelanggan bingung tarif dan jadwal kosong."
+            }
+        ],
+        "features": [
+            {
+                "nama": "Katalog Layanan",
+                "fase": 1,
+                "sub_fitur": [
+                    "Daftar Layanan",
+                    "Tarif per Jam"
+                ]
+            },
+            {
+                "nama": "Booking Jadwal",
+                "fase": 1,
+                "sub_fitur": [
+                    "Pilih Tanggal",
+                    "Pilih Jam",
+                    "Email Konfirmasi"
+                ]
+            },
+            {
+                "nama": "Akun Pelanggan",
+                "fase": 2,
+                "sub_fitur": [
+                    "Daftar & Masuk",
+                    "Riwayat Booking"
+                ]
+            },
+            {
+                "nama": "Dasbor Admin",
+                "fase": 2,
+                "sub_fitur": [
+                    "Setujui Booking",
+                    "Tugaskan Petugas",
+                    "Kelola Tarif"
+                ]
+            },
+            {
+                "nama": "Ulasan Pelanggan",
+                "fase": 3,
+                "sub_fitur": [
+                    "Beri Rating",
+                    "Tampilkan Ulasan"
+                ]
+            }
+        ],
+        "design_style": "korporat",
+        "design_custom": "",
+        "stack_choice": "react_node",
+        "stack_custom": "",
+        "ui_only": false,
+        "ai_workflow": "task",
+        "extra_notes": "Booking maksimal 3 jam per sesi"
+    },
+    "prd": {
+        "versi": "1.2",
+        "overview": {
+            "deskripsi": "**BeresinAja** adalah aplikasi pemesanan jasa bersih yang dirancang supaya mudah dipakai di ponsel maupun desktop.",
+            "masalah": "Rina, calon pengguna, saat ini masih mengandalkan chat WhatsApp dan catatan manual. Informasi tersebar, sering terlewat, dan ia harus bertanya hal yang sama berulang kali.",
+            "tujuan": [
+                "Menjadi satu tempat yang jelas untuk kebutuhan utama pengguna.",
+                "Mempercepat proses yang sekarang masih manual.",
+                "Memberi pemilik kendali penuh atas data dan konten."
+            ],
+            "prinsip": [
+                "Tidak ada klaim atau data palsu.",
+                "Data pribadi hanya dipakai dengan izin pengguna."
+            ],
+            "sukses": "Pengguna bisa menyelesaikan tujuan utamanya dalam 3 menit tanpa harus bertanya lewat chat."
+        },
+        "requirements": {
+            "fungsional": [
+                {
+                    "id": "FR-01",
+                    "teks": "Pengguna dapat memakai Katalog Layanan: Daftar Layanan, Tarif per Jam.",
+                    "fitur": [
+                        "Katalog Layanan"
+                    ]
+                },
+                {
+                    "id": "FR-02",
+                    "teks": "Pengguna dapat memakai Booking Jadwal: Pilih Tanggal, Pilih Jam, Email Konfirmasi.",
+                    "fitur": [
+                        "Booking Jadwal"
+                    ]
+                },
+                {
+                    "id": "FR-03",
+                    "teks": "Pengguna dapat memakai Akun Pelanggan: Daftar & Masuk, Riwayat Booking.",
+                    "fitur": [
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "id": "FR-04",
+                    "teks": "Pengguna dapat memakai Dasbor Admin: Setujui Booking, Tugaskan Petugas, Kelola Tarif.",
+                    "fitur": [
+                        "Dasbor Admin"
+                    ]
+                },
+                {
+                    "id": "FR-05",
+                    "teks": "Pengguna dapat memakai Ulasan Pelanggan: Beri Rating, Tampilkan Ulasan.",
+                    "fitur": [
+                        "Ulasan Pelanggan"
+                    ]
+                },
+                {
+                    "id": "FR-06",
+                    "teks": "Aturan bisnis dari pemilik: Booking maksimal 3 jam per sesi.",
+                    "fitur": [
+                        "Katalog Layanan"
+                    ]
+                }
+            ],
+            "non_fungsional": [
+                {
+                    "id": "NFR-01",
+                    "teks": "Halaman utama tampil dalam 3 detik pada koneksi 4G.",
+                    "fitur": []
+                },
+                {
+                    "id": "NFR-02",
+                    "teks": "Tampilan nyaman dipakai pada lebar layar 360 px sampai 1440 px.",
+                    "fitur": []
+                },
+                {
+                    "id": "NFR-03",
+                    "teks": "Kontras teks minimal 4.5:1 dan area ketuk minimal 44×44 px.",
+                    "fitur": []
+                }
+            ],
+            "di_luar_cakupan": [
+                "Aplikasi mobile native.",
+                "Integrasi pihak ketiga di luar yang disebut di bab 12."
+            ],
+            "pertanyaan_terbuka": [
+                {
+                    "id": "OQ-01",
+                    "teks": "Berapa batas jumlah item per transaksi yang diinginkan pemilik?",
+                    "fitur": []
+                }
+            ],
+            "catatan_diterapkan": [
+                {
+                    "aturan": "Booking maksimal 3 jam per sesi",
+                    "ref": [
+                        "FR-06"
+                    ]
+                }
+            ]
+        },
+        "fitur": [
+            {
+                "deskripsi": "Membantu pengguna lewat Katalog Layanan.",
+                "sub_fitur": [
+                    "Pengguna dapat memakai Daftar Layanan dengan mudah.",
+                    "Pengguna dapat memakai Tarif per Jam dengan mudah."
+                ]
+            },
+            {
+                "deskripsi": "Membantu pengguna lewat Booking Jadwal.",
+                "sub_fitur": [
+                    "Pengguna dapat memakai Pilih Tanggal dengan mudah.",
+                    "Pengguna dapat memakai Pilih Jam dengan mudah.",
+                    "Pengguna dapat memakai Email Konfirmasi dengan mudah."
+                ]
+            },
+            {
+                "deskripsi": "Membantu pengguna lewat Akun Pelanggan.",
+                "sub_fitur": [
+                    "Pengguna dapat memakai Daftar & Masuk dengan mudah.",
+                    "Pengguna dapat memakai Riwayat Booking dengan mudah."
+                ]
+            },
+            {
+                "deskripsi": "Membantu pengguna lewat Dasbor Admin.",
+                "sub_fitur": [
+                    "Pengguna dapat memakai Setujui Booking dengan mudah.",
+                    "Pengguna dapat memakai Tugaskan Petugas dengan mudah.",
+                    "Pengguna dapat memakai Kelola Tarif dengan mudah."
+                ]
+            },
+            {
+                "deskripsi": "Membantu pengguna lewat Ulasan Pelanggan.",
+                "sub_fitur": [
+                    "Pengguna dapat memakai Beri Rating dengan mudah.",
+                    "Pengguna dapat memakai Tampilkan Ulasan dengan mudah."
+                ]
+            }
+        ],
+        "user_flow": [
+            {
+                "judul": "Menemukan informasi",
+                "fase": "1",
+                "langkah": "Buka beranda → lihat daftar → buka detail → hubungi pemilik"
+            },
+            {
+                "judul": "Melakukan transaksi",
+                "fase": "1 → 2",
+                "langkah": "Pilih item → isi form → konfirmasi → terima pesan konfirmasi"
+            },
+            {
+                "judul": "Mengelola data (admin)",
+                "fase": "3",
+                "langkah": "Masuk dasbor → kelola data → lihat riwayat perubahan"
+            }
+        ],
+        "arsitektur": {
+            "ringkasan": "Aplikasi web dengan frontend responsif, logika di sisi server, dan database relasional.",
+            "komponen": [
+                {
+                    "nama": "Frontend",
+                    "deskripsi": "Halaman publik, akun, dan dasbor admin."
+                },
+                {
+                    "nama": "Backend",
+                    "deskripsi": "Validasi, logika bisnis, dan akses database."
+                },
+                {
+                    "nama": "Database",
+                    "deskripsi": "Menyimpan pengguna, item, dan transaksi."
+                }
+            ],
+            "sequence_mermaid": "sequenceDiagram\n    autonumber\n    actor U as Pengguna\n    participant W as WebApp\n    participant S as Server\n    participant DB as Database\n    U->>W: Buka halaman\n    W->>S: Minta data\n    S->>DB: Ambil data\n    DB-->>S: Hasil\n    S-->>W: Data\n    W-->>U: Tampilkan"
+        },
+        "database": {
+            "catatan": "Uang disimpan sebagai bilangan bulat rupiah. Semua tabel punya kolom waktu dibuat_pada.",
+            "tabel": [
+                {
+                    "nama": "pengguna",
+                    "deskripsi": "Akun pelanggan dan admin",
+                    "tunggal": false,
+                    "teknis": false,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "nama",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "email",
+                            "tipe": "text, unik"
+                        },
+                        {
+                            "nama": "telepon",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "peran",
+                            "tipe": "text, enum: pelanggan, admin"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamp"
+                        }
+                    ]
+                },
+                {
+                    "nama": "item",
+                    "deskripsi": "Item utama yang ditampilkan",
+                    "tunggal": false,
+                    "teknis": false,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "nama",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "deskripsi",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "harga_rp",
+                            "tipe": "integer, rupiah"
+                        },
+                        {
+                            "nama": "aktif",
+                            "tipe": "boolean"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamp"
+                        }
+                    ]
+                },
+                {
+                    "nama": "transaksi",
+                    "deskripsi": "Transaksi pengguna",
+                    "tunggal": false,
+                    "teknis": false,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "user_id",
+                            "tipe": "uuid, FK→pengguna"
+                        },
+                        {
+                            "nama": "item_id",
+                            "tipe": "uuid, FK→item"
+                        },
+                        {
+                            "nama": "nama_item_snapshot",
+                            "tipe": "text, salinan nama saat transaksi"
+                        },
+                        {
+                            "nama": "harga_satuan_snapshot",
+                            "tipe": "integer, rupiah, salinan harga saat transaksi"
+                        },
+                        {
+                            "nama": "jumlah",
+                            "tipe": "integer"
+                        },
+                        {
+                            "nama": "total_rp",
+                            "tipe": "integer, rupiah"
+                        },
+                        {
+                            "nama": "status",
+                            "tipe": "text, enum: menunggu, diproses, selesai, dibatalkan"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamp"
+                        }
+                    ]
+                },
+                {
+                    "nama": "log_audit",
+                    "deskripsi": "Catatan aksi admin",
+                    "tunggal": false,
+                    "teknis": true,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "aktor_id",
+                            "tipe": "uuid, FK→pengguna"
+                        },
+                        {
+                            "nama": "aksi",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "entitas",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "entitas_id",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "ringkasan_perubahan",
+                            "tipe": "json, nilai sebelum\/sesudah ringkas, boleh kosong"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamp"
+                        }
+                    ]
+                }
+            ],
+            "relasi": [
+                {
+                    "dari": "pengguna",
+                    "ke": "transaksi",
+                    "jenis": "satu-ke-banyak",
+                    "label": "membuat"
+                },
+                {
+                    "dari": "item",
+                    "ke": "transaksi",
+                    "jenis": "satu-ke-banyak",
+                    "label": "dipesan"
+                },
+                {
+                    "dari": "pengguna",
+                    "ke": "log_audit",
+                    "jenis": "satu-ke-banyak",
+                    "label": "mencatat"
+                }
+            ],
+            "kode_skema": "datasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Pengguna {\n  id String @id @default(uuid())\n  nama String\n  email String\n  telepon String?\n  peran String\n  dibuat_pada DateTime @default(now())\n\n  @@map(\"pengguna\")\n}\n\nmodel Item {\n  id String @id @default(uuid())\n  nama String\n  deskripsi String?\n  harga_rp Int\n  aktif Boolean\n  dibuat_pada DateTime @default(now())\n\n  @@map(\"item\")\n}\n\nmodel Transaksi {\n  id String @id @default(uuid())\n  user_id String\n  item_id String\n  nama_item_snapshot String\n  harga_satuan_snapshot Int\n  jumlah Int\n  total_rp Int\n  status String\n  dibuat_pada DateTime @default(now())\n\n  @@map(\"transaksi\")\n}\n\nmodel LogAudit {\n  id String @id @default(uuid())\n  aktor_id String\n  aksi String\n  entitas String\n  entitas_id String\n  ringkasan_perubahan Json?\n  dibuat_pada DateTime @default(now())\n\n  @@map(\"log_audit\")\n}",
+            "aturan_pemicu": {
+                "snapshot": "transaksi.nama_item_snapshot dan transaksi.harga_satuan_snapshot menyalin nilai saat transaksi, jadi perubahan harga tidak mengubah riwayat.",
+                "log_audit": "Aksi yang wajib dicatat: tambah\/ubah\/hapus item, ubah status transaksi, ubah peran pengguna.",
+                "tamu": ""
+            },
+            "kebijakan_akses": [
+                {
+                    "tabel": "transaksi",
+                    "aturan": "Server memeriksa kepemilikan (user_id sama dengan pengguna yang masuk) di setiap permintaan."
+                }
+            ]
+        },
+        "tech_stack": [
+            {
+                "lapisan": "Frontend",
+                "pilihan": "React + Vite + Tailwind CSS",
+                "alasan": "Bagian dari stack React Vite + Node.js."
+            },
+            {
+                "lapisan": "Backend",
+                "pilihan": "Node.js + Express",
+                "alasan": "Bagian dari stack React Vite + Node.js."
+            },
+            {
+                "lapisan": "Database",
+                "pilihan": "PostgreSQL + Prisma ORM",
+                "alasan": "Bagian dari stack React Vite + Node.js."
+            },
+            {
+                "lapisan": "Autentikasi",
+                "pilihan": "Sesi cookie httpOnly + bcrypt",
+                "alasan": "Bagian dari stack React Vite + Node.js."
+            },
+            {
+                "lapisan": "Deployment",
+                "pilihan": "VPS atau Render (server Node.js tetap menyala)",
+                "alasan": "Bagian dari stack React Vite + Node.js."
+            },
+            {
+                "lapisan": "Pengujian",
+                "pilihan": "Vitest + Supertest + Playwright",
+                "alasan": "Bagian dari stack React Vite + Node.js."
+            },
+            {
+                "lapisan": "Rahasia & Konfigurasi",
+                "pilihan": "Variabel lingkungan di server (.env, tidak di-commit; contoh di .env.example)",
+                "alasan": "Kunci tidak pernah sampai ke browser atau repositori."
+            }
+        ],
+        "keputusan_teknologi": {
+            "stack": "React Vite + Node.js",
+            "alasan": "Dipakai React (Vite) SPA + Express + PostgreSQL (Prisma) karena paling cepat untuk MVP dan sesuai pilihan di langkah Teknologi."
+        },
+        "keamanan": {
+            "klasifikasi_data": [
+                {
+                    "data": "Nama, email, dan telepon pengguna",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "pengguna.email, pengguna.telepon",
+                    "akses": "Pemilik akun dan admin",
+                    "retensi": "Selama akun aktif (usulan)",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Riwayat transaksi dan kontak",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "transaksi.status",
+                    "akses": "Pemilik transaksi dan admin",
+                    "retensi": "1 tahun (usulan)",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Kata sandi (hash) dan token sesi",
+                    "sensitivitas": "sensitif",
+                    "lokasi": "layanan autentikasi",
+                    "akses": "Hanya pemilik data dan peran yang membutuhkannya",
+                    "retensi": "Sesingkat mungkin sesuai kebutuhan layanan (usulan)",
+                    "boleh_masuk_log": false
+                }
+            ],
+            "prinsip_akses": "Setiap peran hanya mendapat akses minimum yang dibutuhkan, dan setiap permintaan diperiksa di server.",
+            "hak_akses": [
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "item yang aktif",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pelanggan",
+                    "sumber_daya": "pengguna dan transaksi milik sendiri",
+                    "aksi": [
+                        "baca",
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "admin",
+                    "sumber_daya": "item, transaksi, pengguna",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus",
+                        "setujui"
+                    ]
+                }
+            ],
+            "persyaratan": [
+                {
+                    "id": "SEC-01",
+                    "kelompok": "Autentikasi & Sesi",
+                    "teks": "Kebijakan kata sandi (panjang minimal, disimpan sebagai hash yang kuat) atau OTP. Pembatasan percobaan masuk yang gagal per akun dan per IP. Sesi punya masa kedaluwarsa, bisa logout, dan token sesi diganti setelah login.",
+                    "kontrol": [
+                        "akun.sandi",
+                        "akun.batas_percobaan",
+                        "akun.sesi"
+                    ],
+                    "fitur": [
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "id": "SEC-02",
+                    "kelompok": "Otorisasi",
+                    "teks": "Matriks peran tertulis dan diterapkan; tiap peran hanya punya hak minimum. Setiap aksi admin dicek perannya di server pada setiap permintaan, bukan hanya disembunyikan di tampilan. Setiap tabel berisi data pribadi punya aturan akses per baris: pemeriksaan kepemilikan di server, atau fitur akses per baris bawaan database bila didukung. Otorisasi dicek di server pada setiap permintaan, bukan hanya disembunyikan di tampilan.",
+                    "kontrol": [
+                        "admin.matriks_peran",
+                        "admin.otorisasi_server",
+                        "multi.akses_baris",
+                        "dasar.otorisasi"
+                    ],
+                    "fitur": [
+                        "Dasbor Admin",
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "id": "SEC-03",
+                    "kelompok": "Logging & Audit",
+                    "teks": "Aksi admin (ubah, hapus, setujui) dicatat di log audit: siapa, apa, kapan. Kejadian keamanan dicatat tanpa kata sandi, token, atau data pribadi mentah.",
+                    "kontrol": [
+                        "admin.log_audit",
+                        "dasar.log_bersih"
+                    ],
+                    "fitur": [
+                        "Dasbor Admin"
+                    ]
+                },
+                {
+                    "id": "SEC-04",
+                    "kelompok": "Pembatasan Laju & Anti-Penyalahgunaan",
+                    "teks": "Anti-spam (mis. honeypot atau CAPTCHA ringan) pada formulir dan konten publik.",
+                    "kontrol": [
+                        "publik.antispam"
+                    ],
+                    "fitur": [
+                        "Ulasan Pelanggan"
+                    ]
+                },
+                {
+                    "id": "SEC-05",
+                    "kelompok": "Validasi Input & Output",
+                    "teks": "Konten pengguna di-escape\/disanitasi saat ditampilkan untuk mencegah XSS. Validasi input di server, query berparameter (anti injeksi), escape keluaran (anti XSS), dan token CSRF bila memakai cookie sesi.",
+                    "kontrol": [
+                        "publik.sanitasi",
+                        "dasar.validasi"
+                    ],
+                    "fitur": [
+                        "Ulasan Pelanggan"
+                    ]
+                },
+                {
+                    "id": "SEC-06",
+                    "kelompok": "Rahasia & Konfigurasi",
+                    "teks": "Kunci dan rahasia hanya di server (variabel lingkungan atau pengelola rahasia), tidak di klien atau repositori, dan dirotasi bila bocor.",
+                    "kontrol": [
+                        "dasar.rahasia"
+                    ],
+                    "fitur": [
+                        "Katalog Layanan",
+                        "Booking Jadwal",
+                        "Akun Pelanggan",
+                        "Dasbor Admin",
+                        "Ulasan Pelanggan"
+                    ]
+                },
+                {
+                    "id": "SEC-07",
+                    "kelompok": "Transport & Header",
+                    "teks": "Seluruh lalu lintas memakai HTTPS.",
+                    "kontrol": [
+                        "dasar.https"
+                    ],
+                    "fitur": [
+                        "Katalog Layanan",
+                        "Booking Jadwal",
+                        "Akun Pelanggan",
+                        "Dasbor Admin",
+                        "Ulasan Pelanggan"
+                    ]
+                }
+            ],
+            "hardening": [
+                "Pemulihan akun lewat tautan atau kode sekali pakai yang cepat kedaluwarsa.",
+                "Pesan login, daftar, dan lupa sandi tidak membocorkan apakah sebuah akun terdaftar.",
+                "Area admin wajib login dengan peran admin dan tidak mengandalkan URL yang dirahasiakan.",
+                "Pembatasan laju pengiriman per pengguna\/IP.",
+                "Konten pengguna bisa dilaporkan, disembunyikan, dan dihapus oleh peran berwenang.",
+                "Header keamanan dasar dan kebijakan CORS yang membatasi asal.",
+                "Pembatasan laju pada aksi sensitif (login, formulir, pencarian).",
+                "Backup berkala dengan frekuensi usulan dan uji pemulihan terjadwal."
+            ],
+            "owasp": {
+                "edisi": "OWASP Top 10:2025",
+                "kategori": [
+                    {
+                        "kode": "A01:2025",
+                        "nama": "Broken Access Control",
+                        "sec": [
+                            "SEC-02"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A02:2025",
+                        "nama": "Security Misconfiguration",
+                        "sec": [
+                            "SEC-06"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A03:2025",
+                        "nama": "Software Supply Chain Failures",
+                        "sec": [],
+                        "alasan": "Tidak relevan untuk MVP ini; dibahas di hardening."
+                    },
+                    {
+                        "kode": "A04:2025",
+                        "nama": "Cryptographic Failures",
+                        "sec": [
+                            "SEC-07",
+                            "SEC-01"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A05:2025",
+                        "nama": "Injection",
+                        "sec": [
+                            "SEC-05"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A06:2025",
+                        "nama": "Insecure Design",
+                        "sec": [
+                            "SEC-02"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A07:2025",
+                        "nama": "Authentication Failures",
+                        "sec": [
+                            "SEC-01"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A08:2025",
+                        "nama": "Software or Data Integrity Failures",
+                        "sec": [],
+                        "alasan": "Tidak relevan untuk MVP ini; dibahas di hardening."
+                    },
+                    {
+                        "kode": "A09:2025",
+                        "nama": "Security Logging and Alerting Failures",
+                        "sec": [
+                            "SEC-03"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A10:2025",
+                        "nama": "Mishandling of Exceptional Conditions",
+                        "sec": [
+                            "SEC-05"
+                        ],
+                        "alasan": ""
+                    }
+                ]
+            },
+            "risiko_tersisa": [
+                "Kepatuhan terhadap UU Pelindungan Data Pribadi (UU No. 27\/2022) perlu ditinjau ahli hukum.",
+                "Uji penetrasi belum dilakukan; jadwalkan sebelum rilis."
+            ]
+        },
+        "design": {
+            "alasan": "Mengikuti gaya Korporat & Profesional yang dipilih pengguna.",
+            "warna": {
+                "terang": {
+                    "primary": "#1D4ED8",
+                    "secondary": "#0F766E",
+                    "accent": "#F59E0B",
+                    "background": "#FFFFFF",
+                    "surface": "#F1F5F9",
+                    "text": "#0F172A",
+                    "text_muted": "#475569",
+                    "border": "#CBD5E1",
+                    "success": "#15803D",
+                    "warning": "#B45309",
+                    "danger": "#B91C1C"
+                },
+                "gelap": []
+            },
+            "tipografi": {
+                "font_judul": "IBM Plex Sans",
+                "font_isi": "IBM Plex Sans",
+                "skala": [
+                    12,
+                    14,
+                    16,
+                    20,
+                    24,
+                    32
+                ],
+                "tinggi_baris": "1.5 untuk isi, 1.25 untuk judul",
+                "sumber": "Google Fonts"
+            },
+            "ukuran": {
+                "ketuk_min": 44,
+                "spasi": [
+                    4,
+                    8,
+                    12,
+                    16,
+                    24,
+                    32
+                ],
+                "radius": "8 px untuk kontrol, 12 px untuk kartu",
+                "bayangan": "0 1px 3px rgba(0,0,0,.08) untuk kartu",
+                "lebar_maks": "1200 px",
+                "breakpoint": [
+                    "640px",
+                    "1024px"
+                ]
+            },
+            "komponen": [
+                {
+                    "nama": "Tombol primer",
+                    "gaya": "Latar primary, teks putih; hover sedikit lebih gelap; fokus cincin 2 px warna accent; nonaktif opasitas 50%."
+                },
+                {
+                    "nama": "Tombol sekunder",
+                    "gaya": "Garis border, latar surface; hover latar border; fokus cincin 2 px; nonaktif opasitas 50%."
+                },
+                {
+                    "nama": "Tombol bahaya",
+                    "gaya": "Latar danger, teks putih; hover lebih gelap; fokus cincin 2 px; nonaktif opasitas 50%."
+                },
+                {
+                    "nama": "Kartu",
+                    "gaya": "Latar surface, radius 12 px, bayangan halus, padding 16 px."
+                },
+                {
+                    "nama": "Input form",
+                    "gaya": "Tinggi 44 px, border 1 px, label di atas, pesan error di bawah berwarna danger."
+                },
+                {
+                    "nama": "Badge status",
+                    "gaya": "Pil kecil: success untuk selesai, warning untuk menunggu, danger untuk dibatalkan."
+                },
+                {
+                    "nama": "Tabel\/daftar",
+                    "gaya": "Baris berjarak 12 px; di HP berubah menjadi daftar kartu."
+                },
+                {
+                    "nama": "Dialog",
+                    "gaya": "Lebar maks 480 px, latar gelap transparan, fokus terkunci di dalam dialog."
+                },
+                {
+                    "nama": "Toast",
+                    "gaya": "Muncul di bawah layar 4 detik, warna sesuai jenis pesan."
+                }
+            ],
+            "nuansa": {
+                "sifat": [
+                    "jelas",
+                    "ramah",
+                    "rapi"
+                ],
+                "hindari": [
+                    "teks abu-abu pucat di atas putih",
+                    "animasi berlebihan"
+                ]
+            },
+            "keadaan": {
+                "loading": "Kerangka (skeleton) seukuran konten.",
+                "kosong": "Ilustrasi kecil + kalimat ajakan + tombol aksi utama.",
+                "error": "Pesan jelas + tombol Coba lagi."
+            },
+            "aksesibilitas": [
+                "Fokus selalu terlihat (cincin 2 px).",
+                "Semua ikon punya label untuk pembaca layar.",
+                "Kontras teks minimal 4.5:1."
+            ]
+        },
+        "rute": {
+            "rute": [
+                {
+                    "path": "\/",
+                    "halaman": "Beranda",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "Publik",
+                    "sumber": [
+                        "Katalog Layanan"
+                    ]
+                },
+                {
+                    "path": "\/katalog-layanan",
+                    "halaman": "Katalog Layanan",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "Publik",
+                    "sumber": [
+                        "Katalog Layanan",
+                        "FR-01"
+                    ]
+                },
+                {
+                    "path": "\/booking-jadwal",
+                    "halaman": "Booking Jadwal",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "Publik",
+                    "sumber": [
+                        "Booking Jadwal",
+                        "FR-02"
+                    ]
+                },
+                {
+                    "path": "\/akun\/akun-pelanggan",
+                    "halaman": "Akun Pelanggan",
+                    "peran": [
+                        "pelanggan"
+                    ],
+                    "layout": "Akun",
+                    "sumber": [
+                        "Akun Pelanggan",
+                        "FR-03"
+                    ]
+                },
+                {
+                    "path": "\/admin\/dasbor-admin",
+                    "halaman": "Dasbor Admin",
+                    "peran": [
+                        "admin"
+                    ],
+                    "layout": "Admin",
+                    "sumber": [
+                        "Dasbor Admin",
+                        "FR-04"
+                    ]
+                },
+                {
+                    "path": "\/ulasan-pelanggan",
+                    "halaman": "Ulasan Pelanggan",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "Publik",
+                    "sumber": [
+                        "Ulasan Pelanggan",
+                        "FR-05"
+                    ]
+                }
+            ],
+            "navigasi": [
+                {
+                    "peran": "pengunjung anonim",
+                    "komponen": "Header + footer",
+                    "item": [
+                        "Beranda",
+                        "Katalog Layanan",
+                        "Booking Jadwal",
+                        "Ulasan Pelanggan"
+                    ]
+                },
+                {
+                    "peran": "pelanggan",
+                    "komponen": "Bottom navigation di HP, header di desktop",
+                    "item": [
+                        "Beranda",
+                        "Katalog Layanan",
+                        "Booking Jadwal",
+                        "Ulasan Pelanggan",
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "peran": "admin",
+                    "komponen": "Sidebar",
+                    "item": [
+                        "Dasbor Admin"
+                    ]
+                }
+            ],
+            "rute_khusus": [
+                {
+                    "jenis": "404",
+                    "path": "\/404",
+                    "halaman": "Halaman tidak ditemukan"
+                },
+                {
+                    "jenis": "403",
+                    "path": "\/403",
+                    "halaman": "Tidak punya akses"
+                },
+                {
+                    "jenis": "error",
+                    "path": "\/error",
+                    "halaman": "Terjadi kesalahan"
+                },
+                {
+                    "jenis": "masuk",
+                    "path": "\/masuk",
+                    "halaman": "Masuk akun"
+                },
+                {
+                    "jenis": "keluar",
+                    "path": "\/keluar",
+                    "halaman": "Keluar lalu kembali ke beranda"
+                }
+            ],
+            "penjaga_akses": [
+                "Rute \/akun\/* wajib masuk sebagai pelanggan.",
+                "Rute \/admin\/* wajib masuk dengan peran admin; selain itu diarahkan ke \/403.",
+                "Rute lain terbuka untuk pengunjung anonim."
+            ]
+        },
+        "dummy": {
+            "dataset": [
+                {
+                    "id": "DUMMY-PENGGUNA",
+                    "tabel": "pengguna",
+                    "kolom": [
+                        "nama",
+                        "email",
+                        "telepon",
+                        "peran"
+                    ],
+                    "baris": [
+                        [
+                            "Rina Wulandari",
+                            "rina@contoh.id",
+                            "081234567801",
+                            "pelanggan"
+                        ],
+                        [
+                            "Budi Santoso",
+                            "budi@contoh.id",
+                            "081234567802",
+                            "pelanggan"
+                        ],
+                        [
+                            "Sari Admin",
+                            "sari@contoh.id",
+                            "081234567803",
+                            "admin"
+                        ]
+                    ]
+                },
+                {
+                    "id": "DUMMY-ITEM",
+                    "tabel": "item",
+                    "kolom": [
+                        "nama",
+                        "deskripsi",
+                        "harga_rp",
+                        "aktif"
+                    ],
+                    "baris": [
+                        [
+                            "Paket Hemat",
+                            "Pilihan paling terjangkau",
+                            15000,
+                            true
+                        ],
+                        [
+                            "Paket Reguler",
+                            "Pilihan favorit pelanggan",
+                            25000,
+                            true
+                        ],
+                        [
+                            "Paket Spesial",
+                            "Porsi dan isi paling lengkap",
+                            40000,
+                            true
+                        ]
+                    ]
+                },
+                {
+                    "id": "DUMMY-TRANSAKSI",
+                    "tabel": "transaksi",
+                    "kolom": [
+                        "nama_item_snapshot",
+                        "harga_satuan_snapshot",
+                        "jumlah",
+                        "total_rp",
+                        "status"
+                    ],
+                    "baris": [
+                        [
+                            "Paket Hemat",
+                            15000,
+                            2,
+                            30000,
+                            "menunggu"
+                        ],
+                        [
+                            "Paket Reguler",
+                            25000,
+                            1,
+                            25000,
+                            "diproses"
+                        ],
+                        [
+                            "Paket Spesial",
+                            40000,
+                            3,
+                            120000,
+                            "selesai"
+                        ]
+                    ]
+                }
+            ],
+            "template": [
+                {
+                    "nama": "Konfirmasi via WhatsApp",
+                    "isi": "Halo {nama_pelanggan}, transaksi {nama_item} sebanyak {jumlah} sudah kami terima. Total {total}.",
+                    "contoh": "Halo Bu Rina, transaksi Paket Hemat sebanyak 2 sudah kami terima. Total Rp30.000."
+                }
+            ],
+            "copywriting": {
+                "nada": "Santai, sopan, dan langsung ke inti.",
+                "sapaan": "\"Kak\" untuk pengguna umum; nama depan bila sudah masuk.",
+                "istilah": [
+                    "Item: barang atau layanan yang dijual",
+                    "Transaksi: pesanan yang dibuat pengguna"
+                ],
+                "microcopy": {
+                    "kosong": "Belum ada data. Yuk mulai dari tombol di bawah.",
+                    "error": "Maaf, ada gangguan. Coba lagi sebentar ya.",
+                    "sukses": "Berhasil disimpan.",
+                    "konfirmasi": "Yakin ingin melanjutkan? Tindakan ini tidak bisa dibatalkan."
+                }
+            }
+        },
+        "layanan": {
+            "layanan": [
+                {
+                    "kebutuhan": "rate_limit",
+                    "vendor": "Tabel rate limit di PostgreSQL",
+                    "mock": true,
+                    "alasan": "Vendor default stack; selama M1–M2 dipakai adapter tiruan.",
+                    "biaya": "tanpa biaya tambahan",
+                    "env": [],
+                    "mode_mvp": "Adapter tiruan (mock) di balik antarmuka yang sama; vendor asli dipasang di M2"
+                }
+            ],
+            "rate_limit": "Pembatasan laju memakai Tabel rate limit di PostgreSQL.",
+            "env_example": [
+                {
+                    "grup": "Aplikasi",
+                    "komentar": "Pengaturan umum aplikasi",
+                    "variabel": [
+                        {
+                            "nama": "APP_URL",
+                            "nilai": "isi_dengan_url_aplikasi",
+                            "komentar": "Alamat aplikasi, mis. http:\/\/localhost:3000"
+                        },
+                        {
+                            "nama": "AUTH_SECRET",
+                            "nilai": "isi_dengan_rahasia_acak_panjang",
+                            "komentar": "Rahasia penanda sesi; buat acak dan jangan di-commit"
+                        }
+                    ]
+                },
+                {
+                    "grup": "Database",
+                    "komentar": "Koneksi database",
+                    "variabel": [
+                        {
+                            "nama": "DATABASE_URL",
+                            "nilai": "isi_dengan_url_database",
+                            "komentar": "String koneksi database"
+                        }
+                    ]
+                }
+            ]
+        },
+        "milestone": {
+            "daftar": [
+                {
+                    "id": "M0",
+                    "nama": "Persiapan",
+                    "tujuan": "Struktur proyek, dependensi, konfigurasi, CLAUDE.md, PROGRESS.md, dan variabel lingkungan siap.",
+                    "selesai_bila": [
+                        "Perintah jalan berhasil membuka halaman kosong.",
+                        "CLAUDE.md dan PROGRESS.md ada di root proyek."
+                    ],
+                    "cakupan": [
+                        "Bab 7",
+                        "Bab 12"
+                    ],
+                    "checkpoint": "CHECKPOINT: berhenti, perbarui PROGRESS.md, ringkas hasil, tunggu persetujuan, dan sarankan memulai percakapan baru bila konteks sudah panjang."
+                },
+                {
+                    "id": "M1",
+                    "nama": "Prototipe UI (data tiruan)",
+                    "tujuan": "Semua halaman dan komponen memakai dataset bab 11 sesuai design system dan peta rute.",
+                    "selesai_bila": [
+                        "Semua rute di bab 10 bisa dibuka.",
+                        "Semua data tampil dari dataset DUMMY-* di bab 11."
+                    ],
+                    "cakupan": [
+                        "Katalog Layanan",
+                        "Booking Jadwal",
+                        "Akun Pelanggan",
+                        "Dasbor Admin",
+                        "Ulasan Pelanggan"
+                    ],
+                    "checkpoint": "CHECKPOINT: berhenti, perbarui PROGRESS.md, ringkas hasil, tunggu persetujuan, dan sarankan memulai percakapan baru bila konteks sudah panjang."
+                },
+                {
+                    "id": "M2",
+                    "nama": "Backend & Data",
+                    "tujuan": "Skema\/migrasi, logika server, dan adapter layanan menggantikan data tiruan.",
+                    "selesai_bila": [
+                        "Migrasi dari bab 6 berjalan tanpa galat.",
+                        "Semua halaman membaca data dari database."
+                    ],
+                    "cakupan": [
+                        "Katalog Layanan",
+                        "Booking Jadwal",
+                        "Akun Pelanggan",
+                        "Dasbor Admin",
+                        "Ulasan Pelanggan"
+                    ],
+                    "checkpoint": "CHECKPOINT: berhenti, perbarui PROGRESS.md, ringkas hasil, tunggu persetujuan, dan sarankan memulai percakapan baru bila konteks sudah panjang."
+                },
+                {
+                    "id": "M3",
+                    "nama": "Keamanan & Uji",
+                    "tujuan": "Aturan SEC Wajib MVP diterapkan dan diuji.",
+                    "selesai_bila": [
+                        "Setiap SEC di bab 8 punya uji yang lulus.",
+                        "Uji alur utama tiap fitur lulus."
+                    ],
+                    "cakupan": [
+                        "Katalog Layanan",
+                        "Booking Jadwal",
+                        "Akun Pelanggan",
+                        "Dasbor Admin",
+                        "Ulasan Pelanggan"
+                    ],
+                    "checkpoint": "CHECKPOINT: berhenti, perbarui PROGRESS.md, ringkas hasil, tunggu persetujuan, dan sarankan memulai percakapan baru bila konteks sudah panjang."
+                },
+                {
+                    "id": "M4",
+                    "nama": "Rilis",
+                    "tujuan": "Konfigurasi produksi dan daftar periksa rilis selesai.",
+                    "selesai_bila": [
+                        "Aplikasi berjalan di lingkungan produksi dengan HTTPS.",
+                        "Daftar periksa rilis tercentang semua."
+                    ],
+                    "cakupan": [
+                        "Bab 12",
+                        "Bab 13"
+                    ],
+                    "checkpoint": "CHECKPOINT: berhenti, perbarui PROGRESS.md, ringkas hasil, tunggu persetujuan, dan sarankan memulai percakapan baru bila konteks sudah panjang."
+                }
+            ],
+            "aturan_checkpoint": "Cara kerja Bertahap per Task: checkpoint setelah setiap tugas selesai; tunggu persetujuan sebelum tugas berikutnya.",
+            "master_prompt": "Kamu membangun BeresinAja: aplikasi pemesanan jasa bersih.\nStack: React (Vite) SPA + Express + PostgreSQL (Prisma).\n\nSebelum mulai, baca berkas berikut: CLAUDE.md, PRD.md, semua berkas di features\/, dan PROGRESS.md.\n\nAturan kerja:\n1. Cara kerja Bertahap per Task: checkpoint setelah setiap tugas selesai; tunggu persetujuan sebelum tugas berikutnya.\n2. Kerjakan milestone berurutan (M0 → M1 → M2 → M3 → M4), task berawalan [M1]\/[M2]\/[M3] sesuai urutan.\n3. Jalankan uji setelah setiap perubahan dan perbarui PROGRESS.md.\n4. Berhenti di setiap CHECKPOINT dan tunggu persetujuan.\n5. Tanya bila PRD ambigu. Jangan mengarang data di luar bab 11 (Data Dummy & Copywriting).\n6. Rahasia hanya di variabel lingkungan; jangan menulis kunci asli ke kode.",
+            "claude_md": {
+                "struktur_folder": "src\/\n  app\/ (halaman & rute)\n  components\/\n  lib\/ (adapter layanan, validasi)\n  db\/ (skema & migrasi)\ndata\/dummy\/\ntests\/",
+                "konvensi": [
+                    "Nama berkas dan variabel dalam bahasa Inggris, teks UI dalam Bahasa Indonesia.",
+                    "Satu komponen per berkas.",
+                    "Data tiruan hanya dari data\/dummy (bab 11)."
+                ],
+                "perintah": {
+                    "jalan": "npm run dev",
+                    "uji": "npm test"
+                }
+            }
+        },
+        "profil": {
+            "bendera_ai": [],
+            "bendera": {
+                "uiOnly": false,
+                "hasDatabase": true,
+                "hasPricedEntity": true,
+                "hasTransactionRecord": true,
+                "hasAdminMutation": true,
+                "hasGuestFlow": false,
+                "usesOtp": false,
+                "usesEmail": false,
+                "usesWhatsappApi": false,
+                "usesPayment": false,
+                "usesFileStorage": false,
+                "usesRateLimit": true,
+                "serverless": false,
+                "hasDarkTheme": false,
+                "multiRole": true
+            },
+            "stack": {
+                "id": "react_node",
+                "nama": "React Vite + Node.js",
+                "ringkas": "React (Vite) SPA + Express + PostgreSQL (Prisma)",
+                "kata_kunci": [
+                    "React",
+                    "Express"
+                ],
+                "runtime": "Node.js (TypeScript)",
+                "db": "postgresql",
+                "bahasa_skema": "prisma",
+                "rls": false,
+                "serverless": false,
+                "lapisan": {
+                    "Frontend": "React + Vite + Tailwind CSS",
+                    "Backend": "Node.js + Express",
+                    "Database": "PostgreSQL + Prisma ORM",
+                    "Autentikasi": "Sesi cookie httpOnly + bcrypt",
+                    "Deployment": "VPS atau Render (server Node.js tetap menyala)",
+                    "Pengujian": "Vitest + Supertest + Playwright"
+                },
+                "perintah": {
+                    "jalan": "npm run dev",
+                    "uji": "npm test"
+                },
+                "vendor": {
+                    "otp": {
+                        "nama": "WhatsApp Cloud API",
+                        "env": [
+                            "WHATSAPP_TOKEN",
+                            "WHATSAPP_PHONE_NUMBER_ID"
+                        ],
+                        "biaya": "berbayar per percakapan"
+                    },
+                    "email": {
+                        "nama": "Resend",
+                        "env": [
+                            "RESEND_API_KEY",
+                            "EMAIL_FROM"
+                        ],
+                        "biaya": "gratis untuk kuota kecil, lalu berbayar"
+                    },
+                    "whatsapp": {
+                        "nama": "WhatsApp Cloud API",
+                        "env": [
+                            "WHATSAPP_TOKEN",
+                            "WHATSAPP_PHONE_NUMBER_ID"
+                        ],
+                        "biaya": "berbayar per percakapan"
+                    },
+                    "pembayaran": {
+                        "nama": "Midtrans",
+                        "env": [
+                            "MIDTRANS_SERVER_KEY",
+                            "MIDTRANS_CLIENT_KEY"
+                        ],
+                        "biaya": "biaya per transaksi"
+                    },
+                    "penyimpanan": {
+                        "nama": "Cloudflare R2",
+                        "env": [
+                            "R2_ACCOUNT_ID",
+                            "R2_ACCESS_KEY_ID",
+                            "R2_SECRET_ACCESS_KEY",
+                            "R2_BUCKET"
+                        ],
+                        "biaya": "gratis untuk kuota kecil, lalu berbayar"
+                    },
+                    "rate_limit": {
+                        "nama": "Tabel rate limit di PostgreSQL",
+                        "env": [],
+                        "biaya": "tanpa biaya tambahan"
+                    }
+                }
+            },
+            "peran": [
+                "pengunjung anonim",
+                "pelanggan",
+                "admin"
+            ],
+            "alasan_stack": "Stack ini paling cepat dipakai untuk MVP web yang ramah HP dan mudah dikelola pemilik."
+        }
+    },
+    "tasks": [
+        {
+            "fitur": "Katalog Layanan",
+            "title": "Buat halaman Katalog Layanan dengan data tiruan DUMMY-ITEM",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Katalog Layanan",
+            "title": "Buat tampilan Daftar Layanan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Katalog Layanan",
+            "title": "Buat tampilan Tarif per Jam",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Katalog Layanan",
+            "title": "Tampilkan keadaan kosong, memuat, dan gagal di Katalog Layanan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Katalog Layanan",
+            "title": "Simpan data Katalog Layanan ke database dan ganti data tiruan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Katalog Layanan",
+            "title": "Terapkan SEC-06 dan SEC-07 pada Katalog Layanan",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Katalog Layanan",
+            "title": "Tulis uji alur utama Katalog Layanan",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Booking Jadwal",
+            "title": "Buat halaman Booking Jadwal dengan data tiruan DUMMY-ITEM",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Booking Jadwal",
+            "title": "Buat tampilan Pilih Tanggal",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Booking Jadwal",
+            "title": "Buat tampilan Pilih Jam",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Booking Jadwal",
+            "title": "Buat tampilan Email Konfirmasi",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Booking Jadwal",
+            "title": "Tampilkan keadaan kosong, memuat, dan gagal di Booking Jadwal",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Booking Jadwal",
+            "title": "Simpan data Booking Jadwal ke database dan ganti data tiruan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Booking Jadwal",
+            "title": "Terapkan SEC-06 dan SEC-07 pada Booking Jadwal",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Booking Jadwal",
+            "title": "Tulis uji alur utama Booking Jadwal",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Buat halaman Akun Pelanggan dengan data tiruan DUMMY-ITEM",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Buat tampilan Daftar & Masuk",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Buat tampilan Riwayat Booking",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Tampilkan keadaan kosong, memuat, dan gagal di Akun Pelanggan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Simpan data Akun Pelanggan ke database dan ganti data tiruan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Terapkan SEC-01 dan SEC-02 pada Akun Pelanggan",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Tulis uji alur utama Akun Pelanggan",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Admin",
+            "title": "Buat halaman Dasbor Admin dengan data tiruan DUMMY-ITEM",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Admin",
+            "title": "Buat tampilan Setujui Booking",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Admin",
+            "title": "Buat tampilan Tugaskan Petugas",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Admin",
+            "title": "Buat tampilan Kelola Tarif",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Admin",
+            "title": "Tampilkan keadaan kosong, memuat, dan gagal di Dasbor Admin",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Admin",
+            "title": "Simpan data Dasbor Admin ke database dan ganti data tiruan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Admin",
+            "title": "Terapkan SEC-02 dan SEC-03 pada Dasbor Admin",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Admin",
+            "title": "Tulis uji alur utama Dasbor Admin",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ulasan Pelanggan",
+            "title": "Buat halaman Ulasan Pelanggan dengan data tiruan DUMMY-ITEM",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ulasan Pelanggan",
+            "title": "Buat tampilan Beri Rating",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ulasan Pelanggan",
+            "title": "Buat tampilan Tampilkan Ulasan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ulasan Pelanggan",
+            "title": "Tampilkan keadaan kosong, memuat, dan gagal di Ulasan Pelanggan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ulasan Pelanggan",
+            "title": "Simpan data Ulasan Pelanggan ke database dan ganti data tiruan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ulasan Pelanggan",
+            "title": "Terapkan SEC-04 dan SEC-05 pada Ulasan Pelanggan",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ulasan Pelanggan",
+            "title": "Tulis uji alur utama Ulasan Pelanggan",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        }
+    ]
+}

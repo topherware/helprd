@@ -1,0 +1,109 @@
+{
+  "versi": 1,
+  "catatan": "Daftar stack pilihan di langkah Teknologi. Validator v1.2 membaca berkas ini (bukan menebak dari teks). Vendor default dipakai di bab 12; mode MVP selalu adapter tiruan (mock) sampai M2.",
+  "vendor_bawaan": {
+    "otp": {"nama": "WhatsApp Cloud API", "env": ["WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID"], "biaya": "berbayar per percakapan"},
+    "email": {"nama": "Resend", "env": ["RESEND_API_KEY", "EMAIL_FROM"], "biaya": "gratis untuk kuota kecil, lalu berbayar"},
+    "whatsapp": {"nama": "WhatsApp Cloud API", "env": ["WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID"], "biaya": "berbayar per percakapan"},
+    "pembayaran": {"nama": "Midtrans", "env": ["MIDTRANS_SERVER_KEY", "MIDTRANS_CLIENT_KEY"], "biaya": "biaya per transaksi"},
+    "penyimpanan": {"nama": "Cloudflare R2", "env": ["R2_ACCOUNT_ID", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY", "R2_BUCKET"], "biaya": "gratis untuk kuota kecil, lalu berbayar"},
+    "rate_limit": {"nama": "Upstash Redis", "env": ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"], "biaya": "gratis untuk kuota kecil, lalu berbayar"}
+  },
+  "stacks": [
+    {
+      "id": "standar_planku",
+      "nama": "Standar PlanKu",
+      "ringkas": "Next.js + Auth.js + PostgreSQL (Neon) + Drizzle ORM + Tailwind CSS + shadcn/ui",
+      "kata_kunci": ["Next.js", "Drizzle"],
+      "runtime": "Node.js (TypeScript)",
+      "db": "postgresql",
+      "bahasa_skema": "ts",
+      "rls": false,
+      "serverless": true,
+      "lapisan": {
+        "Frontend": "Next.js (App Router) + Tailwind CSS + shadcn/ui",
+        "Backend": "Next.js Route Handlers / Server Actions",
+        "Database": "PostgreSQL (Neon) + Drizzle ORM",
+        "Autentikasi": "Auth.js",
+        "Deployment": "Vercel",
+        "Pengujian": "Vitest + Playwright"
+      },
+      "perintah": {"jalan": "npm run dev", "uji": "npm test"},
+      "vendor": {}
+    },
+    {
+      "id": "full_supabase",
+      "nama": "Full Supabase",
+      "ringkas": "Next.js + Supabase Auth + PostgreSQL + Realtime/Storage + Tailwind CSS",
+      "kata_kunci": ["Next.js", "Supabase"],
+      "runtime": "Node.js (TypeScript)",
+      "db": "postgresql",
+      "bahasa_skema": "sql",
+      "rls": true,
+      "serverless": true,
+      "lapisan": {
+        "Frontend": "Next.js (App Router) + Tailwind CSS",
+        "Backend": "Supabase (PostgREST, Edge Functions) + Next.js Route Handlers",
+        "Database": "Supabase PostgreSQL dengan Row Level Security",
+        "Autentikasi": "Supabase Auth",
+        "Deployment": "Vercel + Supabase",
+        "Pengujian": "Vitest + Playwright"
+      },
+      "perintah": {"jalan": "npm run dev", "uji": "npm test"},
+      "vendor": {
+        "penyimpanan": {"nama": "Supabase Storage", "env": ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"], "biaya": "gratis untuk kuota kecil, lalu berbayar"},
+        "email": {"nama": "Supabase Auth Email + Resend", "env": ["RESEND_API_KEY", "EMAIL_FROM"], "biaya": "gratis untuk kuota kecil, lalu berbayar"}
+      }
+    },
+    {
+      "id": "react_node",
+      "nama": "React Vite + Node.js",
+      "ringkas": "React (Vite) SPA + Express + PostgreSQL (Prisma)",
+      "kata_kunci": ["React", "Express"],
+      "runtime": "Node.js (TypeScript)",
+      "db": "postgresql",
+      "bahasa_skema": "prisma",
+      "rls": false,
+      "serverless": false,
+      "lapisan": {
+        "Frontend": "React + Vite + Tailwind CSS",
+        "Backend": "Node.js + Express",
+        "Database": "PostgreSQL + Prisma ORM",
+        "Autentikasi": "Sesi cookie httpOnly + bcrypt",
+        "Deployment": "VPS atau Render (server Node.js tetap menyala)",
+        "Pengujian": "Vitest + Supertest + Playwright"
+      },
+      "perintah": {"jalan": "npm run dev", "uji": "npm test"},
+      "vendor": {
+        "rate_limit": {"nama": "Tabel rate limit di PostgreSQL", "env": [], "biaya": "tanpa biaya tambahan"}
+      }
+    },
+    {
+      "id": "react_cloudflare",
+      "nama": "React + Cloudflare",
+      "ringkas": "React (Vite) + Cloudflare Workers + Hono + D1",
+      "kata_kunci": ["Hono", "D1"],
+      "runtime": "Cloudflare Workers (TypeScript)",
+      "db": "d1",
+      "bahasa_skema": "sql",
+      "rls": false,
+      "serverless": true,
+      "lapisan": {
+        "Frontend": "React + Vite + Tailwind CSS (Cloudflare Pages)",
+        "Backend": "Cloudflare Workers + Hono",
+        "Database": "Cloudflare D1 (SQLite)",
+        "Autentikasi": "Sesi bertanda tangan di cookie httpOnly",
+        "Deployment": "Cloudflare Pages + Workers",
+        "Pengujian": "Vitest + Miniflare"
+      },
+      "perintah": {"jalan": "npm run dev", "uji": "npm test"},
+      "vendor": {
+        "rate_limit": {"nama": "Cloudflare Workers KV", "env": ["RATE_LIMIT_KV_NAMESPACE_ID"], "biaya": "gratis untuk kuota kecil, lalu berbayar"}
+      }
+    }
+  ],
+  "nilai_sah": {
+    "db": ["postgresql", "mysql", "sqlite", "d1", "mongodb", "none"],
+    "bahasa_skema": ["sql", "ts", "prisma"]
+  }
+}

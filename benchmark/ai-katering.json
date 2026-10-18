@@ -1,0 +1,3782 @@
+{
+    "catatan": "AI sungguhan (claude-sonnet-5 via proxy), Full Supabase, gaya Bebas, cara kerja per Fase; setelah Pass 3–5 (audit + perbaikan)",
+    "brief": {
+        "judul": "BekalKu - Katering Sekolah",
+        "ide": "Website katering makan siang anak SD: orang tua melihat menu minggu ini, membandingkan paket dan harga, lalu memesan tanpa akun atau dengan akun. Pemilik katering mengelola menu, foto, dan harga sendiri. Data alergi anak dicatat.",
+        "qa": [
+            {
+                "teks": "Coba ceritakan, siapa saja yang bakal pakai website ini dan selama ini mereka pesan katering makan siang anak gimana caranya? Misalnya: orang tua pesan lewat chat WhatsApp ke pemilik katering setiap minggu, atau pemilik katering catat pesanan manual di buku/Excel. Ceritakan juga kendala yang sering muncul dengan cara lama itu.",
+                "jawaban": "(dilewati)"
+            },
+            {
+                "teks": "Kalau orang tua baru buka website ini, tujuan utama mereka ngapain?",
+                "jawaban": "(dilewati)"
+            },
+            {
+                "teks": "Dari semua fitur yang mungkin ada, mana yang paling wajib ada di versi pertama (tanpa itu produk nggak jalan)?",
+                "jawaban": "(dilewati)"
+            },
+            {
+                "teks": "Dibanding cara pesan yang lama (misal chat WA), keunggulan apa yang paling pengin ditonjolkan dari website ini?",
+                "jawaban": "(dilewati)"
+            },
+            {
+                "teks": "Menurutmu, apa yang bikin orang tua mau balik lagi pesan tiap minggu lewat website ini (bukan balik ke WA)?",
+                "jawaban": "(dilewati)"
+            }
+        ],
+        "features": [
+            {
+                "id": 224,
+                "nama": "Menu Mingguan",
+                "fase": 1,
+                "ikon": "kalender",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Lihat menu per hari",
+                    "Foto makanan tiap menu",
+                    "Info bahan & alergen",
+                    "Jadwal menu minggu depan"
+                ]
+            },
+            {
+                "id": 225,
+                "nama": "Paket & Harga",
+                "fase": 1,
+                "ikon": "uang",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Bandingkan paket katering",
+                    "Harga per porsi/paket",
+                    "Pilih durasi (harian/mingguan)"
+                ]
+            },
+            {
+                "id": 226,
+                "nama": "Pesan Tanpa Akun",
+                "fase": 1,
+                "ikon": "keranjang",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Checkout sebagai tamu",
+                    "Isi data anak & sekolah",
+                    "Catat alergi anak",
+                    "Pilih tanggal & jumlah porsi"
+                ]
+            },
+            {
+                "id": 227,
+                "nama": "Akun Pelanggan",
+                "fase": 1,
+                "ikon": "pengguna",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Daftar & login email",
+                    "Simpan data anak tersimpan",
+                    "Riwayat pesanan"
+                ]
+            },
+            {
+                "id": 228,
+                "nama": "Kelola Menu Admin",
+                "fase": 1,
+                "ikon": "pengaturan",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Tambah/edit/hapus menu",
+                    "Upload foto menu",
+                    "Atur harga paket",
+                    "Atur stok harian"
+                ]
+            },
+            {
+                "id": 229,
+                "nama": "Status Pesanan",
+                "fase": 2,
+                "ikon": "dokumen",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Update status pesanan",
+                    "Notifikasi perubahan status",
+                    "Riwayat status pesanan"
+                ]
+            },
+            {
+                "id": 230,
+                "nama": "Kupon Diskon",
+                "fase": 2,
+                "ikon": "bintang",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Kupon persen pelanggan baru",
+                    "Cek masa berlaku kupon",
+                    "Terapkan saat checkout"
+                ]
+            },
+            {
+                "id": 231,
+                "nama": "Log Audit Pesanan",
+                "fase": 2,
+                "ikon": "dokumen",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Catat setiap ubah status",
+                    "Catat siapa & waktu ubah",
+                    "Lihat riwayat perubahan"
+                ]
+            },
+            {
+                "id": 232,
+                "nama": "Dasbor Pemilik",
+                "fase": 3,
+                "ikon": "grafik",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Ringkasan pesanan harian",
+                    "Statistik menu terpopuler",
+                    "Laporan pendapatan"
+                ]
+            },
+            {
+                "id": 233,
+                "nama": "Notifikasi Pesanan",
+                "fase": 4,
+                "ikon": "notifikasi",
+                "status": "direncanakan",
+                "sub_fitur": [
+                    "Email konfirmasi pesanan",
+                    "Pengingat pesan mingguan",
+                    "Notifikasi pesanan siap"
+                ]
+            }
+        ],
+        "design_style": "bebas",
+        "design_custom": "",
+        "stack_choice": "full_supabase",
+        "stack_custom": "",
+        "ui_only": false,
+        "ai_workflow": "fase",
+        "extra_notes": "Kupon diskon persentase untuk pelanggan baru\nAudit log untuk setiap perubahan status pesanan"
+    },
+    "prd": {
+        "profil": {
+            "bendera_ai": {
+                "hasPricedEntity": true,
+                "hasTransactionRecord": true,
+                "hasAdminMutation": true,
+                "hasGuestFlow": true,
+                "usesOtp": false,
+                "usesEmail": true,
+                "usesWhatsappApi": false,
+                "usesPayment": false,
+                "usesFileStorage": true,
+                "usesRateLimit": true,
+                "hasDarkTheme": false,
+                "multiRole": true
+            },
+            "bendera": {
+                "uiOnly": false,
+                "hasDatabase": true,
+                "hasPricedEntity": true,
+                "hasTransactionRecord": true,
+                "hasAdminMutation": true,
+                "hasGuestFlow": true,
+                "usesOtp": false,
+                "usesEmail": true,
+                "usesWhatsappApi": false,
+                "usesPayment": false,
+                "usesFileStorage": true,
+                "usesRateLimit": true,
+                "serverless": true,
+                "hasDarkTheme": false,
+                "multiRole": true
+            },
+            "stack": {
+                "id": "full_supabase",
+                "nama": "Full Supabase",
+                "ringkas": "Next.js + Supabase Auth + PostgreSQL + Realtime/Storage + Tailwind CSS",
+                "kata_kunci": [
+                    "Next.js",
+                    "Supabase"
+                ],
+                "runtime": "Node.js (TypeScript)",
+                "db": "postgresql",
+                "bahasa_skema": "sql",
+                "rls": true,
+                "serverless": true,
+                "lapisan": {
+                    "Frontend": "Next.js (App Router) + Tailwind CSS",
+                    "Backend": "Supabase (PostgREST, Edge Functions) + Next.js Route Handlers",
+                    "Database": "Supabase PostgreSQL dengan Row Level Security",
+                    "Autentikasi": "Supabase Auth",
+                    "Deployment": "Vercel + Supabase",
+                    "Pengujian": "Vitest + Playwright"
+                },
+                "perintah": {
+                    "jalan": "npm run dev",
+                    "uji": "npm test"
+                },
+                "vendor": {
+                    "otp": {
+                        "nama": "WhatsApp Cloud API",
+                        "env": [
+                            "WHATSAPP_TOKEN",
+                            "WHATSAPP_PHONE_NUMBER_ID"
+                        ],
+                        "biaya": "berbayar per percakapan"
+                    },
+                    "email": {
+                        "nama": "Supabase Auth Email + Resend",
+                        "env": [
+                            "RESEND_API_KEY",
+                            "EMAIL_FROM"
+                        ],
+                        "biaya": "gratis untuk kuota kecil, lalu berbayar"
+                    },
+                    "whatsapp": {
+                        "nama": "WhatsApp Cloud API",
+                        "env": [
+                            "WHATSAPP_TOKEN",
+                            "WHATSAPP_PHONE_NUMBER_ID"
+                        ],
+                        "biaya": "berbayar per percakapan"
+                    },
+                    "pembayaran": {
+                        "nama": "Midtrans",
+                        "env": [
+                            "MIDTRANS_SERVER_KEY",
+                            "MIDTRANS_CLIENT_KEY"
+                        ],
+                        "biaya": "biaya per transaksi"
+                    },
+                    "penyimpanan": {
+                        "nama": "Supabase Storage",
+                        "env": [
+                            "SUPABASE_URL",
+                            "SUPABASE_SERVICE_ROLE_KEY"
+                        ],
+                        "biaya": "gratis untuk kuota kecil, lalu berbayar"
+                    },
+                    "rate_limit": {
+                        "nama": "Upstash Redis",
+                        "env": [
+                            "UPSTASH_REDIS_REST_URL",
+                            "UPSTASH_REDIS_REST_TOKEN"
+                        ],
+                        "biaya": "gratis untuk kuota kecil, lalu berbayar"
+                    }
+                }
+            },
+            "peran": [
+                "pengunjung anonim",
+                "pelanggan",
+                "admin"
+            ],
+            "alasan_stack": "Supabase dipilih karena satu platform ini sudah menyediakan auth (akun pelanggan & admin), database Postgres dengan RLS untuk melindungi data sensitif seperti alergi anak, dan storage untuk foto menu, sehingga cocok untuk kebutuhan MVP katering sekolah tanpa perlu infrastruktur tambahan."
+        },
+        "versi": "1.2",
+        "overview": {
+            "deskripsi": "BekalKu - Katering Sekolah adalah website pemesanan katering makan siang anak SD, tempat orang tua bisa melihat menu mingguan, membandingkan paket dan harga, lalu memesan dengan atau tanpa akun.",
+            "masalah": "Ibu Rina, orang tua murid SD, biasanya pesan katering makan siang anaknya lewat chat WhatsApp ke pemilik katering setiap minggu. Ia sering kesulitan karena harus bolak-balik tanya menu dan harga, lupa mencatat alergi anaknya ke pesan chat yang menumpuk, dan tidak ada cara mudah untuk melihat riwayat pesanan atau memastikan pesanannya sudah diproses.",
+            "tujuan": [
+                "Memudahkan orang tua melihat menu mingguan beserta foto dan info alergen sebelum memesan",
+                "Memungkinkan perbandingan paket dan harga katering secara jelas tanpa harus bertanya manual",
+                "Menyediakan jalur pemesanan cepat tanpa akun maupun dengan akun untuk pelanggan tetap",
+                "Membantu pemilik katering mengelola menu, harga, stok, dan status pesanan dari satu tempat",
+                "Mencatat data alergi anak secara terstruktur agar tidak hilang di riwayat chat"
+            ],
+            "prinsip": [
+                "Data alergi anak wajib tercatat dan terlihat jelas oleh admin saat memproses pesanan",
+                "Pemesanan tanpa akun harus tetap bisa dilakukan tanpa hambatan",
+                "Setiap perubahan status pesanan harus tercatat di audit log, tidak boleh terhapus diam-diam",
+                "Harga dan ketersediaan stok yang ditampilkan ke pelanggan harus konsisten dengan data admin saat itu"
+            ],
+            "sukses": "Produk dianggap berhasil jika orang tua bisa menyelesaikan satu pesanan (lihat menu sampai checkout) tanpa bantuan chat manual ke pemilik katering, dan pemilik katering bisa mengelola menu serta status pesanan sendiri tanpa butuh developer."
+        },
+        "requirements": {
+            "fungsional": [
+                {
+                    "id": "FR-01",
+                    "teks": "Sistem menampilkan menu makan siang per hari dalam satu minggu beserta foto makanan untuk setiap menu",
+                    "fitur": [
+                        "Menu Mingguan"
+                    ]
+                },
+                {
+                    "id": "FR-02",
+                    "teks": "Sistem menampilkan info bahan dan daftar alergen untuk setiap menu yang ditampilkan",
+                    "fitur": [
+                        "Menu Mingguan"
+                    ]
+                },
+                {
+                    "id": "FR-03",
+                    "teks": "Sistem menampilkan jadwal menu minggu depan sebelum minggu tersebut berjalan, bila sudah diisi oleh admin",
+                    "fitur": [
+                        "Menu Mingguan"
+                    ]
+                },
+                {
+                    "id": "FR-04",
+                    "teks": "Sistem menampilkan daftar paket katering (misalnya harian atau mingguan) berikut harga per porsi atau per paket, agar pelanggan dapat membandingkan",
+                    "fitur": [
+                        "Paket & Harga"
+                    ]
+                },
+                {
+                    "id": "FR-05",
+                    "teks": "Pelanggan dapat memilih durasi paket (harian atau mingguan) sebelum melanjutkan ke pemesanan",
+                    "fitur": [
+                        "Paket & Harga"
+                    ]
+                },
+                {
+                    "id": "FR-06",
+                    "teks": "Pengunjung anonim dapat melakukan checkout sebagai tamu tanpa membuat akun",
+                    "fitur": [
+                        "Pesan Tanpa Akun"
+                    ]
+                },
+                {
+                    "id": "FR-07",
+                    "teks": "Saat checkout tamu, sistem mewajibkan pengisian data anak (nama, kelas) dan nama sekolah",
+                    "fitur": [
+                        "Pesan Tanpa Akun"
+                    ]
+                },
+                {
+                    "id": "FR-08",
+                    "teks": "Saat checkout tamu, sistem menyediakan kolom pencatatan alergi anak yang tersimpan sebagai bagian dari data pesanan",
+                    "fitur": [
+                        "Pesan Tanpa Akun"
+                    ]
+                },
+                {
+                    "id": "FR-09",
+                    "teks": "Saat checkout, pelanggan harus memilih tanggal pengiriman makanan dan jumlah porsi sebelum pesanan dapat dikonfirmasi",
+                    "fitur": [
+                        "Pesan Tanpa Akun"
+                    ]
+                },
+                {
+                    "id": "FR-10",
+                    "teks": "Pelanggan dapat mendaftar dan login menggunakan email dan password",
+                    "fitur": [
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "id": "FR-11",
+                    "teks": "Pelanggan yang login dapat menyimpan data anak (termasuk catatan alergi) untuk dipakai ulang di pemesanan berikutnya",
+                    "fitur": [
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "id": "FR-12",
+                    "teks": "Pelanggan yang login dapat melihat riwayat pesanan miliknya sendiri beserta status terkininya",
+                    "fitur": [
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "id": "FR-13",
+                    "teks": "Admin dapat menambah, mengubah, dan menghapus data menu termasuk nama, deskripsi, bahan, dan alergen",
+                    "fitur": [
+                        "Kelola Menu Admin"
+                    ]
+                },
+                {
+                    "id": "FR-14",
+                    "teks": "Admin dapat mengunggah dan mengganti foto untuk setiap menu",
+                    "fitur": [
+                        "Kelola Menu Admin"
+                    ]
+                },
+                {
+                    "id": "FR-15",
+                    "teks": "Admin dapat mengatur harga paket (per porsi dan per durasi) yang langsung tercermin ke halaman Paket & Harga",
+                    "fitur": [
+                        "Kelola Menu Admin"
+                    ]
+                },
+                {
+                    "id": "FR-16",
+                    "teks": "Admin dapat mengatur jumlah stok harian per menu, dan sistem menyembunyikan atau menandai menu sebagai habis saat stok mencapai nol",
+                    "fitur": [
+                        "Kelola Menu Admin"
+                    ]
+                },
+                {
+                    "id": "FR-17",
+                    "teks": "Admin dapat mengubah status pesanan (misalnya: baru, diproses, dikirim, selesai, dibatalkan)",
+                    "fitur": [
+                        "Status Pesanan"
+                    ]
+                },
+                {
+                    "id": "FR-18",
+                    "teks": "Sistem mengirim notifikasi ke pelanggan setiap kali status pesanannya berubah",
+                    "fitur": [
+                        "Status Pesanan"
+                    ]
+                },
+                {
+                    "id": "FR-19",
+                    "teks": "Pelanggan dan admin dapat melihat riwayat perubahan status dari satu pesanan secara berurutan",
+                    "fitur": [
+                        "Status Pesanan"
+                    ]
+                },
+                {
+                    "id": "FR-20",
+                    "teks": "Admin dapat membuat kupon diskon berupa persentase yang hanya berlaku untuk pelanggan baru",
+                    "fitur": [
+                        "Kupon Diskon"
+                    ]
+                },
+                {
+                    "id": "FR-21",
+                    "teks": "Sistem memeriksa masa berlaku kupon dan menolak kupon yang sudah habis masa berlakunya saat diterapkan",
+                    "fitur": [
+                        "Kupon Diskon"
+                    ]
+                },
+                {
+                    "id": "FR-22",
+                    "teks": "Pelanggan dapat menerapkan kode kupon saat checkout dan sistem menampilkan potongan harga sebelum pembayaran dikonfirmasi",
+                    "fitur": [
+                        "Kupon Diskon"
+                    ]
+                },
+                {
+                    "id": "FR-23",
+                    "teks": "Sistem mencatat log audit setiap kali status pesanan diubah, mencakup pesanan mana yang diubah dan status sebelum-sesudah",
+                    "fitur": [
+                        "Log Audit Pesanan"
+                    ]
+                },
+                {
+                    "id": "FR-24",
+                    "teks": "Log audit mencatat siapa (admin mana) yang melakukan perubahan status dan waktu perubahan dilakukan",
+                    "fitur": [
+                        "Log Audit Pesanan"
+                    ]
+                },
+                {
+                    "id": "FR-25",
+                    "teks": "Admin dapat melihat riwayat perubahan status untuk setiap pesanan dalam bentuk daftar kronologis",
+                    "fitur": [
+                        "Log Audit Pesanan"
+                    ]
+                },
+                {
+                    "id": "FR-26",
+                    "teks": "Admin dapat melihat ringkasan jumlah pesanan harian pada dasbor",
+                    "fitur": [
+                        "Dasbor Pemilik"
+                    ]
+                },
+                {
+                    "id": "FR-27",
+                    "teks": "Admin dapat melihat statistik menu yang paling banyak dipesan dalam periode tertentu",
+                    "fitur": [
+                        "Dasbor Pemilik"
+                    ]
+                },
+                {
+                    "id": "FR-28",
+                    "teks": "Admin dapat melihat laporan pendapatan berdasarkan data pesanan yang tercatat di sistem",
+                    "fitur": [
+                        "Dasbor Pemilik"
+                    ]
+                },
+                {
+                    "id": "FR-29",
+                    "teks": "Sistem mengirim email konfirmasi otomatis setelah pesanan berhasil dibuat, baik oleh tamu maupun pelanggan terdaftar",
+                    "fitur": [
+                        "Notifikasi Pesanan"
+                    ]
+                },
+                {
+                    "id": "FR-30",
+                    "teks": "Sistem mengirim pengingat email mingguan kepada pelanggan terdaftar untuk memesan menu minggu berikutnya",
+                    "fitur": [
+                        "Notifikasi Pesanan"
+                    ]
+                },
+                {
+                    "id": "FR-31",
+                    "teks": "Sistem mengirim notifikasi saat pesanan ditandai siap atau dikirim oleh admin",
+                    "fitur": [
+                        "Notifikasi Pesanan"
+                    ]
+                }
+            ],
+            "non_fungsional": [
+                {
+                    "id": "NFR-01",
+                    "teks": "Setiap perubahan pada data menu, harga, atau status pesanan oleh admin tersimpan di database dalam waktu kurang dari 3 detik sejak admin menekan simpan",
+                    "fitur": []
+                },
+                {
+                    "id": "NFR-02",
+                    "teks": "Akses ke data pelanggan (termasuk data alergi anak) dan log audit dibatasi lewat RLS Supabase sehingga hanya admin dan pemilik data yang bersangkutan yang bisa membaca datanya sendiri",
+                    "fitur": []
+                },
+                {
+                    "id": "NFR-03",
+                    "teks": "Formulir checkout tamu dan formulir login/daftar menerapkan pembatasan laju (rate limit) untuk mencegah pengiriman berulang otomatis dalam jumlah besar",
+                    "fitur": []
+                },
+                {
+                    "id": "NFR-04",
+                    "teks": "Foto menu yang diunggah admin disimpan di Supabase Storage dengan batas ukuran file yang divalidasi sebelum diunggah",
+                    "fitur": []
+                },
+                {
+                    "id": "NFR-05",
+                    "teks": "Log audit pesanan bersifat tambah-saja (append-only) dan tidak dapat diubah atau dihapus lewat antarmuka aplikasi",
+                    "fitur": []
+                },
+                {
+                    "id": "NFR-06",
+                    "teks": "Halaman menu mingguan dan paket harga dapat dimuat dan ditampilkan dalam kondisi koneksi internet standar tanpa memerlukan akun untuk mengaksesnya",
+                    "fitur": []
+                }
+            ],
+            "di_luar_cakupan": [
+                "Pembayaran online terintegrasi (payment gateway) tidak termasuk dalam cakupan fase-fase yang disetujui saat ini",
+                "Aplikasi mobile native (hanya website)",
+                "Integrasi langsung dengan sistem data sekolah"
+            ],
+            "pertanyaan_terbuka": [
+                {
+                    "id": "OQ-01",
+                    "teks": "Berapa persentase diskon default untuk kupon pelanggan baru, dan berapa lama masa berlaku standarnya? Perlu ditentukan sebelum implementasi FR-20 dan FR-21",
+                    "fitur": []
+                },
+                {
+                    "id": "OQ-02",
+                    "teks": "Metode pembayaran pesanan belum dijelaskan (transfer manual, konfirmasi manual admin, atau lainnya) — perlu diklarifikasi karena mempengaruhi alur status pesanan di FR-17",
+                    "fitur": []
+                },
+                {
+                    "id": "OQ-03",
+                    "teks": "Apakah satu pelanggan hanya boleh memakai kupon pelanggan baru satu kali, dan bagaimana sistem mendefinisikan 'pelanggan baru' untuk pengguna checkout tamu yang belum punya akun?",
+                    "fitur": []
+                }
+            ],
+            "catatan_diterapkan": [
+                {
+                    "aturan": "Kupon diskon persentase untuk pelanggan baru",
+                    "ref": [
+                        "FR-20",
+                        "FR-21",
+                        "FR-22",
+                        "OQ-01",
+                        "OQ-03"
+                    ]
+                },
+                {
+                    "aturan": "Audit log untuk setiap perubahan status pesanan",
+                    "ref": [
+                        "FR-23",
+                        "FR-24",
+                        "FR-25",
+                        "NFR-05"
+                    ]
+                }
+            ]
+        },
+        "fitur": [
+            {
+                "deskripsi": "Membantu orang tua melihat pilihan makanan anak di sekolah sebelum memutuskan pesan, lengkap dengan info alergen untuk keamanan anak",
+                "sub_fitur": [
+                    "Menampilkan menu makan siang untuk setiap hari dalam seminggu agar orang tua tahu variasi makanannya",
+                    "Menampilkan foto asli makanan tiap menu agar orang tua yakin dengan kualitas dan tampilan makanan",
+                    "Menampilkan info bahan dan daftar alergen tiap menu agar orang tua bisa menghindari makanan berisiko untuk anaknya",
+                    "Menampilkan jadwal menu minggu depan lebih awal agar orang tua bisa merencanakan pesanan dari jauh hari"
+                ]
+            },
+            {
+                "deskripsi": "Memudahkan orang tua membandingkan pilihan paket katering dan harga sebelum memutuskan pesan",
+                "sub_fitur": [
+                    "Menyediakan tampilan perbandingan paket katering agar orang tua mudah memilih sesuai kebutuhan",
+                    "Menampilkan harga per porsi atau per paket secara transparan agar tidak ada kebingungan biaya",
+                    "Menyediakan pilihan durasi harian atau mingguan agar orang tua bisa sesuaikan dengan anggaran dan kebutuhan"
+                ]
+            },
+            {
+                "deskripsi": "Memungkinkan orang tua langsung memesan katering tanpa ribet membuat akun dulu",
+                "sub_fitur": [
+                    "Menyediakan proses checkout sebagai tamu agar pemesanan bisa selesai cepat tanpa akun",
+                    "Menyediakan formulir data anak dan sekolah agar pesanan sampai ke anak dan sekolah yang tepat",
+                    "Menyediakan kolom catatan alergi anak agar dapur katering tahu pantangan makanan anak tersebut",
+                    "Menyediakan pilihan tanggal pengiriman dan jumlah porsi agar pesanan sesuai kebutuhan harian anak"
+                ]
+            },
+            {
+                "deskripsi": "Memberi kemudahan tambahan bagi orang tua yang sering pesan lewat penyimpanan data dan riwayat otomatis",
+                "sub_fitur": [
+                    "Menyediakan pendaftaran dan login dengan email agar pelanggan punya akses pribadi ke pesanannya",
+                    "Menyimpan data anak termasuk catatan alergi agar tidak perlu diisi ulang setiap kali pesan",
+                    "Menampilkan riwayat pesanan pelanggan agar mudah memantau pesanan yang sudah dan sedang berjalan"
+                ]
+            },
+            {
+                "deskripsi": "Memberi pemilik katering kendali penuh untuk mengatur menu, foto, harga, dan stok tanpa bantuan teknis",
+                "sub_fitur": [
+                    "Menyediakan fitur tambah, ubah, hapus menu agar admin bisa memperbarui pilihan makanan kapan saja",
+                    "Menyediakan fitur unggah foto menu agar tampilan menu di website selalu menarik dan akurat",
+                    "Menyediakan fitur atur harga paket agar perubahan harga langsung berlaku di halaman pelanggan",
+                    "Menyediakan fitur atur stok harian agar menu yang sudah habis otomatis tidak bisa dipesan lagi"
+                ]
+            },
+            {
+                "deskripsi": "Memberi kejelasan progres pesanan kepada pelanggan dan mempermudah admin mengelola alur dapur hingga pengiriman",
+                "sub_fitur": [
+                    "Menyediakan fitur ubah status pesanan agar admin bisa menandai progres dari baru hingga selesai",
+                    "Mengirim notifikasi perubahan status agar pelanggan tahu kondisi pesanannya tanpa harus bertanya",
+                    "Menampilkan riwayat status pesanan secara berurutan agar pelanggan dan admin punya catatan yang jelas"
+                ]
+            },
+            {
+                "deskripsi": "Memberi insentif bagi pelanggan baru untuk mencoba layanan sekaligus mendorong pesanan pertama",
+                "sub_fitur": [
+                    "Menyediakan kupon diskon persen khusus pelanggan baru agar lebih menarik untuk mencoba layanan",
+                    "Memeriksa masa berlaku kupon agar kupon kedaluwarsa otomatis ditolak sistem",
+                    "Menerapkan kupon saat checkout agar pelanggan langsung melihat potongan harga sebelum konfirmasi"
+                ]
+            },
+            {
+                "deskripsi": "Memberi jejak pencatatan yang jelas dan dapat dipertanggungjawabkan atas setiap perubahan status pesanan",
+                "sub_fitur": [
+                    "Mencatat setiap perubahan status pesanan agar ada riwayat yang tidak bisa dimanipulasi",
+                    "Mencatat admin dan waktu perubahan agar jelas siapa yang bertanggung jawab atas tiap perubahan",
+                    "Menampilkan riwayat perubahan status agar admin bisa menelusuri kronologi suatu pesanan bila diperlukan"
+                ]
+            },
+            {
+                "deskripsi": "Memberi pemilik katering gambaran bisnis secara ringkas untuk membantu pengambilan keputusan harian",
+                "sub_fitur": [
+                    "Menampilkan ringkasan pesanan harian agar admin cepat tahu beban kerja dapur hari itu",
+                    "Menampilkan statistik menu terpopuler agar admin tahu menu mana yang perlu diperbanyak atau dipertahankan",
+                    "Menampilkan laporan pendapatan agar pemilik bisa memantau performa bisnis dari data pesanan"
+                ]
+            },
+            {
+                "deskripsi": "Membantu pelanggan tetap terinformasi tanpa harus membuka website terus-menerus",
+                "sub_fitur": [
+                    "Mengirim email konfirmasi otomatis setelah pesanan dibuat agar pelanggan punya bukti pemesanan",
+                    "Mengirim pengingat email mingguan agar pelanggan tidak lupa memesan menu minggu berikutnya",
+                    "Mengirim notifikasi saat pesanan siap atau dikirim agar pelanggan siap menerima pesanan"
+                ]
+            }
+        ],
+        "user_flow": [
+            {
+                "judul": "Pengunjung anonim memesan katering sebagai tamu",
+                "fase": "1",
+                "langkah": "Buka halaman Menu Mingguan → Lihat foto dan info alergen tiap menu → Buka halaman Paket & Harga untuk membandingkan → Pilih durasi paket → Lanjut ke Checkout Tanpa Akun → Isi data anak, sekolah, dan catatan alergi → Pilih tanggal dan jumlah porsi → Konfirmasi pesanan"
+            },
+            {
+                "judul": "Pelanggan terdaftar memesan ulang dengan data tersimpan",
+                "fase": "1",
+                "langkah": "Login dengan email → Buka data anak tersimpan → Pilih menu dan paket → Pilih tanggal dan porsi → Terapkan kupon diskon bila tersedia → Konfirmasi pesanan → Lihat riwayat pesanan"
+            },
+            {
+                "judul": "Admin mengelola menu dan stok harian",
+                "fase": "1",
+                "langkah": "Login sebagai admin → Buka Kelola Menu Admin → Tambah atau ubah menu dan foto → Atur harga paket → Atur stok harian → Simpan perubahan agar langsung tampil di halaman pelanggan"
+            },
+            {
+                "judul": "Admin memproses pesanan hingga terkirim",
+                "fase": "2",
+                "langkah": "Login sebagai admin → Buka daftar pesanan → Ubah status pesanan dari baru ke diproses lalu dikirim → Sistem mengirim notifikasi perubahan status ke pelanggan → Sistem mencatat log audit otomatis"
+            },
+            {
+                "judul": "Pelanggan baru menggunakan kupon diskon saat checkout",
+                "fase": "2",
+                "langkah": "Pelanggan baru membuka Checkout → Memasukkan kode kupon → Sistem memeriksa masa berlaku dan status pelanggan baru → Sistem menampilkan potongan harga → Pelanggan konfirmasi pesanan dengan harga setelah diskon"
+            },
+            {
+                "judul": "Admin menelusuri riwayat perubahan status pesanan",
+                "fase": "2",
+                "langkah": "Admin membuka detail satu pesanan → Membuka tab Log Audit → Melihat daftar kronologis perubahan status, admin yang mengubah, dan waktunya"
+            },
+            {
+                "judul": "Admin memantau performa bisnis lewat dasbor",
+                "fase": "3",
+                "langkah": "Admin login → Buka Dasbor Pemilik → Lihat ringkasan pesanan harian → Lihat statistik menu terpopuler → Lihat laporan pendapatan untuk periode tertentu"
+            },
+            {
+                "judul": "Pelanggan menerima notifikasi otomatis sepanjang siklus pesanan",
+                "fase": "1 → 4",
+                "langkah": "Pelanggan menyelesaikan checkout → Sistem mengirim email konfirmasi pesanan → Admin mengubah status menjadi siap/dikirim → Sistem mengirim notifikasi status → Sistem mengirim pengingat mingguan untuk pesanan periode berikutnya"
+            }
+        ],
+        "arsitektur": {
+            "ringkasan": "Aplikasi dibangun dengan Next.js (TypeScript) sebagai frontend dan serverless function, memakai Supabase sebagai backend terpadu untuk autentikasi, database PostgreSQL dengan RLS, Storage foto menu, dan Realtime untuk update status pesanan; alur guest checkout dan admin mutation dipisah lewat kebijakan RLS dan rate limit pada endpoint publik.",
+            "komponen": [
+                {
+                    "nama": "Next.js App (Frontend + API Routes)",
+                    "deskripsi": "Menyajikan halaman menu, paket, checkout, akun, dan dasbor admin, serta menangani logika serverless lewat API routes/edge functions"
+                },
+                {
+                    "nama": "Supabase Auth",
+                    "deskripsi": "Mengelola pendaftaran dan login pelanggan serta admin dengan email dan password, menjadi dasar penentuan peran multiRole"
+                },
+                {
+                    "nama": "PostgreSQL + RLS",
+                    "deskripsi": "Menyimpan data menu, paket, pesanan, data anak, kupon, dan log audit, dengan RLS membatasi akses sesuai peran pengunjung anonim, pelanggan, dan admin"
+                },
+                {
+                    "nama": "Supabase Storage",
+                    "deskripsi": "Menyimpan foto menu yang diunggah admin dengan validasi ukuran file sebelum diunggah"
+                },
+                {
+                    "nama": "Supabase Realtime",
+                    "deskripsi": "Mendorong update status pesanan secara langsung ke halaman riwayat pesanan pelanggan"
+                },
+                {
+                    "nama": "Email Service (via Supabase/3rd party SMTP)",
+                    "deskripsi": "Mengirim email konfirmasi pesanan, pengingat mingguan, dan notifikasi status sesuai kebutuhan usesEmail"
+                },
+                {
+                    "nama": "Rate Limit Middleware",
+                    "deskripsi": "Membatasi laju pengiriman pada formulir checkout tamu dan login/daftar sebagai mitigasi penyalahgunaan otomatis"
+                },
+                {
+                    "nama": "Audit Log Service",
+                    "deskripsi": "Mencatat setiap perubahan status pesanan secara append-only sebagai persyaratan kepatuhan internal, tidak dapat diubah lewat antarmuka"
+                }
+            ],
+            "sequence_mermaid": "sequenceDiagram\nparticipant Tamu as PengunjungAnonim\nparticipant FE as NextJsApp\nparticipant DB as PostgreSQLRLS\nparticipant Storage as SupabaseStorage\nparticipant Admin as Admin\nparticipant Email as EmailService\nTamu->>FE: Buka halaman Menu Mingguan\nFE->>DB: Ambil data menu dan harga\nDB-->>FE: Kirim data menu dan foto\nFE-->>Tamu: Tampilkan menu dan paket\nTamu->>FE: Isi checkout tamu dan data anak\nFE->>DB: Simpan pesanan baru\nDB-->>FE: Konfirmasi pesanan tersimpan\nFE->>Email: Kirim email konfirmasi pesanan\nAdmin->>FE: Login dan buka daftar pesanan\nFE->>DB: Ambil daftar pesanan\nAdmin->>FE: Ubah status pesanan\nFE->>DB: Update status dan catat log audit\nDB-->>FE: Konfirmasi update tersimpan\nFE->>Email: Kirim notifikasi perubahan status\nEmail-->>Tamu: Terima notifikasi status pesanan"
+        },
+        "database": {
+            "catatan": "Skema dirancang untuk mendukung menu mingguan, paket harga, pesanan tamu maupun pelanggan terdaftar, kupon diskon pelanggan baru, dan log audit append-only atas perubahan status pesanan. Harga disimpan sebagai integer rupiah untuk menghindari masalah pembulatan float.",
+            "tabel": [
+                {
+                    "nama": "profil",
+                    "deskripsi": "Data tambahan untuk setiap pengguna terautentikasi (pelanggan atau admin), terhubung ke auth.users milik Supabase Auth",
+                    "tunggal": false,
+                    "teknis": false,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK, FK→auth.users"
+                        },
+                        {
+                            "nama": "nama_lengkap",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "email",
+                            "tipe": "text, unik"
+                        },
+                        {
+                            "nama": "peran",
+                            "tipe": "enum: pelanggan, admin"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "anak_tersimpan",
+                    "deskripsi": "Data anak yang disimpan pelanggan terdaftar untuk dipakai ulang saat pemesanan",
+                    "tunggal": false,
+                    "teknis": false,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "pengguna_id",
+                            "tipe": "uuid, FK→profil"
+                        },
+                        {
+                            "nama": "nama_anak",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "kelas",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "nama_sekolah",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "catatan_alergi",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "menu",
+                    "deskripsi": "Daftar menu makan siang per hari termasuk bahan, alergen, foto, dan stok harian",
+                    "tunggal": false,
+                    "teknis": false,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "nama_menu",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "deskripsi",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "bahan",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "alergen",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "foto_url",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "tanggal_sajian",
+                            "tipe": "date"
+                        },
+                        {
+                            "nama": "stok_harian",
+                            "tipe": "integer"
+                        },
+                        {
+                            "nama": "status",
+                            "tipe": "enum: tersedia, habis, nonaktif"
+                        },
+                        {
+                            "nama": "dibuat_oleh",
+                            "tipe": "uuid, FK→profil"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz"
+                        },
+                        {
+                            "nama": "diubah_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "paket",
+                    "deskripsi": "Paket katering (harian/mingguan) beserta harga per porsi atau per paket yang diatur admin",
+                    "tunggal": false,
+                    "teknis": false,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "nama_paket",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "durasi",
+                            "tipe": "enum: harian, mingguan"
+                        },
+                        {
+                            "nama": "harga_per_porsi",
+                            "tipe": "integer"
+                        },
+                        {
+                            "nama": "harga_paket",
+                            "tipe": "integer"
+                        },
+                        {
+                            "nama": "deskripsi",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "status_aktif",
+                            "tipe": "boolean"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz"
+                        },
+                        {
+                            "nama": "diubah_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "kupon",
+                    "deskripsi": "Kupon diskon persentase khusus pelanggan baru, dengan masa berlaku",
+                    "tunggal": false,
+                    "teknis": false,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "kode_kupon",
+                            "tipe": "text, unik"
+                        },
+                        {
+                            "nama": "persen_diskon",
+                            "tipe": "integer"
+                        },
+                        {
+                            "nama": "hanya_pelanggan_baru",
+                            "tipe": "boolean"
+                        },
+                        {
+                            "nama": "berlaku_dari",
+                            "tipe": "timestamptz"
+                        },
+                        {
+                            "nama": "berlaku_sampai",
+                            "tipe": "timestamptz"
+                        },
+                        {
+                            "nama": "dibuat_oleh",
+                            "tipe": "uuid, FK→profil"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "pesanan",
+                    "deskripsi": "Transaksi pemesanan katering, dapat dibuat oleh pelanggan terdaftar maupun pengunjung anonim (tamu)",
+                    "tunggal": false,
+                    "teknis": false,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "user_id",
+                            "tipe": "uuid, boleh kosong, FK→profil"
+                        },
+                        {
+                            "nama": "nama_tamu",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "kontak_tamu",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "nama_anak_snapshot",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "kelas_snapshot",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "nama_sekolah_snapshot",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "catatan_alergi_snapshot",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "paket_id",
+                            "tipe": "uuid, FK→paket"
+                        },
+                        {
+                            "nama": "nama_paket_snapshot",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "durasi_snapshot",
+                            "tipe": "enum: harian, mingguan"
+                        },
+                        {
+                            "nama": "harga_satuan_snapshot",
+                            "tipe": "integer"
+                        },
+                        {
+                            "nama": "jumlah_porsi",
+                            "tipe": "integer"
+                        },
+                        {
+                            "nama": "tanggal_pengiriman",
+                            "tipe": "date"
+                        },
+                        {
+                            "nama": "kupon_id",
+                            "tipe": "uuid, boleh kosong, FK→kupon"
+                        },
+                        {
+                            "nama": "kode_kupon_snapshot",
+                            "tipe": "text, boleh kosong"
+                        },
+                        {
+                            "nama": "persen_diskon_snapshot",
+                            "tipe": "integer, boleh kosong"
+                        },
+                        {
+                            "nama": "total_harga_snapshot",
+                            "tipe": "integer"
+                        },
+                        {
+                            "nama": "status",
+                            "tipe": "enum: baru, diproses, dikirim, selesai, dibatalkan"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz"
+                        },
+                        {
+                            "nama": "diubah_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "item_pesanan_menu",
+                    "deskripsi": "Rincian menu yang dipilih dalam satu pesanan beserta salinan nama dan foto menu saat transaksi berlangsung",
+                    "tunggal": false,
+                    "teknis": true,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "pesanan_id",
+                            "tipe": "uuid, FK→pesanan"
+                        },
+                        {
+                            "nama": "menu_id",
+                            "tipe": "uuid, boleh kosong, FK→menu"
+                        },
+                        {
+                            "nama": "nama_menu_snapshot",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "foto_url_snapshot",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "tanggal_sajian_snapshot",
+                            "tipe": "date"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                },
+                {
+                    "nama": "log_audit",
+                    "deskripsi": "Catatan append-only atas setiap perubahan status pesanan oleh admin",
+                    "tunggal": false,
+                    "teknis": true,
+                    "kolom": [
+                        {
+                            "nama": "id",
+                            "tipe": "uuid, PK"
+                        },
+                        {
+                            "nama": "aktor_id",
+                            "tipe": "uuid, FK→profil"
+                        },
+                        {
+                            "nama": "aksi",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "entitas",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "entitas_id",
+                            "tipe": "uuid"
+                        },
+                        {
+                            "nama": "ringkasan_perubahan",
+                            "tipe": "text"
+                        },
+                        {
+                            "nama": "dibuat_pada",
+                            "tipe": "timestamptz"
+                        }
+                    ]
+                }
+            ],
+            "relasi": [
+                {
+                    "dari": "profil",
+                    "ke": "anak_tersimpan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "menyimpan"
+                },
+                {
+                    "dari": "profil",
+                    "ke": "pesanan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "membuat"
+                },
+                {
+                    "dari": "profil",
+                    "ke": "menu",
+                    "jenis": "satu-ke-banyak",
+                    "label": "mengelola"
+                },
+                {
+                    "dari": "profil",
+                    "ke": "kupon",
+                    "jenis": "satu-ke-banyak",
+                    "label": "membuat"
+                },
+                {
+                    "dari": "paket",
+                    "ke": "pesanan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "dipesan sebagai"
+                },
+                {
+                    "dari": "kupon",
+                    "ke": "pesanan",
+                    "jenis": "satu-ke-banyak",
+                    "label": "diterapkan pada"
+                },
+                {
+                    "dari": "pesanan",
+                    "ke": "item_pesanan_menu",
+                    "jenis": "satu-ke-banyak",
+                    "label": "berisi"
+                },
+                {
+                    "dari": "menu",
+                    "ke": "item_pesanan_menu",
+                    "jenis": "satu-ke-banyak",
+                    "label": "dirujuk oleh"
+                },
+                {
+                    "dari": "pesanan",
+                    "ke": "log_audit",
+                    "jenis": "satu-ke-banyak",
+                    "label": "dicatat perubahannya pada"
+                },
+                {
+                    "dari": "profil",
+                    "ke": "log_audit",
+                    "jenis": "satu-ke-banyak",
+                    "label": "melakukan aksi pada"
+                }
+            ],
+            "kode_skema": "-- Ekstensi untuk UUID\ncreate extension if not exists \"pgcrypto\";\n\n-- Tabel profil (ekstensi auth.users Supabase)\ncreate table profil (\n  id uuid primary key references auth.users(id) on delete cascade,\n  nama_lengkap text,\n  email text unique not null,\n  peran text not null default 'pelanggan' check (peran in ('pelanggan','admin')),\n  dibuat_pada timestamptz not null default now()\n);\n\n-- Tabel anak_tersimpan\ncreate table anak_tersimpan (\n  id uuid primary key default gen_random_uuid(),\n  pengguna_id uuid not null references profil(id) on delete cascade,\n  nama_anak text not null,\n  kelas text,\n  nama_sekolah text not null,\n  catatan_alergi text,\n  dibuat_pada timestamptz not null default now()\n);\n\n-- Tabel menu\ncreate table menu (\n  id uuid primary key default gen_random_uuid(),\n  nama_menu text not null,\n  deskripsi text,\n  bahan text,\n  alergen text,\n  foto_url text,\n  tanggal_sajian date not null,\n  stok_harian integer not null default 0,\n  status text not null default 'tersedia' check (status in ('tersedia','habis','nonaktif')),\n  dibuat_oleh uuid references profil(id),\n  dibuat_pada timestamptz not null default now(),\n  diubah_pada timestamptz not null default now()\n);\n\n-- Tabel paket\ncreate table paket (\n  id uuid primary key default gen_random_uuid(),\n  nama_paket text not null,\n  durasi text not null check (durasi in ('harian','mingguan')),\n  harga_per_porsi integer not null check (harga_per_porsi >= 0),\n  harga_paket integer check (harga_paket >= 0),\n  deskripsi text,\n  status_aktif boolean not null default true,\n  dibuat_pada timestamptz not null default now(),\n  diubah_pada timestamptz not null default now()\n);\n\n-- Tabel kupon\ncreate table kupon (\n  id uuid primary key default gen_random_uuid(),\n  kode_kupon text unique not null,\n  persen_diskon integer not null check (persen_diskon between 1 and 100),\n  hanya_pelanggan_baru boolean not null default true,\n  berlaku_dari timestamptz not null default now(),\n  berlaku_sampai timestamptz not null,\n  dibuat_oleh uuid references profil(id),\n  dibuat_pada timestamptz not null default now()\n);\n\n-- Tabel pesanan (mendukung tamu dan pelanggan terdaftar)\ncreate table pesanan (\n  id uuid primary key default gen_random_uuid(),\n  user_id uuid references profil(id) on delete set null,\n  nama_tamu text,\n  kontak_tamu text,\n  nama_anak_snapshot text not null,\n  kelas_snapshot text,\n  nama_sekolah_snapshot text not null,\n  catatan_alergi_snapshot text,\n  paket_id uuid references paket(id),\n  nama_paket_snapshot text not null,\n  durasi_snapshot text not null check (durasi_snapshot in ('harian','mingguan')),\n  harga_satuan_snapshot integer not null check (harga_satuan_snapshot >= 0),\n  jumlah_porsi integer not null check (jumlah_porsi > 0),\n  tanggal_pengiriman date not null,\n  kupon_id uuid references kupon(id),\n  kode_kupon_snapshot text,\n  persen_diskon_snapshot integer,\n  total_harga_snapshot integer not null check (total_harga_snapshot >= 0),\n  status text not null default 'baru' check (status in ('baru','diproses','dikirim','selesai','dibatalkan')),\n  dibuat_pada timestamptz not null default now(),\n  diubah_pada timestamptz not null default now(),\n  constraint cek_identitas_pemesan check (user_id is not null or (nama_tamu is not null and kontak_tamu is not null))\n);\n\n-- Tabel item_pesanan_menu (teknis, rincian menu per pesanan)\ncreate table item_pesanan_menu (\n  id uuid primary key default gen_random_uuid(),\n  pesanan_id uuid not null references pesanan(id) on delete cascade,\n  menu_id uuid references menu(id) on delete set null,\n  nama_menu_snapshot text not null,\n  foto_url_snapshot text,\n  tanggal_sajian_snapshot date not null,\n  dibuat_pada timestamptz not null default now()\n);\n\n-- Tabel log_audit (teknis, append-only)\ncreate table log_audit (\n  id uuid primary key default gen_random_uuid(),\n  aktor_id uuid references profil(id),\n  aksi text not null,\n  entitas text not null,\n  entitas_id uuid not null,\n  ringkasan_perubahan text not null,\n  dibuat_pada timestamptz not null default now()\n);\n\n-- Indeks pendukung\ncreate index idx_menu_tanggal on menu(tanggal_sajian);\ncreate index idx_pesanan_user on pesanan(user_id);\ncreate index idx_pesanan_tanggal on pesanan(tanggal_pengiriman);\ncreate index idx_log_audit_entitas on log_audit(entitas, entitas_id);\n\n-- Aktifkan RLS\nalter table profil enable row level security;\nalter table anak_tersimpan enable row level security;\nalter table menu enable row level security;\nalter table paket enable row level security;\nalter table kupon enable row level security;\nalter table pesanan enable row level security;\nalter table item_pesanan_menu enable row level security;\nalter table log_audit enable row level security;\n\n-- Fungsi bantu cek peran admin\ncreate or replace function is_admin() returns boolean as $$\n  select exists (\n    select 1 from profil where id = auth.uid() and peran = 'admin'\n  );\n$$ language sql security definer stable;\n\n-- Kebijakan profil\ncreate policy profil_lihat_sendiri on profil for select using (id = auth.uid() or is_admin());\ncreate policy profil_update_sendiri on profil for update using (id = auth.uid());\n\n-- Kebijakan anak_tersimpan\ncreate policy anak_lihat_sendiri on anak_tersimpan for select using (pengguna_id = auth.uid() or is_admin());\ncreate policy anak_insert_sendiri on anak_tersimpan for insert with check (pengguna_id = auth.uid());\ncreate policy anak_update_sendiri on anak_tersimpan for update using (pengguna_id = auth.uid());\ncreate policy anak_delete_sendiri on anak_tersimpan for delete using (pengguna_id = auth.uid());\n\n-- Kebijakan menu (publik baca, admin kelola)\ncreate policy menu_baca_publik on menu for select using (true);\ncreate policy menu_kelola_admin on menu for insert with check (is_admin());\ncreate policy menu_update_admin on menu for update using (is_admin());\ncreate policy menu_delete_admin on menu for delete using (is_admin());\n\n-- Kebijakan paket (publik baca, admin kelola)\ncreate policy paket_baca_publik on paket for select using (true);\ncreate policy paket_kelola_admin on paket for insert with check (is_admin());\ncreate policy paket_update_admin on paket for update using (is_admin());\ncreate policy paket_delete_admin on paket for delete using (is_admin());\n\n-- Kebijakan kupon (baca terbatas untuk cek kode, kelola oleh admin)\ncreate policy kupon_baca_terbatas on kupon for select using (true);\ncreate policy kupon_kelola_admin on kupon for insert with check (is_admin());\ncreate policy kupon_update_admin on kupon for update using (is_admin());\ncreate policy kupon_delete_admin on kupon for delete using (is_admin());\n\n-- Kebijakan pesanan (pemilik data atau admin)\ncreate policy pesanan_lihat_sendiri on pesanan for select using (user_id = auth.uid() or is_admin());\ncreate policy pesanan_insert_publik on pesanan for insert with check (user_id = auth.uid() or user_id is null);\ncreate policy pesanan_update_admin on pesanan for update using (is_admin());\n\n-- Kebijakan item_pesanan_menu (ikut akses pesanan induk)\ncreate policy item_pesanan_lihat on item_pesanan_menu for select using (\n  exists (select 1 from pesanan p where p.id = pesanan_id and (p.user_id = auth.uid() or is_admin()))\n);\ncreate policy item_pesanan_insert on item_pesanan_menu for insert with check (\n  exists (select 1 from pesanan p where p.id = pesanan_id and (p.user_id = auth.uid() or p.user_id is null))\n);\n\n-- Kebijakan log_audit (hanya admin baca, hanya admin insert, tidak ada update/delete)\ncreate policy log_audit_baca_admin on log_audit for select using (is_admin());\ncreate policy log_audit_insert_admin on log_audit for insert with check (is_admin());",
+            "aturan_pemicu": {
+                "snapshot": "Saat pesanan dibuat, sistem menyalin data anak (nama_anak_snapshot, kelas_snapshot, nama_sekolah_snapshot, catatan_alergi_snapshot), data paket (nama_paket_snapshot, durasi_snapshot, harga_satuan_snapshot), data kupon jika dipakai (kode_kupon_snapshot, persen_diskon_snapshot), dan data menu per item (nama_menu_snapshot, foto_url_snapshot, tanggal_sajian_snapshot) dari tabel master ke kolom snapshot di pesanan/item_pesanan_menu, sehingga perubahan harga, foto, atau data anak di kemudian hari tidak mengubah riwayat pesanan yang sudah terjadi.",
+                "log_audit": "Setiap perubahan status pesanan oleh admin (baru→diproses, diproses→dikirim, dikirim→selesai, atau pembatalan ke status dibatalkan) wajib dicatat di log_audit dengan aksi='ubah_status_pesanan', entitas='pesanan', entitas_id=id pesanan, aktor_id=admin yang melakukan, dan ringkasan_perubahan berisi status sebelum dan sesudah. Aksi admin lain yang juga dicatat: tambah/ubah/hapus menu, ubah harga paket, dan buat kupon.",
+                "tamu": "Pesanan tamu diizinkan dengan user_id kosong, asalkan nama_tamu dan kontak_tamu terisi (dijaga lewat constraint cek_identitas_pemesan). Untuk kebutuhan operasional dapur, jumlah porsi dan tanggal_pengiriman pada setiap pesanan (baik tamu maupun pelanggan terdaftar) tetap menjadi acuan utama penghitungan slot harian, bukan status akun pemesan."
+            },
+            "kebijakan_akses": [
+                {
+                    "tabel": "profil",
+                    "aturan": "Pengguna hanya bisa membaca dan mengubah baris profilnya sendiri; admin bisa membaca semua profil untuk kebutuhan operasional."
+                },
+                {
+                    "tabel": "anak_tersimpan",
+                    "aturan": "Hanya pemilik data (pengguna_id = auth.uid()) yang bisa membaca, menambah, mengubah, atau menghapus data anak miliknya; admin bisa membaca untuk keperluan layanan."
+                },
+                {
+                    "tabel": "pesanan",
+                    "aturan": "Pelanggan hanya bisa melihat pesanan miliknya sendiri (user_id = auth.uid()); pengunjung anonim bisa membuat pesanan baru tanpa akun; hanya admin yang bisa mengubah status pesanan."
+                },
+                {
+                    "tabel": "item_pesanan_menu",
+                    "aturan": "Akses mengikuti kepemilikan pesanan induk; hanya pemilik pesanan atau admin yang bisa membaca."
+                },
+                {
+                    "tabel": "log_audit",
+                    "aturan": "Hanya admin yang bisa membaca dan menambah baris log; tidak ada kebijakan update atau delete sehingga log bersifat append-only secara struktural."
+                },
+                {
+                    "tabel": "kupon",
+                    "aturan": "Semua pihak bisa membaca kupon untuk validasi kode saat checkout, tetapi hanya admin yang bisa membuat, mengubah, atau menghapus kupon."
+                }
+            ]
+        },
+        "tech_stack": [
+            {
+                "lapisan": "Frontend",
+                "pilihan": "Next.js (TypeScript) + Tailwind CSS",
+                "alasan": "Mendukung rendering halaman publik (menu, paket) yang cepat diakses tanpa akun sekaligus halaman admin yang interaktif, dengan Tailwind mempercepat penataan UI yang konsisten."
+            },
+            {
+                "lapisan": "Backend",
+                "pilihan": "Next.js API Routes/Edge Functions (serverless) di atas Supabase",
+                "alasan": "Logika seperti validasi kupon, pembuatan snapshot pesanan, dan pencatatan log audit bisa dijalankan sebagai fungsi serverless tanpa mengelola server sendiri."
+            },
+            {
+                "lapisan": "Database",
+                "pilihan": "PostgreSQL (Supabase) dengan RLS",
+                "alasan": "Mendukung relasi data menu-paket-pesanan yang kompleks sekaligus RLS untuk memisahkan akses data pribadi antar peran pengunjung anonim, pelanggan, dan admin."
+            },
+            {
+                "lapisan": "Autentikasi",
+                "pilihan": "Supabase Auth (email & password)",
+                "alasan": "Menyediakan sistem login/daftar siap pakai untuk pelanggan dan admin sesuai kebutuhan multiRole tanpa membangun autentikasi dari nol."
+            },
+            {
+                "lapisan": "Penyimpanan Berkas",
+                "pilihan": "Supabase Storage",
+                "alasan": "Menyimpan foto menu yang diunggah admin dengan kontrol akses dan validasi ukuran file terintegrasi dengan database yang sama."
+            },
+            {
+                "lapisan": "Rahasia & Konfigurasi",
+                "pilihan": "Environment variables server-side: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, SUPABASE_ANON_KEY, SMTP_HOST, SMTP_USER, SMTP_PASSWORD, RATE_LIMIT_SECRET",
+                "alasan": "Memisahkan kredensial sensitif (terutama service role key untuk operasi admin dan kredensial SMTP) dari kode sumber demi mitigasi kebocoran rahasia."
+            },
+            {
+                "lapisan": "Deployment",
+                "pilihan": "Vercel (hosting Next.js serverless) + Supabase Cloud",
+                "alasan": "Keduanya saling mendukung untuk arsitektur serverless yang sudah ditentukan, tanpa perlu mengelola infrastruktur server manual."
+            },
+            {
+                "lapisan": "Pengujian",
+                "pilihan": "Vitest/Jest untuk unit test logika checkout & kupon, Playwright untuk uji alur end-to-end checkout tamu dan admin",
+                "alasan": "Alur kritikal seperti perhitungan diskon kupon dan perubahan status pesanan perlu diuji otomatis agar perubahan kode tidak merusak logika bisnis yang sudah berjalan."
+            }
+        ],
+        "keputusan_teknologi": {
+            "stack": "Full Supabase — Next.js + Supabase Auth + PostgreSQL + Realtime/Storage + Tailwind CSS",
+            "alasan": "Stack ini dipilih karena menyatukan autentikasi, database relasional dengan RLS, penyimpanan foto, dan update realtime dalam satu platform terkelola, sehingga cocok untuk aplikasi dengan kebutuhan multiRole, transaksi tamu, dan data sensitif seperti alergi anak tanpa perlu mengintegrasikan banyak layanan terpisah."
+        },
+        "keamanan": {
+            "klasifikasi_data": [
+                {
+                    "data": "Nama lengkap pengguna terdaftar",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "profil.nama_lengkap",
+                    "akses": "pemilik profil sendiri (baca/tulis), admin (baca untuk operasional)",
+                    "retensi": "selama akun aktif, dihapus/dianonimkan maksimal 30 hari setelah akun ditutup atas permintaan",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Email pengguna",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "profil.email",
+                    "akses": "pemilik profil sendiri (baca/tulis), admin (baca untuk operasional)",
+                    "retensi": "selama akun aktif, dihapus/dianonimkan setelah akun ditutup",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Kata sandi pengguna (dikelola Supabase Auth, tersimpan sebagai hash)",
+                    "sensitivitas": "sensitif",
+                    "lokasi": "auth.users (layanan Supabase Auth, bukan tabel aplikasi)",
+                    "akses": "tidak diakses langsung oleh kode aplikasi; hanya diproses lewat API Supabase Auth",
+                    "retensi": "selama akun aktif, dihapus otomatis saat akun dihapus di Supabase Auth",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Identitas & sekolah anak tersimpan (nama anak, kelas, nama sekolah)",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "anak_tersimpan.nama_anak, anak_tersimpan.kelas, anak_tersimpan.nama_sekolah",
+                    "akses": "pelanggan pemilik data (baca/tulis/hapus), admin (baca untuk operasional dapur)",
+                    "retensi": "selama akun pelanggan aktif atau sampai dihapus manual oleh pelanggan",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Catatan alergi anak pada data tersimpan (data kesehatan)",
+                    "sensitivitas": "sensitif",
+                    "lokasi": "anak_tersimpan.catatan_alergi",
+                    "akses": "pelanggan pemilik data (baca/tulis/hapus), admin dapur yang menyiapkan pesanan (baca)",
+                    "retensi": "selama akun pelanggan aktif atau sampai dihapus manual oleh pelanggan",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Identitas staf yang mengelola entri menu",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "menu.dibuat_oleh",
+                    "akses": "admin (baca/tulis via sistem saat membuat/mengubah menu)",
+                    "retensi": "selama data menu masih tersimpan untuk kebutuhan jejak operasional",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Data kontak tamu (nama, nomor kontak) saat checkout tanpa akun",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "pesanan.nama_tamu, pesanan.kontak_tamu",
+                    "akses": "tamu pembuat pesanan (via konfirmasi), admin (baca untuk proses pesanan)",
+                    "retensi": "disimpan selama diperlukan untuk pemenuhan pesanan, diusulkan dihapus/dianonimkan setelah periode tertentu pascapesanan selesai",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Identitas & sekolah anak pada snapshot pesanan",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "pesanan.nama_anak_snapshot, pesanan.kelas_snapshot, pesanan.nama_sekolah_snapshot",
+                    "akses": "pelanggan/tamu pemilik pesanan, admin (baca untuk proses pengiriman)",
+                    "retensi": "mengikuti retensi pesanan terkait",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Catatan alergi anak pada snapshot pesanan (data kesehatan)",
+                    "sensitivitas": "sensitif",
+                    "lokasi": "pesanan.catatan_alergi_snapshot",
+                    "akses": "pelanggan/tamu pemilik pesanan, admin dapur yang menyiapkan pesanan (baca)",
+                    "retensi": "mengikuti retensi pesanan terkait",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Data transaksi & harga pesanan pelanggan (harga satuan, total, kupon terpakai)",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "pesanan.harga_satuan_snapshot, pesanan.total_harga_snapshot, pesanan.kode_kupon_snapshot, pesanan.persen_diskon_snapshot",
+                    "akses": "pelanggan/tamu pemilik pesanan (baca), admin (baca untuk rekonsiliasi dan laporan)",
+                    "retensi": "disimpan untuk kebutuhan pembukuan selama masa usaha katering berjalan",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Rincian menu per pesanan yang terhubung ke identitas pemesan dan anak melalui pesanan induk",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "item_pesanan_menu.pesanan_id, item_pesanan_menu.menu_id",
+                    "akses": "pelanggan/tamu pemilik pesanan induk (baca), admin (baca untuk operasional dapur)",
+                    "retensi": "mengikuti retensi pesanan terkait",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Identitas staf pembuat kupon diskon",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "kupon.dibuat_oleh",
+                    "akses": "admin (baca/tulis via sistem saat membuat kupon)",
+                    "retensi": "selama data kupon masih tersimpan untuk kebutuhan jejak operasional",
+                    "boleh_masuk_log": false
+                },
+                {
+                    "data": "Identitas staf pelaku aksi pada log audit",
+                    "sensitivitas": "pribadi",
+                    "lokasi": "log_audit.aktor_id",
+                    "akses": "admin (baca); hanya sistem yang menulis saat aksi admin terjadi",
+                    "retensi": "disimpan permanen sebagai jejak audit append-only selama sistem beroperasi",
+                    "boleh_masuk_log": false
+                }
+            ],
+            "prinsip_akses": "Setiap peran hanya mendapat akses minimum yang diperlukan untuk tugasnya: pengunjung anonim hanya bisa membaca info publik dan membuat pesanan tamu, pelanggan hanya bisa mengakses data miliknya sendiri lewat RLS Supabase, dan admin mendapat akses operasional penuh namun seluruh aksinya diperiksa ulang di server serta dicatat di log audit.",
+            "hak_akses": [
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Menu Mingguan",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Paket & Harga",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Kupon Diskon",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Pesanan",
+                    "aksi": [
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "pengunjung anonim",
+                    "sumber_daya": "Item Pesanan Menu",
+                    "aksi": [
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "pelanggan",
+                    "sumber_daya": "Menu Mingguan",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pelanggan",
+                    "sumber_daya": "Paket & Harga",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pelanggan",
+                    "sumber_daya": "Kupon Diskon",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "pelanggan",
+                    "sumber_daya": "Anak Tersimpan",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "pelanggan",
+                    "sumber_daya": "Pesanan",
+                    "aksi": [
+                        "baca",
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "pelanggan",
+                    "sumber_daya": "Item Pesanan Menu",
+                    "aksi": [
+                        "baca",
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "pelanggan",
+                    "sumber_daya": "Profil",
+                    "aksi": [
+                        "baca",
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "admin",
+                    "sumber_daya": "Menu Mingguan",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "admin",
+                    "sumber_daya": "Paket & Harga",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "admin",
+                    "sumber_daya": "Kupon Diskon",
+                    "aksi": [
+                        "baca",
+                        "tulis",
+                        "hapus"
+                    ]
+                },
+                {
+                    "peran": "admin",
+                    "sumber_daya": "Pesanan",
+                    "aksi": [
+                        "baca",
+                        "tulis"
+                    ]
+                },
+                {
+                    "peran": "admin",
+                    "sumber_daya": "Item Pesanan Menu",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "admin",
+                    "sumber_daya": "Anak Tersimpan",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "admin",
+                    "sumber_daya": "Profil",
+                    "aksi": [
+                        "baca"
+                    ]
+                },
+                {
+                    "peran": "admin",
+                    "sumber_daya": "Log Audit Pesanan",
+                    "aksi": [
+                        "baca",
+                        "tulis"
+                    ]
+                }
+            ],
+            "persyaratan": [
+                {
+                    "id": "SEC-01",
+                    "kelompok": "Autentikasi & Sesi",
+                    "teks": "Pendaftaran dan login pelanggan/admin memakai kebijakan kata sandi minimal 8 karakter yang disimpan sebagai hash oleh Supabase Auth, dan sesi login punya masa kedaluwarsa, bisa logout, serta token sesi diganti setelah login berhasil.",
+                    "kontrol": [
+                        "akun.sandi",
+                        "akun.sesi"
+                    ],
+                    "fitur": [
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "id": "SEC-02",
+                    "kelompok": "Autentikasi & Sesi",
+                    "teks": "Percobaan login yang gagal dibatasi per akun dan per alamat IP untuk mencegah serangan tebak kata sandi berulang.",
+                    "kontrol": [
+                        "akun.batas_percobaan"
+                    ],
+                    "fitur": [
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "id": "SEC-03",
+                    "kelompok": "Otorisasi",
+                    "teks": "Matriks peran pengunjung anonim/pelanggan/admin ditulis dan diterapkan: setiap aksi kelola menu, paket, kupon, dan status pesanan diperiksa ulang perannya di server pada setiap permintaan, bukan hanya disembunyikan di tampilan.",
+                    "kontrol": [
+                        "admin.matriks_peran",
+                        "admin.otorisasi_server",
+                        "dasar.otorisasi"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Admin"
+                    ]
+                },
+                {
+                    "id": "SEC-04",
+                    "kelompok": "Logging & Audit",
+                    "teks": "Setiap aksi admin yang mengubah status pesanan, menu, harga paket, atau kupon dicatat di tabel log_audit (append-only) berisi siapa pelakunya, aksi apa, dan kapan terjadi.",
+                    "kontrol": [
+                        "admin.log_audit"
+                    ],
+                    "fitur": [
+                        "Log Audit Pesanan"
+                    ]
+                },
+                {
+                    "id": "SEC-05",
+                    "kelompok": "Otorisasi",
+                    "teks": "Tabel profil, anak_tersimpan, pesanan, dan item_pesanan_menu memakai Row Level Security Supabase sehingga pelanggan hanya bisa membaca/mengubah baris miliknya sendiri berdasarkan kepemilikan data.",
+                    "kontrol": [
+                        "multi.akses_baris"
+                    ],
+                    "fitur": [
+                        "Pesan Tanpa Akun",
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "id": "SEC-06",
+                    "kelompok": "Unggah File",
+                    "teks": "Unggahan foto menu oleh admin dibatasi ukuran maksimum dan hanya menerima tipe berkas gambar (jpg, png, webp), divalidasi di server sebelum disimpan ke Supabase Storage.",
+                    "kontrol": [
+                        "unggah.batas"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Admin"
+                    ]
+                },
+                {
+                    "id": "SEC-07",
+                    "kelompok": "Unggah File",
+                    "teks": "Foto menu bersifat publik untuk kebutuhan pemasaran, namun kebijakan storage menetapkan bahwa berkas apa pun yang mengandung data pribadi tidak diberi URL publik permanen, melainkan wajib memakai tautan bertanda tangan berumur pendek sesuai peran pengakses.",
+                    "kontrol": [
+                        "unggah.akses_privat"
+                    ],
+                    "fitur": [
+                        "Kelola Menu Admin"
+                    ]
+                },
+                {
+                    "id": "SEC-08",
+                    "kelompok": "Privasi",
+                    "teks": "Formulir checkout tamu dan penyimpanan data anak tersimpan wajib menampilkan persetujuan eksplisit orang tua/wali sebelum data anak (termasuk alergi) dikumpulkan dan disimpan.",
+                    "kontrol": [
+                        "anak.persetujuan_wali"
+                    ],
+                    "fitur": [
+                        "Pesan Tanpa Akun",
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "id": "SEC-09",
+                    "kelompok": "Privasi",
+                    "teks": "Data alergi anak diklasifikasikan sensitif dan hanya bisa dibaca oleh pelanggan/tamu pemilik data serta admin yang menyiapkan pesanan; nilai mentah catatan alergi tidak pernah ditulis ke log_audit atau log sistem lain.",
+                    "kontrol": [
+                        "sehat.sensitif",
+                        "sehat.tanpa_log"
+                    ],
+                    "fitur": [
+                        "Pesan Tanpa Akun",
+                        "Akun Pelanggan"
+                    ]
+                },
+                {
+                    "id": "SEC-10",
+                    "kelompok": "Validasi Input & Output",
+                    "teks": "Seluruh input formulir publik (checkout tamu, pendaftaran, penerapan kupon) divalidasi di server dengan query berparameter dan escape keluaran, memakai token CSRF pada permintaan bersesi cookie, kunci Supabase/SMTP hanya disimpan sebagai environment variable server-side, dan seluruh trafik wajib HTTPS.",
+                    "kontrol": [
+                        "dasar.validasi",
+                        "dasar.rahasia",
+                        "dasar.https"
+                    ],
+                    "fitur": [
+                        "Pesan Tanpa Akun"
+                    ]
+                },
+                {
+                    "id": "SEC-11",
+                    "kelompok": "Privasi",
+                    "teks": "Email notifikasi pesanan (konfirmasi, pengingat, status siap) hanya dikirim ke alamat yang diberikan pengguna sendiri saat checkout atau registrasi, dengan kanal pengiriman (email) dinyatakan jelas kepada pengguna.",
+                    "kontrol": [
+                        "notif.optin"
+                    ],
+                    "fitur": [
+                        "Notifikasi Pesanan"
+                    ]
+                },
+                {
+                    "id": "SEC-12",
+                    "kelompok": "Pihak Ketiga & Dependensi",
+                    "teks": "Sistem tidak menyimpan data kartu pembayaran sendiri; bila integrasi penyedia pembayaran ditambahkan, wajib memakai tokenisasi dan memverifikasi tanda tangan webhook sebelum status pesanan diproses, serta kejadian keamanan terkait dicatat di log tanpa menyertakan kata sandi, token, atau data pribadi mentah.",
+                    "kontrol": [
+                        "bayar.tokenisasi",
+                        "bayar.webhook_tanda_tangan",
+                        "dasar.log_bersih"
+                    ],
+                    "fitur": [
+                        "Status Pesanan"
+                    ]
+                }
+            ],
+            "hardening": [
+                "Pemulihan akun lewat tautan atau kode sekali pakai yang cepat kedaluwarsa",
+                "Pesan login, daftar, dan lupa sandi tidak membocorkan apakah sebuah akun terdaftar",
+                "Area admin wajib login dengan peran admin dan tidak mengandalkan URL yang dirahasiakan",
+                "Isi berkas foto menu diverifikasi tipe sebenarnya, bukan hanya ekstensi file",
+                "Data anak dibatasi pada yang benar-benar diperlukan untuk operasional pesanan",
+                "Data anak punya retensi pendek dan dihapus setelah tidak diperlukan lagi",
+                "Setiap notifikasi email menyediakan cara berhenti berlangganan",
+                "Pembatasan laju diterapkan pada endpoint API publik seperti checkout dan cek kupon"
+            ],
+            "owasp": {
+                "edisi": "OWASP Top 10:2025",
+                "kategori": [
+                    {
+                        "kode": "A01:2025",
+                        "nama": "Broken Access Control",
+                        "sec": [
+                            "SEC-03",
+                            "SEC-05"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A02:2025",
+                        "nama": "Security Misconfiguration",
+                        "sec": [
+                            "SEC-10"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A03:2025",
+                        "nama": "Software Supply Chain Failures",
+                        "sec": [],
+                        "alasan": "Pemantauan dan pembaruan dependensi pihak ketiga secara berkala masuk kategori hardening pascapeluncuran, belum ada SEC MVP khusus karena bersifat ritual berkala."
+                    },
+                    {
+                        "kode": "A04:2025",
+                        "nama": "Cryptographic Failures",
+                        "sec": [
+                            "SEC-01",
+                            "SEC-10"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A05:2025",
+                        "nama": "Injection",
+                        "sec": [
+                            "SEC-10"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A06:2025",
+                        "nama": "Insecure Design",
+                        "sec": [
+                            "SEC-08",
+                            "SEC-09"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A07:2025",
+                        "nama": "Authentication Failures",
+                        "sec": [
+                            "SEC-01",
+                            "SEC-02"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A08:2025",
+                        "nama": "Software or Data Integrity Failures",
+                        "sec": [
+                            "SEC-12"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A09:2025",
+                        "nama": "Security Logging and Alerting Failures",
+                        "sec": [
+                            "SEC-04",
+                            "SEC-12"
+                        ],
+                        "alasan": ""
+                    },
+                    {
+                        "kode": "A10:2025",
+                        "nama": "Mishandling of Exceptional Conditions",
+                        "sec": [],
+                        "alasan": "Penanganan kesalahan agar tidak membocorkan detail internal (stack trace, query, path) direncanakan sebagai hardening pascapeluncuran, belum menjadi SEC MVP terpisah."
+                    }
+                ]
+            },
+            "risiko_tersisa": [
+                "Kepatuhan terhadap UU Pelindungan Data Pribadi (UU No. 27/2022) perlu ditinjau ahli hukum sebelum peluncuran luas",
+                "Integrasi payment gateway nyata belum ada; kontrol tokenisasi dan verifikasi webhook saat ini masih berupa kebijakan desain yang belum teruji end-to-end",
+                "Proses penghapusan dan retensi data anak jangka panjang masih bergantung pada tindakan manual admin, belum ada mekanisme otomatis",
+                "Pemantauan dependensi pihak ketiga (library Next.js, Supabase, layanan email) dan pembaruan keamanannya belum punya proses terjadwal di tahap MVP",
+                "Rencana pemulihan bencana dan pengujian backup belum diverifikasi karena termasuk ritual berkala di luar lingkup MVP"
+            ]
+        },
+        "design": {
+            "alasan": "Gaya hangat-ramah ala konsumen keluarga dengan warna hangat oranye-hijau segar dan kartu lembut, dipilih karena target pengguna utama orang tua awam yang menilai menu makanan anak dari kesan bersih, hangat, dan terpercaya",
+            "warna": {
+                "terang": {
+                    "primary": "#EA580C",
+                    "secondary": "#16A34A",
+                    "accent": "#F59E0B",
+                    "background": "#FFFBF5",
+                    "surface": "#FFFFFF",
+                    "text": "#1C1917",
+                    "text_muted": "#6B7280",
+                    "border": "#E7E0D8",
+                    "success": "#15803D",
+                    "warning": "#B45309",
+                    "danger": "#B91C1C"
+                },
+                "gelap": []
+            },
+            "tipografi": {
+                "font_judul": "Poppins",
+                "font_isi": "Inter",
+                "skala": [
+                    12,
+                    14,
+                    16,
+                    20,
+                    24,
+                    32
+                ],
+                "tinggi_baris": "1.5",
+                "sumber": "Google Fonts"
+            },
+            "ukuran": {
+                "ketuk_min": 44,
+                "spasi": [
+                    4,
+                    8,
+                    12,
+                    16,
+                    24,
+                    32
+                ],
+                "radius": "12px untuk kartu dan input, 8px untuk badge, full untuk avatar",
+                "bayangan": "shadow lembut (0 2px 8px rgba(0,0,0,0.06)) untuk kartu, shadow sedikit lebih tebal saat hover",
+                "lebar_maks": "1200px",
+                "breakpoint": [
+                    "640px",
+                    "768px",
+                    "1024px"
+                ]
+            },
+            "komponen": [
+                {
+                    "nama": "Tombol primer",
+                    "gaya": "latar primary (#EA580C), teks putih, radius 12px, padding 12x20px; hover sedikit lebih gelap, fokus ring 2px warna accent, nonaktif opacity 50% dan kursor not-allowed"
+                },
+                {
+                    "nama": "Tombol sekunder",
+                    "gaya": "outline border warna primary, teks primary, latar transparan; hover latar primary 10% opacity, fokus ring 2px, nonaktif border & teks abu-abu text_muted"
+                },
+                {
+                    "nama": "Tombol bahaya",
+                    "gaya": "latar danger (#B91C1C), teks putih, radius 12px; hover lebih gelap, fokus ring 2px warna danger pudar, nonaktif opacity 50%, dipakai khusus untuk aksi hapus menu atau batalkan pesanan"
+                },
+                {
+                    "nama": "Kartu menu",
+                    "gaya": "surface putih, radius 12px, shadow lembut, foto menu rasio 4:3 di atas, padding 16px, border 1px warna border saat tidak hover"
+                },
+                {
+                    "nama": "Input form",
+                    "gaya": "border 1px warna border, radius 8px, padding 12px, latar putih; fokus border primary + ring tipis, error border danger dengan teks bantuan merah di bawah"
+                },
+                {
+                    "nama": "Badge status pesanan",
+                    "gaya": "pill radius full, padding 4x10px, teks 12px semibold; warna mengikuti status (baru=accent, diproses=warning, dikirim=secondary, selesai=success, dibatalkan=danger)"
+                },
+                {
+                    "nama": "Tabel/daftar pesanan admin",
+                    "gaya": "baris bergaris border tipis horizontal, header sticky latar surface, hover baris latar primary 5% opacity, kolom status pakai badge"
+                },
+                {
+                    "nama": "Dialog",
+                    "gaya": "overlay gelap 50% opacity, panel surface radius 16px, shadow tebal, tombol aksi di kanan bawah, tombol tutup di kanan atas"
+                },
+                {
+                    "nama": "Toast",
+                    "gaya": "muncul kanan atas, radius 10px, latar sesuai jenis (success/warning/danger), auto-hilang 4 detik, bisa ditutup manual"
+                }
+            ],
+            "nuansa": {
+                "sifat": [
+                    "hangat",
+                    "ramah",
+                    "bersih",
+                    "terpercaya",
+                    "mudah"
+                ],
+                "hindari": [
+                    "kesan medis/dingin seperti aplikasi rumah sakit",
+                    "terlalu ramai warna dan ornamen dekoratif"
+                ]
+            },
+            "keadaan": {
+                "loading": "skeleton kartu abu-abu berkedip lembut untuk daftar menu dan pesanan, spinner kecil pada tombol saat submit",
+                "kosong": "ilustrasi sederhana + teks ramah misalnya 'Menu minggu ini belum tersedia' lengkap dengan saran aksi berikutnya",
+                "error": "pesan error singkat dalam bahasa manusia dengan tombol coba lagi, tanpa menampilkan detail teknis ke pengguna"
+            },
+            "aksesibilitas": [
+                "Semua elemen interaktif punya focus ring terlihat minimal 2px kontras tinggi",
+                "Setiap foto menu dan ikon status punya teks alternatif/label pembaca layar yang menjelaskan isinya",
+                "Kontras teks terhadap background dijaga minimal 4.5:1 di seluruh komponen",
+                "Formulir checkout dan login punya label eksplisit (bukan hanya placeholder) agar terbaca pembaca layar"
+            ]
+        },
+        "rute": {
+            "rute": [
+                {
+                    "path": "/",
+                    "halaman": "Beranda & Menu Mingguan",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "header + footer",
+                    "sumber": [
+                        "Menu Mingguan",
+                        "FR-01",
+                        "FR-02",
+                        "FR-03"
+                    ]
+                },
+                {
+                    "path": "/paket",
+                    "halaman": "Bandingkan Paket & Harga",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "header + footer",
+                    "sumber": [
+                        "Paket & Harga",
+                        "FR-04",
+                        "FR-05"
+                    ]
+                },
+                {
+                    "path": "/checkout",
+                    "halaman": "Checkout Pesanan",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "header + footer minimal (fokus checkout)",
+                    "sumber": [
+                        "Pesan Tanpa Akun",
+                        "FR-06",
+                        "FR-07",
+                        "FR-08",
+                        "FR-09",
+                        "Kupon Diskon",
+                        "FR-22"
+                    ]
+                },
+                {
+                    "path": "/pesanan/konfirmasi/:id",
+                    "halaman": "Konfirmasi Pesanan Berhasil",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "header + footer minimal",
+                    "sumber": [
+                        "Pesan Tanpa Akun",
+                        "Notifikasi Pesanan",
+                        "FR-29"
+                    ]
+                },
+                {
+                    "path": "/daftar",
+                    "halaman": "Daftar Akun",
+                    "peran": [
+                        "pengunjung anonim"
+                    ],
+                    "layout": "header + footer minimal",
+                    "sumber": [
+                        "Akun Pelanggan",
+                        "FR-10"
+                    ]
+                },
+                {
+                    "path": "/masuk",
+                    "halaman": "Masuk / Login",
+                    "peran": [
+                        "pengunjung anonim"
+                    ],
+                    "layout": "header + footer minimal",
+                    "sumber": [
+                        "Akun Pelanggan",
+                        "FR-10"
+                    ]
+                },
+                {
+                    "path": "/akun/anak",
+                    "halaman": "Data Anak Tersimpan",
+                    "peran": [
+                        "pelanggan"
+                    ],
+                    "layout": "header + sidebar akun",
+                    "sumber": [
+                        "Akun Pelanggan",
+                        "FR-11"
+                    ]
+                },
+                {
+                    "path": "/akun/pesanan",
+                    "halaman": "Riwayat Pesanan Saya",
+                    "peran": [
+                        "pelanggan"
+                    ],
+                    "layout": "header + sidebar akun",
+                    "sumber": [
+                        "Akun Pelanggan",
+                        "FR-12",
+                        "Status Pesanan",
+                        "FR-19"
+                    ]
+                },
+                {
+                    "path": "/akun/pesanan/:id",
+                    "halaman": "Detail Pesanan & Riwayat Status",
+                    "peran": [
+                        "pelanggan"
+                    ],
+                    "layout": "header + sidebar akun",
+                    "sumber": [
+                        "Status Pesanan",
+                        "FR-19"
+                    ]
+                },
+                {
+                    "path": "/admin/login",
+                    "halaman": "Masuk Admin",
+                    "peran": [
+                        "admin"
+                    ],
+                    "layout": "form terpusat tanpa sidebar",
+                    "sumber": [
+                        "Kelola Menu Admin"
+                    ]
+                },
+                {
+                    "path": "/admin/menu",
+                    "halaman": "Kelola Menu",
+                    "peran": [
+                        "admin"
+                    ],
+                    "layout": "sidebar admin",
+                    "sumber": [
+                        "Kelola Menu Admin",
+                        "FR-13",
+                        "FR-14",
+                        "FR-16"
+                    ]
+                },
+                {
+                    "path": "/admin/menu/:id",
+                    "halaman": "Edit Menu & Foto",
+                    "peran": [
+                        "admin"
+                    ],
+                    "layout": "sidebar admin",
+                    "sumber": [
+                        "Kelola Menu Admin",
+                        "FR-13",
+                        "FR-14"
+                    ]
+                },
+                {
+                    "path": "/admin/paket",
+                    "halaman": "Kelola Paket & Harga",
+                    "peran": [
+                        "admin"
+                    ],
+                    "layout": "sidebar admin",
+                    "sumber": [
+                        "Kelola Menu Admin",
+                        "FR-15"
+                    ]
+                },
+                {
+                    "path": "/admin/pesanan",
+                    "halaman": "Kelola Pesanan & Status",
+                    "peran": [
+                        "admin"
+                    ],
+                    "layout": "sidebar admin",
+                    "sumber": [
+                        "Status Pesanan",
+                        "FR-17",
+                        "FR-18"
+                    ]
+                },
+                {
+                    "path": "/admin/pesanan/:id",
+                    "halaman": "Detail Pesanan & Log Audit",
+                    "peran": [
+                        "admin"
+                    ],
+                    "layout": "sidebar admin",
+                    "sumber": [
+                        "Status Pesanan",
+                        "FR-19",
+                        "Log Audit Pesanan",
+                        "FR-23",
+                        "FR-24",
+                        "FR-25"
+                    ]
+                },
+                {
+                    "path": "/admin/kupon",
+                    "halaman": "Kelola Kupon Diskon",
+                    "peran": [
+                        "admin"
+                    ],
+                    "layout": "sidebar admin",
+                    "sumber": [
+                        "Kupon Diskon",
+                        "FR-20",
+                        "FR-21"
+                    ]
+                },
+                {
+                    "path": "/admin/dasbor",
+                    "halaman": "Dasbor Pemilik",
+                    "peran": [
+                        "admin"
+                    ],
+                    "layout": "sidebar admin",
+                    "sumber": [
+                        "Dasbor Pemilik",
+                        "FR-26",
+                        "FR-27",
+                        "FR-28"
+                    ]
+                }
+            ],
+            "navigasi": [
+                {
+                    "peran": "pengunjung anonim",
+                    "komponen": "header + footer",
+                    "item": [
+                        "Menu Minggu Ini",
+                        "Paket & Harga",
+                        "Pesan Sekarang",
+                        "Masuk",
+                        "Daftar"
+                    ]
+                },
+                {
+                    "peran": "pelanggan",
+                    "komponen": "header + footer dengan menu akun dropdown",
+                    "item": [
+                        "Menu Minggu Ini",
+                        "Paket & Harga",
+                        "Pesan Sekarang",
+                        "Data Anak",
+                        "Riwayat Pesanan",
+                        "Keluar"
+                    ]
+                },
+                {
+                    "peran": "admin",
+                    "komponen": "sidebar admin",
+                    "item": [
+                        "Dasbor",
+                        "Kelola Menu",
+                        "Kelola Paket",
+                        "Kelola Pesanan",
+                        "Kelola Kupon",
+                        "Keluar"
+                    ]
+                }
+            ],
+            "rute_khusus": [
+                {
+                    "jenis": "404",
+                    "path": "/404",
+                    "halaman": "Halaman Tidak Ditemukan"
+                },
+                {
+                    "jenis": "403",
+                    "path": "/403",
+                    "halaman": "Akses Ditolak"
+                },
+                {
+                    "jenis": "error",
+                    "path": "/error",
+                    "halaman": "Terjadi Kesalahan Sistem"
+                },
+                {
+                    "jenis": "masuk",
+                    "path": "/masuk",
+                    "halaman": "Masuk Pelanggan"
+                },
+                {
+                    "jenis": "keluar",
+                    "path": "/keluar",
+                    "halaman": "Proses Keluar Sesi"
+                }
+            ],
+            "penjaga_akses": [
+                "Rute /akun/* wajib sesi login peran pelanggan, merujuk NFR-02 untuk pembatasan RLS data milik sendiri",
+                "Rute /admin/* wajib sesi login peran admin, akses ditolak (403) untuk peran lain",
+                "Rute /checkout dan konfirmasi pesanan terbuka untuk pengunjung anonim dan pelanggan sesuai FR-06, dengan mitigasi rate limit sesuai NFR-03",
+                "Rute /admin/pesanan/:id menampilkan log audit yang bersifat append-only sesuai NFR-05, tidak ada aksi hapus pada log dari antarmuka manapun"
+            ]
+        },
+        "dummy": {
+            "dataset": [
+                {
+                    "id": "DUMMY-PROFIL",
+                    "tabel": "profil",
+                    "kolom": [
+                        "id",
+                        "nama_lengkap",
+                        "email",
+                        "peran",
+                        "dibuat_pada"
+                    ],
+                    "baris": [
+                        [
+                            "a1b2c3d4-0001",
+                            "Rina Kusuma",
+                            "rina.kusuma@email.com",
+                            "pelanggan",
+                            "Sen, 05 Jan 2026"
+                        ],
+                        [
+                            "a1b2c3d4-0002",
+                            "Dedi Pratama",
+                            "dedi.pratama@email.com",
+                            "pelanggan",
+                            "Sel, 06 Jan 2026"
+                        ],
+                        [
+                            "a1b2c3d4-0003",
+                            "Siti Admin",
+                            "admin@bekalku.id",
+                            "admin",
+                            "Rab, 01 Jan 2026"
+                        ]
+                    ]
+                },
+                {
+                    "id": "DUMMY-ANAK",
+                    "tabel": "anak_tersimpan",
+                    "kolom": [
+                        "id",
+                        "pengguna_id",
+                        "nama_anak",
+                        "kelas",
+                        "nama_sekolah",
+                        "catatan_alergi",
+                        "dibuat_pada"
+                    ],
+                    "baris": [
+                        [
+                            "b2c3d4e5-0001",
+                            "a1b2c3d4-0001",
+                            "Kayla Kusuma",
+                            "3A",
+                            "SD Negeri 2 Melati",
+                            "Alergi kacang",
+                            "Sen, 05 Jan 2026"
+                        ],
+                        [
+                            "b2c3d4e5-0002",
+                            "a1b2c3d4-0002",
+                            "Raka Pratama",
+                            "5B",
+                            "SD Harapan Bangsa",
+                            "Tidak ada alergi",
+                            "Sel, 06 Jan 2026"
+                        ],
+                        [
+                            "b2c3d4e5-0003",
+                            "a1b2c3d4-0001",
+                            "Nadia Kusuma",
+                            "1C",
+                            "SD Negeri 2 Melati",
+                            "Alergi susu sapi",
+                            "Sen, 05 Jan 2026"
+                        ]
+                    ]
+                },
+                {
+                    "id": "DUMMY-MENU",
+                    "tabel": "menu",
+                    "kolom": [
+                        "id",
+                        "nama_menu",
+                        "deskripsi",
+                        "bahan",
+                        "alergen",
+                        "foto_url",
+                        "tanggal_sajian",
+                        "stok_harian",
+                        "status",
+                        "dibuat_oleh",
+                        "dibuat_pada",
+                        "diubah_pada"
+                    ],
+                    "baris": [
+                        [
+                            "c3d4e5f6-0001",
+                            "Nasi Ayam Teriyaki",
+                            "Nasi hangat dengan ayam teriyaki dan sayur rebus",
+                            "Nasi, ayam, kecap, wortel, buncis",
+                            "Kedelai",
+                            "https://cdn.bekalku.id/menu/nasi-ayam-teriyaki.jpg",
+                            "Sen, 12 Jan 2026",
+                            40,
+                            "tersedia",
+                            "a1b2c3d4-0003",
+                            "Rab, 07 Jan 2026",
+                            "Rab, 07 Jan 2026"
+                        ],
+                        [
+                            "c3d4e5f6-0002",
+                            "Nasi Goreng Sayur",
+                            "Nasi goreng dengan telur dan sayuran campur",
+                            "Nasi, telur, wortel, kacang polong",
+                            "Telur",
+                            "https://cdn.bekalku.id/menu/nasi-goreng-sayur.jpg",
+                            "Sel, 13 Jan 2026",
+                            35,
+                            "tersedia",
+                            "a1b2c3d4-0003",
+                            "Rab, 07 Jan 2026",
+                            "Rab, 07 Jan 2026"
+                        ],
+                        [
+                            "c3d4e5f6-0003",
+                            "Soto Ayam Bihun",
+                            "Soto ayam kuah bening dengan bihun dan telur rebus",
+                            "Ayam, bihun, telur, kentang",
+                            "Telur",
+                            "https://cdn.bekalku.id/menu/soto-ayam-bihun.jpg",
+                            "Rab, 14 Jan 2026",
+                            0,
+                            "habis",
+                            "a1b2c3d4-0003",
+                            "Kam, 08 Jan 2026",
+                            "Sen, 12 Jan 2026"
+                        ]
+                    ]
+                },
+                {
+                    "id": "DUMMY-PAKET",
+                    "tabel": "paket",
+                    "kolom": [
+                        "id",
+                        "nama_paket",
+                        "durasi",
+                        "harga_per_porsi",
+                        "harga_paket",
+                        "deskripsi",
+                        "status_aktif",
+                        "dibuat_pada",
+                        "diubah_pada"
+                    ],
+                    "baris": [
+                        [
+                            "d4e5f6a7-0001",
+                            "Paket Harian Hemat",
+                            "harian",
+                            15000,
+                            "",
+                            "Satu porsi makan siang untuk satu hari sekolah",
+                            true,
+                            "Rab, 01 Jan 2026",
+                            "Rab, 01 Jan 2026"
+                        ],
+                        [
+                            "d4e5f6a7-0002",
+                            "Paket Mingguan Reguler",
+                            "mingguan",
+                            14000,
+                            70000,
+                            "Lima porsi makan siang untuk hari Senin sampai Jumat",
+                            true,
+                            "Rab, 01 Jan 2026",
+                            "Rab, 01 Jan 2026"
+                        ],
+                        [
+                            "d4e5f6a7-0003",
+                            "Paket Mingguan Hemat",
+                            "mingguan",
+                            13000,
+                            65000,
+                            "Lima porsi dengan menu rotasi hemat",
+                            false,
+                            "Kam, 02 Jan 2026",
+                            "Sen, 12 Jan 2026"
+                        ]
+                    ]
+                },
+                {
+                    "id": "DUMMY-KUPON",
+                    "tabel": "kupon",
+                    "kolom": [
+                        "id",
+                        "kode_kupon",
+                        "persen_diskon",
+                        "hanya_pelanggan_baru",
+                        "berlaku_dari",
+                        "berlaku_sampai",
+                        "dibuat_oleh",
+                        "dibuat_pada"
+                    ],
+                    "baris": [
+                        [
+                            "e5f6a7b8-0001",
+                            "BEKALBARU10",
+                            "10",
+                            true,
+                            "Rab, 01 Jan 2026",
+                            "Sab, 31 Jan 2026",
+                            "a1b2c3d4-0003",
+                            "Rab, 01 Jan 2026"
+                        ],
+                        [
+                            "e5f6a7b8-0002",
+                            "HEMAT15",
+                            "15",
+                            true,
+                            "Sen, 05 Jan 2026",
+                            "Min, 15 Feb 2026",
+                            "a1b2c3d4-0003",
+                            "Sen, 05 Jan 2026"
+                        ],
+                        [
+                            "e5f6a7b8-0003",
+                            "PROMOLAMA5",
+                            "5",
+                            false,
+                            "Rab, 01 Jan 2026",
+                            "Jum, 30 Jan 2026",
+                            "a1b2c3d4-0003",
+                            "Rab, 01 Jan 2026"
+                        ]
+                    ]
+                },
+                {
+                    "id": "DUMMY-PESANAN",
+                    "tabel": "pesanan",
+                    "kolom": [
+                        "id",
+                        "user_id",
+                        "nama_tamu",
+                        "kontak_tamu",
+                        "nama_anak_snapshot",
+                        "kelas_snapshot",
+                        "nama_sekolah_snapshot",
+                        "catatan_alergi_snapshot",
+                        "paket_id",
+                        "nama_paket_snapshot",
+                        "durasi_snapshot",
+                        "harga_satuan_snapshot",
+                        "jumlah_porsi",
+                        "tanggal_pengiriman",
+                        "kupon_id",
+                        "kode_kupon_snapshot",
+                        "persen_diskon_snapshot",
+                        "total_harga_snapshot",
+                        "status",
+                        "dibuat_pada"
+                    ],
+                    "baris": [
+                        [
+                            "f6a7b8c9-0001",
+                            "a1b2c3d4-0001",
+                            "",
+                            "",
+                            "Kayla Kusuma",
+                            "3A",
+                            "SD Negeri 2 Melati",
+                            "Alergi kacang",
+                            "d4e5f6a7-0002",
+                            "Paket Mingguan Reguler",
+                            "mingguan",
+                            14000,
+                            5,
+                            "Sen, 12 Jan 2026",
+                            "e5f6a7b8-0001",
+                            "BEKALBARU10",
+                            "10",
+                            63000,
+                            "diproses",
+                            "Kam, 08 Jan 2026"
+                        ],
+                        [
+                            "f6a7b8c9-0002",
+                            "",
+                            "Dewi Lestari",
+                            "0812-3456-7890",
+                            "Fahri Lestari",
+                            "2B",
+                            "SD Pelita Bangsa",
+                            "Tidak ada alergi",
+                            "d4e5f6a7-0001",
+                            "Paket Harian Hemat",
+                            "harian",
+                            15000,
+                            1,
+                            "Sel, 13 Jan 2026",
+                            "",
+                            "",
+                            "",
+                            15000,
+                            "baru",
+                            "Jum, 09 Jan 2026"
+                        ],
+                        [
+                            "f6a7b8c9-0003",
+                            "a1b2c3d4-0002",
+                            "",
+                            "",
+                            "Raka Pratama",
+                            "5B",
+                            "SD Harapan Bangsa",
+                            "Tidak ada alergi",
+                            "d4e5f6a7-0002",
+                            "Paket Mingguan Reguler",
+                            "mingguan",
+                            14000,
+                            5,
+                            "Sen, 12 Jan 2026",
+                            "",
+                            "",
+                            "",
+                            70000,
+                            "selesai",
+                            "Sel, 06 Jan 2026"
+                        ]
+                    ]
+                },
+                {
+                    "id": "DUMMY-ITEM-PESANAN",
+                    "tabel": "item_pesanan_menu",
+                    "kolom": [
+                        "id",
+                        "pesanan_id",
+                        "menu_id",
+                        "nama_menu_snapshot",
+                        "foto_url_snapshot",
+                        "tanggal_sajian_snapshot",
+                        "dibuat_pada"
+                    ],
+                    "baris": [
+                        [
+                            "a7b8c9d0-0001",
+                            "f6a7b8c9-0001",
+                            "c3d4e5f6-0001",
+                            "Nasi Ayam Teriyaki",
+                            "https://cdn.bekalku.id/menu/nasi-ayam-teriyaki.jpg",
+                            "Sen, 12 Jan 2026",
+                            "Kam, 08 Jan 2026"
+                        ],
+                        [
+                            "a7b8c9d0-0002",
+                            "f6a7b8c9-0002",
+                            "c3d4e5f6-0002",
+                            "Nasi Goreng Sayur",
+                            "https://cdn.bekalku.id/menu/nasi-goreng-sayur.jpg",
+                            "Sel, 13 Jan 2026",
+                            "Jum, 09 Jan 2026"
+                        ],
+                        [
+                            "a7b8c9d0-0003",
+                            "f6a7b8c9-0003",
+                            "c3d4e5f6-0001",
+                            "Nasi Ayam Teriyaki",
+                            "https://cdn.bekalku.id/menu/nasi-ayam-teriyaki.jpg",
+                            "Sen, 12 Jan 2026",
+                            "Sel, 06 Jan 2026"
+                        ]
+                    ]
+                },
+                {
+                    "id": "DUMMY-LOG-AUDIT",
+                    "tabel": "log_audit",
+                    "kolom": [
+                        "id",
+                        "aktor_id",
+                        "aksi",
+                        "entitas",
+                        "entitas_id",
+                        "ringkasan_perubahan",
+                        "dibuat_pada"
+                    ],
+                    "baris": [
+                        [
+                            "b8c9d0e1-0001",
+                            "a1b2c3d4-0003",
+                            "ubah_status_pesanan",
+                            "pesanan",
+                            "f6a7b8c9-0001",
+                            "Status diubah dari baru menjadi diproses",
+                            "Jum, 09 Jan 2026"
+                        ],
+                        [
+                            "b8c9d0e1-0002",
+                            "a1b2c3d4-0003",
+                            "ubah_status_pesanan",
+                            "pesanan",
+                            "f6a7b8c9-0003",
+                            "Status diubah dari dikirim menjadi selesai",
+                            "Sen, 12 Jan 2026"
+                        ],
+                        [
+                            "b8c9d0e1-0003",
+                            "a1b2c3d4-0003",
+                            "tambah_menu",
+                            "menu",
+                            "c3d4e5f6-0003",
+                            "Menu Soto Ayam Bihun ditambahkan untuk tanggal 14 Jan 2026",
+                            "Kam, 08 Jan 2026"
+                        ]
+                    ]
+                }
+            ],
+            "template": [
+                {
+                    "nama": "Konfirmasi Pesanan Berhasil",
+                    "isi": "Halo {nama_pemesan}, pesanan katering untuk {nama_anak} ({nama_sekolah}, kelas {kelas}) sudah kami terima. Paket: {nama_paket}, {jumlah_porsi} porsi, tanggal kirim {tanggal_pengiriman}. Total bayar: {total_harga}. Nomor pesanan: {nomor_pesanan}. Terima kasih sudah pesan di BekalKu!",
+                    "contoh": "Halo Bu Rina, pesanan katering untuk Kayla Kusuma (SD Negeri 2 Melati, kelas 3A) sudah kami terima. Paket: Paket Mingguan Reguler, 5 porsi, tanggal kirim Sen, 12 Jan 2026. Total bayar: Rp63.000. Nomor pesanan: f6a7b8c9-0001. Terima kasih sudah pesan di BekalKu!"
+                },
+                {
+                    "nama": "Notifikasi Perubahan Status Pesanan",
+                    "isi": "Halo {nama_pemesan}, status pesanan {nomor_pesanan} untuk {nama_anak} kini berubah menjadi {status_baru}. Terima kasih sudah menunggu ya.",
+                    "contoh": "Halo Bu Dewi, status pesanan f6a7b8c9-0002 untuk Fahri Lestari kini berubah menjadi diproses. Terima kasih sudah menunggu ya."
+                },
+                {
+                    "nama": "Pengingat Pesan Mingguan",
+                    "isi": "Halo {nama_pemesan}, menu minggu depan sudah tersedia di BekalKu. Jangan sampai kehabisan slot untuk {nama_anak}, yuk pesan sebelum {tanggal_batas_pesan}.",
+                    "contoh": "Halo Bu Rina, menu minggu depan sudah tersedia di BekalKu. Jangan sampai kehabisan slot untuk Kayla Kusuma, yuk pesan sebelum Jum, 16 Jan 2026."
+                },
+                {
+                    "nama": "Notifikasi Pesanan Siap Dikirim",
+                    "isi": "Halo {nama_pemesan}, bekal untuk {nama_anak} siap dikirim ke {nama_sekolah} pada {tanggal_pengiriman}. Sampai jumpa minggu depan!",
+                    "contoh": "Halo Bu Rina, bekal untuk Kayla Kusuma siap dikirim ke SD Negeri 2 Melati pada Sen, 12 Jan 2026. Sampai jumpa minggu depan!"
+                },
+                {
+                    "nama": "Kupon Diskon Pelanggan Baru",
+                    "isi": "Halo {nama_pemesan}, selamat datang di BekalKu! Pakai kode {kode_kupon} untuk diskon {persen_diskon}% di pesanan pertamamu. Berlaku sampai {tanggal_berlaku_sampai}.",
+                    "contoh": "Halo Bu Dewi, selamat datang di BekalKu! Pakai kode BEKALBARU10 untuk diskon 10% di pesanan pertamamu. Berlaku sampai Sab, 31 Jan 2026."
+                }
+            ],
+            "copywriting": {
+                "nada": "Hangat, ringkas, dan menenangkan seperti bicara dengan orang tua lain, menghindari istilah teknis dan tidak memakai klaim berlebihan seperti 'aman 100%' atau 'terjamin aman'.",
+                "sapaan": "Pakai 'Bu' atau 'Pak' diikuti nama depan untuk pelanggan dan tamu (contoh: Bu Rina, Pak Dedi), sapaan 'Admin' untuk pengguna peran admin.",
+                "istilah": [
+                    "Pesan Sekarang (bukan 'Checkout')",
+                    "Paket Katering (bukan 'Produk')",
+                    "Data Anak (bukan 'Profil Anak')",
+                    "Catatan Alergi (bukan 'Alergen Pelanggan')",
+                    "Status Pesanan (bukan 'Order Status')",
+                    "Kode Kupon (bukan 'Voucher Code')"
+                ],
+                "microcopy": {
+                    "kosong": "Belum ada menu untuk minggu ini. Coba cek lagi beberapa saat ya.",
+                    "error": "Terjadi kendala saat memproses permintaan. Coba ulangi beberapa saat lagi, atau hubungi kami jika masih berlanjut.",
+                    "sukses": "Pesanan berhasil dibuat. Konfirmasi sudah kami kirim, terima kasih sudah pesan di BekalKu.",
+                    "konfirmasi": "Pastikan data anak dan catatan alergi sudah benar sebelum melanjutkan pembayaran, ya."
+                }
+            }
+        },
+        "layanan": {
+            "layanan": [
+                {
+                    "kebutuhan": "email",
+                    "vendor": "Supabase Auth Email + Resend",
+                    "mock": true,
+                    "alasan": "Mengirim email konfirmasi pesanan, notifikasi perubahan status, pengingat mingguan, dan kupon pelanggan baru tanpa membangun infrastruktur SMTP sendiri; MVP memakai adapter tiruan agar M1/M2 tidak terblokir proses verifikasi domain atau kuota akun Resend.",
+                    "biaya": "gratis untuk kuota kecil, lalu berbayar sesuai volume pengiriman",
+                    "env": [
+                        "RESEND_API_KEY",
+                        "EMAIL_FROM"
+                    ],
+                    "mode_mvp": "adapter tiruan (menulis isi email ke log server, tidak benar-benar terkirim)"
+                },
+                {
+                    "kebutuhan": "penyimpanan",
+                    "vendor": "Supabase Storage",
+                    "mock": true,
+                    "alasan": "Menyimpan foto menu yang diunggah admin dengan kontrol akses terintegrasi RLS; MVP memakai adapter tiruan (penyimpanan lokal/placeholder URL) agar pengembangan UI dan backend awal tidak menunggu konfigurasi bucket produksi.",
+                    "biaya": "gratis untuk kuota kecil, lalu berbayar sesuai ukuran dan trafik berkas",
+                    "env": [
+                        "SUPABASE_URL",
+                        "SUPABASE_SERVICE_ROLE_KEY"
+                    ],
+                    "mode_mvp": "adapter tiruan (menyimpan berkas ke folder lokal sementara dan mengembalikan URL palsu)"
+                },
+                {
+                    "kebutuhan": "rate_limit",
+                    "vendor": "Upstash Redis",
+                    "mock": true,
+                    "alasan": "Membatasi laju permintaan pada endpoint publik seperti checkout tamu dan cek kupon agar tidak disalahgunakan; MVP memakai adapter tiruan berbasis penghitung sementara agar M1/M2 tidak terblokir pembuatan akun Upstash.",
+                    "biaya": "gratis untuk kuota kecil, lalu berbayar sesuai jumlah permintaan",
+                    "env": [
+                        "UPSTASH_REDIS_REST_URL",
+                        "UPSTASH_REDIS_REST_TOKEN"
+                    ],
+                    "mode_mvp": "adapter tiruan (penghitung dalam memori per instance, hanya untuk pengujian lokal)"
+                }
+            ],
+            "rate_limit": "Karena aplikasi berjalan di lingkungan serverless (Vercel/Next.js), penghitung pembatasan laju tidak boleh disimpan di memori proses karena setiap permintaan bisa dilayani instance berbeda yang tidak berbagi state. Produksi wajib memakai penyimpanan terpusat (Upstash Redis) yang diakses lewat REST API dari setiap fungsi serverless. Untuk MVP (M1/M2), dipakai adapter tiruan dengan penghitung dalam memori lokal yang hanya valid untuk pengujian satu instance saja dan tidak merepresentasikan perilaku produksi; adapter ini wajib diganti ke Upstash sebelum M4 Rilis.",
+            "env_example": [
+                {
+                    "grup": "Aplikasi",
+                    "komentar": "Konfigurasi dasar aplikasi dan URL yang dipakai di sisi klien maupun server",
+                    "variabel": [
+                        {
+                            "nama": "APP_URL",
+                            "nilai": "isi_dengan_url_aplikasi",
+                            "komentar": "URL dasar aplikasi, dipakai untuk tautan di email dan redirect"
+                        },
+                        {
+                            "nama": "NODE_ENV",
+                            "nilai": "isi_dengan_development_atau_production",
+                            "komentar": "Mode environment aplikasi"
+                        }
+                    ]
+                },
+                {
+                    "grup": "Database & Supabase",
+                    "komentar": "Kredensial koneksi ke project Supabase (database, auth, storage)",
+                    "variabel": [
+                        {
+                            "nama": "SUPABASE_URL",
+                            "nilai": "isi_dengan_url_project_supabase",
+                            "komentar": "URL endpoint project Supabase"
+                        },
+                        {
+                            "nama": "SUPABASE_ANON_KEY",
+                            "nilai": "isi_dengan_anon_key_supabase",
+                            "komentar": "Kunci publik untuk akses dari sisi klien, dibatasi oleh RLS"
+                        },
+                        {
+                            "nama": "SUPABASE_SERVICE_ROLE_KEY",
+                            "nilai": "isi_dengan_service_role_key_supabase",
+                            "komentar": "Kunci rahasia untuk operasi server-side yang melewati RLS, jangan pernah dikirim ke klien"
+                        }
+                    ]
+                },
+                {
+                    "grup": "Autentikasi",
+                    "komentar": "Konfigurasi tambahan untuk sesi dan keamanan autentikasi Supabase Auth",
+                    "variabel": [
+                        {
+                            "nama": "AUTH_SESSION_SECRET",
+                            "nilai": "isi_dengan_string_acak_panjang",
+                            "komentar": "Secret untuk enkripsi/signing sesi sisi server"
+                        }
+                    ]
+                },
+                {
+                    "grup": "Layanan Email",
+                    "komentar": "Kredensial pengiriman email transaksional (konfirmasi pesanan, notifikasi status, pengingat, kupon)",
+                    "variabel": [
+                        {
+                            "nama": "RESEND_API_KEY",
+                            "nilai": "isi_dengan_api_key_resend",
+                            "komentar": "Kunci API layanan pengiriman email Resend"
+                        },
+                        {
+                            "nama": "EMAIL_FROM",
+                            "nilai": "isi_dengan_alamat_email_pengirim",
+                            "komentar": "Alamat pengirim yang tampil di email ke pelanggan"
+                        },
+                        {
+                            "nama": "SMTP_HOST",
+                            "nilai": "isi_dengan_host_smtp",
+                            "komentar": "Alamat server SMTP cadangan, dipakai bila adapter email beralih dari Resend ke SMTP langsung"
+                        },
+                        {
+                            "nama": "SMTP_USER",
+                            "nilai": "isi_dengan_username_smtp",
+                            "komentar": "Username autentikasi SMTP cadangan"
+                        },
+                        {
+                            "nama": "SMTP_PASSWORD",
+                            "nilai": "isi_dengan_password_smtp",
+                            "komentar": "Password autentikasi SMTP cadangan, simpan hanya sebagai secret server-side"
+                        }
+                    ]
+                },
+                {
+                    "grup": "Layanan Penyimpanan Berkas",
+                    "komentar": "Konfigurasi penyimpanan foto menu di Supabase Storage (memakai kredensial Supabase yang sama di grup Database)",
+                    "variabel": [
+                        {
+                            "nama": "STORAGE_BUCKET_MENU",
+                            "nilai": "isi_dengan_nama_bucket_foto_menu",
+                            "komentar": "Nama bucket Supabase Storage tempat foto menu disimpan"
+                        }
+                    ]
+                },
+                {
+                    "grup": "Layanan Rate Limit",
+                    "komentar": "Kredensial penyimpanan terpusat untuk pembatasan laju permintaan pada endpoint publik",
+                    "variabel": [
+                        {
+                            "nama": "UPSTASH_REDIS_REST_URL",
+                            "nilai": "isi_dengan_url_rest_upstash",
+                            "komentar": "Endpoint REST Upstash Redis untuk penghitung rate limit terpusat"
+                        },
+                        {
+                            "nama": "UPSTASH_REDIS_REST_TOKEN",
+                            "nilai": "isi_dengan_token_rest_upstash",
+                            "komentar": "Token autentikasi REST Upstash Redis"
+                        },
+                        {
+                            "nama": "RATE_LIMIT_SECRET",
+                            "nilai": "isi_dengan_string_acak_panjang",
+                            "komentar": "Secret tambahan untuk menandatangani kunci rate limit per klien agar tidak mudah ditebak"
+                        }
+                    ]
+                }
+            ]
+        },
+        "milestone": {
+            "daftar": [
+                {
+                    "id": "M0",
+                    "nama": "Persiapan",
+                    "tujuan": "Menyiapkan struktur proyek, konvensi kode, dan dokumen acuan sehingga pengembangan fitur bisa langsung dimulai tanpa ambiguitas.",
+                    "selesai_bila": [
+                        "Struktur folder Next.js + Tailwind terbentuk dan bisa dijalankan secara lokal",
+                        "CLAUDE.md, PRD.md, dan PROGRESS.md tersedia di root proyek",
+                        "Berkas .env.example berisi semua variabel yang disebut di PRD",
+                        "Adapter tiruan untuk email, penyimpanan, dan rate limit sudah punya kerangka antarmuka (belum perlu implementasi penuh)"
+                    ],
+                    "cakupan": [
+                        "Persiapan proyek"
+                    ],
+                    "checkpoint": "CHECKPOINT: Berhenti di sini, perbarui PROGRESS.md dengan status M0, ringkas struktur proyek dan adapter tiruan yang sudah dibuat, lalu tunggu persetujuan sebelum lanjut ke M1; jika konteks percakapan sudah panjang, sarankan memulai percakapan baru untuk M1."
+                },
+                {
+                    "id": "M2",
+                    "nama": "Backend & Data",
+                    "tujuan": "Mengimplementasikan skema database, RLS, dan logika backend (snapshot pesanan, kupon, status, audit log) sehingga data mengalir nyata dari dan ke Supabase.",
+                    "selesai_bila": [
+                        "Migrasi SQL skema tabel di bab database berhasil dijalankan di project Supabase dengan RLS aktif",
+                        "Alur checkout tamu dan pelanggan terdaftar menyimpan snapshot data anak, paket, menu, dan kupon sesuai aturan pemicu",
+                        "Perubahan status pesanan oleh admin tercatat otomatis di log_audit dengan aktor dan waktu yang benar",
+                        "Validasi kupon (masa berlaku, hanya pelanggan baru) berjalan sesuai aturan sebelum diterapkan ke total harga"
+                    ],
+                    "cakupan": [
+                        "Menu Mingguan",
+                        "Paket & Harga",
+                        "Pesan Tanpa Akun",
+                        "Akun Pelanggan",
+                        "Kelola Menu Admin",
+                        "Status Pesanan",
+                        "Kupon Diskon",
+                        "Log Audit Pesanan"
+                    ],
+                    "checkpoint": "CHECKPOINT: Berhenti di sini, perbarui PROGRESS.md dengan status M2 dan daftar endpoint/kebijakan RLS yang sudah diuji, ringkas hasil pengujian alur checkout dan audit log, lalu tunggu persetujuan sebelum lanjut ke M3; jika konteks percakapan sudah panjang, sarankan memulai percakapan baru untuk M3."
+                },
+                {
+                    "id": "M1",
+                    "nama": "Prototipe UI (data tiruan)",
+                    "tujuan": "Membangun seluruh tampilan halaman publik dan admin memakai data tiruan dari bab 11 agar alur pengguna bisa divalidasi sebelum backend nyata disambungkan.",
+                    "selesai_bila": [
+                        "Halaman menu mingguan, paket & harga, checkout tamu, akun pelanggan, dan dasbor kelola menu admin bisa dinavigasi penuh dengan data dummy",
+                        "Komponen UI memakai token desain gaya yang sudah ditetapkan secara konsisten di semua halaman",
+                        "Semua microcopy kosong/error/sukses/konfirmasi dari bab 11 sudah dipasang di tempat yang sesuai",
+                        "Tidak ada panggilan ke Supabase asli; semua data berasal dari adapter tiruan atau data statis"
+                    ],
+                    "cakupan": [
+                        "Menu Mingguan",
+                        "Paket & Harga",
+                        "Pesan Tanpa Akun",
+                        "Akun Pelanggan",
+                        "Kelola Menu Admin"
+                    ],
+                    "checkpoint": "CHECKPOINT: Berhenti di sini, perbarui PROGRESS.md dengan status M1, ringkas halaman yang sudah selesai dan screenshot/alur yang bisa dicoba, lalu tunggu persetujuan sebelum lanjut ke M2; jika konteks percakapan sudah panjang, sarankan memulai percakapan baru untuk M2."
+                },
+                {
+                    "id": "M3",
+                    "nama": "Keamanan & Uji",
+                    "tujuan": "Menerapkan seluruh persyaratan keamanan (SEC-01 sampai SEC-12) dan menulis uji otomatis untuk alur kritikal sebelum rilis.",
+                    "selesai_bila": [
+                        "Rate limit terpusat (atau adapter tiruan dengan batasan terdokumentasi) aktif di endpoint checkout dan cek kupon",
+                        "Validasi input server-side dan proteksi CSRF terpasang di semua formulir publik",
+                        "Uji unit untuk logika kupon dan snapshot pesanan serta uji end-to-end untuk checkout tamu dan ubah status admin lulus semua",
+                        "Data alergi anak dipastikan tidak muncul di log_audit atau log sistem lain lewat pemeriksaan kode dan uji"
+                    ],
+                    "cakupan": [
+                        "Pesan Tanpa Akun",
+                        "Akun Pelanggan",
+                        "Status Pesanan",
+                        "Log Audit Pesanan",
+                        "Kelola Menu Admin"
+                    ],
+                    "checkpoint": "CHECKPOINT: Berhenti di sini, perbarui PROGRESS.md dengan status M3, ringkas hasil uji otomatis dan daftar persyaratan SEC yang sudah dipenuhi beserta yang masih berupa risiko tersisa, lalu tunggu persetujuan sebelum lanjut ke M4; jika konteks percakapan sudah panjang, sarankan memulai percakapan baru untuk M4."
+                },
+                {
+                    "id": "M4",
+                    "nama": "Rilis",
+                    "tujuan": "Menyambungkan seluruh adapter tiruan ke layanan nyata (Resend, Supabase Storage, Upstash) dan menyiapkan deployment produksi di Vercel.",
+                    "selesai_bila": [
+                        "Semua adapter tiruan (email, penyimpanan, rate limit) sudah diganti implementasi nyata dan diuji ulang",
+                        "Variabel lingkungan produksi terisi di dashboard Vercel/Supabase tanpa nilai contoh dari .env.example",
+                        "Deployment berjalan di domain/preview Vercel dengan HTTPS dan seluruh alur utama (lihat menu, checkout tamu, login, kelola menu, ubah status) berfungsi di lingkungan produksi",
+                        "Dasbor pemilik dan notifikasi pesanan (jika sudah masuk fase ini) tervalidasi dengan data nyata, bukan dummy"
+                    ],
+                    "cakupan": [
+                        "Dasbor Pemilik",
+                        "Notifikasi Pesanan"
+                    ],
+                    "checkpoint": "CHECKPOINT: Berhenti di sini, perbarui PROGRESS.md dengan status M4 dan tautan deployment, ringkas hasil uji produksi dan risiko tersisa yang masih perlu tindak lanjut manual, lalu tunggu persetujuan final sebelum menutup proyek; jika konteks percakapan sudah panjang, sarankan memulai percakapan baru untuk fase pemeliharaan."
+                }
+            ],
+            "aturan_checkpoint": "AI coding assistant bekerja secara Bertahap per Fase: setiap milestone (M0-M4) dikerjakan sampai seluruh kriteria selesai_bila terpenuhi, lalu AI wajib berhenti di titik CHECKPOINT milestone tersebut, memperbarui PROGRESS.md dengan status terbaru, memberi ringkasan singkat hasil kerja dan hal yang masih berupa risiko tersisa, dan menunggu persetujuan eksplisit dari pengguna sebelum mulai milestone berikutnya. AI tidak boleh melompat ke milestone selanjutnya tanpa persetujuan tersebut, dan jika konteks percakapan sudah terlalu panjang, AI menyarankan pengguna memulai percakapan baru sambil membawa PROGRESS.md sebagai acuan lanjutan.",
+            "master_prompt": "Kamu adalah AI coding assistant yang membangun BekalKu - Katering Sekolah, website katering makan siang anak SD dengan Next.js (TypeScript) + Supabase (Auth, PostgreSQL dengan RLS, Storage) + Tailwind CSS, dideploy di Vercel. Peran pengguna: pengunjung anonim, pelanggan, admin. Sebelum mulai kerja, baca berkas berikut secara berurutan: CLAUDE.md (konvensi proyek), PRD.md (dokumen kebutuhan lengkap), folder features/ (rincian tiap fitur), dan PROGRESS.md (status milestone terakhir). Kerjakan proyek sesuai aturan checkpoint: selesaikan satu milestone penuh (UI, backend, integrasi sesuai cakupannya) sampai semua kriteria selesai_bila terpenuhi, jalankan uji otomatis yang relevan, lalu perbarui PROGRESS.md dengan status dan ringkasan, dan BERHENTI di titik CHECKPOINT milestone itu untuk menunggu persetujuan pengguna sebelum lanjut ke milestone berikutnya. Jangan melompati urutan milestone (M0 Persiapan, M1 Prototipe UI, M2 Backend & Data, M3 Keamanan & Uji, M4 Rilis). Jika ada instruksi yang ambigu atau bertentangan dengan PRD.md, tanyakan ke pengguna sebelum melanjutkan, jangan menebak. Jangan mengarang data (nama pelanggan, harga, menu, atau klaim keamanan) di luar yang sudah ditetapkan di bab 11 Dummy & Microcopy pada PRD.md; untuk kebutuhan tampilan sebelum backend nyata siap, pakai data tiruan dari bab 11 tersebut atau adapter tiruan yang didefinisikan di bab layanan.",
+            "claude_md": {
+                "struktur_folder": "bekalku/\n├── app/\n│   ├── (publik)/\n│   │   ├── menu/\n│   │   ├── paket/\n│   │   └── checkout/\n│   ├── (akun)/\n│   │   ├── masuk/\n│   │   ├── daftar/\n│   │   └── pesanan/\n│   ├── admin/\n│   │   ├── menu/\n│   │   ├── paket/\n│   │   ├── pesanan/\n│   │   └── kupon/\n│   └── api/\n├── components/\n├── lib/\n│   ├── supabase/\n│   ├── adapters/\n│   │   ├── email/\n│   │   ├── storage/\n│   │   └── rate-limit/\n│   └── validasi/\n├── features/\n├── supabase/\n│   └── migrations/\n├── tests/\n├── CLAUDE.md\n├── PRD.md\n├── PROGRESS.md\n└── .env.example",
+                "konvensi": [
+                    "Semua nama tabel, kolom, dan field dalam Bahasa Indonesia sesuai skema di PRD.md bab database, jangan menerjemahkan ke Bahasa Inggris",
+                    "Harga selalu disimpan dan dihitung sebagai integer rupiah, jangan memakai tipe float/decimal untuk uang",
+                    "Setiap aksi admin yang mengubah status pesanan, menu, paket, atau kupon wajib menulis baris baru ke log_audit, tidak boleh melewati jalur ini",
+                    "Akses data lewat Supabase client dengan RLS aktif untuk operasi atas nama pengguna; service role key hanya dipakai di server-side route yang benar-benar butuh bypass RLS dengan alasan jelas di komentar kode",
+                    "Semua layanan eksternal (email, storage, rate limit) diakses lewat adapter di lib/adapters/, bukan dipanggil langsung, agar mode tiruan dan nyata bisa ditukar lewat environment variable",
+                    "Validasi input server-side wajib untuk semua formulir publik, jangan hanya mengandalkan validasi di sisi klien",
+                    "Nilai mentah catatan alergi tidak pernah ditulis ke console.log, log_audit, atau sistem logging lain"
+                ],
+                "perintah": {
+                    "jalan": "npm run dev",
+                    "uji": "npm run test"
+                }
+            }
+        }
+    },
+    "tasks": [
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Rancang tampilan grid menu mingguan per hari",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Buat kartu menu dengan foto, bahan, dan alergen pakai DUMMY-MENU",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Tampilkan badge alergen berbeda warna dari info bahan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Buat bagian terpisah untuk jadwal menu minggu depan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Terapkan skeleton loading dan tampilan kosong ramah untuk menu",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Buat migrasi tabel menu dan indeks tanggal sajian",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Buat API baca menu publik berdasarkan rentang tanggal minggu",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Hubungkan foto menu ke Supabase Storage dengan URL publik",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Terapkan RLS baca publik untuk tabel menu",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Terapkan logika sembunyikan/tandai menu status habis atau nonaktif",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Pastikan akses halaman menu hanya lewat HTTPS sesuai SEC-12",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Validasi dan escape output info bahan/alergen untuk cegah XSS sesuai SEC-10",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Uji otomatis tampilan menu kosong dan menu minggu depan belum terisi",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Menu Mingguan",
+            "title": "Uji performa pemuatan halaman menu pada koneksi standar",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Rancang halaman perbandingan paket pakai DUMMY-PAKET",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Buat komponen tampilan harga per porsi dan per paket",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Buat kontrol pilih durasi harian/mingguan di halaman paket",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Hubungkan pilihan paket terpilih ke alur lanjut ke checkout",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Buat migrasi tabel paket dengan kolom durasi dan harga",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Buat API baca daftar paket aktif untuk halaman publik",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Terapkan RLS baca publik dan tulis admin untuk tabel paket",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Pastikan perubahan harga admin langsung tercermin ke halaman paket",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Validasi server-side nilai harga dan durasi paket sesuai SEC-10",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Pastikan halaman paket hanya dilayani lewat HTTPS sesuai SEC-12",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Uji konsistensi harga tampil vs data admin terbaru",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Paket & Harga",
+            "title": "Uji perpindahan pilihan durasi ke alur checkout",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Rancang alur checkout tamu multi-langkah di UI",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Buat formulir data anak, kelas, dan nama sekolah",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Buat kolom catatan alergi anak di formulir checkout",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Buat pemilih tanggal pengiriman dan input jumlah porsi",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Tambahkan checkbox persetujuan orang tua/wali sebelum kirim",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Simulasikan konfirmasi pesanan sukses pakai adapter tiruan email",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Buat migrasi tabel pesanan dan item_pesanan_menu dengan kolom snapshot",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Buat API checkout tamu yang menyimpan snapshot data anak dan paket",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Terapkan RLS insert pesanan untuk user_id kosong (tamu)",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Simpan catatan alergi snapshot terpisah dari log aplikasi",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Validasi tanggal pengiriman dan stok porsi di server saat checkout",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Terapkan rate limit adapter tiruan pada endpoint checkout tamu",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Pindahkan rate limit checkout tamu ke Upstash Redis sesuai NFR-03",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Pesan Tanpa Akun",
+            "title": "Pastikan data alergi tak pernah tercatat di log sesuai SEC-06, dan wajib centang persetujuan sesuai SEC-07",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Rancang halaman daftar dan login dengan email/password",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Buat halaman kelola data anak tersimpan pakai DUMMY-ANAK_TERSIMPAN",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Buat halaman riwayat pesanan pelanggan pakai DUMMY-PESANAN",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Hubungkan pemilihan data anak tersimpan ke alur checkout di UI",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Rancang sidebar navigasi akun pelanggan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Integrasikan Supabase Auth untuk pendaftaran dan login email",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Buat migrasi tabel profil dan anak_tersimpan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Buat API simpan/ubah/hapus data anak tersimpan milik pelanggan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Buat API ambil riwayat pesanan berdasarkan user_id pelanggan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Terapkan RLS kepemilikan pada tabel profil, anak_tersimpan, dan pesanan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Terapkan guard rute /akun/* hanya untuk sesi pelanggan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Terapkan hash password kuat, kedaluwarsa sesi, dan logout sesuai SEC-01",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Terapkan pembatasan percobaan login gagal per akun dan IP sesuai SEC-02",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Akun Pelanggan",
+            "title": "Verifikasi RLS mencegah pelanggan membaca data anak/pesanan pelanggan lain sesuai SEC-03 dan SEC-04",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Rancang tata letak halaman daftar menu admin",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Buat form tambah dan edit menu dengan data dummy",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Tampilkan daftar menu memakai DUMMY-MENU lengkap dengan status",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Buat dialog konfirmasi hapus menu bergaya tombol bahaya",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Buat komponen unggah foto dengan pratinjau memakai foto_url DUMMY-MENU",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Buat form atur harga per porsi dan per paket memakai DUMMY-PAKET",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Buat kontrol input stok harian per menu memakai DUMMY-MENU",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Terapkan badge status tersedia/habis/nonaktif pada kartu menu admin",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Buat skema tabel menu dan paket beserta migrasi database",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Bangun API tambah, ubah, dan hapus menu dengan validasi server",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Hubungkan bucket Supabase Storage untuk unggah foto menu nyata",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Bangun API ubah harga paket yang sinkron ke halaman pelanggan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Bangun logika stok otomatis menandai menu habis saat mencapai nol",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Terapkan RLS tabel menu dan paket sesuai SEC-03 dan SEC-04",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Validasi tipe dan ukuran file foto menu di server sesuai SEC-08",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Atur policy akses baca/tulis bucket foto menu sesuai SEC-09",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Validasi input form kelola menu dan cegah XSS sesuai SEC-10",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Catat log audit untuk aksi tambah, ubah, hapus menu dan harga sesuai SEC-05",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kelola Menu Admin",
+            "title": "Uji end-to-end alur kelola menu, foto, harga, dan stok admin",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Desain tampilan daftar pesanan admin dengan badge status",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Desain dialog konfirmasi ubah status pakai DUMMY-PESANAN",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Desain tampilan riwayat status berurutan di halaman pelanggan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Desain toast notifikasi perubahan status di sisi pelanggan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Siapkan microcopy konfirmasi dan kondisi kosong riwayat status",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Buat kolom status dan constraint enum pada tabel pesanan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Buat API ubah status pesanan dengan validasi peran admin",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Terapkan RLS agar hanya admin bisa mengubah status pesanan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Hubungkan Supabase Realtime untuk update status ke halaman pelanggan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Integrasikan adapter tiruan email untuk notifikasi perubahan status",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Buat API ambil riwayat status pesanan untuk pelanggan dan admin",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Ganti adapter tiruan email dengan Resend untuk notifikasi status",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Terapkan SEC-03 dan SEC-04 pada endpoint ubah status pesanan",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Status Pesanan",
+            "title": "Tulis uji otomatis alur ubah status dan verifikasi RLS lintas pelanggan",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Desain form kelola kupon admin pakai DUMMY-KUPON",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Desain kolom input kode kupon di halaman checkout",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Desain tampilan potongan harga dan total setelah diskon",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Siapkan microcopy error kupon kedaluwarsa dan kupon tidak valid",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Buat tabel kupon dan kolom relasi kupon pada tabel pesanan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Buat API buat dan kelola kupon khusus peran admin",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Buat API validasi kode kupon beserta pengecekan masa berlaku",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Terapkan logika penentuan status pelanggan baru untuk tamu dan akun",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Hitung total harga setelah diskon dan simpan snapshot kupon di pesanan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Terapkan RLS kupon agar hanya admin bisa kelola, publik bisa baca",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Pasang rate limit tiruan pada endpoint validasi kupon",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Ganti rate limit tiruan validasi kupon dengan Upstash Redis",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Terapkan SEC-10 untuk validasi input kode kupon di server",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Kupon Diskon",
+            "title": "Tulis uji unit perhitungan diskon dan uji end-to-end checkout dengan kupon",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Desain tab log audit pada halaman detail pesanan admin",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Desain tampilan daftar kronologis log audit pakai DUMMY-PESANAN",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Desain tampilan info aktor dan waktu pada setiap baris log",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Buat tabel log_audit bersifat append-only tanpa kebijakan update/delete",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Buat trigger atau logika server untuk insert log saat status pesanan berubah",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Simpan aktor_id dan waktu dibuat_pada otomatis pada setiap baris log",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Buat API ambil riwayat log audit per pesanan khusus admin",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Terapkan RLS log_audit agar hanya admin bisa baca dan insert",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Catat aksi tambah/ubah/hapus menu dan buat kupon ke log audit",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Terapkan SEC-05 untuk memastikan log audit append-only secara struktural",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Terapkan SEC-06 agar catatan alergi anak tidak pernah masuk log audit",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Uji manual bahwa log audit tidak bisa diubah atau dihapus lewat antarmuka",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Log Audit Pesanan",
+            "title": "Tulis uji otomatis pembuatan log audit saat perubahan status pesanan",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Rancang tata letak halaman dasbor dengan tiga blok utama",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Buat kartu ringkasan pesanan harian pakai DUMMY-PESANAN",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Buat tampilan daftar menu terpopuler pakai DUMMY-MENU dan DUMMY-PESANAN",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Buat tampilan grafik atau kartu pendapatan pakai DUMMY-PESANAN",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Tambahkan pemilih rentang periode untuk statistik dan laporan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Buat tampilan kosong dan loading untuk setiap blok dasbor",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Buat query agregasi jumlah pesanan per status dan per tanggal",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Buat query agregasi menu terpopuler berdasarkan periode terpilih",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Buat query total pendapatan dari pesanan yang tidak dibatalkan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Hubungkan ketiga blok dasbor ke data pesanan nyata di Supabase",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Tambahkan pengecekan peran admin di API route dasbor",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Terapkan RLS dan verifikasi peran admin sesuai SEC-03 dan SEC-04 pada data dasbor",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Pastikan ringkasan pendapatan dan statistik tidak menampilkan catatan alergi anak sesuai SEC-06",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Dasbor Pemilik",
+            "title": "Uji otomatis perhitungan agregasi pesanan, menu terpopuler, dan pendapatan",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Rancang tampilan pratinjau email konfirmasi pesanan dengan DUMMY-PESANAN",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Rancang tampilan pratinjau email pengingat mingguan dengan DUMMY-ANAK_TERSIMPAN",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Rancang tampilan pratinjau notifikasi pesanan siap dengan DUMMY-PESANAN",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Tambahkan indikator status terkirimnya notifikasi di layar admin",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Buat adapter tiruan email yang menampilkan isi email ke konsol",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Hubungkan pemicu email konfirmasi ke proses checkout tamu dan pelanggan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Buat tugas terjadwal pengingat mingguan berbasis data anak tersimpan",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Hubungkan pemicu notifikasi ke perubahan status pesanan jadi siap/dikirim",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Ganti adapter tiruan email dengan integrasi nyata Resend",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Simpan status pengiriman email tiap notifikasi untuk ditinjau admin",
+            "milestone": "M2",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Pastikan RESEND_API_KEY dan EMAIL_FROM hanya tersimpan server-side sesuai SEC-11",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Pastikan data alergi anak tidak pernah ikut tertulis di isi notifikasi atau log sesuai SEC-06",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Validasi dan escape data pengguna sebelum disisipkan ke template email sesuai SEC-10",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Notifikasi Pesanan",
+            "title": "Uji otomatis alur pengiriman email konfirmasi, pengingat, dan notifikasi status",
+            "milestone": "M3",
+            "status": "belum_mulai"
+        }
+    ]
+}

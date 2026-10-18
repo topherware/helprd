@@ -1,0 +1,8 @@
+# Seluruh folder project berada di htdocs, jadi file sensitif harus diblokir dari browser.
+Options -Indexes
+
+<FilesMatch "^(\.env.*|\.gitignore|schema\.sql|.*\.md|migrate\.php)$">
+    Require all denied
+</FilesMatch>
+
+RedirectMatch 403 /(src|logs|referensi|tests|migrations|docs|ref-ui|ref-input|tools|benchmark)(/|$)

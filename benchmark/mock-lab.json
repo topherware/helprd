@@ -1,0 +1,805 @@
+{
+    "catatan": "Mode tiruan: React + Cloudflare, mode UI-only",
+    "brief": {
+        "judul": "PinjamLab",
+        "ide": "Prototipe tampilan peminjaman alat laboratorium kampus: mahasiswa melihat katalog alat, status tersedia, dan mengajukan pinjam; laboran melihat daftar pengajuan.",
+        "qa": [
+            {
+                "teks": "Kebutuhan utama?",
+                "jawaban": "Mahasiswa tahu alat mana yang tersedia sebelum datang."
+            }
+        ],
+        "features": [
+            {
+                "nama": "Katalog Alat",
+                "fase": 1,
+                "sub_fitur": [
+                    "Daftar Alat",
+                    "Status Tersedia"
+                ]
+            },
+            {
+                "nama": "Ajukan Pinjam",
+                "fase": 1,
+                "sub_fitur": [
+                    "Form Pengajuan",
+                    "Pilih Tanggal Kembali"
+                ]
+            },
+            {
+                "nama": "Daftar Pengajuan",
+                "fase": 2,
+                "sub_fitur": [
+                    "Antrian Pengajuan",
+                    "Detail Pengajuan"
+                ]
+            }
+        ],
+        "design_style": "dark_premium",
+        "design_custom": "",
+        "stack_choice": "react_cloudflare",
+        "stack_custom": "",
+        "ui_only": true,
+        "ai_workflow": "sekaligus",
+        "extra_notes": ""
+    },
+    "prd": {
+        "versi": "1.2",
+        "overview": {
+            "deskripsi": "**PinjamLab** adalah prototipe tampilan peminjaman alat yang dirancang supaya mudah dipakai di ponsel maupun desktop.",
+            "masalah": "Rina, calon pengguna, saat ini masih mengandalkan chat WhatsApp dan catatan manual. Informasi tersebar, sering terlewat, dan ia harus bertanya hal yang sama berulang kali.",
+            "tujuan": [
+                "Menjadi satu tempat yang jelas untuk kebutuhan utama pengguna.",
+                "Mempercepat proses yang sekarang masih manual.",
+                "Memberi pemilik kendali penuh atas data dan konten."
+            ],
+            "prinsip": [
+                "Tidak ada klaim atau data palsu.",
+                "Data pribadi hanya dipakai dengan izin pengguna."
+            ],
+            "sukses": "Pengguna bisa menyelesaikan tujuan utamanya dalam 3 menit tanpa harus bertanya lewat chat."
+        },
+        "requirements": {
+            "fungsional": [
+                {
+                    "id": "FR-01",
+                    "teks": "Pengguna dapat memakai Katalog Alat: Daftar Alat, Status Tersedia.",
+                    "fitur": [
+                        "Katalog Alat"
+                    ]
+                },
+                {
+                    "id": "FR-02",
+                    "teks": "Pengguna dapat memakai Ajukan Pinjam: Form Pengajuan, Pilih Tanggal Kembali.",
+                    "fitur": [
+                        "Ajukan Pinjam"
+                    ]
+                },
+                {
+                    "id": "FR-03",
+                    "teks": "Pengguna dapat memakai Daftar Pengajuan: Antrian Pengajuan, Detail Pengajuan.",
+                    "fitur": [
+                        "Daftar Pengajuan"
+                    ]
+                }
+            ],
+            "non_fungsional": [
+                {
+                    "id": "NFR-01",
+                    "teks": "Halaman utama tampil dalam 3 detik pada koneksi 4G.",
+                    "fitur": []
+                },
+                {
+                    "id": "NFR-02",
+                    "teks": "Tampilan nyaman dipakai pada lebar layar 360 px sampai 1440 px.",
+                    "fitur": []
+                },
+                {
+                    "id": "NFR-03",
+                    "teks": "Kontras teks minimal 4.5:1 dan area ketuk minimal 44×44 px.",
+                    "fitur": []
+                }
+            ],
+            "di_luar_cakupan": [
+                "Aplikasi mobile native.",
+                "Integrasi pihak ketiga di luar yang disebut di bab 12."
+            ],
+            "pertanyaan_terbuka": [
+                {
+                    "id": "OQ-01",
+                    "teks": "Berapa batas jumlah item per transaksi yang diinginkan pemilik?",
+                    "fitur": []
+                }
+            ],
+            "catatan_diterapkan": []
+        },
+        "fitur": [
+            {
+                "deskripsi": "Membantu pengguna lewat Katalog Alat.",
+                "sub_fitur": [
+                    "Pengguna dapat memakai Daftar Alat dengan mudah.",
+                    "Pengguna dapat memakai Status Tersedia dengan mudah."
+                ]
+            },
+            {
+                "deskripsi": "Membantu pengguna lewat Ajukan Pinjam.",
+                "sub_fitur": [
+                    "Pengguna dapat memakai Form Pengajuan dengan mudah.",
+                    "Pengguna dapat memakai Pilih Tanggal Kembali dengan mudah."
+                ]
+            },
+            {
+                "deskripsi": "Membantu pengguna lewat Daftar Pengajuan.",
+                "sub_fitur": [
+                    "Pengguna dapat memakai Antrian Pengajuan dengan mudah.",
+                    "Pengguna dapat memakai Detail Pengajuan dengan mudah."
+                ]
+            }
+        ],
+        "user_flow": [
+            {
+                "judul": "Menemukan informasi",
+                "fase": "1",
+                "langkah": "Buka beranda → lihat daftar → buka detail → hubungi pemilik"
+            },
+            {
+                "judul": "Melakukan transaksi",
+                "fase": "1 → 2",
+                "langkah": "Pilih item → isi form → konfirmasi → terima pesan konfirmasi"
+            },
+            {
+                "judul": "Mengelola data (admin)",
+                "fase": "3",
+                "langkah": "Masuk dasbor → kelola data → lihat riwayat perubahan"
+            }
+        ],
+        "arsitektur": {
+            "ringkasan": "Prototipe frontend statis dengan data tiruan dari bab 11, tanpa backend.",
+            "komponen": [
+                {
+                    "nama": "Frontend",
+                    "deskripsi": "Semua halaman dan komponen dengan data tiruan."
+                }
+            ],
+            "sequence_mermaid": "sequenceDiagram\n    autonumber\n    actor U as Pengguna\n    participant W as WebApp\n    participant S as Server\n    participant DB as Database\n    U->>W: Buka halaman\n    W->>S: Minta data\n    S->>DB: Ambil data\n    DB-->>S: Hasil\n    S-->>W: Data\n    W-->>U: Tampilkan"
+        },
+        "database": {
+            "catatan": "",
+            "tabel": [],
+            "relasi": [],
+            "kode_skema": "",
+            "aturan_pemicu": {
+                "snapshot": "",
+                "log_audit": "",
+                "tamu": ""
+            },
+            "kebijakan_akses": []
+        },
+        "tech_stack": [
+            {
+                "lapisan": "Frontend",
+                "pilihan": "React + Vite + Tailwind CSS (Cloudflare Pages)",
+                "alasan": "Komponen siap pakai dan cepat dibuat."
+            },
+            {
+                "lapisan": "Data",
+                "pilihan": "Data tiruan statis dari bab 11 (berkas JSON di repositori)",
+                "alasan": "Prototipe tanpa backend."
+            },
+            {
+                "lapisan": "Rahasia & Konfigurasi",
+                "pilihan": "Tidak ada rahasia; konfigurasi publik lewat variabel lingkungan build",
+                "alasan": "Mode hanya-UI."
+            },
+            {
+                "lapisan": "Deployment",
+                "pilihan": "Hosting statis (mis. Vercel atau Cloudflare Pages)",
+                "alasan": "Gratis untuk prototipe kecil."
+            },
+            {
+                "lapisan": "Pengujian",
+                "pilihan": "Playwright untuk alur tampilan",
+                "alasan": "Menjaga halaman tetap tampil benar."
+            }
+        ],
+        "keputusan_teknologi": {
+            "stack": "React + Cloudflare",
+            "alasan": "Dipakai React (Vite) + Cloudflare Workers + Hono + D1 karena paling cepat untuk MVP dan sesuai pilihan di langkah Teknologi."
+        },
+        "keamanan": {
+            "klasifikasi_data": [],
+            "prinsip_akses": "",
+            "hak_akses": [],
+            "persyaratan": [],
+            "hardening": [],
+            "owasp": {
+                "edisi": "",
+                "kategori": []
+            },
+            "risiko_tersisa": []
+        },
+        "design": {
+            "alasan": "Mengikuti gaya Dark Mode Premium yang dipilih pengguna.",
+            "warna": {
+                "terang": {
+                    "primary": "#4F46E5",
+                    "secondary": "#0EA5E9",
+                    "accent": "#F59E0B",
+                    "background": "#FFFFFF",
+                    "surface": "#F8FAFC",
+                    "text": "#0F172A",
+                    "text_muted": "#475569",
+                    "border": "#E2E8F0",
+                    "success": "#16A34A",
+                    "warning": "#B45309",
+                    "danger": "#DC2626"
+                },
+                "gelap": {
+                    "primary": "#818CF8",
+                    "secondary": "#38BDF8",
+                    "accent": "#FBBF24",
+                    "background": "#0B1120",
+                    "surface": "#111827",
+                    "text": "#E5E7EB",
+                    "text_muted": "#9CA3AF",
+                    "border": "#1F2937",
+                    "success": "#22C55E",
+                    "warning": "#F59E0B",
+                    "danger": "#F87171"
+                }
+            },
+            "tipografi": {
+                "font_judul": "Plus Jakarta Sans",
+                "font_isi": "Inter",
+                "skala": [
+                    12,
+                    14,
+                    16,
+                    20,
+                    24,
+                    32
+                ],
+                "tinggi_baris": "1.5 untuk isi, 1.25 untuk judul",
+                "sumber": "Google Fonts"
+            },
+            "ukuran": {
+                "ketuk_min": 44,
+                "spasi": [
+                    4,
+                    8,
+                    12,
+                    16,
+                    24,
+                    32
+                ],
+                "radius": "8 px untuk kontrol, 12 px untuk kartu",
+                "bayangan": "0 1px 3px rgba(0,0,0,.08) untuk kartu",
+                "lebar_maks": "1200 px",
+                "breakpoint": [
+                    "640px",
+                    "1024px"
+                ]
+            },
+            "komponen": [
+                {
+                    "nama": "Tombol primer",
+                    "gaya": "Latar primary, teks putih; hover sedikit lebih gelap; fokus cincin 2 px warna accent; nonaktif opasitas 50%."
+                },
+                {
+                    "nama": "Tombol sekunder",
+                    "gaya": "Garis border, latar surface; hover latar border; fokus cincin 2 px; nonaktif opasitas 50%."
+                },
+                {
+                    "nama": "Tombol bahaya",
+                    "gaya": "Latar danger, teks putih; hover lebih gelap; fokus cincin 2 px; nonaktif opasitas 50%."
+                },
+                {
+                    "nama": "Kartu",
+                    "gaya": "Latar surface, radius 12 px, bayangan halus, padding 16 px."
+                },
+                {
+                    "nama": "Input form",
+                    "gaya": "Tinggi 44 px, border 1 px, label di atas, pesan error di bawah berwarna danger."
+                },
+                {
+                    "nama": "Badge status",
+                    "gaya": "Pil kecil: success untuk selesai, warning untuk menunggu, danger untuk dibatalkan."
+                },
+                {
+                    "nama": "Tabel\/daftar",
+                    "gaya": "Baris berjarak 12 px; di HP berubah menjadi daftar kartu."
+                },
+                {
+                    "nama": "Dialog",
+                    "gaya": "Lebar maks 480 px, latar gelap transparan, fokus terkunci di dalam dialog."
+                },
+                {
+                    "nama": "Toast",
+                    "gaya": "Muncul di bawah layar 4 detik, warna sesuai jenis pesan."
+                }
+            ],
+            "nuansa": {
+                "sifat": [
+                    "jelas",
+                    "ramah",
+                    "rapi"
+                ],
+                "hindari": [
+                    "teks abu-abu pucat di atas putih",
+                    "animasi berlebihan"
+                ]
+            },
+            "keadaan": {
+                "loading": "Kerangka (skeleton) seukuran konten.",
+                "kosong": "Ilustrasi kecil + kalimat ajakan + tombol aksi utama.",
+                "error": "Pesan jelas + tombol Coba lagi."
+            },
+            "aksesibilitas": [
+                "Fokus selalu terlihat (cincin 2 px).",
+                "Semua ikon punya label untuk pembaca layar.",
+                "Kontras teks minimal 4.5:1."
+            ]
+        },
+        "rute": {
+            "rute": [
+                {
+                    "path": "\/",
+                    "halaman": "Beranda",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "Publik",
+                    "sumber": [
+                        "Katalog Alat"
+                    ]
+                },
+                {
+                    "path": "\/katalog-alat",
+                    "halaman": "Katalog Alat",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "Publik",
+                    "sumber": [
+                        "Katalog Alat",
+                        "FR-01"
+                    ]
+                },
+                {
+                    "path": "\/ajukan-pinjam",
+                    "halaman": "Ajukan Pinjam",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "Publik",
+                    "sumber": [
+                        "Ajukan Pinjam",
+                        "FR-02"
+                    ]
+                },
+                {
+                    "path": "\/daftar-pengajuan",
+                    "halaman": "Daftar Pengajuan",
+                    "peran": [
+                        "pengunjung anonim",
+                        "pelanggan"
+                    ],
+                    "layout": "Publik",
+                    "sumber": [
+                        "Daftar Pengajuan",
+                        "FR-03"
+                    ]
+                }
+            ],
+            "navigasi": [
+                {
+                    "peran": "pengunjung anonim",
+                    "komponen": "Header + footer",
+                    "item": [
+                        "Beranda",
+                        "Katalog Alat",
+                        "Ajukan Pinjam",
+                        "Daftar Pengajuan"
+                    ]
+                },
+                {
+                    "peran": "pelanggan",
+                    "komponen": "Bottom navigation di HP, header di desktop",
+                    "item": [
+                        "Beranda",
+                        "Katalog Alat",
+                        "Ajukan Pinjam",
+                        "Daftar Pengajuan"
+                    ]
+                }
+            ],
+            "rute_khusus": [
+                {
+                    "jenis": "404",
+                    "path": "\/404",
+                    "halaman": "Halaman tidak ditemukan"
+                },
+                {
+                    "jenis": "403",
+                    "path": "\/403",
+                    "halaman": "Tidak punya akses"
+                },
+                {
+                    "jenis": "error",
+                    "path": "\/error",
+                    "halaman": "Terjadi kesalahan"
+                },
+                {
+                    "jenis": "masuk",
+                    "path": "\/masuk",
+                    "halaman": "Masuk akun"
+                },
+                {
+                    "jenis": "keluar",
+                    "path": "\/keluar",
+                    "halaman": "Keluar lalu kembali ke beranda"
+                }
+            ],
+            "penjaga_akses": [
+                "Rute \/akun\/* wajib masuk sebagai pelanggan.",
+                "Rute lain terbuka untuk pengunjung anonim."
+            ]
+        },
+        "dummy": {
+            "dataset": [
+                {
+                    "id": "DUMMY-PENGGUNA",
+                    "tabel": "pengguna",
+                    "kolom": [
+                        "nama",
+                        "email",
+                        "telepon",
+                        "peran"
+                    ],
+                    "baris": [
+                        [
+                            "Rina Wulandari",
+                            "rina@contoh.id",
+                            "081234567801",
+                            "pelanggan"
+                        ],
+                        [
+                            "Budi Santoso",
+                            "budi@contoh.id",
+                            "081234567802",
+                            "pelanggan"
+                        ],
+                        [
+                            "Sari Admin",
+                            "sari@contoh.id",
+                            "081234567803",
+                            "admin"
+                        ]
+                    ]
+                },
+                {
+                    "id": "DUMMY-ITEM",
+                    "tabel": "item",
+                    "kolom": [
+                        "nama",
+                        "deskripsi",
+                        "aktif"
+                    ],
+                    "baris": [
+                        [
+                            "Paket Hemat",
+                            "Pilihan paling terjangkau",
+                            true
+                        ],
+                        [
+                            "Paket Reguler",
+                            "Pilihan favorit pelanggan",
+                            true
+                        ],
+                        [
+                            "Paket Spesial",
+                            "Porsi dan isi paling lengkap",
+                            true
+                        ]
+                    ]
+                },
+                {
+                    "id": "DUMMY-TRANSAKSI",
+                    "tabel": "transaksi",
+                    "kolom": [
+                        "nama_item_snapshot",
+                        "jumlah",
+                        "status"
+                    ],
+                    "baris": [
+                        [
+                            "Paket Hemat",
+                            2,
+                            "menunggu"
+                        ],
+                        [
+                            "Paket Reguler",
+                            1,
+                            "diproses"
+                        ],
+                        [
+                            "Paket Spesial",
+                            3,
+                            "selesai"
+                        ]
+                    ]
+                }
+            ],
+            "template": [
+                {
+                    "nama": "Konfirmasi via WhatsApp",
+                    "isi": "Halo {nama_pelanggan}, transaksi {nama_item} sebanyak {jumlah} sudah kami terima.",
+                    "contoh": "Halo Bu Rina, transaksi Paket Hemat sebanyak 2 sudah kami terima."
+                }
+            ],
+            "copywriting": {
+                "nada": "Santai, sopan, dan langsung ke inti.",
+                "sapaan": "\"Kak\" untuk pengguna umum; nama depan bila sudah masuk.",
+                "istilah": [
+                    "Item: barang atau layanan yang dijual",
+                    "Transaksi: pesanan yang dibuat pengguna"
+                ],
+                "microcopy": {
+                    "kosong": "Belum ada data. Yuk mulai dari tombol di bawah.",
+                    "error": "Maaf, ada gangguan. Coba lagi sebentar ya.",
+                    "sukses": "Berhasil disimpan.",
+                    "konfirmasi": "Yakin ingin melanjutkan? Tindakan ini tidak bisa dibatalkan."
+                }
+            }
+        },
+        "layanan": {
+            "layanan": [],
+            "rate_limit": "",
+            "env_example": []
+        },
+        "milestone": {
+            "daftar": [
+                {
+                    "id": "M0",
+                    "nama": "Persiapan",
+                    "tujuan": "Struktur proyek, dependensi, konfigurasi, CLAUDE.md, PROGRESS.md, dan variabel lingkungan siap.",
+                    "selesai_bila": [
+                        "Perintah jalan berhasil membuka halaman kosong.",
+                        "CLAUDE.md dan PROGRESS.md ada di root proyek."
+                    ],
+                    "cakupan": [
+                        "Bab 7",
+                        "Bab 12"
+                    ],
+                    "checkpoint": "CHECKPOINT: berhenti, perbarui PROGRESS.md, ringkas hasil, tunggu persetujuan, dan sarankan memulai percakapan baru bila konteks sudah panjang."
+                },
+                {
+                    "id": "M1",
+                    "nama": "Prototipe UI (data tiruan)",
+                    "tujuan": "Semua halaman dan komponen memakai dataset bab 11 sesuai design system dan peta rute.",
+                    "selesai_bila": [
+                        "Semua rute di bab 10 bisa dibuka.",
+                        "Semua data tampil dari dataset DUMMY-* di bab 11."
+                    ],
+                    "cakupan": [
+                        "Katalog Alat",
+                        "Ajukan Pinjam",
+                        "Daftar Pengajuan"
+                    ],
+                    "checkpoint": "CHECKPOINT: berhenti, perbarui PROGRESS.md, ringkas hasil, tunggu persetujuan, dan sarankan memulai percakapan baru bila konteks sudah panjang."
+                }
+            ],
+            "aturan_checkpoint": "Cara kerja Sekaligus Semua: checkpoint di akhir M1 dan di akhir proyek; berhenti dan laporkan jika ada uji yang gagal.",
+            "master_prompt": "Kamu membangun PinjamLab: prototipe tampilan peminjaman alat.\nStack: React (Vite) + Cloudflare Workers + Hono + D1 (hanya UI, tanpa backend).\n\nSebelum mulai, baca berkas berikut: CLAUDE.md, PRD.md, semua berkas di features\/, dan PROGRESS.md.\n\nAturan kerja:\n1. Cara kerja Sekaligus Semua: checkpoint di akhir M1 dan di akhir proyek; berhenti dan laporkan jika ada uji yang gagal.\n2. Kerjakan milestone berurutan (M0 → M1), task berawalan [M1]\/[M2]\/[M3] sesuai urutan.\n3. Jalankan uji setelah setiap perubahan dan perbarui PROGRESS.md.\n4. Berhenti di setiap CHECKPOINT dan tunggu persetujuan.\n5. Tanya bila PRD ambigu. Jangan mengarang data di luar bab 11 (Data Dummy & Copywriting).\n6. Rahasia hanya di variabel lingkungan; jangan menulis kunci asli ke kode.",
+            "claude_md": {
+                "struktur_folder": "src\/\n  pages\/\n  components\/\n  data\/dummy\/\ntests\/",
+                "konvensi": [
+                    "Nama berkas dan variabel dalam bahasa Inggris, teks UI dalam Bahasa Indonesia.",
+                    "Satu komponen per berkas.",
+                    "Data tiruan hanya dari data\/dummy (bab 11)."
+                ],
+                "perintah": {
+                    "jalan": "npm run dev",
+                    "uji": "npm test"
+                }
+            }
+        },
+        "profil": {
+            "bendera_ai": [],
+            "bendera": {
+                "uiOnly": true,
+                "hasDatabase": false,
+                "hasPricedEntity": false,
+                "hasTransactionRecord": true,
+                "hasAdminMutation": false,
+                "hasGuestFlow": false,
+                "usesOtp": false,
+                "usesEmail": false,
+                "usesWhatsappApi": false,
+                "usesPayment": false,
+                "usesFileStorage": false,
+                "usesRateLimit": false,
+                "serverless": false,
+                "hasDarkTheme": true,
+                "multiRole": false
+            },
+            "stack": {
+                "id": "react_cloudflare",
+                "nama": "React + Cloudflare",
+                "ringkas": "React (Vite) + Cloudflare Workers + Hono + D1",
+                "kata_kunci": [
+                    "Hono",
+                    "D1"
+                ],
+                "runtime": "Cloudflare Workers (TypeScript)",
+                "db": "d1",
+                "bahasa_skema": "sql",
+                "rls": false,
+                "serverless": true,
+                "lapisan": {
+                    "Frontend": "React + Vite + Tailwind CSS (Cloudflare Pages)",
+                    "Backend": "Cloudflare Workers + Hono",
+                    "Database": "Cloudflare D1 (SQLite)",
+                    "Autentikasi": "Sesi bertanda tangan di cookie httpOnly",
+                    "Deployment": "Cloudflare Pages + Workers",
+                    "Pengujian": "Vitest + Miniflare"
+                },
+                "perintah": {
+                    "jalan": "npm run dev",
+                    "uji": "npm test"
+                },
+                "vendor": {
+                    "otp": {
+                        "nama": "WhatsApp Cloud API",
+                        "env": [
+                            "WHATSAPP_TOKEN",
+                            "WHATSAPP_PHONE_NUMBER_ID"
+                        ],
+                        "biaya": "berbayar per percakapan"
+                    },
+                    "email": {
+                        "nama": "Resend",
+                        "env": [
+                            "RESEND_API_KEY",
+                            "EMAIL_FROM"
+                        ],
+                        "biaya": "gratis untuk kuota kecil, lalu berbayar"
+                    },
+                    "whatsapp": {
+                        "nama": "WhatsApp Cloud API",
+                        "env": [
+                            "WHATSAPP_TOKEN",
+                            "WHATSAPP_PHONE_NUMBER_ID"
+                        ],
+                        "biaya": "berbayar per percakapan"
+                    },
+                    "pembayaran": {
+                        "nama": "Midtrans",
+                        "env": [
+                            "MIDTRANS_SERVER_KEY",
+                            "MIDTRANS_CLIENT_KEY"
+                        ],
+                        "biaya": "biaya per transaksi"
+                    },
+                    "penyimpanan": {
+                        "nama": "Cloudflare R2",
+                        "env": [
+                            "R2_ACCOUNT_ID",
+                            "R2_ACCESS_KEY_ID",
+                            "R2_SECRET_ACCESS_KEY",
+                            "R2_BUCKET"
+                        ],
+                        "biaya": "gratis untuk kuota kecil, lalu berbayar"
+                    },
+                    "rate_limit": {
+                        "nama": "Cloudflare Workers KV",
+                        "env": [
+                            "RATE_LIMIT_KV_NAMESPACE_ID"
+                        ],
+                        "biaya": "gratis untuk kuota kecil, lalu berbayar"
+                    }
+                }
+            },
+            "peran": [
+                "pengunjung anonim",
+                "pelanggan"
+            ],
+            "alasan_stack": "Stack ini paling cepat dipakai untuk MVP web yang ramah HP dan mudah dikelola pemilik."
+        }
+    },
+    "tasks": [
+        {
+            "fitur": "Katalog Alat",
+            "title": "Buat halaman Katalog Alat dengan data tiruan DUMMY-ITEM",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Katalog Alat",
+            "title": "Buat tampilan Daftar Alat",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Katalog Alat",
+            "title": "Buat tampilan Status Tersedia",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Katalog Alat",
+            "title": "Tampilkan keadaan kosong, memuat, dan gagal di Katalog Alat",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Katalog Alat",
+            "title": "Rapikan tampilan responsif Katalog Alat",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ajukan Pinjam",
+            "title": "Buat halaman Ajukan Pinjam dengan data tiruan DUMMY-ITEM",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ajukan Pinjam",
+            "title": "Buat tampilan Form Pengajuan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ajukan Pinjam",
+            "title": "Buat tampilan Pilih Tanggal Kembali",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ajukan Pinjam",
+            "title": "Tampilkan keadaan kosong, memuat, dan gagal di Ajukan Pinjam",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Ajukan Pinjam",
+            "title": "Rapikan tampilan responsif Ajukan Pinjam",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Daftar Pengajuan",
+            "title": "Buat halaman Daftar Pengajuan dengan data tiruan DUMMY-ITEM",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Daftar Pengajuan",
+            "title": "Buat tampilan Antrian Pengajuan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Daftar Pengajuan",
+            "title": "Buat tampilan Detail Pengajuan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Daftar Pengajuan",
+            "title": "Tampilkan keadaan kosong, memuat, dan gagal di Daftar Pengajuan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        },
+        {
+            "fitur": "Daftar Pengajuan",
+            "title": "Rapikan tampilan responsif Daftar Pengajuan",
+            "milestone": "M1",
+            "status": "belum_mulai"
+        }
+    ]
+}
