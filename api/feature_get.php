@@ -10,7 +10,7 @@ require __DIR__ . '/../src/helpers.php';
 $id = (int) $project['id'];
 
 $features = Database::run(
-    'SELECT id, nama, fase, ikon, status, deskripsi, tujuan, selesai_bila FROM features WHERE project_id = ? ORDER BY fase, urutan, id',
+    'SELECT id, nama, fase, ikon, status, deskripsi, tujuan, selesai_bila FROM features WHERE project_id = ? AND disertakan = 1 ORDER BY fase, urutan, id',
     [$id]
 )->fetchAll();
 $subs = Database::run(

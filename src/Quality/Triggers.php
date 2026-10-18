@@ -11,6 +11,8 @@ final class Triggers
         'uiOnly', 'hasDatabase', 'hasPricedEntity', 'hasTransactionRecord', 'hasAdminMutation', 'hasGuestFlow',
         'usesOtp', 'usesEmail', 'usesWhatsappApi', 'usesPayment', 'usesFileStorage', 'usesRateLimit',
         'serverless', 'hasDarkTheme', 'multiRole',
+        // v1.2.1 (paritas)
+        'hasTimeFields', 'hasScheduler', 'hasPublicPages', 'hasOfflineChannel', 'hasTimeRange',
     ];
 
     /** Keterangan singkat tiap bendera (untuk prompt dan laporan). */
@@ -21,6 +23,21 @@ final class Triggers
         'usesWhatsappApi' => 'mengirim WhatsApp otomatis (API)', 'usesPayment' => 'pembayaran online', 'usesFileStorage' => 'menyimpan berkas/foto',
         'usesRateLimit' => 'butuh pembatasan laju (login, OTP, formulir publik)', 'serverless' => 'berjalan di lingkungan serverless',
         'hasDarkTheme' => 'tema gelap', 'multiRole' => 'lebih dari satu peran pengguna',
+        'hasTimeFields' => 'ada data waktu (jadwal, tanggal, jam, tenggat)', 'hasScheduler' => 'ada pekerjaan terjadwal (pengingat, tugas berkala)',
+        'hasPublicPages' => 'ada halaman publik tanpa login', 'hasOfflineChannel' => 'ada kanal luring (datang langsung, telepon) yang dicatat pengelola',
+        'hasTimeRange' => 'ada aturan rentang waktu/jumlah yang tidak boleh tumpang tindih',
+    ];
+
+    /**
+     * Pola invarian bisnis dalam masukan pengguna (P1). Kunci = jenis invarian.
+     * rentang: sumber daya yang sama tidak boleh dipakai pada rentang yang bertabrakan; kuota: batas jumlah;
+     * stok: jumlah tidak boleh negatif; unik: nilai tidak boleh kembar.
+     */
+    public const INVARIAN = [
+        'rentang' => '/(tidak boleh|jangan|tanpa|cegah|mencegah|anti)[^.\n]{0,60}\b(bentrok|tumpang tindih|dobel|double|ganda|bertabrakan|tabrakan)\b|\b(dua|2)\s+\w+[^.\n]{0,40}\b(di|pada)\s+(jam|waktu|tanggal|slot|jadwal|sesi)\s+yang sama\b|\b(dobel|ganda|bentrok|bertabrakan)\b[^.\n]{0,20}\b(jadwal|jam|slot|waktu|sesi)\b/iu',
+        'kuota' => '/\b(maksimal|maks\.?|paling banyak|batas|kuota|kapasitas)\s+\d+\s*\w+/iu',
+        'stok' => '/\bstok\b/iu',
+        'unik' => '/\b(harus unik|tidak boleh (sama|kembar|duplikat)|satu\s+\w+\s+(hanya|cuma)\s+(boleh|bisa)\s+(punya|memiliki)\s+satu)\b/iu',
     ];
 
     /** Jaring pengaman kata kunci; dicocokkan ke ide, jawaban, catatan, dan nama fitur/sub fitur. */
@@ -36,25 +53,24 @@ final class Triggers
         'usesFileStorage' => '/\b(unggah|upload|foto|gambar|berkas|lampiran|avatar|bukti transfer|galeri)\b/iu',
         'usesRateLimit' => '/\b(login|masuk akun|daftar akun|registrasi|otp|formulir|komentar|ulasan|testimoni|kontak)\b/iu',
         'hasDarkTheme' => '/\b(gelap|dark)\b/iu',
+        'hasTimeFields' => '/\b(jadwal|jam|tanggal|waktu|pengingat|tenggat|deadline|batas waktu|booking|reservasi|janji temu|sesi|shift|periode|kalender)\b/iu',
+        'hasScheduler' => '/\b(pengingat|reminder|terjadwal|cron|otomatis\s+(terkirim|dikirim|mengirim)|setiap\s+(hari|minggu|jam|pagi|malam)|\d+\s*(jam|hari|menit)\s+sebelum)\b/iu',
+        'hasPublicPages' => '/\b(tanpa akun|tanpa login|tanpa daftar|pengunjung|publik|katalog|landing page|toko online|halaman (depan|utama)|website)\b/iu',
+        'hasOfflineChannel' => '/\b(datang langsung|walk-?in|lewat telepon|via telepon|offline|luring|tatap muka)\b/iu',
     ];
 
     /** Bendera yang hanya bermakna bila ada backend; dimatikan pada mode hanya-UI. */
-    public const BACKEND = ['hasDatabase', 'hasGuestFlow', 'usesOtp', 'usesEmail', 'usesWhatsappApi', 'usesPayment', 'usesFileStorage', 'usesRateLimit', 'serverless'];
+    public const BACKEND = ['hasDatabase', 'hasGuestFlow', 'usesOtp', 'usesEmail', 'usesWhatsappApi', 'usesPayment', 'usesFileStorage', 'usesRateLimit', 'serverless', 'hasScheduler', 'hasOfflineChannel', 'hasTimeRange'];
 
     /**
      * @param array $declared bendera dari potongan profil (nama bendera => bool); nilai non-boolean diabaikan
      * @param array $stack profil stack terkunci (Brief::resolveStack)
      * @param array $roles daftar peran (dari profil); dipakai untuk multiRole
      */
-    public static function flags(Brief $b, array $declared, array $stack, array $roles = []): array
+    public static function flags(Brief $b, array $declared, array $stack, array $roles = [], array $invarian = []): array
     {
-        $text = $b->ide . "\n" . $b->extraNotes . "\n";
-        foreach ($b->qa as $row) {
-            $text .= ($row['jawaban'] ?? '') . "\n";
-        }
-        foreach ($b->features as $f) {
-            $text .= $f['nama'] . ' ' . implode(' ', $f['sub_fitur'] ?? []) . "\n";
-        }
+        $text = $b->inputText();
+        $roles = self::roleNames($roles);
 
         $flags = array_fill_keys(self::FLAGS, false);
         foreach (self::FLAGS as $flag) {
@@ -70,6 +86,8 @@ final class Triggers
         $flags['hasDatabase'] = ($stack['db'] ?? 'none') !== 'none';
         $named = array_filter($roles, fn ($r) => !self::isAnonymous($r));
         $flags['multiRole'] = $flags['multiRole'] || count($named) > 1 || $flags['hasAdminMutation'];
+        $flags['hasTimeRange'] = $flags['hasTimeRange'] || in_array('rentang', array_column(self::invariants($b, $invarian), 'jenis'), true);
+        $flags['hasTimeFields'] = $flags['hasTimeFields'] || $flags['hasTimeRange'] || $flags['hasScheduler'];
 
         $flags['uiOnly'] = $b->uiOnly;
         if ($b->uiOnly) {
@@ -78,6 +96,37 @@ final class Triggers
             }
         }
         return $flags;
+    }
+
+    /**
+     * Invarian bisnis (P1): gabungan deklarasi AI pada potongan profil dan kalimat masukan pengguna yang cocok
+     * dengan pola INVARIAN. @return array<int, array{jenis: string, aturan: string, asal: string}>
+     */
+    public static function invariants(Brief $b, array $declared = []): array
+    {
+        $out = [];
+        foreach ($declared as $inv) {
+            if (is_array($inv) && isset(self::INVARIAN[$inv['jenis'] ?? '']) && trim($inv['aturan'] ?? '') !== '') {
+                $out[] = ['jenis' => $inv['jenis'], 'aturan' => trim($inv['aturan']), 'asal' => $inv['asal'] ?? 'keputusan'];
+            }
+        }
+        $sources = ['ide' => $b->ide, 'catatan' => $b->extraNotes, 'jawaban' => implode("\n", array_column($b->qa, 'jawaban'))];
+        foreach ($sources as $asal => $text) {
+            foreach (preg_split('/(?<=[.!?])\s+|\R+/u', (string) $text) as $sentence) {
+                foreach (self::INVARIAN as $jenis => $regex) {
+                    if (preg_match($regex, $sentence) && !in_array($jenis, array_column($out, 'jenis'), true)) {
+                        $out[] = ['jenis' => $jenis, 'aturan' => trim($sentence), 'asal' => $asal];
+                    }
+                }
+            }
+        }
+        return $out;
+    }
+
+    /** Nama peran dari daftar peran profil (string, atau objek {nama, asal} sejak v1.2.1). */
+    public static function roleNames(array $roles): array
+    {
+        return array_values(array_filter(array_map(fn ($r) => is_array($r) ? (string) ($r['nama'] ?? '') : (string) $r, $roles), 'strlen'));
     }
 
     public static function isAnonymous(string $role): bool

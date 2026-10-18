@@ -45,15 +45,15 @@ final class MockData
                 ? "Frontend: HTML + Tailwind CSS, ringan dan cepat dibuat\nBackend: PHP 8 (Laravel) untuk logika pemesanan dan admin\nDatabase: MySQL, cocok untuk data produk dan pesanan\nHosting: shared hosting atau VPS kecil, murah untuk mulai"
                 : null,
             'fitur' => [
-                ['nama' => 'Beranda', 'fase' => 1, 'ikon' => 'rumah', 'sub_fitur' => ['Banner & Tagline', 'Ringkasan Layanan', 'Tombol Aksi Utama']],
-                ['nama' => 'Daftar Produk', 'fase' => 1, 'ikon' => 'dokumen', 'sub_fitur' => ['Kategori', 'Kartu Produk & Harga', 'Detail Produk', 'Pencarian']],
-                ['nama' => 'Pemesanan', 'fase' => 1, 'ikon' => 'keranjang', 'sub_fitur' => ['Form Pesanan', 'Pilih Tanggal', 'Pesan via WhatsApp']],
-                ['nama' => 'Pembayaran', 'fase' => 2, 'ikon' => 'uang', 'sub_fitur' => ['Pilih Metode Bayar', 'Upload Bukti Transfer', 'Status Pembayaran']],
-                ['nama' => 'Akun Saya', 'fase' => 2, 'ikon' => 'pengguna', 'sub_fitur' => ['Daftar & Masuk', 'Profil', 'Riwayat Pesanan', 'Pesan Ulang']],
-                ['nama' => 'Dashboard Admin', 'fase' => 3, 'ikon' => 'grafik', 'sub_fitur' => ['Kelola Produk', 'Kelola Pesanan', 'Laporan Penjualan']],
-                ['nama' => 'Promo & Diskon', 'fase' => 3, 'ikon' => 'notifikasi', 'sub_fitur' => ['Kode Voucher', 'Diskon Pelanggan Setia']],
-                ['nama' => 'Info & Kontak', 'fase' => 4, 'ikon' => 'lokasi', 'sub_fitur' => ['Alamat & Jam Buka', 'Peta Lokasi', 'FAQ']],
-                ['nama' => 'Testimoni', 'fase' => 4, 'ikon' => 'bintang', 'sub_fitur' => ['Ulasan & Rating', 'Galeri Foto']],
+                ['nama' => 'Beranda', 'fase' => 1, 'ikon' => 'rumah', 'asal' => 'ide', 'sub_fitur' => ['Banner & Tagline', 'Ringkasan Layanan', 'Tombol Aksi Utama']],
+                ['nama' => 'Daftar Produk', 'fase' => 1, 'ikon' => 'dokumen', 'asal' => 'ide', 'sub_fitur' => ['Kategori', 'Kartu Produk & Harga', 'Detail Produk', 'Pencarian']],
+                ['nama' => 'Pemesanan', 'fase' => 1, 'ikon' => 'keranjang', 'asal' => 'ide', 'sub_fitur' => ['Form Pesanan', 'Pilih Tanggal', 'Pesan via WhatsApp']],
+                ['nama' => 'Pembayaran', 'fase' => 2, 'ikon' => 'uang', 'asal' => 'jawaban', 'sub_fitur' => ['Pilih Metode Bayar', 'Upload Bukti Transfer', 'Status Pembayaran']],
+                ['nama' => 'Akun Saya', 'fase' => 2, 'ikon' => 'pengguna', 'asal' => 'jawaban', 'sub_fitur' => ['Daftar & Masuk', 'Profil', 'Riwayat Pesanan', 'Pesan Ulang']],
+                ['nama' => 'Dashboard Admin', 'fase' => 3, 'ikon' => 'grafik', 'asal' => 'ide', 'sub_fitur' => ['Kelola Produk', 'Kelola Pesanan', 'Laporan Penjualan']],
+                ['nama' => 'Promo & Diskon', 'fase' => 3, 'ikon' => 'notifikasi', 'asal' => 'usulan_ai', 'alasan' => 'Diskon sering dipakai untuk menarik pelanggan kembali.', 'sub_fitur' => ['Kode Voucher', 'Diskon Pelanggan Setia']],
+                ['nama' => 'Info & Kontak', 'fase' => 4, 'ikon' => 'lokasi', 'asal' => 'ide', 'sub_fitur' => ['Alamat & Jam Buka', 'Peta Lokasi', 'FAQ']],
+                ['nama' => 'Testimoni', 'fase' => 4, 'ikon' => 'bintang', 'asal' => 'usulan_ai', 'alasan' => 'Ulasan pelanggan menambah kepercayaan calon pembeli.', 'sub_fitur' => ['Ulasan & Rating', 'Galeri Foto']],
             ],
         ];
     }

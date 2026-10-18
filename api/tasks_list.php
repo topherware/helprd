@@ -32,6 +32,6 @@ $tasks = Database::run(
      WHERE $where ORDER BY $order",
     $params
 )->fetchAll();
-$features = Database::run('SELECT id, nama, fase FROM features WHERE project_id = ? ORDER BY fase, urutan, id', [$id])->fetchAll();
+$features = Database::run('SELECT id, nama, fase FROM features WHERE project_id = ? AND disertakan = 1 ORDER BY fase, urutan, id', [$id])->fetchAll();
 
 json_response(['ok' => true, 'tasks' => $tasks, 'features' => $features]);

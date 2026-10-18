@@ -474,7 +474,7 @@ final class Documents
     public static function exportData(int $projectId): array
     {
         $features = Database::run(
-            'SELECT id, nama, fase, ikon, deskripsi, tujuan, selesai_bila FROM features WHERE project_id = ? ORDER BY fase, urutan, id',
+            'SELECT id, nama, fase, ikon, deskripsi, tujuan, selesai_bila FROM features WHERE project_id = ? AND disertakan = 1 ORDER BY fase, urutan, id',
             [$projectId]
         )->fetchAll();
         $subs = Database::run(

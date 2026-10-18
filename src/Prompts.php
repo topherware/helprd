@@ -64,9 +64,10 @@ Aturan:
 - Setiap fase minimal punya satu fitur bila masuk akal. Utamakan apa yang dipilih pengguna sebagai fitur wajib di fase 1.
 - "ikon" pilih salah satu: bintang, rumah, keranjang, pengguna, dokumen, kalender, chat, grafik, kunci, lokasi, uang, gambar, pengaturan, notifikasi, pencarian.
 - "sub_fitur": 2-5 sub fitur konkret per fitur, masing-masing maksimal 30 karakter.
+- "asal": dari mana fitur ini berasal: "ide" (disebut di ide), "jawaban" (dari jawaban klarifikasi), "catatan" (dari catatan tambahan), "keputusan" (akibat langsung pilihan Bagian B), atau "usulan_ai" (tidak diminta pengguna, murni saranmu). Fitur yang tidak disebut atau diminta pengguna WAJIB "usulan_ai"; maksimal 3 fitur usulan_ai, masing-masing dengan "alasan" satu kalimat. Jangan menambah peran pengguna baru yang tidak disebut di input.
 
 Format JSON:
-{"judul":"...","rekomendasi_stack":"...","fitur":[{"nama":"...","fase":1,"ikon":"dokumen","sub_fitur":["..."]}]}
+{"judul":"...","rekomendasi_stack":"...","fitur":[{"nama":"...","fase":1,"ikon":"dokumen","asal":"ide","alasan":"","sub_fitur":["..."]}]}
 TXT;
     }
 

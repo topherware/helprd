@@ -23,7 +23,7 @@ final class QualityReport
         $stack = $profil['stack'] ?? $b->guessStack(json_encode($prd['tech_stack'], JSON_UNESCAPED_UNICODE));
         $roles = $profil['peran'] ?? array_values(array_unique(array_merge(['pengunjung anonim'],
             array_map([QV::class, 'lower'], array_column($prd['keamanan']['hak_akses'] ?? [], 'peran')))));
-        $flags = Triggers::flags($b, $profil['bendera_ai'] ?? [], $stack, $roles);
+        $flags = Triggers::flags($b, $profil['bendera_ai'] ?? [], $stack, $roles, $profil['invarian_ai'] ?? []);
         $security = SecurityTriggers::detect(['ide_awal' => $b->ide], $b->features, $b->qa, $prd);
         return [
             'brief' => $b,

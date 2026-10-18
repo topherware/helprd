@@ -9,11 +9,16 @@ final class Pipeline
         $declared = $raw['stack_kustom'] + ['stack_id' => $raw['stack_id']];
         $stack = $b->resolveStack(array_filter($declared, fn ($v) => $v !== null && $v !== ''));
         $roles = $raw['peran'];
+        $declaredInv = $raw['invarian'] ?? [];
         return [
             'bendera_ai' => $raw['bendera_ai'],
-            'bendera' => Triggers::flags($b, $raw['bendera_ai'], $stack, $roles),
+            'bendera' => Triggers::flags($b, $raw['bendera_ai'], $stack, $roles, $declaredInv),
             'stack' => $stack,
             'peran' => $roles,
+            'peran_asal' => $raw['peran_asal'] ?? [],
+            // Invarian final = deklarasi AI + kalimat masukan pengguna yang cocok dengan Triggers::INVARIAN.
+            'invarian_ai' => $declaredInv,
+            'invarian' => Triggers::invariants($b, $declaredInv),
             'alasan_stack' => $raw['alasan_stack'],
         ];
     }
@@ -26,6 +31,7 @@ final class Pipeline
             'stack' => $profil['stack'],
             'flags' => $profil['bendera'],
             'roles' => $profil['peran'],
+            'invariants' => $profil['invarian'] ?? Triggers::invariants($b),
             'security' => $security,
             'controls' => SecurityTriggers::tiers($security),
         ];

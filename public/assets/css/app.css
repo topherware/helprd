@@ -286,6 +286,11 @@ textarea:disabled, input:disabled { opacity: .45; }
 .badge-2 { background: var(--fase-2); color: #2a1a00; }
 .badge-3 { background: var(--fase-3); }
 .badge-4 { background: var(--fase-4); }
+.badge-usulan { left: 10px; right: auto; background: var(--surface-2); border: 1px dashed var(--border-strong); color: var(--muted); }
+.node-feature.is-usulan-off { opacity: .55; border-style: dashed; }
+.usulan-field { margin-top: 14px; padding: 10px 12px; border: 1px dashed var(--border-strong); border-radius: 10px; }
+.usulan-field p { margin: 0 0 8px; }
+.check-row { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
 .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; }
 .dot-direncanakan { background: var(--st-direncanakan); }
 .dot-dikerjakan { background: var(--st-dikerjakan); }

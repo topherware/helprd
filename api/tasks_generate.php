@@ -25,7 +25,7 @@ if (!empty($body['ulang'])) {
 }
 
 // Fitur (urut fase) beserta id sub fitur; dikelompokkan per fase, lalu dipecah bila terlalu banyak.
-$features = Database::run('SELECT id, nama, fase FROM features WHERE project_id = ? ORDER BY fase, urutan, id', [$id])->fetchAll();
+$features = Database::run('SELECT id, nama, fase FROM features WHERE project_id = ? AND disertakan = 1 ORDER BY fase, urutan, id', [$id])->fetchAll();
 $subs = Database::run(
     'SELECT s.feature_id, s.id, s.nama FROM sub_features s JOIN features f ON f.id = s.feature_id WHERE f.project_id = ? ORDER BY s.urutan, s.id',
     [$id]
@@ -103,7 +103,7 @@ if ($pending) {
 }
 
 $counts = Database::run(
-    'SELECT (SELECT COUNT(*) FROM features WHERE project_id = ?) AS fitur,
+    'SELECT (SELECT COUNT(*) FROM features WHERE project_id = ? AND disertakan = 1) AS fitur,
             (SELECT COUNT(*) FROM sub_features s JOIN features f ON f.id = s.feature_id WHERE f.project_id = ?) AS sub_fitur,
             (SELECT COUNT(*) FROM tasks WHERE project_id = ?) AS task',
     [$id, $id, $id]

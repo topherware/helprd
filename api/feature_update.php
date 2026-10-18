@@ -27,4 +27,4 @@ if (isset($fields['fase'])) {
     Database::run('UPDATE tasks SET phase = ? WHERE feature_id = ?', [$fields['fase'], $featureId]);
 }
 
-json_response(['ok' => true, 'features' => project_features((int) $project['id'])]);
+json_response(['ok' => true, 'features' => project_features((int) $project['id'], true)]);

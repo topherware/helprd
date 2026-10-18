@@ -37,6 +37,8 @@ final class Brief
         public bool $uiOnly = false,
         public string $aiWorkflow = 'fase',
         public string $extraNotes = '',
+        /** Fitur usulan AI yang belum disertakan pengguna: [nama, alasan] (v1.2.1, bab 2 "Usulan Tambahan"). */
+        public array $usulan = [],
     ) {
     }
 
@@ -55,6 +57,8 @@ final class Brief
             !empty($project['ui_only']),
             $project['ai_workflow'] ?? 'fase',
             (string) ($project['extra_notes'] ?? ''),
+            array_map(fn ($f) => ['nama' => $f['nama'], 'alasan' => (string) ($f['asal_alasan'] ?? '')], Database::run(
+                'SELECT nama, asal_alasan FROM features WHERE project_id = ? AND disertakan = 0 ORDER BY fase, urutan, id', [$id])->fetchAll()),
         );
     }
 
@@ -64,7 +68,7 @@ final class Brief
         return new self(
             $a['judul'], $a['ide'], $a['qa'] ?? [], $a['features'] ?? [],
             $a['design_style'] ?? 'bebas', $a['design_custom'] ?? '', $a['stack_choice'] ?? 'bebas', $a['stack_custom'] ?? '',
-            !empty($a['ui_only']), $a['ai_workflow'] ?? 'fase', $a['extra_notes'] ?? '',
+            !empty($a['ui_only']), $a['ai_workflow'] ?? 'fase', $a['extra_notes'] ?? '', $a['usulan'] ?? [],
         );
     }
 
@@ -74,7 +78,7 @@ final class Brief
             'judul' => $this->judul, 'ide' => $this->ide, 'qa' => $this->qa, 'features' => $this->features,
             'design_style' => $this->designStyle, 'design_custom' => $this->designCustom,
             'stack_choice' => $this->stackChoice, 'stack_custom' => $this->stackCustom,
-            'ui_only' => $this->uiOnly, 'ai_workflow' => $this->aiWorkflow, 'extra_notes' => $this->extraNotes,
+            'ui_only' => $this->uiOnly, 'ai_workflow' => $this->aiWorkflow, 'extra_notes' => $this->extraNotes, 'usulan' => $this->usulan,
         ];
     }
 
@@ -171,6 +175,21 @@ final class Brief
     public function workflowLabel(): string
     {
         return self::WORKFLOW[$this->aiWorkflow][0] ?? self::WORKFLOW['fase'][0];
+    }
+
+    /** Seluruh teks masukan pengguna (ide, jawaban, catatan, nama fitur & sub fitur): sumber pemicu dan asal. */
+    public function inputText(bool $withFeatures = true): string
+    {
+        $text = $this->ide . "\n" . $this->extraNotes . "\n";
+        foreach ($this->qa as $row) {
+            $text .= ($row['jawaban'] ?? '') . "\n";
+        }
+        if ($withFeatures) {
+            foreach ($this->features as $f) {
+                $text .= $f['nama'] . ' ' . implode(' ', $f['sub_fitur'] ?? []) . "\n";
+            }
+        }
+        return $text;
     }
 
     /** Aturan bisnis dari Catatan Tambahan, dipecah per baris/titik koma/kalimat. */

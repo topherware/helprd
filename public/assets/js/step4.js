@@ -65,11 +65,15 @@
     world.append(root);
 
     const rows = features.map((f) => {
+      // Fitur usulan AI (tidak diminta pengguna) berlencana "Usulan" dan tidak masuk PRD sampai disertakan.
+      const usulan = f.asal === 'usulan_ai';
       const node = el('button', {
-        type: 'button', class: 'node node-feature' + (f.id === editingId ? ' is-selected' : ''), title: f.nama, 'data-id': f.id,
+        type: 'button', class: 'node node-feature' + (f.id === editingId ? ' is-selected' : '') + (usulan && !Number(f.disertakan) ? ' is-usulan-off' : ''),
+        title: usulan ? `${f.nama} — usulan AI${Number(f.disertakan) ? ' (disertakan)' : ' (belum disertakan)'}` : f.nama, 'data-id': f.id,
         onclick: () => openEditor(f),
       },
         el('span', { class: `badge badge-${f.fase}` }, `FASE ${f.fase}`),
+        usulan ? el('span', { class: 'badge badge-usulan' }, 'Usulan') : null,
         el('div', { class: 'node-title' }, icon(f.ikon), el('span', { class: 'truncate' }, f.nama)),
         el('div', { class: 'node-meta' }, el('i', { class: `dot dot-${f.status}` }), STATUS[f.status]));
       const sub = el('div', { class: 'node node-sub' },
@@ -136,6 +140,9 @@
     document.getElementById('edNama').value = f.nama;
     document.getElementById('edFase').value = String(f.fase);
     document.getElementById('edStatus').value = f.status;
+    document.getElementById('edUsulan').hidden = f.asal !== 'usulan_ai';
+    document.getElementById('edAlasan').textContent = f.asal_alasan ? `Usulan AI: ${f.asal_alasan}` : 'Usulan AI: fitur ini tidak diminta di ide, jawaban, atau catatanmu.';
+    document.getElementById('edDisertakan').checked = Boolean(Number(f.disertakan));
     document.getElementById('edError').hidden = true;
     editor.hidden = false;
     world.querySelectorAll('.node-feature').forEach((n) => n.classList.toggle('is-selected', Number(n.dataset.id) === f.id));
@@ -159,6 +166,7 @@
         nama: document.getElementById('edNama').value,
         fase: Number(document.getElementById('edFase').value),
         status: document.getElementById('edStatus').value,
+        ...(features.find((x) => x.id === editingId)?.asal === 'usulan_ai' ? { disertakan: document.getElementById('edDisertakan').checked } : {}),
       });
       features = data.features;
       closeEditor();

@@ -7,6 +7,8 @@ final class Validator
         'kunci', 'lokasi', 'uang', 'gambar', 'pengaturan', 'notifikasi', 'pencarian',
     ];
     public const STATUSES = ['direncanakan', 'dikerjakan', 'selesai'];
+    /** Asal fitur/peran/entitas (v1.2.1): dari input pengguna, atau usulan AI yang belum diminta. */
+    public const ASAL = ['ide', 'jawaban', 'catatan', 'keputusan', 'usulan_ai'];
 
     /** Teks wajib dengan batas panjang (dalam karakter). */
     public static function text($value, string $label, int $min, int $max): string
@@ -138,6 +140,9 @@ final class Validator
         if (array_key_exists('deskripsi', $body)) {
             $fields['deskripsi'] = self::optional($body['deskripsi'], 'Deskripsi', 500);
         }
+        if (array_key_exists('disertakan', $body)) {
+            $fields['disertakan'] = $body['disertakan'] ? 1 : 0; // usulan AI dinyalakan/dimatikan dari peta fitur
+        }
         if (array_key_exists('tujuan', $body)) {
             $fields['tujuan'] = self::optional($body['tujuan'], 'Tujuan', 800);
         }
@@ -204,9 +209,20 @@ final class Validator
                 'nama' => $nama,
                 'fase' => min(4, max(1, $fase)),
                 'ikon' => in_array($f['ikon'] ?? '', self::ICONS, true) ? $f['ikon'] : 'bintang',
+                'asal' => in_array($f['asal'] ?? '', self::ASAL, true) ? $f['asal'] : 'ide',
+                'asal_alasan' => self::clip($f['alasan'] ?? '', 300),
                 'sub_fitur' => array_slice($subs, 0, 8),
             ];
         }
+        // Maksimal 3 usulan AI; usulan selebihnya dibuang supaya peta fitur tetap berasal dari input pengguna.
+        $kept = [];
+        $usulan = 0;
+        foreach ($features as $f) {
+            if ($f['asal'] !== 'usulan_ai' || ++$usulan <= 3) {
+                $kept[] = $f;
+            }
+        }
+        $features = $kept;
         if (count($features) < 3) {
             throw new AiException('Hasil AI: fitur kurang dari 3. Data: ' . json_encode($data, JSON_UNESCAPED_UNICODE));
         }
@@ -229,8 +245,21 @@ final class Validator
             }
         }
         $k = self::arr($p['stack_kustom'] ?? null, true);
-        $roles = array_values(array_unique(array_map(fn ($r) => mb_strtolower($r), self::strings($p['peran'] ?? null, 6, 40))));
-        $roles = array_values(array_diff($roles, ['pengunjung anonim']));
+        // Peran boleh string (v1.2) atau {nama, asal} (v1.2.1); asal disimpan terpisah supaya daftar peran tetap string.
+        $roleAsal = [];
+        foreach (self::arr($p['peran'] ?? null) as $r) {
+            $name = mb_strtolower(self::clip(is_array($r) ? ($r['nama'] ?? '') : $r, 40));
+            if ($name !== '' && $name !== 'pengunjung anonim' && !isset($roleAsal[$name]) && count($roleAsal) < 4) {
+                $roleAsal[$name] = is_array($r) && in_array($r['asal'] ?? '', self::ASAL, true) ? $r['asal'] : 'ide';
+            }
+        }
+        $roles = array_keys($roleAsal);
+        $invariants = array_map(fn ($i) => [
+            'jenis' => in_array($i['jenis'] ?? '', array_keys(Triggers::INVARIAN), true) ? $i['jenis'] : 'unik',
+            'aturan' => self::clip($i['aturan'] ?? '', 300),
+            'sumber_daya' => self::clip($i['sumber_daya'] ?? '', 80),
+            'asal' => in_array($i['asal'] ?? '', self::ASAL, true) ? $i['asal'] : 'ide',
+        ], self::objects($p['invarian'] ?? null, 8, 'aturan'));
         return [
             'bendera_ai' => $flags,
             'stack_id' => self::clip($p['stack_id'] ?? '', 40),
@@ -241,7 +270,9 @@ final class Validator
                 'rls' => is_bool($k['rls'] ?? null) ? $k['rls'] : null,
                 'serverless' => is_bool($k['serverless'] ?? null) ? $k['serverless'] : null,
             ],
-            'peran' => array_merge(['pengunjung anonim'], array_slice($roles, 0, 4)),
+            'peran' => array_merge(['pengunjung anonim'], $roles),
+            'peran_asal' => ['pengunjung anonim' => 'ide'] + $roleAsal,
+            'invarian' => $invariants,
             'alasan_stack' => self::clip($p['alasan_stack'] ?? '', 400),
         ];
     }

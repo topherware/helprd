@@ -9,7 +9,7 @@ if (max_step($project) < 4) {
 }
 
 $id = (int) $project['id'];
-$features = project_features($id);
+$features = project_features($id, true);
 
 // Peta fitur hanya dibuat sekali; dibuat ulang hanya bila jawaban berubah (lihat save_answers.php).
 if (!$features) {
@@ -22,9 +22,10 @@ if (!$features) {
             return; // sudah dibuat oleh request lain
         }
         foreach ($data['fitur'] as $i => $f) {
+            // Fitur usulan AI (tanpa asal dari input pengguna) tidak disertakan sampai pengguna menyalakannya.
             Database::run(
-                'INSERT INTO features (project_id, nama, fase, ikon, urutan) VALUES (?, ?, ?, ?, ?)',
-                [$id, $f['nama'], $f['fase'], $f['ikon'], $i]
+                'INSERT INTO features (project_id, nama, fase, ikon, asal, asal_alasan, disertakan, urutan) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                [$id, $f['nama'], $f['fase'], $f['ikon'], $f['asal'], $f['asal_alasan'] ?: null, $f['asal'] === 'usulan_ai' ? 0 : 1, $i]
             );
             $featureId = Database::lastId();
             foreach ($f['sub_fitur'] as $j => $sub) {
@@ -40,7 +41,7 @@ if (!$features) {
             ]
         );
     });
-    $features = project_features($id);
+    $features = project_features($id, true);
     $project = current_project();
 }
 

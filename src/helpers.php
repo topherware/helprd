@@ -244,11 +244,15 @@ function project_qa(int $projectId): array
     return $qa;
 }
 
-/** Fitur project (urut per fase) beserta daftar sub fitur. */
-function project_features(int $projectId): array
+/**
+ * Fitur project (urut per fase) beserta daftar sub fitur. Bawaan: hanya fitur yang disertakan ke PRD
+ * (fitur usulan AI yang belum dinyalakan pengguna tidak ikut). $all = true untuk peta fitur langkah 4.
+ */
+function project_features(int $projectId, bool $all = false): array
 {
     $features = Database::run(
-        'SELECT id, nama, fase, ikon, status FROM features WHERE project_id = ? ORDER BY fase, urutan, id',
+        'SELECT id, nama, fase, ikon, status, asal, asal_alasan, disertakan FROM features WHERE project_id = ?'
+        . ($all ? '' : ' AND disertakan = 1') . ' ORDER BY fase, urutan, id',
         [$projectId]
     )->fetchAll();
     $subs = Database::run(

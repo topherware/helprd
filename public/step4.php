@@ -73,6 +73,10 @@ page_header('Peta fitur', 4, $project, 'canvas-page');
             <option value="dikerjakan">Dikerjakan</option>
             <option value="selesai">Selesai</option>
         </select>
+        <div class="usulan-field" id="edUsulan" hidden>
+            <p class="muted small" id="edAlasan"></p>
+            <label class="check-row"><input type="checkbox" id="edDisertakan"> Sertakan ke PRD</label>
+        </div>
         <p class="form-error" id="edError" hidden></p>
         <button type="submit" class="btn btn-sm">Simpan</button>
     </form>
