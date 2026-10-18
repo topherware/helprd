@@ -1,0 +1,128 @@
+{
+    "catatan": "Input asli pengguna untuk kasus salon (project #34 BookKapster): ide, jawaban, catatan, pilihan Bagian B. Dipakai sebagai Brief untuk menilai 3 PRD acuan di ref-prd\/. Hanya untuk tes.",
+    "brief": {
+        "judul": "BookKapster",
+        "ide": "Aplikasi booking salon dan barbershop. Pelanggan melihat daftar layanan beserta harga dan durasinya, memilih kapster dan jam yang masih kosong, lalu memesan. Pelanggan boleh booking tanpa akun, cukup isi nama dan nomor WhatsApp. Pemilik salon mengelola layanan, harga, jadwal kapster, dan status booking (dikonfirmasi, selesai, batal). Pelanggan mendapat pengingat sebelum jadwal. Pembayaran dilakukan langsung di salon.",
+        "qa": [
+            {
+                "teks": "Ceritakan siapa yang akan pakai aplikasi ini dan bagaimana cara mereka booking salon\/barbershop sekarang. Misalnya, apakah pelanggan selama ini booking lewat chat WhatsApp manual ke kasir atau admin, atau malah datang langsung tanpa booking dan harus menunggu antrian?",
+                "jawaban": "Pelanggan salon dan barbershop sekarang booking lewat chat WhatsApp manual ke kasir, sering lama dibalas, dan kadang satu kapster dobel jadwal di jam yang sama. Ada juga yang datang langsung tanpa booking lalu menunggu antrian. Mereka ingin bisa lihat jadwal kosong dan harga, lalu booking sendiri tanpa harus daftar akun."
+            },
+            {
+                "teks": "Apa tujuan utama pelanggan saat membuka aplikasi ini?",
+                "jawaban": "Cek jadwal kapster kosong"
+            },
+            {
+                "teks": "Dari semua fitur, mana yang paling wajib ada di versi pertama?",
+                "jawaban": "Booking tanpa akun, Pengingat otomatis via WA, Kelola status booking"
+            },
+            {
+                "teks": "Dibanding cara lama (telepon\/chat manual ke kasir), keunggulan apa yang paling kamu kejar?",
+                "jawaban": "Jadwal kapster jelas tidak dobel, Lebih cepat tanpa antre di tempat"
+            },
+            {
+                "teks": "Menurutmu, apa yang bikin pelanggan mau pakai aplikasi ini lagi untuk booking selanjutnya?",
+                "jawaban": "Pengingat otomatis sebelum jadwal"
+            }
+        ],
+        "features": [
+            {
+                "nama": "Booking Tanpa Akun",
+                "fase": 1,
+                "sub_fitur": [
+                    "Isi nama & nomor WhatsApp",
+                    "Pilih layanan, kapster, jam kosong",
+                    "Konfirmasi booking instan",
+                    "Lihat harga & durasi layanan"
+                ]
+            },
+            {
+                "nama": "Jadwal Anti-Dobel",
+                "fase": 1,
+                "sub_fitur": [
+                    "Cek slot kosong per kapster",
+                    "Kunci jam yang sudah terisi",
+                    "Validasi otomatis saat booking"
+                ]
+            },
+            {
+                "nama": "Kelola Layanan & Harga",
+                "fase": 1,
+                "sub_fitur": [
+                    "Tambah\/ubah\/hapus layanan",
+                    "Atur harga & durasi",
+                    "Riwayat booking pakai harga lama"
+                ]
+            },
+            {
+                "nama": "Kelola Status Booking",
+                "fase": 1,
+                "sub_fitur": [
+                    "Tandai dikonfirmasi, selesai, batal",
+                    "Lihat daftar booking harian",
+                    "Catatan siapa & kapan ubah status"
+                ]
+            },
+            {
+                "nama": "Jadwal Kapster",
+                "fase": 1,
+                "sub_fitur": [
+                    "Atur jam kerja tiap kapster",
+                    "Blokir tanggal libur",
+                    "Lihat kalender per kapster"
+                ]
+            },
+            {
+                "nama": "Pengingat Otomatis WA",
+                "fase": 2,
+                "sub_fitur": [
+                    "Kirim pengingat 3 jam sebelum",
+                    "Pesan otomatis via WhatsApp",
+                    "Log pengingat terkirim"
+                ]
+            },
+            {
+                "nama": "Jejak Perubahan",
+                "fase": 2,
+                "sub_fitur": [
+                    "Catat siapa ubah harga\/jadwal",
+                    "Catat waktu perubahan",
+                    "Riwayat perubahan status booking"
+                ]
+            },
+            {
+                "nama": "Dashboard Pemilik",
+                "fase": 3,
+                "sub_fitur": [
+                    "Ringkasan booking harian",
+                    "Jumlah booking per kapster",
+                    "Pendapatan estimasi dari booking"
+                ]
+            },
+            {
+                "nama": "Pencarian Jadwal",
+                "fase": 3,
+                "sub_fitur": [
+                    "Cari kapster tersedia tercepat",
+                    "Filter berdasarkan layanan",
+                    "Filter berdasarkan tanggal"
+                ]
+            },
+            {
+                "nama": "Riwayat Pelanggan",
+                "fase": 4,
+                "sub_fitur": [
+                    "Lihat histori booking by nomor WA",
+                    "Booking ulang layanan favorit"
+                ]
+            }
+        ],
+        "design_style": "bersih_modern",
+        "design_custom": "",
+        "stack_choice": "bebas",
+        "stack_custom": "",
+        "ui_only": false,
+        "ai_workflow": "fase",
+        "extra_notes": "Harga layanan bisa berubah, tetapi riwayat booking lama tetap menampilkan harga saat dipesan. Setiap perubahan oleh pemilik (harga, jadwal, status booking) harus tercatat siapa yang mengubah dan kapan. Satu kapster tidak boleh punya dua booking di jam yang sama. Pengingat dikirim 3 jam sebelum jadwal."
+    }
+}

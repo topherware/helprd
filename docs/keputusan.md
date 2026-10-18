@@ -137,3 +137,13 @@ Rancangan lengkap di `docs/rencana-v1.2.md`. Keputusan D1–D12 di sana diterapk
 - Halaman awal punya sidebar riwayat plan seperti ngodingpakeai.com/plan: cari, urutkan (terbaru/terlama/A–Z), folder per project berisi "Plan 1", tombol "Buat plan baru", buka/tutup sidebar (diingat di localStorage; drawer di layar < 900 px), dan hapus plan dengan konfirmasi.
 - Tanpa login: project dikelompokkan lewat cookie `planku_owner` (acak, httpOnly, 1 tahun) dan kolom `projects.owner_token` (migrasi 004). Membuka plan (`public/open.php`, GET + CSRF) hanya untuk project milik owner yang sama, lalu mengganti cookie project aktif. Hapus (`api/plan_delete.php`, POST + CSRF) juga dicek kepemilikannya; data turunan ikut terhapus lewat ON DELETE CASCADE, `api_logs` tetap (SET NULL) untuk batas laju.
 - Project lama (sebelum migrasi 004) tidak punya pemilik. Agar tidak "dicuri" browser lain, project lama hanya diklaim browser yang cookie project-nya menunjuk project tanpa pemilik; di XAMPP lokal (akses 127.0.0.1/::1) browser itu sekaligus mengklaim semua project lama tanpa pemilik.
+
+## Standar Kualitas v1.2.1 (Paritas, G1–G6)
+
+Pemilik meminta G1–G6 dikerjakan berurutan tanpa konfirmasi. Rancangan di `docs/rencana-v1.2.1.md`, progres di `docs/progress-paritas.md`.
+- **Cadangan**: proyek belum memakai git; dibuat `git init` + commit snapshot (`.env` dan `logs/` tetap diabaikan lewat `.gitignore`). Alasan: aturan "commit atau salinan cadangan sebelum mengubah kode"; git paling mudah dipulihkan.
+- **Spec di root, bukan `spec/`** (sama seperti v1.2): `standar-kualitas-v1.2.1-paritas.md` dan `ref-prd/` dibaca dari root.
+- **Validator paritas membaca paket dokumen markdown** (bukan hanya JSON) supaya satu implementasi P1–P10 bisa menilai PRD acuan dan PRD PlanKu. PRD PlanKu dirakit menjadi berkas yang sama dengan ZIP sebelum dinilai; data terstruktur (`asal`, invarian, rencana tugas) dipakai lebih dulu bila ada.
+- **Brief fixture**: input asli kasus salon diambil dari project #34 di database (ide, 5 jawaban, catatan, stack Bebas, cara kerja per Fase) dan disimpan di `tests/fixtures/paritas/salon.brief.json`. Kata salon/kapster/booking hanya ada di fixture tes, tidak di kode validator atau prompt.
+- **Bab 13 dipisah dari bab 12** (potongan PRD ke-9) karena rencana tugas terkoordinasi membuat jawaban panjang; alasan sama dengan D4 v1.2 (proxy memutus jawaban panjang).
+- **Cek batas (P8) dipindah dari V17/V19** ke validator Batas (kritis) agar satu pelanggaran tidak dihitung dua kali.
