@@ -102,7 +102,12 @@
           startOnLoad: false,
           securityLevel: 'strict',
           theme: 'base',
-          themeVariables: {
+          // Warna diagram mengikuti mode saat diagram pertama dirender (terang atau gelap).
+          themeVariables: document.documentElement.dataset.theme === 'dark' ? {
+            background: '#141416', primaryColor: '#18181b', primaryTextColor: '#f4f4f5', primaryBorderColor: '#3b3b42',
+            lineColor: '#71717a', secondaryColor: '#2a1a10', tertiaryColor: '#232327', fontFamily: 'Inter, system-ui, sans-serif',
+            noteBkgColor: '#2a1a10', noteBorderColor: '#9a3412', actorBkg: '#18181b', actorBorder: '#3b3b42',
+          } : {
             background: '#fafaf9', primaryColor: '#ffffff', primaryTextColor: '#18181b', primaryBorderColor: '#d6d6d3',
             lineColor: '#a1a1aa', secondaryColor: '#fff4ec', tertiaryColor: '#f5f5f4', fontFamily: 'Inter, system-ui, sans-serif',
             noteBkgColor: '#fff4ec', noteBorderColor: '#fdba8c', actorBkg: '#ffffff', actorBorder: '#d6d6d3',

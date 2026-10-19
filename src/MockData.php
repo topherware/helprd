@@ -3,38 +3,23 @@
 /** Data contoh saat USE_MOCK_AI=true, supaya alur bisa dicoba tanpa API key. Bentuknya sama dengan hasil AI. */
 final class MockData
 {
+    /** Pertanyaan tiruan: satu per celah dari Triggers::celah (jumlahnya ikut ide, 3–8). */
     public static function questions(array $project): array
     {
         $topik = self::topik($project['ide_awal']);
-        return ['pertanyaan' => [
-            [
-                'teks' => "Ceritakan seseorang yang butuh $topik ini. Sekarang mereka ngapain buat mengatasi masalahnya? Tulis bebas ya.",
-                'tipe' => 'teks_bebas',
-            ],
-            [
-                'teks' => "Kalau orang baru buka $topik ini, satu hal apa yang paling penting mereka berhasil lakukan?",
-                'tipe' => 'pilihan',
-                'opsi' => ['Lihat informasi produk', 'Langsung pesan/beli', 'Hubungi pemilik', 'Daftar akun', 'Cari sesuatu'],
-            ],
-            [
-                'teks' => 'Dari fitur di bawah, pilih 3 yang paling wajib ada.',
-                'tipe' => 'pilihan',
-                'opsi' => ['Daftar produk + harga', 'Form pemesanan', 'Chat WhatsApp', 'Pembayaran online', 'Galeri foto', 'Testimoni'],
-                'boleh_pilih_banyak' => true,
-            ],
-            [
-                'teks' => 'Apa yang bikin ini lebih enak dipakai dibanding cara orang sekarang (telepon, chat, tanya teman)?',
-                'tipe' => 'pilihan',
-                'opsi' => ['Lebih cepat', 'Harga jelas', 'Bisa kapan saja', 'Ada foto lengkap', 'Riwayat tersimpan'],
-                'boleh_pilih_banyak' => true,
-            ],
-            [
-                'teks' => 'Apa yang bikin orang mau balik lagi, bukan cuma buka sekali terus lupa?',
-                'tipe' => 'pilihan',
-                'opsi' => ['Konten baru rutin', 'Diskon pelanggan setia', 'Pesan ulang cepat', 'Notifikasi promo', 'Poin hadiah'],
-                'boleh_pilih_banyak' => true,
-            ],
-        ]];
+        $bank = [
+            'pengguna' => ['teks' => "Ceritakan seseorang yang butuh $topik ini. Sekarang mereka ngapain buat mengatasi masalahnya? Tulis bebas ya.", 'tipe' => 'teks_bebas'],
+            'aturan' => ['teks' => 'Ada aturan yang tidak boleh dilanggar sistem?', 'tipe' => 'pilihan', 'opsi' => ['Jadwal tidak boleh bentrok', 'Ada batas kuota', 'Stok tidak boleh minus', 'Data tidak boleh kembar', 'Tidak ada'], 'boleh_pilih_banyak' => true],
+            'akun' => ['teks' => 'Pengguna harus punya akun dulu, atau boleh langsung pakai?', 'tipe' => 'pilihan', 'opsi' => ['Wajib akun', 'Boleh tanpa akun', 'Dua-duanya bisa']],
+            'pengelola' => ['teks' => 'Siapa yang mengelola data dan statusnya?', 'tipe' => 'pilihan', 'opsi' => ['Pemilik saja', 'Pemilik dan staf', 'Beberapa admin'], 'boleh_pilih_banyak' => false],
+            'angka' => ['teks' => 'Ada angka penting yang jadi aturan? Misalnya batas waktu, jumlah maksimal, atau jam buka.', 'tipe' => 'teks_bebas'],
+            'notifikasi' => ['teks' => 'Perlu pemberitahuan otomatis ke pengguna? Lewat apa?', 'tipe' => 'pilihan', 'opsi' => ['WhatsApp', 'Email', 'Di aplikasi saja', 'Tidak perlu'], 'boleh_pilih_banyak' => true],
+            'luring' => ['teks' => 'Ada transaksi di luar aplikasi (datang langsung, telepon) yang tetap perlu dicatat?', 'tipe' => 'pilihan', 'opsi' => ['Ya, dicatat pengelola', 'Tidak ada']],
+            'pembayaran' => ['teks' => 'Pembayarannya bagaimana?', 'tipe' => 'pilihan', 'opsi' => ['Bayar di tempat', 'Transfer manual', 'Pembayaran online', 'Gratis']],
+            'prioritas' => ['teks' => 'Dari fitur di bawah, pilih 3 yang paling wajib ada.', 'tipe' => 'pilihan', 'opsi' => ['Daftar produk + harga', 'Form pemesanan', 'Chat WhatsApp', 'Pembayaran online', 'Galeri foto', 'Testimoni'], 'boleh_pilih_banyak' => true],
+            'kembali' => ['teks' => 'Apa yang bikin orang mau balik lagi, bukan cuma buka sekali terus lupa?', 'tipe' => 'pilihan', 'opsi' => ['Konten baru rutin', 'Diskon pelanggan setia', 'Pesan ulang cepat', 'Notifikasi promo'], 'boleh_pilih_banyak' => true],
+        ];
+        return ['pertanyaan' => array_map(fn ($g) => ['celah' => $g] + $bank[$g], Triggers::celah($project['ide_awal']))];
     }
 
     public static function features(array $project): array

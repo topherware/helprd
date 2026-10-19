@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             [$token, owner_token(true), $judul, $ide]
         );
         set_project_cookie($token);
-        redirect('step2.php');
+        redirect('step3.php');
     } catch (UserError $e) {
         $error = $e->getMessage();
     }
@@ -29,7 +29,7 @@ $plans = owner_projects($previous);
 
 page_header('Mau bikin apa?', 1, $previous, 'has-plans');
 $icon = fn (string $path, int $size = 18) => '<svg viewBox="0 0 24 24" width="' . $size . '" height="' . $size . '" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $path . '</svg>';
-$steps = ['teknologi' => 'Teknologi', 'pertanyaan' => 'Pertanyaan', 'peta_fitur' => 'Workspace'];
+$steps = ['teknologi' => 'Pertanyaan', 'pertanyaan' => 'Teknologi', 'peta_fitur' => 'Workspace'];
 ?>
 <script>try { if (localStorage.getItem('planku.plans') === '0') document.body.classList.add('plans-closed'); } catch (e) { /* penyimpanan tidak tersedia */ }</script>
 <aside class="plans" id="plans" aria-label="Semua Plan">

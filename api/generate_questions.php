@@ -4,9 +4,6 @@ require __DIR__ . '/../src/helpers.php';
 set_time_limit(660);
 
 [$project] = api_request();
-if (!$project['tech_mode']) {
-    throw new UserError('Pilih preferensi teknologi dulu.', 409);
-}
 
 $id = (int) $project['id'];
 $questions = project_questions($id);
@@ -23,8 +20,8 @@ if (!$questions) {
         }
         foreach ($data as $i => $q) {
             Database::run(
-                'INSERT INTO questions (project_id, urutan, teks, tipe, opsi, boleh_pilih_banyak) VALUES (?, ?, ?, ?, ?, ?)',
-                [$id, $i + 1, $q['teks'], $q['tipe'], json_encode($q['opsi'], JSON_UNESCAPED_UNICODE), $q['boleh_pilih_banyak']]
+                'INSERT INTO questions (project_id, urutan, celah, teks, tipe, opsi, boleh_pilih_banyak) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                [$id, $i + 1, $q['celah'], $q['teks'], $q['tipe'], json_encode($q['opsi'], JSON_UNESCAPED_UNICODE), $q['boleh_pilih_banyak']]
             );
         }
     });

@@ -171,16 +171,22 @@ function current_project(): ?array
     return Database::run('SELECT * FROM projects WHERE session_token = ?', [$token])->fetch() ?: null;
 }
 
-/** Langkah terjauh yang boleh dibuka berdasarkan status project. */
+/**
+ * Langkah terjauh yang boleh dibuka berdasarkan status project.
+ * 'teknologi' (bawaan project baru) = boleh menjawab pertanyaan; 'pertanyaan' = jawaban tersimpan, boleh memilih teknologi.
+ */
 function max_step(?array $project): int
 {
     return ['teknologi' => 2, 'pertanyaan' => 3, 'peta_fitur' => 5][$project['status'] ?? ''] ?? 1;
 }
 
-/** URL halaman untuk langkah $n (langkah 5 = workspace). */
+/**
+ * URL halaman untuk langkah $n. Urutan sejak v1.2.1: 1 Ide, 2 Pertanyaan (step3.php), 3 Teknologi (step2.php),
+ * 4 Peta Fitur, 5 Workspace. Nama berkas lama dipertahankan supaya tautan lama tetap jalan.
+ */
 function step_url(int $n): string
 {
-    return [1 => 'index.php', 5 => 'workspace.php'][$n] ?? "step$n.php";
+    return [1 => 'index.php', 2 => 'step3.php', 3 => 'step2.php', 4 => 'step4.php', 5 => 'workspace.php'][$n] ?? 'index.php';
 }
 
 /** Pastikan project ada dan sudah sampai langkah $step; kalau belum, arahkan ke langkah yang benar. */
@@ -201,7 +207,7 @@ function require_project(int $step): array
 function project_questions(int $projectId): array
 {
     $rows = Database::run(
-        'SELECT q.id, q.teks, q.tipe, q.opsi, q.boleh_pilih_banyak, a.jawaban, a.dilewati
+        'SELECT q.id, q.celah, q.teks, q.tipe, q.opsi, q.boleh_pilih_banyak, a.jawaban, a.dilewati
          FROM questions q LEFT JOIN answers a ON a.question_id = q.id
          WHERE q.project_id = ? ORDER BY q.urutan',
         [$projectId]
@@ -239,7 +245,7 @@ function project_qa(int $projectId): array
     $qa = [];
     foreach (project_questions($projectId) as $q) {
         $answer = is_array($q['jawaban']) ? implode(', ', $q['jawaban']) : $q['jawaban'];
-        $qa[] = ['teks' => $q['teks'], 'jawaban' => $q['dilewati'] === false ? $answer : '(dilewati)'];
+        $qa[] = ['teks' => $q['teks'], 'celah' => $q['celah'], 'jawaban' => $q['dilewati'] === false ? $answer : '(dilewati)'];
     }
     return $qa;
 }
@@ -345,9 +351,13 @@ function ai_stream(string $endpoint, array $project, string $prompt, string $moc
 
 /* ---------- Tampilan ---------- */
 
-function page_header(string $title, int $step, ?array $project = null, string $bodyClass = ''): void
+/**
+ * Kepala halaman. $actions: tombol aksi halaman (HTML) yang ditaruh di kanan atas bersama toggle mode gelap,
+ * supaya posisi tombol konsisten di semua halaman.
+ */
+function page_header(string $title, int $step, ?array $project = null, string $bodyClass = '', string $actions = ''): void
 {
-    $steps = [1 => 'Ide', 2 => 'Teknologi', 3 => 'Pertanyaan', 4 => 'Peta Fitur', 5 => 'Workspace'];
+    $steps = [1 => 'Ide', 2 => 'Pertanyaan', 3 => 'Teknologi', 4 => 'Peta Fitur', 5 => 'Workspace'];
     $max = max_step($project);
     ?>
 <!doctype html>
@@ -362,6 +372,7 @@ function page_header(string $title, int $step, ?array $project = null, string $b
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="assets/css/app.css">
+    <script>try { var t = localStorage.getItem('planku.theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch (e) { /* penyimpanan tidak tersedia */ }</script>
 </head>
 <body class="<?= e($bodyClass) ?>">
 <?php if ($step < 4): ?>
@@ -379,8 +390,18 @@ function page_header(string $title, int $step, ?array $project = null, string $b
             <?php endif; ?>
         <?php endforeach; ?>
     </nav>
+    <div class="topbar-actions"><?= $actions ?><?= theme_toggle() ?></div>
 </header>
 <?php endif;
+}
+
+/** Tombol toggle mode gelap/terang (perilaku di assets/js/app.js, pilihan disimpan di localStorage). */
+function theme_toggle(): string
+{
+    $svg = fn (string $d) => '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $d . '</svg>';
+    return '<button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false" title="Mode gelap" aria-label="Mode gelap">'
+        . '<span class="theme-moon">' . $svg('<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>') . '</span>'
+        . '<span class="theme-sun">' . $svg('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>') . '</span></button>';
 }
 
 function page_footer(array $scripts = []): void

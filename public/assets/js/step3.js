@@ -149,7 +149,7 @@
     });
     try {
       await api('save_answers.php', { jawaban });
-      location.href = 'step4.php';
+      location.href = 'step2.php';
     } catch (err) {
       formError.textContent = err.message;
       formError.hidden = false;

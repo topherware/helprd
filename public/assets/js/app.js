@@ -229,6 +229,25 @@ const ui = (() => {
   return { confirm, notify, enhanceSelect, svgIcon };
 })();
 
+// Toggle mode gelap: html[data-theme], pilihan disimpan di localStorage (dibaca lebih awal di <head> supaya tidak berkedip).
+(() => {
+  const root = document.documentElement;
+  const sync = () => document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+    const dark = root.dataset.theme === 'dark';
+    btn.setAttribute('aria-pressed', String(dark));
+    btn.title = dark ? 'Mode terang' : 'Mode gelap';
+    btn.setAttribute('aria-label', btn.title);
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('[data-theme-toggle]')) return;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('planku.theme', root.dataset.theme); } catch { /* penyimpanan tidak tersedia */ }
+    sync();
+    document.dispatchEvent(new CustomEvent('planku:theme', { detail: root.dataset.theme }));
+  });
+  sync();
+})();
+
 // Langkah 1: chip contoh ide + Ctrl/Cmd+Enter untuk kirim.
 document.querySelectorAll('[data-example]').forEach((chip) => {
   chip.addEventListener('click', () => {

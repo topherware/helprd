@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../src/helpers.php';
 
-$project = require_project(2);
+$project = require_project(3);
 $error = null;
 $v = [
     'design_style' => $project['design_style'] ?? 'bebas',
@@ -22,22 +22,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $fields = Validator::brief($_POST);
 
-        Database::transaction(function () use ($project, $fields) {
-            // Stack atau mode hanya-UI berubah: pertanyaan & peta fitur dibuat ulang. Isian lain cukup menandai PRD basi.
+        // Sejak v1.2.1 teknologi dipilih SETELAH pertanyaan: jawaban tetap, hanya peta fitur yang dibuat ulang bila stack berubah.
+        $answered = (bool) Database::run('SELECT 1 FROM answers a JOIN questions q ON q.id = a.question_id WHERE q.project_id = ? LIMIT 1', [$project['id']])->fetchColumn();
+        Database::transaction(function () use ($project, $fields, $answered) {
+            // Stack atau mode hanya-UI berubah: peta fitur dibuat ulang. Isian lain cukup menandai PRD basi.
             $changed = $project['tech_mode'] !== null
                 && ($project['stack_choice'] !== $fields['stack_choice'] || (string) $project['stack_custom'] !== (string) $fields['stack_custom']
                     || (int) $project['ui_only'] !== $fields['ui_only']);
-            if ($changed || $project['tech_mode'] === null) {
-                Database::run('DELETE FROM questions WHERE project_id = ?', [$project['id']]);
+            if ($changed) {
                 Database::run('DELETE FROM features WHERE project_id = ?', [$project['id']]);
-                $status = 'pertanyaan';
-            } else {
-                $status = max_step($project) > 3 ? $project['status'] : 'pertanyaan';
             }
+            $status = $answered ? 'peta_fitur' : $project['status'];
             $sets = implode(', ', array_map(fn ($k) => "$k = ?", array_keys($fields)));
             Database::run("UPDATE projects SET $sets, status = ? WHERE id = ?", [...array_values($fields), $status, $project['id']]);
         });
-        redirect('step3.php');
+        redirect($answered ? 'step4.php' : 'step3.php');
     } catch (UserError $e) {
         $error = $e->getMessage();
     }
@@ -53,7 +52,8 @@ $option = function (string $name, string $value, string $label, string $desc, st
         . ($badge !== '' ? '<span class="opt-badge">' . e($badge) . '</span>' : '') . '</label>';
 };
 
-page_header('Desain, Teknologi, & Cara Kerja AI', 2, $project);
+page_header('Desain, Teknologi, & Cara Kerja AI', 3, $project, '',
+    '<a class="btn btn-ghost btn-sm" href="step3.php">Kembali</a><button type="submit" class="btn btn-sm" form="briefForm">Buat Peta Fitur</button>');
 ?>
 <main class="page page-wide">
     <p class="part-chip">Bagian B</p>
@@ -123,10 +123,6 @@ page_header('Desain, Teknologi, & Cara Kerja AI', 2, $project);
 
         <?php if ($error): ?><p class="form-error" role="alert"><?= e($error) ?></p><?php endif; ?>
 
-        <div class="actions">
-            <a class="btn btn-ghost" href="index.php">Kembali</a>
-            <button type="submit" class="btn">Lanjut</button>
-        </div>
     </form>
 </main>
 <?php page_footer(['step2.js']);

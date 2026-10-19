@@ -153,6 +153,61 @@ final class Triggers
         return $out;
     }
 
+    /**
+     * Celah informasi pada ide (sebelum ada jawaban): kode => [maksud pertanyaan, tipe saran].
+     * Pertanyaan klarifikasi dibuat satu per celah, 3–8 pertanyaan; ide yang sudah jelas mendapat lebih sedikit pertanyaan.
+     */
+    public const CELAH = [
+        'pengguna' => ['siapa yang paling butuh produk ini dan bagaimana mereka mengatasi masalahnya sekarang', 'teks_bebas'],
+        'aturan' => ['aturan yang tidak boleh dilanggar sistem (mis. tidak boleh bentrok/dobel, batas kuota, stok tidak boleh minus, data harus unik)', 'pilihan'],
+        'akun' => ['apakah pengguna wajib punya akun/login, atau boleh memakai tanpa akun (tamu)', 'pilihan'],
+        'pengelola' => ['siapa yang mengelola data dan status (pemilik, admin, staf) dan apakah ada lebih dari satu peran pengelola', 'pilihan'],
+        'angka' => ['angka penting yang menentukan aturan (berapa lama, maksimal berapa, jam operasional, batas waktu)', 'teks_bebas'],
+        'notifikasi' => ['apakah pengguna perlu diberi tahu otomatis (konfirmasi, pengingat) dan lewat kanal apa', 'pilihan'],
+        'luring' => ['apakah ada transaksi di luar aplikasi (datang langsung, telepon) yang tetap perlu dicatat pengelola', 'pilihan'],
+        'pembayaran' => ['bagaimana pembayaran dilakukan (di tempat, transfer manual, pembayaran online, gratis)', 'pilihan'],
+        'prioritas' => ['fitur mana yang paling wajib ada di versi pertama', 'pilihan'],
+        'kembali' => ['apa yang membuat pengguna mau kembali memakai produk ini', 'pilihan'],
+    ];
+    public const CELAH_MIN = 3;
+    public const CELAH_MAX = 8;
+
+    /** Kode celah yang perlu ditanyakan untuk sebuah ide, urut prioritas (pengguna lebih dulu, prioritas fitur di akhir). */
+    public static function celah(string $ide): array
+    {
+        $text = mb_strtolower($ide);
+        $transaksi = (bool) preg_match(self::KEYWORDS['hasTransactionRecord'], $text) || (bool) preg_match(self::KEYWORDS['hasTimeFields'], $text);
+        $hasInvariant = (bool) array_filter(self::INVARIAN, fn ($re) => preg_match($re, $text));
+        $gaps = ['pengguna'];
+        if ($transaksi && !$hasInvariant) {
+            $gaps[] = 'aturan';
+        }
+        if (!preg_match('/\b(akun|login|masuk|daftar|registrasi|tamu|guest)\b/u', $text)) {
+            $gaps[] = 'akun';
+        }
+        if (!preg_match('/\b(admin|pemilik|owner|pengelola|staf|staff|kasir|operator|petugas|guru|dosen)\b/u', $text)) {
+            $gaps[] = 'pengelola';
+        }
+        if ($transaksi && !preg_match('/\d/', $text)) {
+            $gaps[] = 'angka';
+        }
+        if ($transaksi && !preg_match('/\b(notifikasi|pengingat|email|whatsapp|wa|sms|konfirmasi)\b/u', $text)) {
+            $gaps[] = 'notifikasi';
+        }
+        if ($transaksi && !preg_match(self::KEYWORDS['hasOfflineChannel'], $text)) {
+            $gaps[] = 'luring';
+        }
+        if ($transaksi && !preg_match('/\b(bayar|pembayaran|transfer|tunai|gratis|cod|qris)\b/u', $text)) {
+            $gaps[] = 'pembayaran';
+        }
+        $gaps = array_slice($gaps, 0, self::CELAH_MAX - 1);
+        $gaps[] = 'prioritas';
+        if (count($gaps) < self::CELAH_MIN) {
+            array_splice($gaps, -1, 0, ['kembali']);
+        }
+        return $gaps;
+    }
+
     /** Nama peran dari daftar peran profil (string, atau objek {nama, asal} sejak v1.2.1). */
     public static function roleNames(array $roles): array
     {

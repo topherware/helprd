@@ -25,7 +25,8 @@ Database::transaction(function () use ($id, $answers) {
         // Jawaban berubah: peta fitur lama tidak relevan lagi, akan dibuat ulang di langkah 4.
         Database::run('DELETE FROM features WHERE project_id = ?', [$id]);
     }
-    Database::run("UPDATE projects SET status = 'peta_fitur' WHERE id = ?", [$id]);
+    // Urutan v1.2.1: setelah pertanyaan → Teknologi. Status tidak mundur bila peta fitur sudah pernah dibuka.
+    Database::run("UPDATE projects SET status = IF(status = 'peta_fitur', status, 'pertanyaan') WHERE id = ?", [$id]);
 });
 
 json_response(['ok' => true]);

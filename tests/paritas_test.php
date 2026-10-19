@@ -219,6 +219,14 @@ $ids = failing(function (&$p) {
 });
 check('ID dataset DUMMY-PROFIL_TOKO tidak dianggap variabel lingkungan (V16)', !in_array('V16', $ids, true), implode(', ', $ids));
 
+// --- Pertanyaan dinamis berbasis celah ---
+$vague = Triggers::celah('Aplikasi sewa ruang rapat: tamu memilih ruang dan jam lalu memesan.');
+$clear = Triggers::celah('Toko online kue: pembeli checkout tanpa akun, stok tidak boleh minus, admin konfirmasi transfer, notifikasi WA, maksimal 3 pesanan per hari, pembeli datang langsung juga dicatat');
+check('celah: ide samar → lebih banyak pertanyaan daripada ide rinci (maks 8, min 3)', count($vague) > count($clear) && count($vague) <= 8 && count($clear) >= 3, json_encode([$vague, $clear]));
+check('celah: selalu mulai dari pengguna dan diakhiri prioritas', $vague[0] === 'pengguna' && end($vague) === 'prioritas');
+$q = Validator::aiQuestions(MockData::questions(['ide_awal' => 'Website profil sekolah berisi visi misi dan berita kegiatan.']));
+check('pertanyaan tiruan mengikuti celah dan membawa label celah', count($q) === count(Triggers::celah('Website profil sekolah berisi visi misi dan berita kegiatan.')) && $q[0]['celah'] === 'pengguna', json_encode($q, JSON_UNESCAPED_UNICODE));
+
 // --- G5: skor, laporan, dan Pass 5 ---
 $std = QualityReport::standard();
 check('bobot: Kesiapan Bangun 15 + Paritas 10', $std['bobot']['kesiapan_bangun'] === 15 && $std['bobot']['paritas'] === 10 && $std['versi'] === '1.2.1');

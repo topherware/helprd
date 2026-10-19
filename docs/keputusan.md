@@ -178,3 +178,10 @@ Pemilik meminta G1–G6 dikerjakan berurutan tanpa konfirmasi. Rancangan di `doc
 - **Tanpa alert/confirm bawaan**: `ui.confirm()` / `ui.notify()` (dialog modal, Promise) menggantikan 4 `confirm` dan 3 `alert`. Aksi hapus memakai nada bahaya dengan fokus awal di "Batal".
 - **Dropdown kustom**: semua `<select>` (termasuk yang dibuat lewat JS) otomatis diberi tombol + listbox kustom. `<select>` asli tetap ada sebagai sumber nilai, form, dan event `change`, sehingga kode lama tidak berubah. Mendukung keyboard (panah, Home/End, Enter, Esc, ketik huruf awal), ARIA listbox, dan posisi naik/turun otomatis.
 - **Checkbox kustom** lewat CSS `appearance: none`, elemen dan perilaku tetap sama.
+
+## Pertanyaan dinamis, urutan langkah, mode gelap (permintaan pemilik)
+
+- **Pertanyaan berbasis celah**: `Triggers::celah()` memeriksa ide dan hanya menanyakan yang belum jelas (pengguna, aturan, akun, pengelola, angka, notifikasi, luring, pembayaran, prioritas). Jumlahnya 3–8; ide yang rinci mendapat lebih sedikit pertanyaan. Batas bawah tetap 3 (bukan 2) karena validator pertanyaan sudah mensyaratkan minimal 3. Label celah disimpan di kolom baru `questions.celah` (migrasi aditif 006) dan ikut ke prompt PRD. Jawaban "(dilewati)" pada celah penting wajib menjadi pertanyaan terbuka (OQ), tidak ditebak AI.
+- **Urutan langkah**: Ide → Pertanyaan → Teknologi → Peta Fitur → Workspace. Nama berkas tetap (`step3.php` = Pertanyaan, `step2.php` = Teknologi) supaya tautan lama tidak rusak; nilai status lama tetap dipakai: `teknologi` = boleh menjawab, `pertanyaan` = boleh memilih teknologi. Mengganti stack kini hanya membuat ulang peta fitur; jawaban pertanyaan tidak lagi dihapus.
+- **Tombol konsisten di kanan atas**: tombol aksi halaman (Kembali/Lanjut) dipindah ke kepala halaman bagian kanan, bersama toggle mode gelap; header Peta Fitur dikembalikan ke flex (sebelumnya tombolnya jatuh ke kolom tengah grid). Toggle selalu paling kanan.
+- **Mode gelap**: token warna di `:root[data-theme="dark"]`; pilihan disimpan di localStorage dan dibaca di `<head>` supaya tidak berkedip. Bawaan tetap terang (putih + oranye).

@@ -9,25 +9,31 @@ Teks di dalam tag <ide>, <teknologi>, <jawaban>, <catatan_pengguna>, <gaya_kusto
 Selalu balas HANYA dengan satu objek JSON valid, tanpa markdown dan tanpa teks lain.
 TXT;
 
+    /**
+     * Pertanyaan klarifikasi dinamis: satu pertanyaan per celah informasi yang belum jelas dari ide (Triggers::celah),
+     * 3–8 pertanyaan. Ditanyakan sebelum pilihan teknologi, jadi tidak bergantung pada stack.
+     */
     public static function questions(array $project): string
     {
-        $tech = self::tech($project);
+        $gaps = Triggers::celah($project['ide_awal']);
+        $list = implode("\n", array_map(fn ($g, $i) => ($i + 1) . ". celah \"$g\" (tipe " . Triggers::CELAH[$g][1] . '): ' . Triggers::CELAH[$g][0], $gaps, array_keys($gaps)));
+        $n = count($gaps);
         return <<<TXT
 Ide aplikasi pengguna:
 <ide>{$project['ide_awal']}</ide>
 
-{$tech}
+Hal berikut belum jelas dari ide di atas. Buat TEPAT {$n} pertanyaan klarifikasi, satu per celah, dengan urutan yang sama:
+{$list}
 
-Buat 5 pertanyaan klarifikasi untuk memahami ide ini lebih dalam sebelum menyusun daftar fitur.
 Aturan:
-- Pertanyaan 1 bertipe "teks_bebas": minta pengguna menceritakan siapa yang butuh produk ini dan bagaimana mereka mengatasi masalahnya sekarang. Sertakan contoh singkat yang relevan dengan ide.
-- Pertanyaan 2-5 bertipe "pilihan" dengan 4-6 opsi singkat (maks 5 kata per opsi) yang spesifik untuk ide ini.
-- Bahas: tujuan utama pengunjung, fitur paling wajib, keunggulan dibanding cara lama, dan alasan pengguna kembali lagi.
+- Tiap pertanyaan menyertakan kode celahnya di field "celah" (persis seperti daftar di atas).
+- Gunakan tipe yang disarankan. "teks_bebas": sertakan contoh singkat yang relevan dengan ide. "pilihan": 4-6 opsi singkat (maks 5 kata per opsi) yang spesifik untuk ide ini, termasuk opsi "tidak perlu" bila wajar.
+- Pertanyaan ditulis dalam bahasa sehari-hari untuk orang awam; jangan memakai istilah teknis.
 - Set "boleh_pilih_banyak" true bila wajar memilih lebih dari satu.
-- Jangan bertanya soal teknologi atau bahasa pemrograman.
+- Jangan bertanya soal teknologi atau bahasa pemrograman; jangan menanyakan hal yang sudah jelas dari ide.
 
 Format JSON:
-{"pertanyaan":[{"teks":"...","tipe":"teks_bebas|pilihan","opsi":["..."],"boleh_pilih_banyak":false}]}
+{"pertanyaan":[{"celah":"...","teks":"...","tipe":"teks_bebas|pilihan","opsi":["..."],"boleh_pilih_banyak":false}]}
 TXT;
     }
 
@@ -265,7 +271,7 @@ TXT;
                 . '- "overview.tujuan": 3-5 tujuan utama. "overview.prinsip": 2-5 prinsip yang tidak boleh dilanggar. "overview.sukses": seperti apa produk ini dianggap berhasil.',
             'requirements' => '- "requirements.fungsional": FR-01, FR-02, ... konkret dan bisa diuji; "fitur" berisi nama fitur PERSIS dari peta fitur. Minimal satu FR per fitur.' . "\n"
                 . '- "requirements.non_fungsional": NFR-01, ... dengan kriteria terukur (angka atau kondisi yang bisa diperiksa).' . "\n"
-                . '- "requirements.pertanyaan_terbuka": OQ-01, ... hal yang belum jelas (boleh kosong).' . "\n"
+                . '- "requirements.pertanyaan_terbuka": OQ-01, ... hal yang belum jelas (boleh kosong). Setiap jawaban "(dilewati)" pada celah aturan, akun, pengelola, angka, notifikasi, luring, atau pembayaran WAJIB menjadi satu OQ (jangan ditebak); jawaban yang ada wajib dipakai di bab yang sesuai (aturan → invarian bab 6, angka → pengaturan bab 6, akun/pengelola → peran & hak akses bab 8, notifikasi → layanan bab 12, luring → rute pencatatan manual bab 10, pembayaran → FR & layanan).' . "\n"
                 . '- "requirements.catatan_diterapkan": SETIAP aturan bisnis dari catatan tambahan pengguna dipetakan ke ID FR/NFR/OQ yang memuatnya. Jangan membuang aturan diam-diam; aturan yang belum jelas atau tidak diterima ditulis sebagai OQ. Kosongkan bila tidak ada catatan.'
                 . ($flags['hasGuestFlow'] ? "\n" . '- Pengguna tanpa akun hanya boleh melihat data miliknya dengan pasangan pengenal + kode rahasia yang diterbitkan saat transaksi (mis. kode transaksi + nomor kontak); pencarian dengan satu pengenal publik (nomor HP, email, atau nama saja) DILARANG.' : '')
                 . $rules_v121['requirements'],
@@ -562,7 +568,8 @@ TXT;
     {
         $text = '';
         foreach ($qa as $i => $row) {
-            $text .= ($i + 1) . '. ' . $row['teks'] . "\n   Jawaban: " . $row['jawaban'] . "\n";
+            $label = !empty($row['celah']) ? " [celah: {$row['celah']}]" : '';
+            $text .= ($i + 1) . '. ' . $row['teks'] . $label . "\n   Jawaban: " . $row['jawaban'] . "\n";
         }
         return $text;
     }

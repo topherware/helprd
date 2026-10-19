@@ -163,7 +163,7 @@ final class Validator
     {
         $list = is_array($data['pertanyaan'] ?? null) ? $data['pertanyaan'] : [];
         $result = [];
-        foreach (array_slice($list, 0, 7) as $q) {
+        foreach (array_slice($list, 0, Triggers::CELAH_MAX) as $q) {
             $teks = self::clip($q['teks'] ?? '', 500);
             if ($teks === '') {
                 continue;
@@ -176,15 +176,17 @@ final class Validator
             }
             $opsi = array_slice(array_values(array_unique($opsi)), 0, 8);
             $tipe = ($q['tipe'] ?? '') === 'pilihan' && count($opsi) >= 2 ? 'pilihan' : 'teks_bebas';
+            $celah = (string) ($q['celah'] ?? '');
             $result[] = [
+                'celah' => isset(Triggers::CELAH[$celah]) ? $celah : null,
                 'teks' => $teks,
                 'tipe' => $tipe,
                 'opsi' => $tipe === 'pilihan' ? $opsi : [],
                 'boleh_pilih_banyak' => $tipe === 'pilihan' && !empty($q['boleh_pilih_banyak']) ? 1 : 0,
             ];
         }
-        if (count($result) < 3) {
-            throw new AiException('Hasil AI: pertanyaan kurang dari 3. Data: ' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        if (count($result) < Triggers::CELAH_MIN) {
+            throw new AiException('Hasil AI: pertanyaan kurang dari ' . Triggers::CELAH_MIN . '. Data: ' . json_encode($data, JSON_UNESCAPED_UNICODE));
         }
         return $result;
     }

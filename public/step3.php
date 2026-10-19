@@ -1,9 +1,10 @@
 <?php
 require __DIR__ . '/../src/helpers.php';
 
-$project = require_project(3);
+$project = require_project(2);
 
-page_header('Beberapa pertanyaan', 3, $project);
+page_header('Beberapa pertanyaan', 2, $project, '',
+    '<span class="topbar-group" id="actions" hidden><a class="btn btn-ghost btn-sm" href="index.php">Kembali</a><button type="button" class="btn btn-sm" id="submitAnswers">Lanjut</button></span>');
 ?>
 <main class="page">
     <div class="title-row">
@@ -23,9 +24,5 @@ page_header('Beberapa pertanyaan', 3, $project);
 
     <p class="form-error" id="formError" role="alert" hidden></p>
 
-    <div class="actions" id="actions" hidden>
-        <a class="btn btn-ghost" href="step2.php">Kembali</a>
-        <button type="button" class="btn" id="submitAnswers">Buat Peta Fitur</button>
-    </div>
 </main>
 <?php page_footer(['step3.js']);

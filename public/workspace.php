@@ -81,6 +81,7 @@ $i = [
         <button type="button" class="btn btn-sm" id="bikinTask" data-views="prd" disabled title="Susun fitur, sub-fitur, dan task dari PRD"><?= $icon($i['grid'], 16) ?>Bikin Task</button>
         <button type="button" class="btn btn-sm" id="implemen" data-views="roadmap kanban fitur" disabled title="Download PRD/ZIP atau prompt AI agent">Implemen</button>
         <button type="button" class="ws-agent-btn" id="agentToggle" aria-controls="agent" aria-expanded="true" title="Workspace Agent"><?= $icon($i['agent']) ?></button>
+        <?= theme_toggle() ?>
     </div>
 </header>
 
