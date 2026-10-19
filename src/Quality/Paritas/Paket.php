@@ -54,7 +54,7 @@ final class Paket
             $files[Documents::featureFilename($i, $f)] = "# {$f['nama']}\n\n## Task\n\n" . implode("\n", array_map($line, $own)) . "\n";
         }
         $files['TASKS.md'] = $tasksMd;
-        if (!empty($prd['milestone']['claude_md'])) {
+        if (!empty($prd['milestone']['claude_md']['struktur_folder'])) {
             $files['CLAUDE.md'] = Documents::claudeMd($b->judul, $prd);
         }
         if (empty($prd['profil']['bendera']['uiOnly'])) {

@@ -16,7 +16,8 @@
                 "sub_fitur": [
                     "Daftar Alat",
                     "Status Tersedia"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Ajukan Pinjam",
@@ -24,7 +25,8 @@
                 "sub_fitur": [
                     "Form Pengajuan",
                     "Pilih Tanggal Kembali"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Daftar Pengajuan",
@@ -32,7 +34,8 @@
                 "sub_fitur": [
                     "Antrian Pengajuan",
                     "Detail Pengajuan"
-                ]
+                ],
+                "asal": "ide"
             }
         ],
         "design_style": "dark_premium",
@@ -41,7 +44,8 @@
         "stack_custom": "",
         "ui_only": true,
         "ai_workflow": "sekaligus",
-        "extra_notes": ""
+        "extra_notes": "",
+        "usulan": []
     },
     "prd": {
         "versi": "1.2",
@@ -111,7 +115,16 @@
                     "fitur": []
                 }
             ],
-            "catatan_diterapkan": []
+            "catatan_diterapkan": [],
+            "usulan_tambahan": [],
+            "seo": [
+                "Judul dan meta description dinamis di setiap halaman publik.",
+                "Tag Open Graph dan Twitter Card untuk halaman publik.",
+                "sitemap.xml dan robots.txt dibuat otomatis.",
+                "Halaman privat, login, dan admin diberi noindex.",
+                "Gambar dioptimalkan (format WebP\/AVIF, ukuran responsif, lazy loading).",
+                "Data publik di-cache dengan revalidasi berkala dan revalidasi saat pengelola mengubah data."
+            ]
         },
         "fitur": [
             {
@@ -173,12 +186,15 @@
                 "log_audit": "",
                 "tamu": ""
             },
-            "kebijakan_akses": []
+            "kebijakan_akses": [],
+            "invarian": [],
+            "migrasi_kustom": "",
+            "pengaturan": []
         },
         "tech_stack": [
             {
                 "lapisan": "Frontend",
-                "pilihan": "React + Vite + Tailwind CSS (Cloudflare Pages)",
+                "pilihan": "React 19 + Vite 6 + Tailwind CSS v4 (Cloudflare Pages)",
                 "alasan": "Komponen siap pakai dan cepat dibuat."
             },
             {
@@ -193,8 +209,8 @@
             },
             {
                 "lapisan": "Deployment",
-                "pilihan": "Hosting statis (mis. Vercel atau Cloudflare Pages)",
-                "alasan": "Gratis untuk prototipe kecil."
+                "pilihan": "Cloudflare Pages (frontend) + Workers (API) + D1 (database)",
+                "alasan": "Hosting statis cukup untuk prototipe tanpa backend."
             },
             {
                 "lapisan": "Pengujian",
@@ -205,6 +221,31 @@
         "keputusan_teknologi": {
             "stack": "React + Cloudflare",
             "alasan": "Dipakai React (Vite) + Cloudflare Workers + Hono + D1 karena paling cepat untuk MVP dan sesuai pilihan di langkah Teknologi."
+        },
+        "kedalaman": {
+            "versi": [
+                "React 19",
+                "Vite 6",
+                "Tailwind CSS v4",
+                "Hono 4",
+                "Wrangler 4",
+                "Zod 3",
+                "Vitest 3",
+                "Miniflare 3"
+            ],
+            "auth": "Tidak ada autentikasi (mode hanya-UI).",
+            "orm_migrasi": "Tidak ada database (mode hanya-UI); data tiruan dari berkas JSON.",
+            "validasi": "Zod 3 lewat middleware @hono\/zod-validator dan di formulir React",
+            "zona_waktu": "Waktu disimpan UTC (teks ISO 8601) dan ditampilkan dalam zona lokal pengguna (bawaan Asia\/Jakarta, WIB) dengan Intl.DateTimeFormat",
+            "penjadwal": {
+                "berkas": "",
+                "endpoint": "",
+                "interval": "",
+                "rahasia": "",
+                "idempotensi": ""
+            },
+            "uji": "Vitest 3 + Miniflare 3 (Worker dan D1 lokal, termasuk uji dua permintaan bersamaan)",
+            "deployment": "Cloudflare Pages (frontend) + Workers (API) + D1 (database)"
         },
         "keamanan": {
             "klasifikasi_data": [],
@@ -548,8 +589,11 @@
                     "Transaksi: pesanan yang dibuat pengguna"
                 ],
                 "microcopy": {
+                    "judul_utama": "PinjamLab: semua kebutuhanmu, lebih cepat tanpa antre chat.",
+                    "cta": "Mulai Sekarang",
                     "kosong": "Belum ada data. Yuk mulai dari tombol di bawah.",
                     "error": "Maaf, ada gangguan. Coba lagi sebentar ya.",
+                    "penuh": "Maaf, pilihan ini baru saja diambil orang lain. Silakan pilih yang lain.",
                     "sukses": "Berhasil disimpan.",
                     "konfirmasi": "Yakin ingin melanjutkan? Tindakan ini tidak bisa dibatalkan."
                 }
@@ -592,8 +636,117 @@
                     "checkpoint": "CHECKPOINT: berhenti, perbarui PROGRESS.md, ringkas hasil, tunggu persetujuan, dan sarankan memulai percakapan baru bila konteks sudah panjang."
                 }
             ],
+            "rencana": [
+                {
+                    "id": "M0.1",
+                    "judul": "Siapkan proyek, dependensi, dan konfigurasi",
+                    "berkas": [
+                        "package.json",
+                        ".env.example",
+                        "CLAUDE.md",
+                        "PROGRESS.md"
+                    ],
+                    "perilaku": "Inisialisasi proyek React (Vite) + Cloudflare Workers + Hono + D1 dengan versi di bab 7, salin .env.example, isi CLAUDE.md dan PROGRESS.md.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Perintah npm run dev membuka halaman kosong tanpa galat."
+                },
+                {
+                    "id": "M1.1",
+                    "judul": "Bangun layout, navigasi, dan token design system",
+                    "berkas": [
+                        "web\/src\/App.tsx",
+                        "web\/src\/index.css"
+                    ],
+                    "perilaku": "Layout per peran sesuai bab 10 dan token warna\/tipografi bab 9 sebagai CSS variable.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA"
+                    ],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Semua layout di bab 10 tampil dengan token bab 9 di lebar 360 px dan 1280 px."
+                },
+                {
+                    "id": "M1.2",
+                    "judul": "Bangun halaman Katalog Alat dengan data tiruan",
+                    "berkas": [
+                        "web\/src\/pages\/beranda.tsx",
+                        "web\/src\/pages\/katalog-alat.tsx"
+                    ],
+                    "perilaku": "Halaman \/, \/katalog-alat lengkap dengan keadaan kosong, memuat, dan gagal.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA",
+                        "DUMMY-ITEM",
+                        "DUMMY-TRANSAKSI"
+                    ],
+                    "sec": [],
+                    "fr": [
+                        "FR-01"
+                    ],
+                    "tabel": [],
+                    "selesai_bila": "Semua halaman kelompok ini tampil memakai dataset DUMMY-PENGGUNA, DUMMY-ITEM, DUMMY-TRANSAKSI tanpa backend."
+                },
+                {
+                    "id": "M1.3",
+                    "judul": "Bangun halaman Ajukan Pinjam dengan data tiruan",
+                    "berkas": [
+                        "web\/src\/pages\/ajukan-pinjam.tsx"
+                    ],
+                    "perilaku": "Halaman \/ajukan-pinjam lengkap dengan keadaan kosong, memuat, dan gagal.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA",
+                        "DUMMY-ITEM",
+                        "DUMMY-TRANSAKSI"
+                    ],
+                    "sec": [],
+                    "fr": [
+                        "FR-02"
+                    ],
+                    "tabel": [],
+                    "selesai_bila": "Semua halaman kelompok ini tampil memakai dataset DUMMY-PENGGUNA, DUMMY-ITEM, DUMMY-TRANSAKSI tanpa backend."
+                },
+                {
+                    "id": "M1.4",
+                    "judul": "Bangun halaman Daftar Pengajuan dengan data tiruan",
+                    "berkas": [
+                        "web\/src\/pages\/daftar-pengajuan.tsx"
+                    ],
+                    "perilaku": "Halaman \/daftar-pengajuan lengkap dengan keadaan kosong, memuat, dan gagal.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA",
+                        "DUMMY-ITEM",
+                        "DUMMY-TRANSAKSI"
+                    ],
+                    "sec": [],
+                    "fr": [
+                        "FR-03"
+                    ],
+                    "tabel": [],
+                    "selesai_bila": "Semua halaman kelompok ini tampil memakai dataset DUMMY-PENGGUNA, DUMMY-ITEM, DUMMY-TRANSAKSI tanpa backend."
+                },
+                {
+                    "id": "M1.5",
+                    "judul": "Buat komponen bersama dan keadaan antarmuka",
+                    "berkas": [
+                        "worker\/src\/lib\/ui.ts"
+                    ],
+                    "perilaku": "Komponen tombol, kartu, badge status, dialog, toast, dan keadaan kosong sesuai bab 9.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA",
+                        "DUMMY-ITEM",
+                        "DUMMY-TRANSAKSI"
+                    ],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Komponen dipakai ulang di semua halaman M1 dan lolos cek kontras 4.5:1."
+                }
+            ],
             "aturan_checkpoint": "Cara kerja Sekaligus Semua: checkpoint di akhir M1 dan di akhir proyek; berhenti dan laporkan jika ada uji yang gagal.",
-            "master_prompt": "Kamu membangun PinjamLab: prototipe tampilan peminjaman alat.\nStack: React (Vite) + Cloudflare Workers + Hono + D1 (hanya UI, tanpa backend).\n\nSebelum mulai, baca berkas berikut: CLAUDE.md, PRD.md, semua berkas di features\/, dan PROGRESS.md.\n\nAturan kerja:\n1. Cara kerja Sekaligus Semua: checkpoint di akhir M1 dan di akhir proyek; berhenti dan laporkan jika ada uji yang gagal.\n2. Kerjakan milestone berurutan (M0 → M1), task berawalan [M1]\/[M2]\/[M3] sesuai urutan.\n3. Jalankan uji setelah setiap perubahan dan perbarui PROGRESS.md.\n4. Berhenti di setiap CHECKPOINT dan tunggu persetujuan.\n5. Tanya bila PRD ambigu. Jangan mengarang data di luar bab 11 (Data Dummy & Copywriting).\n6. Rahasia hanya di variabel lingkungan; jangan menulis kunci asli ke kode.",
+            "master_prompt": "Halo! Kamu berperan sebagai senior fullstack developer yang membangun \"PinjamLab\": prototipe tampilan peminjaman alat.\n\nBaca dulu berkas berikut: CLAUDE.md, PRD.md, semua berkas di folder features\/, dan PROGRESS.md.\n\nTECH STACK TERKUNCI (jangan diganti): React (Vite) + Cloudflare Workers + Hono + D1 (hanya UI, tanpa backend).\n\nATURAN KERJA:\n1. Sebelum menulis kode apa pun, berikan ringkasan pemahamanmu maksimal 10 poin, sebutkan rencana berkas untuk milestone pertama (M0 lalu M1), lalu tanyakan apakah saya siap kamu mulai.\n2. Kamu boleh lanjut antar-tugas tanpa menunggu, tetapi berhenti dan minta izin di akhir M1 dan sebelum M4 Rilis; bila ada uji yang gagal, berhenti dan laporkan.\n3. Ikuti Rencana Pengerjaan Terkoordinasi di bab 13 (Task M<n>.<k>) dan Cara kerja Sekaligus Semua: checkpoint di akhir M1 dan di akhir proyek; berhenti dan laporkan jika ada uji yang gagal.\n4. Patuhi skema database (bab 6), peta rute (bab 10), hak akses (bab 8), aturan bisnis dan invarian (bab 2 dan bab 6), serta design system (bab 9).\n5. Jangan mengarang data di luar bab 11 (Data Dummy & Copywriting).\n6. Jalankan uji setelah setiap perubahan, perbarui PROGRESS.md, dan berhenti di setiap CHECKPOINT.\n7. Tanya bila PRD ambigu. Rahasia hanya di variabel lingkungan; jangan menulis kunci asli ke kode.",
             "claude_md": {
                 "struktur_folder": "src\/\n  pages\/\n  components\/\n  data\/dummy\/\ntests\/",
                 "konvensi": [
@@ -624,7 +777,12 @@
                 "usesRateLimit": false,
                 "serverless": false,
                 "hasDarkTheme": true,
-                "multiRole": false
+                "multiRole": false,
+                "hasTimeFields": true,
+                "hasScheduler": false,
+                "hasPublicPages": true,
+                "hasOfflineChannel": false,
+                "hasTimeRange": false
             },
             "stack": {
                 "id": "react_cloudflare",
@@ -634,18 +792,68 @@
                     "Hono",
                     "D1"
                 ],
+                "kunci": {
+                    "framework": [
+                        "React",
+                        "Hono"
+                    ],
+                    "orm": [
+                        "D1"
+                    ],
+                    "auth": [
+                        "cookie"
+                    ],
+                    "db": [
+                        "D1"
+                    ]
+                },
                 "runtime": "Cloudflare Workers (TypeScript)",
                 "db": "d1",
                 "bahasa_skema": "sql",
                 "rls": false,
                 "serverless": true,
                 "lapisan": {
-                    "Frontend": "React + Vite + Tailwind CSS (Cloudflare Pages)",
-                    "Backend": "Cloudflare Workers + Hono",
-                    "Database": "Cloudflare D1 (SQLite)",
-                    "Autentikasi": "Sesi bertanda tangan di cookie httpOnly",
+                    "Frontend": "React 19 + Vite 6 + Tailwind CSS v4 (Cloudflare Pages)",
+                    "Backend": "Cloudflare Workers + Hono 4",
+                    "Database": "Cloudflare D1 (SQLite) dengan binding D1 langsung",
+                    "Autentikasi": "Sesi bertanda tangan di cookie httpOnly (HMAC Web Crypto)",
                     "Deployment": "Cloudflare Pages + Workers",
-                    "Pengujian": "Vitest + Miniflare"
+                    "Pengujian": "Vitest 3 + Miniflare 3"
+                },
+                "kedalaman": {
+                    "versi": [
+                        "React 19",
+                        "Vite 6",
+                        "Tailwind CSS v4",
+                        "Hono 4",
+                        "Wrangler 4",
+                        "Zod 3",
+                        "Vitest 3",
+                        "Miniflare 3"
+                    ],
+                    "auth": "Sesi bertanda tangan HMAC (Web Crypto) di cookie httpOnly + secure + sameSite=lax, kata sandi di-hash dengan PBKDF2 (Web Crypto)",
+                    "orm_migrasi": "Binding D1 langsung dengan kueri SQL berparameter; migrasi dengan Wrangler (wrangler d1 migrations apply)",
+                    "validasi": "Zod 3 lewat middleware @hono\/zod-validator dan di formulir React",
+                    "zona_waktu": "Waktu disimpan UTC (teks ISO 8601) dan ditampilkan dalam zona lokal pengguna (bawaan Asia\/Jakarta, WIB) dengan Intl.DateTimeFormat",
+                    "penjadwal": {
+                        "berkas": "wrangler.toml ([triggers] crons)",
+                        "interval": "*\/10 * * * *",
+                        "endpoint": "handler scheduled() di worker\/src\/index.ts memanggil tugas {tugas}",
+                        "rahasia": "Cron Trigger berjalan di dalam Worker, tidak lewat endpoint publik",
+                        "idempotensi": "kolom {aksi}_dikirim_pada diisi dalam satu pernyataan UPDATE bersyarat; baris yang sudah terisi dilewati sehingga tidak terkirim ganda"
+                    },
+                    "uji": "Vitest 3 + Miniflare 3 (Worker dan D1 lokal, termasuk uji dua permintaan bersamaan)",
+                    "deployment": "Cloudflare Pages (frontend) + Workers (API) + D1 (database)"
+                },
+                "struktur": {
+                    "halaman": "web\/src\/pages\/{rute}.tsx",
+                    "aksi": "worker\/src\/routes\/{modul}.ts",
+                    "lib": "worker\/src\/lib\/{modul}.ts",
+                    "skema": "migrations\/0001_skema.sql",
+                    "seed": "migrations\/seed.sql",
+                    "migrasi_kustom": "migrations\/0002_invarian.sql",
+                    "layout": "web\/src\/App.tsx",
+                    "token": "web\/src\/index.css"
                 },
                 "perintah": {
                     "jalan": "npm run dev",
@@ -707,6 +915,12 @@
                 "pengunjung anonim",
                 "pelanggan"
             ],
+            "peran_asal": {
+                "pengunjung anonim": "ide",
+                "pelanggan": "ide"
+            },
+            "invarian_ai": [],
+            "invarian": [],
             "alasan_stack": "Stack ini paling cepat dipakai untuk MVP web yang ramah HP dan mudah dikelola pemilik."
         }
     },
@@ -715,90 +929,105 @@
             "fitur": "Katalog Alat",
             "title": "Buat halaman Katalog Alat dengan data tiruan DUMMY-ITEM",
             "milestone": "M1",
+            "koordinasi": "M1.2",
             "status": "belum_mulai"
         },
         {
             "fitur": "Katalog Alat",
             "title": "Buat tampilan Daftar Alat",
             "milestone": "M1",
+            "koordinasi": "M1.2",
             "status": "belum_mulai"
         },
         {
             "fitur": "Katalog Alat",
             "title": "Buat tampilan Status Tersedia",
             "milestone": "M1",
+            "koordinasi": "M1.2",
             "status": "belum_mulai"
         },
         {
             "fitur": "Katalog Alat",
             "title": "Tampilkan keadaan kosong, memuat, dan gagal di Katalog Alat",
             "milestone": "M1",
+            "koordinasi": "M1.2",
             "status": "belum_mulai"
         },
         {
             "fitur": "Katalog Alat",
             "title": "Rapikan tampilan responsif Katalog Alat",
             "milestone": "M1",
+            "koordinasi": "M1.2",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ajukan Pinjam",
             "title": "Buat halaman Ajukan Pinjam dengan data tiruan DUMMY-ITEM",
             "milestone": "M1",
+            "koordinasi": "M1.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ajukan Pinjam",
             "title": "Buat tampilan Form Pengajuan",
             "milestone": "M1",
+            "koordinasi": "M1.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ajukan Pinjam",
             "title": "Buat tampilan Pilih Tanggal Kembali",
             "milestone": "M1",
+            "koordinasi": "M1.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ajukan Pinjam",
             "title": "Tampilkan keadaan kosong, memuat, dan gagal di Ajukan Pinjam",
             "milestone": "M1",
+            "koordinasi": "M1.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ajukan Pinjam",
             "title": "Rapikan tampilan responsif Ajukan Pinjam",
             "milestone": "M1",
+            "koordinasi": "M1.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Daftar Pengajuan",
             "title": "Buat halaman Daftar Pengajuan dengan data tiruan DUMMY-ITEM",
             "milestone": "M1",
+            "koordinasi": "M1.4",
             "status": "belum_mulai"
         },
         {
             "fitur": "Daftar Pengajuan",
             "title": "Buat tampilan Antrian Pengajuan",
             "milestone": "M1",
+            "koordinasi": "M1.4",
             "status": "belum_mulai"
         },
         {
             "fitur": "Daftar Pengajuan",
             "title": "Buat tampilan Detail Pengajuan",
             "milestone": "M1",
+            "koordinasi": "M1.4",
             "status": "belum_mulai"
         },
         {
             "fitur": "Daftar Pengajuan",
             "title": "Tampilkan keadaan kosong, memuat, dan gagal di Daftar Pengajuan",
             "milestone": "M1",
+            "koordinasi": "M1.4",
             "status": "belum_mulai"
         },
         {
             "fitur": "Daftar Pengajuan",
             "title": "Rapikan tampilan responsif Daftar Pengajuan",
             "milestone": "M1",
+            "koordinasi": "M1.4",
             "status": "belum_mulai"
         }
     ]

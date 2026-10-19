@@ -4,6 +4,7 @@
  *   {"langkah": "nilai", "ai": true}      → Pass 3 semua validator + Pass 4 audit AI singkat (bila "ai"), simpan laporan.
  *                                           Mengembalikan potongan PRD yang perlu diperbaiki.
  *   {"langkah": "perbaiki", "bagian": "p5"} → Pass 5: tulis ulang satu potongan dengan temuannya, simpan versi PRD baru.
+ *   {"langkah": "perbaiki", "bagian": "task"} → Pass 5 batas task (P8, v1.2.1): gabungkan task fitur yang melebihi batas (tanpa AI).
  * Browser mengulang nilai → perbaiki maksimal 2 putaran.
  */
 const IS_API = true;
@@ -36,6 +37,28 @@ $call = function (string $endpoint, string $prompt, array $mock, int $maxTokens)
     }
     return ai_generate($endpoint, $project, $prompt, $mock, $maxTokens);
 };
+
+// Pass 5 untuk batas task (P8): gabungkan task fitur yang melebihi batas, hanya bila belum ada task fitur itu yang dikerjakan.
+if (($body['langkah'] ?? '') === 'perbaiki' && ($body['bagian'] ?? '') === 'task') {
+    $merged = 0;
+    foreach ($features as $f) {
+        $rows = Database::run('SELECT id, title, milestone, koordinasi, status FROM tasks WHERE project_id = ? AND feature_id = ? ORDER BY sort_order, id', [$id, $f['id']])->fetchAll();
+        if (count($rows) <= P08Batas::PER_FITUR || array_filter($rows, fn ($r) => $r['status'] !== 'belum_mulai')) {
+            continue;
+        }
+        $plan = Pipeline::mergeTasks(array_map(fn ($r) => ['id' => (int) $r['id']] + $r, $rows));
+        Database::transaction(function () use ($plan, $id) {
+            foreach ($plan['judul'] as $taskId => $title) {
+                Database::run('UPDATE tasks SET title = ? WHERE id = ? AND project_id = ?', [$title, $taskId, $id]);
+            }
+            foreach ($plan['hapus'] as $taskId) {
+                Database::run("DELETE FROM tasks WHERE id = ? AND project_id = ? AND status = 'belum_mulai'", [$taskId, $id]);
+            }
+        });
+        $merged += count($plan['hapus']);
+    }
+    json_response(['ok' => true, 'diperbaiki' => $merged > 0]);
+}
 
 if (($body['langkah'] ?? '') === 'perbaiki') {
     $part = (string) ($body['bagian'] ?? '');

@@ -28,7 +28,8 @@ final class P02Lingkup
             $bad = array_values(array_filter($names, fn ($n) => !Telusur::traced($n, $input)));
         }
         if ($bad) {
-            $out[] = QV::finding('P2', 'M', 3, 'Fitur tanpa asal di masukan pengguna: ' . implode(', ', $bad) . '.',
+            // Bab null: asal fitur diperbaiki di peta fitur (langkah 4), bukan dengan menulis ulang PRD.
+            $out[] = QV::finding('P2', 'M', null, 'Fitur tanpa asal di masukan pengguna: ' . implode(', ', $bad) . '.',
                 'Hapus dari lingkup atau pindahkan ke "Usulan Tambahan (belum dijadwalkan)" di bab 2.');
         }
 
@@ -44,7 +45,7 @@ final class P02Lingkup
             ? array_values(array_filter($roles, fn ($r) => !in_array($asal[$r] ?? '', ['ide', 'jawaban', 'catatan', 'keputusan'], true)))
             : array_values(array_filter($roles, fn ($r) => !Telusur::roleTraced($r, $input)));
         if ($badRoles) {
-            $out[] = QV::finding('P2', 'K', 8, 'Peran tanpa asal di masukan pengguna: ' . implode(', ', $badRoles) . '.', 'Hapus peran (dan akun/tabelnya) atau tanyakan ke pengguna.');
+            $out[] = QV::finding('P2', 'K', null, 'Peran tanpa asal di masukan pengguna: ' . implode(', ', $badRoles) . '.', 'Hapus peran (dan akun/tabelnya) atau tanyakan ke pengguna.');
         }
 
         $pages = [];

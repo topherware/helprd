@@ -20,6 +20,10 @@ json_response([
     'sisa_panggilan' => max(0, Documents::callsLeft($id)),
     'laporan' => $report ? [
         'lulus' => $report['lulus'], 'skor' => $report['skor'], 'temuan' => count($report['temuan']),
-        'gagal' => array_values(array_map(fn ($k) => $k['judul'], array_filter($report['checklist'], fn ($k) => $k['status'] === 'gagal'))),
+        'gagal' => array_values(array_merge(
+            array_map(fn ($k) => $k['judul'], array_filter($report['checklist'], fn ($k) => $k['status'] === 'gagal')),
+            // v1.2.1: aturan paritas yang gagal ikut disebut (format laporan lama tanpa "paritas" tetap terbaca).
+            array_map(fn ($p) => "{$p['id']} {$p['judul']}", array_filter($report['paritas'] ?? [], fn ($p) => $p['status'] === 'gagal'))
+        )),
     ] : null,
 ]);

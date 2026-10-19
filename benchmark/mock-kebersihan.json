@@ -16,7 +16,8 @@
                 "sub_fitur": [
                     "Daftar Layanan",
                     "Tarif per Jam"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Booking Jadwal",
@@ -25,7 +26,8 @@
                     "Pilih Tanggal",
                     "Pilih Jam",
                     "Email Konfirmasi"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Akun Pelanggan",
@@ -33,7 +35,8 @@
                 "sub_fitur": [
                     "Daftar & Masuk",
                     "Riwayat Booking"
-                ]
+                ],
+                "asal": "keputusan"
             },
             {
                 "nama": "Dasbor Admin",
@@ -42,7 +45,8 @@
                     "Setujui Booking",
                     "Tugaskan Petugas",
                     "Kelola Tarif"
-                ]
+                ],
+                "asal": "keputusan"
             },
             {
                 "nama": "Ulasan Pelanggan",
@@ -50,7 +54,8 @@
                 "sub_fitur": [
                     "Beri Rating",
                     "Tampilkan Ulasan"
-                ]
+                ],
+                "asal": "keputusan"
             }
         ],
         "design_style": "korporat",
@@ -59,7 +64,8 @@
         "stack_custom": "",
         "ui_only": false,
         "ai_workflow": "task",
-        "extra_notes": "Booking maksimal 3 jam per sesi"
+        "extra_notes": "Booking maksimal 3 jam per sesi",
+        "usulan": []
     },
     "prd": {
         "versi": "1.2",
@@ -157,6 +163,15 @@
                         "FR-06"
                     ]
                 }
+            ],
+            "usulan_tambahan": [],
+            "seo": [
+                "Judul dan meta description dinamis di setiap halaman publik.",
+                "Tag Open Graph dan Twitter Card untuk halaman publik.",
+                "sitemap.xml dan robots.txt dibuat otomatis.",
+                "Halaman privat, login, dan admin diberi noindex.",
+                "Gambar dioptimalkan (format WebP\/AVIF, ukuran responsif, lazy loading).",
+                "Data publik di-cache dengan revalidasi berkala dan revalidasi saat pengelola mengubah data."
             ]
         },
         "fitur": [
@@ -301,9 +316,9 @@
                     ]
                 },
                 {
-                    "nama": "transaksi",
-                    "deskripsi": "Transaksi pengguna",
-                    "tunggal": false,
+                    "nama": "pengaturan",
+                    "deskripsi": "Pengaturan aplikasi (satu baris), diubah pengelola",
+                    "tunggal": true,
                     "teknis": false,
                     "kolom": [
                         {
@@ -311,35 +326,11 @@
                             "tipe": "uuid, PK"
                         },
                         {
-                            "nama": "user_id",
-                            "tipe": "uuid, FK→pengguna"
+                            "nama": "booking_jam",
+                            "tipe": "integer, nilai dari masukan: Booking maksimal 3 jam per sesi, bawaan 3"
                         },
                         {
-                            "nama": "item_id",
-                            "tipe": "uuid, FK→item"
-                        },
-                        {
-                            "nama": "nama_item_snapshot",
-                            "tipe": "text, salinan nama saat transaksi"
-                        },
-                        {
-                            "nama": "harga_satuan_snapshot",
-                            "tipe": "integer, rupiah, salinan harga saat transaksi"
-                        },
-                        {
-                            "nama": "jumlah",
-                            "tipe": "integer"
-                        },
-                        {
-                            "nama": "total_rp",
-                            "tipe": "integer, rupiah"
-                        },
-                        {
-                            "nama": "status",
-                            "tipe": "text, enum: menunggu, diproses, selesai, dibatalkan"
-                        },
-                        {
-                            "nama": "dibuat_pada",
+                            "nama": "diperbarui_pada",
                             "tipe": "timestamp"
                         }
                     ]
@@ -384,26 +375,14 @@
             "relasi": [
                 {
                     "dari": "pengguna",
-                    "ke": "transaksi",
-                    "jenis": "satu-ke-banyak",
-                    "label": "membuat"
-                },
-                {
-                    "dari": "item",
-                    "ke": "transaksi",
-                    "jenis": "satu-ke-banyak",
-                    "label": "dipesan"
-                },
-                {
-                    "dari": "pengguna",
                     "ke": "log_audit",
                     "jenis": "satu-ke-banyak",
                     "label": "mencatat"
                 }
             ],
-            "kode_skema": "datasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Pengguna {\n  id String @id @default(uuid())\n  nama String\n  email String\n  telepon String?\n  peran String\n  dibuat_pada DateTime @default(now())\n\n  @@map(\"pengguna\")\n}\n\nmodel Item {\n  id String @id @default(uuid())\n  nama String\n  deskripsi String?\n  harga_rp Int\n  aktif Boolean\n  dibuat_pada DateTime @default(now())\n\n  @@map(\"item\")\n}\n\nmodel Transaksi {\n  id String @id @default(uuid())\n  user_id String\n  item_id String\n  nama_item_snapshot String\n  harga_satuan_snapshot Int\n  jumlah Int\n  total_rp Int\n  status String\n  dibuat_pada DateTime @default(now())\n\n  @@map(\"transaksi\")\n}\n\nmodel LogAudit {\n  id String @id @default(uuid())\n  aktor_id String\n  aksi String\n  entitas String\n  entitas_id String\n  ringkasan_perubahan Json?\n  dibuat_pada DateTime @default(now())\n\n  @@map(\"log_audit\")\n}",
+            "kode_skema": "datasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Pengguna {\n  id String @id @default(uuid())\n  nama String\n  email String\n  telepon String?\n  peran String\n  dibuat_pada DateTime @default(now()) @db.Timestamptz\n\n  @@map(\"pengguna\")\n}\n\nmodel Item {\n  id String @id @default(uuid())\n  nama String\n  deskripsi String?\n  harga_rp Int\n  aktif Boolean\n  dibuat_pada DateTime @default(now()) @db.Timestamptz\n\n  @@map(\"item\")\n}\n\nmodel Pengaturan {\n  id String @id @default(uuid())\n  booking_jam Int @default(3)\n  diperbarui_pada DateTime @default(now()) @db.Timestamptz\n\n  @@map(\"pengaturan\")\n}\n\nmodel LogAudit {\n  id String @id @default(uuid())\n  aktor_id String\n  aksi String\n  entitas String\n  entitas_id String\n  ringkasan_perubahan Json?\n  dibuat_pada DateTime @default(now()) @db.Timestamptz\n\n  @@map(\"log_audit\")\n}",
             "aturan_pemicu": {
-                "snapshot": "transaksi.nama_item_snapshot dan transaksi.harga_satuan_snapshot menyalin nilai saat transaksi, jadi perubahan harga tidak mengubah riwayat.",
+                "snapshot": "",
                 "log_audit": "Aksi yang wajib dicatat: tambah\/ubah\/hapus item, ubah status transaksi, ubah peran pengguna.",
                 "tamu": ""
             },
@@ -412,37 +391,56 @@
                     "tabel": "transaksi",
                     "aturan": "Server memeriksa kepemilikan (user_id sama dengan pengguna yang masuk) di setiap permintaan."
                 }
+            ],
+            "invarian": [
+                {
+                    "id": "INV-01",
+                    "jenis": "kuota",
+                    "aturan": "Booking maksimal 3 jam per sesi",
+                    "mekanisme": "Batas dibaca dari tabel pengaturan lalu dihitung ulang di dalam transaksi: Transaksi dengan SELECT ... FOR UPDATE pada baris induk, hitung ulang jumlah di dalam transaksi, tolak bila melebihi batas.",
+                    "konkurensi": "Penguncian baris induk selama hitung ulang supaya dua permintaan tidak sama-sama lolos.",
+                    "uji": "Uji dua permintaan bersamaan untuk INV-01: hanya satu yang berhasil, yang lain menerima pesan gagal yang jelas."
+                }
+            ],
+            "migrasi_kustom": "",
+            "pengaturan": [
+                {
+                    "kunci": "booking_jam",
+                    "nilai_bawaan": "3",
+                    "lokasi": "pengaturan.booking_jam",
+                    "pengubah": "admin"
+                }
             ]
         },
         "tech_stack": [
             {
                 "lapisan": "Frontend",
-                "pilihan": "React + Vite + Tailwind CSS",
+                "pilihan": "React 19 + Vite 6 + Tailwind CSS v4",
                 "alasan": "Bagian dari stack React Vite + Node.js."
             },
             {
                 "lapisan": "Backend",
-                "pilihan": "Node.js + Express",
+                "pilihan": "Node.js 22 + Express 5",
                 "alasan": "Bagian dari stack React Vite + Node.js."
             },
             {
                 "lapisan": "Database",
-                "pilihan": "PostgreSQL + Prisma ORM",
+                "pilihan": "PostgreSQL 16 + Prisma ORM",
                 "alasan": "Bagian dari stack React Vite + Node.js."
             },
             {
                 "lapisan": "Autentikasi",
-                "pilihan": "Sesi cookie httpOnly + bcrypt",
+                "pilihan": "express-session (cookie httpOnly) + bcrypt",
                 "alasan": "Bagian dari stack React Vite + Node.js."
             },
             {
                 "lapisan": "Deployment",
-                "pilihan": "VPS atau Render (server Node.js tetap menyala)",
+                "pilihan": "VPS dengan PM2 (server Node.js tetap menyala)",
                 "alasan": "Bagian dari stack React Vite + Node.js."
             },
             {
                 "lapisan": "Pengujian",
-                "pilihan": "Vitest + Supertest + Playwright",
+                "pilihan": "Vitest 3 + Supertest 7 + Playwright 1",
                 "alasan": "Bagian dari stack React Vite + Node.js."
             },
             {
@@ -455,6 +453,33 @@
             "stack": "React Vite + Node.js",
             "alasan": "Dipakai React (Vite) SPA + Express + PostgreSQL (Prisma) karena paling cepat untuk MVP dan sesuai pilihan di langkah Teknologi."
         },
+        "kedalaman": {
+            "versi": [
+                "React 19",
+                "Vite 6",
+                "Tailwind CSS v4",
+                "Node.js 22",
+                "Express 5",
+                "Prisma 6",
+                "PostgreSQL 16",
+                "Zod 3",
+                "Vitest 3",
+                "Playwright 1"
+            ],
+            "auth": "express-session dengan penyimpanan sesi connect-pg-simple, cookie httpOnly + secure + sameSite=lax, kata sandi di-hash dengan bcrypt",
+            "orm_migrasi": "Prisma 6 + Prisma Migrate (prisma migrate dev \/ prisma migrate deploy), migrasi SQL kustom di prisma\/migrations",
+            "validasi": "Zod 3 di middleware validasi Express dan di formulir React",
+            "zona_waktu": "Waktu disimpan UTC (timestamptz) dan ditampilkan dalam zona lokal pengguna (bawaan Asia\/Jakarta, WIB) dengan pustaka date-fns-tz 3",
+            "penjadwal": {
+                "berkas": "",
+                "endpoint": "",
+                "interval": "",
+                "rahasia": "",
+                "idempotensi": ""
+            },
+            "uji": "Vitest 3 + Supertest 7 (API, termasuk uji dua permintaan bersamaan) + Playwright 1 (alur end-to-end)",
+            "deployment": "VPS dengan PM2 dan Nginx (HTTPS), PostgreSQL terkelola"
+        },
         "keamanan": {
             "klasifikasi_data": [
                 {
@@ -463,14 +488,6 @@
                     "lokasi": "pengguna.email, pengguna.telepon",
                     "akses": "Pemilik akun dan admin",
                     "retensi": "Selama akun aktif (usulan)",
-                    "boleh_masuk_log": false
-                },
-                {
-                    "data": "Riwayat transaksi dan kontak",
-                    "sensitivitas": "pribadi",
-                    "lokasi": "transaksi.status",
-                    "akses": "Pemilik transaksi dan admin",
-                    "retensi": "1 tahun (usulan)",
                     "boleh_masuk_log": false
                 },
                 {
@@ -888,6 +905,17 @@
                         "Ulasan Pelanggan",
                         "FR-05"
                     ]
+                },
+                {
+                    "path": "\/admin\/pengaturan",
+                    "halaman": "Pengaturan (nilai bawaan & template pesan)",
+                    "peran": [
+                        "admin"
+                    ],
+                    "layout": "Admin",
+                    "sumber": [
+                        "Katalog Layanan"
+                    ]
                 }
             ],
             "navigasi": [
@@ -1016,36 +1044,14 @@
                     ]
                 },
                 {
-                    "id": "DUMMY-TRANSAKSI",
-                    "tabel": "transaksi",
+                    "id": "DUMMY-PENGATURAN",
+                    "tabel": "pengaturan",
                     "kolom": [
-                        "nama_item_snapshot",
-                        "harga_satuan_snapshot",
-                        "jumlah",
-                        "total_rp",
-                        "status"
+                        "booking_jam"
                     ],
                     "baris": [
                         [
-                            "Paket Hemat",
-                            15000,
-                            2,
-                            30000,
-                            "menunggu"
-                        ],
-                        [
-                            "Paket Reguler",
-                            25000,
-                            1,
-                            25000,
-                            "diproses"
-                        ],
-                        [
-                            "Paket Spesial",
-                            40000,
-                            3,
-                            120000,
-                            "selesai"
+                            3
                         ]
                     ]
                 }
@@ -1065,8 +1071,11 @@
                     "Transaksi: pesanan yang dibuat pengguna"
                 ],
                 "microcopy": {
+                    "judul_utama": "BeresinAja: semua kebutuhanmu, lebih cepat tanpa antre chat.",
+                    "cta": "Mulai Sekarang",
                     "kosong": "Belum ada data. Yuk mulai dari tombol di bawah.",
                     "error": "Maaf, ada gangguan. Coba lagi sebentar ya.",
+                    "penuh": "Maaf, pilihan ini baru saja diambil orang lain. Silakan pilih yang lain.",
                     "sukses": "Berhasil disimpan.",
                     "konfirmasi": "Yakin ingin melanjutkan? Tindakan ini tidak bisa dibatalkan."
                 }
@@ -1197,8 +1206,420 @@
                     "checkpoint": "CHECKPOINT: berhenti, perbarui PROGRESS.md, ringkas hasil, tunggu persetujuan, dan sarankan memulai percakapan baru bila konteks sudah panjang."
                 }
             ],
+            "rencana": [
+                {
+                    "id": "M0.1",
+                    "judul": "Siapkan proyek, dependensi, dan konfigurasi",
+                    "berkas": [
+                        "package.json",
+                        ".env.example",
+                        "CLAUDE.md",
+                        "PROGRESS.md"
+                    ],
+                    "perilaku": "Inisialisasi proyek React (Vite) SPA + Express + PostgreSQL (Prisma) dengan versi di bab 7, salin .env.example, isi CLAUDE.md dan PROGRESS.md.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Perintah npm run dev membuka halaman kosong tanpa galat."
+                },
+                {
+                    "id": "M1.1",
+                    "judul": "Bangun layout, navigasi, dan token design system",
+                    "berkas": [
+                        "client\/src\/App.tsx",
+                        "client\/src\/index.css"
+                    ],
+                    "perilaku": "Layout per peran sesuai bab 10 dan token warna\/tipografi bab 9 sebagai CSS variable.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA"
+                    ],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Semua layout di bab 10 tampil dengan token bab 9 di lebar 360 px dan 1280 px."
+                },
+                {
+                    "id": "M1.2",
+                    "judul": "Bangun halaman Katalog Layanan dengan data tiruan",
+                    "berkas": [
+                        "client\/src\/pages\/beranda.tsx",
+                        "client\/src\/pages\/katalog-layanan.tsx",
+                        "client\/src\/pages\/admin\/pengaturan.tsx"
+                    ],
+                    "perilaku": "Halaman \/, \/katalog-layanan, \/admin\/pengaturan lengkap dengan keadaan kosong, memuat, dan gagal.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA",
+                        "DUMMY-ITEM",
+                        "DUMMY-PENGATURAN"
+                    ],
+                    "sec": [],
+                    "fr": [
+                        "FR-01",
+                        "FR-06"
+                    ],
+                    "tabel": [],
+                    "selesai_bila": "Semua halaman kelompok ini tampil memakai dataset DUMMY-PENGGUNA, DUMMY-ITEM, DUMMY-PENGATURAN tanpa backend."
+                },
+                {
+                    "id": "M1.3",
+                    "judul": "Bangun halaman Booking Jadwal dengan data tiruan",
+                    "berkas": [
+                        "client\/src\/pages\/booking-jadwal.tsx"
+                    ],
+                    "perilaku": "Halaman \/booking-jadwal lengkap dengan keadaan kosong, memuat, dan gagal.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA",
+                        "DUMMY-ITEM",
+                        "DUMMY-PENGATURAN"
+                    ],
+                    "sec": [],
+                    "fr": [
+                        "FR-02"
+                    ],
+                    "tabel": [],
+                    "selesai_bila": "Semua halaman kelompok ini tampil memakai dataset DUMMY-PENGGUNA, DUMMY-ITEM, DUMMY-PENGATURAN tanpa backend."
+                },
+                {
+                    "id": "M1.4",
+                    "judul": "Bangun halaman Akun Pelanggan dengan data tiruan",
+                    "berkas": [
+                        "client\/src\/pages\/akun\/akun-pelanggan.tsx"
+                    ],
+                    "perilaku": "Halaman \/akun\/akun-pelanggan lengkap dengan keadaan kosong, memuat, dan gagal.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA",
+                        "DUMMY-ITEM",
+                        "DUMMY-PENGATURAN"
+                    ],
+                    "sec": [],
+                    "fr": [
+                        "FR-03"
+                    ],
+                    "tabel": [],
+                    "selesai_bila": "Semua halaman kelompok ini tampil memakai dataset DUMMY-PENGGUNA, DUMMY-ITEM, DUMMY-PENGATURAN tanpa backend."
+                },
+                {
+                    "id": "M1.5",
+                    "judul": "Bangun halaman Dasbor Admin dengan data tiruan",
+                    "berkas": [
+                        "client\/src\/pages\/admin\/dasbor-admin.tsx"
+                    ],
+                    "perilaku": "Halaman \/admin\/dasbor-admin lengkap dengan keadaan kosong, memuat, dan gagal.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA",
+                        "DUMMY-ITEM",
+                        "DUMMY-PENGATURAN"
+                    ],
+                    "sec": [],
+                    "fr": [
+                        "FR-04"
+                    ],
+                    "tabel": [],
+                    "selesai_bila": "Semua halaman kelompok ini tampil memakai dataset DUMMY-PENGGUNA, DUMMY-ITEM, DUMMY-PENGATURAN tanpa backend."
+                },
+                {
+                    "id": "M1.6",
+                    "judul": "Bangun halaman Ulasan Pelanggan dengan data tiruan",
+                    "berkas": [
+                        "client\/src\/pages\/ulasan-pelanggan.tsx"
+                    ],
+                    "perilaku": "Halaman \/ulasan-pelanggan lengkap dengan keadaan kosong, memuat, dan gagal.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA",
+                        "DUMMY-ITEM",
+                        "DUMMY-PENGATURAN"
+                    ],
+                    "sec": [],
+                    "fr": [
+                        "FR-05"
+                    ],
+                    "tabel": [],
+                    "selesai_bila": "Semua halaman kelompok ini tampil memakai dataset DUMMY-PENGGUNA, DUMMY-ITEM, DUMMY-PENGATURAN tanpa backend."
+                },
+                {
+                    "id": "M1.7",
+                    "judul": "Buat komponen bersama dan keadaan antarmuka",
+                    "berkas": [
+                        "server\/src\/lib\/ui.ts"
+                    ],
+                    "perilaku": "Komponen tombol, kartu, badge status, dialog, toast, dan keadaan kosong sesuai bab 9.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA",
+                        "DUMMY-ITEM",
+                        "DUMMY-PENGATURAN"
+                    ],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Komponen dipakai ulang di semua halaman M1 dan lolos cek kontras 4.5:1."
+                },
+                {
+                    "id": "M2.1",
+                    "judul": "Buat skema, migrasi, dan benih data",
+                    "berkas": [
+                        "prisma\/schema.prisma",
+                        "prisma\/seed.ts",
+                        "prisma\/migrations\/0001_invarian\/migration.sql"
+                    ],
+                    "perilaku": "Tabel pengguna, item, pengaturan, log_audit sesuai bab 6, migrasi kustom invarian, dan berkas benih data dari dataset bab 11.",
+                    "dataset": [
+                        "DUMMY-PENGGUNA",
+                        "DUMMY-ITEM",
+                        "DUMMY-PENGATURAN"
+                    ],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [
+                        "pengguna",
+                        "item",
+                        "pengaturan",
+                        "log_audit"
+                    ],
+                    "selesai_bila": "Migrasi berjalan bersih dan benih data mengisi semua tabel dari DUMMY-PENGGUNA, DUMMY-ITEM, DUMMY-PENGATURAN."
+                },
+                {
+                    "id": "M2.2",
+                    "judul": "Terapkan invarian dan transaksi penyimpanan",
+                    "berkas": [
+                        "server\/src\/lib\/invarian.ts",
+                        "prisma\/migrations\/0001_invarian\/migration.sql"
+                    ],
+                    "perilaku": "Fungsi simpan atomik untuk INV-01 sesuai mekanisme bab 6.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [
+                        "item"
+                    ],
+                    "selesai_bila": "Penyimpanan yang melanggar invarian ditolak database dengan pesan ramah."
+                },
+                {
+                    "id": "M2.3",
+                    "judul": "Pasang autentikasi dan penjaga akses per peran",
+                    "berkas": [
+                        "server\/src\/lib\/auth.ts",
+                        "server\/src\/routes\/masuk.ts"
+                    ],
+                    "perilaku": "express-session dengan penyimpanan sesi connect-pg-simple, cookie httpOnly + secure + sameSite=lax, kata sandi di-hash dengan bcrypt; penjaga rute sesuai bab 10.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [
+                        "pengguna"
+                    ],
+                    "selesai_bila": "Rute terlindungi menolak pengguna tanpa peran yang benar."
+                },
+                {
+                    "id": "M2.4",
+                    "judul": "Hubungkan Katalog Layanan ke database",
+                    "berkas": [
+                        "server\/src\/routes\/katalog-layanan.ts"
+                    ],
+                    "perilaku": "Aksi server dengan validasi Zod 3 di middleware validasi Express dan di formulir React menggantikan data tiruan.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [
+                        "FR-01",
+                        "FR-06"
+                    ],
+                    "tabel": [
+                        "pengguna",
+                        "item",
+                        "pengaturan"
+                    ],
+                    "selesai_bila": "Data kelompok ini dibaca dan disimpan ke database, dataset tiruan tidak dipakai lagi."
+                },
+                {
+                    "id": "M2.5",
+                    "judul": "Hubungkan Booking Jadwal ke database",
+                    "berkas": [
+                        "server\/src\/routes\/booking-jadwal.ts"
+                    ],
+                    "perilaku": "Aksi server dengan validasi Zod 3 di middleware validasi Express dan di formulir React menggantikan data tiruan.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [
+                        "FR-02"
+                    ],
+                    "tabel": [
+                        "pengguna",
+                        "item",
+                        "pengaturan"
+                    ],
+                    "selesai_bila": "Data kelompok ini dibaca dan disimpan ke database, dataset tiruan tidak dipakai lagi."
+                },
+                {
+                    "id": "M2.6",
+                    "judul": "Hubungkan Akun Pelanggan ke database",
+                    "berkas": [
+                        "server\/src\/routes\/akun-pelanggan.ts"
+                    ],
+                    "perilaku": "Aksi server dengan validasi Zod 3 di middleware validasi Express dan di formulir React menggantikan data tiruan.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [
+                        "FR-03"
+                    ],
+                    "tabel": [
+                        "pengguna",
+                        "item",
+                        "pengaturan"
+                    ],
+                    "selesai_bila": "Data kelompok ini dibaca dan disimpan ke database, dataset tiruan tidak dipakai lagi."
+                },
+                {
+                    "id": "M2.7",
+                    "judul": "Hubungkan Dasbor Admin ke database",
+                    "berkas": [
+                        "server\/src\/routes\/dasbor-admin.ts"
+                    ],
+                    "perilaku": "Aksi server dengan validasi Zod 3 di middleware validasi Express dan di formulir React menggantikan data tiruan.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [
+                        "FR-04"
+                    ],
+                    "tabel": [
+                        "pengguna",
+                        "item",
+                        "pengaturan"
+                    ],
+                    "selesai_bila": "Data kelompok ini dibaca dan disimpan ke database, dataset tiruan tidak dipakai lagi."
+                },
+                {
+                    "id": "M2.8",
+                    "judul": "Hubungkan Ulasan Pelanggan ke database",
+                    "berkas": [
+                        "server\/src\/routes\/ulasan-pelanggan.ts"
+                    ],
+                    "perilaku": "Aksi server dengan validasi Zod 3 di middleware validasi Express dan di formulir React menggantikan data tiruan.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [
+                        "FR-05"
+                    ],
+                    "tabel": [
+                        "pengguna",
+                        "item",
+                        "pengaturan"
+                    ],
+                    "selesai_bila": "Data kelompok ini dibaca dan disimpan ke database, dataset tiruan tidak dipakai lagi."
+                },
+                {
+                    "id": "M2.9",
+                    "judul": "Buat adapter layanan dan penjadwal",
+                    "berkas": [
+                        "server\/src\/lib\/layanan.ts"
+                    ],
+                    "perilaku": "Antarmuka adapter dengan implementasi tiruan untuk layanan bab 12.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [
+                        "pengaturan"
+                    ],
+                    "selesai_bila": "Adapter tiruan dipakai di lokal dan dapat diganti vendor asli lewat variabel lingkungan."
+                },
+                {
+                    "id": "M3.1",
+                    "judul": "Terapkan persyaratan keamanan Wajib MVP",
+                    "berkas": [
+                        "server\/src\/lib\/keamanan.ts"
+                    ],
+                    "perilaku": "Kontrol SEC-01, SEC-02, SEC-03, SEC-04, SEC-05, SEC-06, SEC-07 di server.",
+                    "dataset": [],
+                    "sec": [
+                        "SEC-01",
+                        "SEC-02",
+                        "SEC-03",
+                        "SEC-04",
+                        "SEC-05",
+                        "SEC-06",
+                        "SEC-07"
+                    ],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Setiap SEC punya uji otomatis yang lulus."
+                },
+                {
+                    "id": "M3.2",
+                    "judul": "Uji konkurensi invarian",
+                    "berkas": [
+                        "tests\/invarian.test.ts"
+                    ],
+                    "perilaku": "Skenario dua permintaan bersamaan untuk INV-01.",
+                    "dataset": [],
+                    "sec": [
+                        "SEC-01"
+                    ],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Dari dua permintaan bersamaan hanya satu yang berhasil, untuk setiap invarian."
+                },
+                {
+                    "id": "M3.3",
+                    "judul": "Uji alur utama end-to-end",
+                    "berkas": [
+                        "tests\/e2e\/alur-utama.spec.ts"
+                    ],
+                    "perilaku": "Uji alur pengguna di bab 4 dan penjaga akses bab 10.",
+                    "dataset": [],
+                    "sec": [
+                        "SEC-01",
+                        "SEC-02",
+                        "SEC-03",
+                        "SEC-04",
+                        "SEC-05",
+                        "SEC-06",
+                        "SEC-07"
+                    ],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Semua alur utama lulus di lebar 360 px dan 1280 px."
+                },
+                {
+                    "id": "M3.4",
+                    "judul": "Terapkan SEO dan performa halaman publik",
+                    "berkas": [
+                        "client\/src\/App.tsx"
+                    ],
+                    "perilaku": "Butir SEO & performa di bab 2.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Halaman publik punya meta, Open Graph, sitemap, dan noindex untuk halaman privat."
+                },
+                {
+                    "id": "M4.1",
+                    "judul": "Konfigurasi produksi dan penjadwal",
+                    "berkas": [
+                        ".env.example"
+                    ],
+                    "perilaku": "Variabel produksi, migrasi produksi, dan penjadwal sesuai bab 7.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Build produksi lulus dan penjadwal berjalan di lingkungan produksi."
+                },
+                {
+                    "id": "M4.2",
+                    "judul": "Jalankan daftar periksa rilis",
+                    "berkas": [
+                        "PROGRESS.md"
+                    ],
+                    "perilaku": "HTTPS, header keamanan, cadangan database, dan uji asap.",
+                    "dataset": [],
+                    "sec": [],
+                    "fr": [],
+                    "tabel": [],
+                    "selesai_bila": "Semua butir daftar periksa rilis tercentang."
+                }
+            ],
             "aturan_checkpoint": "Cara kerja Bertahap per Task: checkpoint setelah setiap tugas selesai; tunggu persetujuan sebelum tugas berikutnya.",
-            "master_prompt": "Kamu membangun BeresinAja: aplikasi pemesanan jasa bersih.\nStack: React (Vite) SPA + Express + PostgreSQL (Prisma).\n\nSebelum mulai, baca berkas berikut: CLAUDE.md, PRD.md, semua berkas di features\/, dan PROGRESS.md.\n\nAturan kerja:\n1. Cara kerja Bertahap per Task: checkpoint setelah setiap tugas selesai; tunggu persetujuan sebelum tugas berikutnya.\n2. Kerjakan milestone berurutan (M0 → M1 → M2 → M3 → M4), task berawalan [M1]\/[M2]\/[M3] sesuai urutan.\n3. Jalankan uji setelah setiap perubahan dan perbarui PROGRESS.md.\n4. Berhenti di setiap CHECKPOINT dan tunggu persetujuan.\n5. Tanya bila PRD ambigu. Jangan mengarang data di luar bab 11 (Data Dummy & Copywriting).\n6. Rahasia hanya di variabel lingkungan; jangan menulis kunci asli ke kode.",
+            "master_prompt": "Halo! Kamu berperan sebagai senior fullstack developer yang membangun \"BeresinAja\": aplikasi pemesanan jasa bersih.\n\nBaca dulu berkas berikut: CLAUDE.md, PRD.md, semua berkas di folder features\/, dan PROGRESS.md.\n\nTECH STACK TERKUNCI (jangan diganti): React (Vite) SPA + Express + PostgreSQL (Prisma).\n\nATURAN KERJA:\n1. Sebelum menulis kode apa pun, berikan ringkasan pemahamanmu maksimal 10 poin, sebutkan rencana berkas untuk milestone pertama (M0 lalu M1), lalu tanyakan apakah saya siap kamu mulai.\n2. Kerjakan SATU tugas terkoordinasi per giliran. Tugas berikutnya hanya dimulai setelah saya memberi izin.\n3. Ikuti Rencana Pengerjaan Terkoordinasi di bab 13 (Task M<n>.<k>) dan Cara kerja Bertahap per Task: checkpoint setelah setiap tugas selesai; tunggu persetujuan sebelum tugas berikutnya.\n4. Patuhi skema database (bab 6), peta rute (bab 10), hak akses (bab 8), aturan bisnis dan invarian (bab 2 dan bab 6), serta design system (bab 9).\n5. Jangan mengarang data di luar bab 11 (Data Dummy & Copywriting).\n6. Jalankan uji setelah setiap perubahan, perbarui PROGRESS.md, dan berhenti di setiap CHECKPOINT.\n7. Tanya bila PRD ambigu. Rahasia hanya di variabel lingkungan; jangan menulis kunci asli ke kode.",
             "claude_md": {
                 "struktur_folder": "src\/\n  app\/ (halaman & rute)\n  components\/\n  lib\/ (adapter layanan, validasi)\n  db\/ (skema & migrasi)\ndata\/dummy\/\ntests\/",
                 "konvensi": [
@@ -1218,7 +1639,7 @@
                 "uiOnly": false,
                 "hasDatabase": true,
                 "hasPricedEntity": true,
-                "hasTransactionRecord": true,
+                "hasTransactionRecord": false,
                 "hasAdminMutation": true,
                 "hasGuestFlow": false,
                 "usesOtp": false,
@@ -1229,7 +1650,12 @@
                 "usesRateLimit": true,
                 "serverless": false,
                 "hasDarkTheme": false,
-                "multiRole": true
+                "multiRole": true,
+                "hasTimeFields": true,
+                "hasScheduler": false,
+                "hasPublicPages": true,
+                "hasOfflineChannel": false,
+                "hasTimeRange": false
             },
             "stack": {
                 "id": "react_node",
@@ -1239,18 +1665,70 @@
                     "React",
                     "Express"
                 ],
+                "kunci": {
+                    "framework": [
+                        "React",
+                        "Express"
+                    ],
+                    "orm": [
+                        "Prisma"
+                    ],
+                    "auth": [
+                        "express-session"
+                    ],
+                    "db": [
+                        "PostgreSQL"
+                    ]
+                },
                 "runtime": "Node.js (TypeScript)",
                 "db": "postgresql",
                 "bahasa_skema": "prisma",
                 "rls": false,
                 "serverless": false,
                 "lapisan": {
-                    "Frontend": "React + Vite + Tailwind CSS",
-                    "Backend": "Node.js + Express",
-                    "Database": "PostgreSQL + Prisma ORM",
-                    "Autentikasi": "Sesi cookie httpOnly + bcrypt",
-                    "Deployment": "VPS atau Render (server Node.js tetap menyala)",
-                    "Pengujian": "Vitest + Supertest + Playwright"
+                    "Frontend": "React 19 + Vite 6 + Tailwind CSS v4",
+                    "Backend": "Node.js 22 + Express 5",
+                    "Database": "PostgreSQL 16 + Prisma ORM",
+                    "Autentikasi": "express-session (cookie httpOnly) + bcrypt",
+                    "Deployment": "VPS dengan PM2 (server Node.js tetap menyala)",
+                    "Pengujian": "Vitest 3 + Supertest 7 + Playwright 1"
+                },
+                "kedalaman": {
+                    "versi": [
+                        "React 19",
+                        "Vite 6",
+                        "Tailwind CSS v4",
+                        "Node.js 22",
+                        "Express 5",
+                        "Prisma 6",
+                        "PostgreSQL 16",
+                        "Zod 3",
+                        "Vitest 3",
+                        "Playwright 1"
+                    ],
+                    "auth": "express-session dengan penyimpanan sesi connect-pg-simple, cookie httpOnly + secure + sameSite=lax, kata sandi di-hash dengan bcrypt",
+                    "orm_migrasi": "Prisma 6 + Prisma Migrate (prisma migrate dev \/ prisma migrate deploy), migrasi SQL kustom di prisma\/migrations",
+                    "validasi": "Zod 3 di middleware validasi Express dan di formulir React",
+                    "zona_waktu": "Waktu disimpan UTC (timestamptz) dan ditampilkan dalam zona lokal pengguna (bawaan Asia\/Jakarta, WIB) dengan pustaka date-fns-tz 3",
+                    "penjadwal": {
+                        "berkas": "server\/src\/jobs\/index.ts (node-cron)",
+                        "interval": "*\/10 * * * *",
+                        "endpoint": "fungsi job {tugas} di server\/src\/jobs\/{tugas}.ts",
+                        "rahasia": "job berjalan di dalam proses server, tidak lewat endpoint publik",
+                        "idempotensi": "kolom {aksi}_dikirim_pada diisi di dalam transaksi; baris yang sudah terisi dilewati sehingga tidak terkirim ganda"
+                    },
+                    "uji": "Vitest 3 + Supertest 7 (API, termasuk uji dua permintaan bersamaan) + Playwright 1 (alur end-to-end)",
+                    "deployment": "VPS dengan PM2 dan Nginx (HTTPS), PostgreSQL terkelola"
+                },
+                "struktur": {
+                    "halaman": "client\/src\/pages\/{rute}.tsx",
+                    "aksi": "server\/src\/routes\/{modul}.ts",
+                    "lib": "server\/src\/lib\/{modul}.ts",
+                    "skema": "prisma\/schema.prisma",
+                    "seed": "prisma\/seed.ts",
+                    "migrasi_kustom": "prisma\/migrations\/0001_invarian\/migration.sql",
+                    "layout": "client\/src\/App.tsx",
+                    "token": "client\/src\/index.css"
                 },
                 "perintah": {
                     "jalan": "npm run dev",
@@ -1311,6 +1789,19 @@
                 "pelanggan",
                 "admin"
             ],
+            "peran_asal": {
+                "pengunjung anonim": "ide",
+                "pelanggan": "ide",
+                "admin": "ide"
+            },
+            "invarian_ai": [],
+            "invarian": [
+                {
+                    "jenis": "kuota",
+                    "aturan": "Booking maksimal 3 jam per sesi",
+                    "asal": "catatan"
+                }
+            ],
             "alasan_stack": "Stack ini paling cepat dipakai untuk MVP web yang ramah HP dan mudah dikelola pemilik."
         }
     },
@@ -1319,222 +1810,259 @@
             "fitur": "Katalog Layanan",
             "title": "Buat halaman Katalog Layanan dengan data tiruan DUMMY-ITEM",
             "milestone": "M1",
+            "koordinasi": "M1.2",
             "status": "belum_mulai"
         },
         {
             "fitur": "Katalog Layanan",
             "title": "Buat tampilan Daftar Layanan",
             "milestone": "M1",
+            "koordinasi": "M1.2",
             "status": "belum_mulai"
         },
         {
             "fitur": "Katalog Layanan",
             "title": "Buat tampilan Tarif per Jam",
             "milestone": "M1",
+            "koordinasi": "M1.2",
             "status": "belum_mulai"
         },
         {
             "fitur": "Katalog Layanan",
             "title": "Tampilkan keadaan kosong, memuat, dan gagal di Katalog Layanan",
             "milestone": "M1",
+            "koordinasi": "M1.2",
             "status": "belum_mulai"
         },
         {
             "fitur": "Katalog Layanan",
             "title": "Simpan data Katalog Layanan ke database dan ganti data tiruan",
             "milestone": "M2",
+            "koordinasi": "M2.4",
             "status": "belum_mulai"
         },
         {
             "fitur": "Katalog Layanan",
             "title": "Terapkan SEC-06 dan SEC-07 pada Katalog Layanan",
             "milestone": "M3",
+            "koordinasi": "M3.1",
             "status": "belum_mulai"
         },
         {
             "fitur": "Katalog Layanan",
             "title": "Tulis uji alur utama Katalog Layanan",
             "milestone": "M3",
+            "koordinasi": "M3.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Booking Jadwal",
             "title": "Buat halaman Booking Jadwal dengan data tiruan DUMMY-ITEM",
             "milestone": "M1",
+            "koordinasi": "M1.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Booking Jadwal",
             "title": "Buat tampilan Pilih Tanggal",
             "milestone": "M1",
+            "koordinasi": "M1.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Booking Jadwal",
             "title": "Buat tampilan Pilih Jam",
             "milestone": "M1",
+            "koordinasi": "M1.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Booking Jadwal",
             "title": "Buat tampilan Email Konfirmasi",
             "milestone": "M1",
+            "koordinasi": "M1.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Booking Jadwal",
             "title": "Tampilkan keadaan kosong, memuat, dan gagal di Booking Jadwal",
             "milestone": "M1",
+            "koordinasi": "M1.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Booking Jadwal",
             "title": "Simpan data Booking Jadwal ke database dan ganti data tiruan",
             "milestone": "M2",
+            "koordinasi": "M2.5",
             "status": "belum_mulai"
         },
         {
             "fitur": "Booking Jadwal",
             "title": "Terapkan SEC-06 dan SEC-07 pada Booking Jadwal",
             "milestone": "M3",
+            "koordinasi": "M3.1",
             "status": "belum_mulai"
         },
         {
             "fitur": "Booking Jadwal",
             "title": "Tulis uji alur utama Booking Jadwal",
             "milestone": "M3",
+            "koordinasi": "M3.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Akun Pelanggan",
             "title": "Buat halaman Akun Pelanggan dengan data tiruan DUMMY-ITEM",
             "milestone": "M1",
+            "koordinasi": "M1.4",
             "status": "belum_mulai"
         },
         {
             "fitur": "Akun Pelanggan",
             "title": "Buat tampilan Daftar & Masuk",
             "milestone": "M1",
+            "koordinasi": "M1.4",
             "status": "belum_mulai"
         },
         {
             "fitur": "Akun Pelanggan",
             "title": "Buat tampilan Riwayat Booking",
             "milestone": "M1",
+            "koordinasi": "M1.4",
             "status": "belum_mulai"
         },
         {
             "fitur": "Akun Pelanggan",
             "title": "Tampilkan keadaan kosong, memuat, dan gagal di Akun Pelanggan",
             "milestone": "M1",
+            "koordinasi": "M1.4",
             "status": "belum_mulai"
         },
         {
             "fitur": "Akun Pelanggan",
             "title": "Simpan data Akun Pelanggan ke database dan ganti data tiruan",
             "milestone": "M2",
+            "koordinasi": "M2.6",
             "status": "belum_mulai"
         },
         {
             "fitur": "Akun Pelanggan",
             "title": "Terapkan SEC-01 dan SEC-02 pada Akun Pelanggan",
             "milestone": "M3",
+            "koordinasi": "M3.1",
             "status": "belum_mulai"
         },
         {
             "fitur": "Akun Pelanggan",
             "title": "Tulis uji alur utama Akun Pelanggan",
             "milestone": "M3",
+            "koordinasi": "M3.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Dasbor Admin",
             "title": "Buat halaman Dasbor Admin dengan data tiruan DUMMY-ITEM",
             "milestone": "M1",
+            "koordinasi": "M1.5",
             "status": "belum_mulai"
         },
         {
             "fitur": "Dasbor Admin",
             "title": "Buat tampilan Setujui Booking",
             "milestone": "M1",
+            "koordinasi": "M1.5",
             "status": "belum_mulai"
         },
         {
             "fitur": "Dasbor Admin",
             "title": "Buat tampilan Tugaskan Petugas",
             "milestone": "M1",
+            "koordinasi": "M1.5",
             "status": "belum_mulai"
         },
         {
             "fitur": "Dasbor Admin",
             "title": "Buat tampilan Kelola Tarif",
             "milestone": "M1",
+            "koordinasi": "M1.5",
             "status": "belum_mulai"
         },
         {
             "fitur": "Dasbor Admin",
             "title": "Tampilkan keadaan kosong, memuat, dan gagal di Dasbor Admin",
             "milestone": "M1",
+            "koordinasi": "M1.5",
             "status": "belum_mulai"
         },
         {
             "fitur": "Dasbor Admin",
             "title": "Simpan data Dasbor Admin ke database dan ganti data tiruan",
             "milestone": "M2",
+            "koordinasi": "M2.7",
             "status": "belum_mulai"
         },
         {
             "fitur": "Dasbor Admin",
             "title": "Terapkan SEC-02 dan SEC-03 pada Dasbor Admin",
             "milestone": "M3",
+            "koordinasi": "M3.1",
             "status": "belum_mulai"
         },
         {
             "fitur": "Dasbor Admin",
             "title": "Tulis uji alur utama Dasbor Admin",
             "milestone": "M3",
+            "koordinasi": "M3.3",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ulasan Pelanggan",
             "title": "Buat halaman Ulasan Pelanggan dengan data tiruan DUMMY-ITEM",
             "milestone": "M1",
+            "koordinasi": "M1.6",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ulasan Pelanggan",
             "title": "Buat tampilan Beri Rating",
             "milestone": "M1",
+            "koordinasi": "M1.6",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ulasan Pelanggan",
             "title": "Buat tampilan Tampilkan Ulasan",
             "milestone": "M1",
+            "koordinasi": "M1.6",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ulasan Pelanggan",
             "title": "Tampilkan keadaan kosong, memuat, dan gagal di Ulasan Pelanggan",
             "milestone": "M1",
+            "koordinasi": "M1.6",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ulasan Pelanggan",
             "title": "Simpan data Ulasan Pelanggan ke database dan ganti data tiruan",
             "milestone": "M2",
+            "koordinasi": "M2.8",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ulasan Pelanggan",
             "title": "Terapkan SEC-04 dan SEC-05 pada Ulasan Pelanggan",
             "milestone": "M3",
+            "koordinasi": "M3.1",
             "status": "belum_mulai"
         },
         {
             "fitur": "Ulasan Pelanggan",
             "title": "Tulis uji alur utama Ulasan Pelanggan",
             "milestone": "M3",
+            "koordinasi": "M3.3",
             "status": "belum_mulai"
         }
     ]

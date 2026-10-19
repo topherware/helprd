@@ -76,6 +76,49 @@ final class Pipeline
         ];
     }
 
+    /**
+     * Pass 5 untuk batas task (P8): gabungkan task bertetangga dengan milestone yang sama (rujukan Task M<n>.<k> sama lebih dulu)
+     * sampai ≤ $max. Tidak menambah dan tidak membuang teks: judul digabung "A; b" selama ≤ 200 karakter (batas kolom).
+     * @param array $tasks baris urut sort_order: id, title, milestone, koordinasi
+     * @return array{judul: array<int, string>, hapus: int[]} judul baru per id yang dipertahankan, id yang diserap
+     */
+    public static function mergeTasks(array $tasks, int $max = P08Batas::PER_FITUR): array
+    {
+        $rows = array_values($tasks);
+        $absorbed = [];
+        while (count($rows) > $max) {
+            $pick = null;
+            foreach ([true, false] as $sameRef) {
+                for ($i = 0; $i < count($rows) - 1 && $pick === null; $i++) {
+                    [$a, $b] = [$rows[$i], $rows[$i + 1]];
+                    $title = $a['title'] . '; ' . mb_strtolower(mb_substr($b['title'], 0, 1)) . mb_substr($b['title'], 1);
+                    if (($a['milestone'] ?? '') === ($b['milestone'] ?? '') && (!$sameRef || ($a['koordinasi'] ?? '') === ($b['koordinasi'] ?? ''))
+                        && mb_strlen($title) <= 200) {
+                        $pick = [$i, $title];
+                    }
+                }
+                if ($pick) {
+                    break;
+                }
+            }
+            if (!$pick) {
+                break;
+            }
+            [$i, $title] = $pick;
+            $absorbed[] = (int) $rows[$i + 1]['id'];
+            $rows[$i]['title'] = $title;
+            array_splice($rows, $i + 1, 1);
+        }
+        $changed = [];
+        foreach ($rows as $r) {
+            $orig = array_values(array_filter($tasks, fn ($t) => $t['id'] === $r['id']))[0];
+            if ($orig['title'] !== $r['title']) {
+                $changed[(int) $r['id']] = $r['title'];
+            }
+        }
+        return ['judul' => $changed, 'hapus' => $absorbed];
+    }
+
     /** Task project dari database dalam bentuk untuk validator. */
     public static function projectTasks(int $projectId): array
     {

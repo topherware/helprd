@@ -30,7 +30,8 @@ final class Paritas
         $stack = $profil['stack'] ?? Brief::stack($b->stackChoice) ?? $b->guessStack($tech !== '' ? $tech : $p->prd());
         $roles = $profil['peran'] ?? self::roles($p);
         $declared = $profil['invarian_ai'] ?? [];
-        $flags = $profil['bendera'] ?? Triggers::flags($b, $profil['bendera_ai'] ?? [], $stack, $roles, $declared);
+        // Bendera terkunci di profil dipakai lebih dulu; profil lama (sebelum v1.2.1) dilengkapi bendera baru dari Triggers.
+        $flags = ($profil['bendera'] ?? []) + Triggers::flags($b, $profil['bendera_ai'] ?? [], $stack, $roles, $declared);
         return [
             'brief' => $b,
             'paket' => $p,

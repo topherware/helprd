@@ -171,4 +171,26 @@ foreach (['P1', 'P3', 'P7', 'P9'] as $id) {
 }
 check('mode UI-only: P5 hanya versi (lulus)', $r['aturan']['P5']['status'] === 'lulus', json_encode($r['aturan']['P5'], JSON_UNESCAPED_UNICODE));
 
+// --- G5: skor, laporan, dan Pass 5 ---
+$std = QualityReport::standard();
+check('bobot: Kesiapan Bangun 15 + Paritas 10', $std['bobot']['kesiapan_bangun'] === 15 && $std['bobot']['paritas'] === 10 && $std['versi'] === '1.2.1');
+[$kb, $kp, $kt] = fixture('katering');
+$report = QualityReport::evaluate($kb, $kp, $kt);
+check('laporan mock katering lulus dengan dimensi paritas 100', $report['lulus'] && $report['skor_dimensi']['paritas'] === 100, json_encode($report['skor_dimensi']));
+check('laporan memuat status P1–P10', count($report['paritas']) === 10 && $report['paritas'][0]['id'] === 'P1');
+$md = QualityReport::render($report);
+check('QUALITY.md memuat tabel Paritas P1–P10', str_contains($md, '## Paritas v1.2.1 (P1–P10)') && str_contains($md, '| P10 |'));
+$over = $kt;
+for ($i = 1; $i <= 9; $i++) {
+    $over[] = ['fitur' => $kt[0]['fitur'], 'title' => "Rapikan detail tampilan ke-$i", 'milestone' => 'M3', 'koordinasi' => 'M3.1', 'status' => 'belum_mulai'];
+}
+$bad = QualityReport::evaluate($kb, $kp, $over);
+check('9+ task pada satu fitur: laporan tidak lulus (P8 kritis)', !$bad['lulus'] && in_array('P8', array_column($bad['temuan'], 'id'), true));
+check('Pass 5: temuan batas task diarahkan ke bagian "task"', isset(QualityReport::partsToRepair($bad)['task']), json_encode(array_keys(QualityReport::partsToRepair($bad))));
+$rows = array_map(fn ($i) => ['id' => $i, 'title' => "Kerjakan bagian $i", 'milestone' => $i <= 6 ? 'M1' : 'M2', 'koordinasi' => $i <= 3 ? 'M1.1' : ($i <= 6 ? 'M1.2' : 'M2.1')], range(1, 12));
+$plan = Pipeline::mergeTasks($rows);
+$left = 12 - count($plan['hapus']);
+check('Pass 5 gabung task: 12 → ≤ 8, judul ≤ 200, tidak lintas milestone', $left <= 8 && !array_filter($plan['judul'], fn ($t) => mb_strlen($t) > 200)
+    && !array_filter($plan['judul'], fn ($t) => str_contains($t, 'bagian 6; kerjakan bagian 7')), json_encode($plan, JSON_UNESCAPED_UNICODE));
+
 finish();

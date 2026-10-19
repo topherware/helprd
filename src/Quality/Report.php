@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Laporan Kualitas Standar PlanKu v1.2: menjalankan semua validator deterministik, menghitung skor 9 dimensi,
- * menyimpan, dan merender QUALITY.md (termasuk daftar periksa tujuh kekurangan).
+ * Laporan Kualitas Standar PlanKu v1.2.1: menjalankan semua validator deterministik, menghitung skor 10 dimensi
+ * (termasuk Paritas P1–P10), menyimpan, dan merender QUALITY.md (daftar periksa tujuh kekurangan + tabel P1–P10).
  */
 final class QualityReport
 {
@@ -75,6 +75,9 @@ final class QualityReport
         foreach (Dimensi::MAP as $method => $dim) {
             $groups[$dim] = Dimensi::$method($c);
         }
+        // Paritas v1.2.1: PRD dirakit menjadi paket dokumen yang sama dengan ZIP, lalu dinilai P1–P10.
+        $paritas = Paritas::evaluate($b, Paket::fromPrd($b, $c['prd'], $tasks));
+        $groups['paritas'] = $paritas['temuan'];
 
         // Dimensi yang tidak dinilai otomatis atau tidak berlaku dikeluarkan; bobot sisanya dinormalisasi.
         $active = array_values(array_diff($std['dinilai_otomatis'], $uiOnly ? ['keamanan'] : []));
@@ -111,6 +114,7 @@ final class QualityReport
             'lulus' => $lulus,
             'temuan' => $findings,
             'checklist' => $checklist,
+            'paritas' => array_values(array_map(fn ($a) => ['id' => $a['id'], 'judul' => $a['judul'], 'status' => $a['status']], $paritas['aturan'])),
             'audit_ai' => $auditAi,
             'profil' => [
                 'stack' => $c['stack']['nama'] . ' — ' . $c['stack']['ringkas'],
@@ -126,12 +130,20 @@ final class QualityReport
         return max(0, 100 - array_sum(array_map(fn ($f) => $penalty[$f['sev']], $findings)));
     }
 
-    /** Potongan PRD (nama potongan di Prompts::PRD_PARTS) yang perlu ditulis ulang karena temuannya. */
+    /**
+     * Potongan PRD (nama potongan di Prompts::PRD_PARTS) yang perlu ditulis ulang karena temuannya.
+     * Temuan batas task (P8, `tugas`) diperbaiki lewat bagian khusus "task" (penggabungan task, bukan penulisan ulang PRD).
+     */
     public static function partsToRepair(array $report): array
     {
         $parts = [];
         foreach ($report['temuan'] as $f) {
-            if ($f['bab'] && $f['sev'] !== 'm' && ($part = Prompts::partOfBab((int) $f['bab']))) {
+            if ($f['sev'] === 'm') {
+                continue;
+            }
+            if (!empty($f['tugas'])) {
+                $parts['task'][] = $f;
+            } elseif ($f['bab'] && ($part = Prompts::partOfBab((int) $f['bab']))) {
                 $parts[$part][] = $f;
             }
         }
@@ -162,7 +174,7 @@ final class QualityReport
     {
         $std = self::standard();
         $labels = ['konsistensi' => 'Konsistensi', 'keterukuran' => 'Keterukuran', 'kejujuran' => 'Kejujuran', 'keamanan' => 'Keamanan (Wajib MVP)',
-            'kecocokan_stack' => 'Kecocokan Stack', 'keterlacakan' => 'Keterlacakan', 'struktur' => 'Struktur', 'keterbacaan' => 'Keterbacaan', 'kesiapan_bangun' => 'Kesiapan Bangun'];
+            'kecocokan_stack' => 'Kecocokan Stack', 'keterlacakan' => 'Keterlacakan', 'struktur' => 'Struktur', 'keterbacaan' => 'Keterbacaan', 'kesiapan_bangun' => 'Kesiapan Bangun', 'paritas' => 'Paritas (P1–P10)'];
         $cell = fn ($s) => str_replace(['|', "\n"], ['\|', ' '], (string) $s);
         $l = $std['lulus'];
         $md = [
@@ -183,6 +195,19 @@ final class QualityReport
         $md[] = "## Daftar Periksa Tujuh Kekurangan\n\n| # | Kekurangan | Validator | Status |\n|---|---|---|---|\n"
             . implode("\n", array_map(fn ($k) => "| {$k['no']} | {$k['judul']} | {$k['validator']} | {$icon[$k['status']]} |", $report['checklist']));
 
+        if (!empty($report['paritas'])) {
+            $pIcon = $icon + ['sebagian' => '🟡 Sebagian'];
+            $md[] = "## Paritas v1.2.1 (P1–P10)
+
+| Aturan | Judul | Status |
+|---|---|---|
+"
+                . implode("
+", array_map(fn ($p) => "| {$p['id']} | {$p['judul']} | {$pIcon[$p['status']]} |", $report['paritas']))
+                . "
+
+*Sebagian = hanya temuan minor. Rincian temuan di tabel Temuan (validator P1–P10, PK = kelengkapan).*";
+        }
         if ($report['temuan']) {
             $sev = ['K' => 'Kritis', 'M' => 'Mayor', 'm' => 'Minor'];
             usort($report['temuan'], fn ($a, $b) => [array_search($a['sev'], ['K', 'M', 'm']), $a['bab'] ?? 99] <=> [array_search($b['sev'], ['K', 'M', 'm']), $b['bab'] ?? 99]);

@@ -45,12 +45,13 @@ final class P08Batas
             $over = array_filter(array_map('count', $checklist), fn ($n) => $n > self::PER_FITUR);
             if ($over) {
                 $out[] = QV::finding('P8', 'K', 13, count($over) . ' fitur punya lebih dari ' . self::PER_FITUR . ' butir tugas (mis. "' . array_key_first($over) . '": ' . reset($over) . ').',
-                    'Gabungkan butir kecil; maksimal ' . self::PER_FITUR . ' per fitur.');
+                    'Gabungkan butir kecil; maksimal ' . self::PER_FITUR . ' per fitur.') + ['tugas' => true, 'fitur' => array_keys($over)];
             }
             $features = max(count($checklist), count($c['features']), 1);
             $total = array_sum(array_map('count', $checklist));
             if ($total > self::PER_FITUR * $features) {
-                $out[] = QV::finding('P8', 'K', 13, "Total butir tugas $total melebihi batas " . (self::PER_FITUR * $features) . ' (' . self::PER_FITUR . ' × jumlah fitur).');
+                $out[] = QV::finding('P8', 'K', 13, "Total butir tugas $total melebihi batas " . (self::PER_FITUR * $features) . ' (' . self::PER_FITUR . ' × jumlah fitur).')
+                    + ['tugas' => true, 'fitur' => array_keys($checklist)];
             }
         }
 

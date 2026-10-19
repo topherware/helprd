@@ -1,5 +1,5 @@
 {
-  "versi": "1.2",
+  "versi": "1.2.1",
   "nama": "Standar Kualitas PlanKu",
   "bobot": {
     "konsistensi": 15,
@@ -10,7 +10,8 @@
     "keterlacakan": 8,
     "struktur": 5,
     "keterbacaan": 5,
-    "kesiapan_bangun": 25
+    "kesiapan_bangun": 15,
+    "paritas": 10
   },
   "dinilai_otomatis": [
     "konsistensi",
@@ -20,7 +21,8 @@
     "kecocokan_stack",
     "keterlacakan",
     "struktur",
-    "kesiapan_bangun"
+    "kesiapan_bangun",
+    "paritas"
   ],
   "lulus": {
     "skor_minimal": 85,
@@ -209,5 +211,18 @@
     "tidak dapat diretas",
     "tidak bisa dibobol",
     "kebal peretasan"
-  ]
+  ],
+  "paritas": {
+    "P1": "K",
+    "P2": "M",
+    "P3": "K",
+    "P4": "M",
+    "P5": "M",
+    "P6": "m",
+    "P7": "M",
+    "P8": "K",
+    "P9": "K",
+    "P10": "M"
+  },
+  "catatan_paritas": "v1.2.1: Kesiapan Bangun 25 dibagi menjadi V12–V19 (15) + Paritas P1–P10 (10). Nilai di \"paritas\" adalah keparahan utama tiap aturan (P2 kritis untuk peran tanpa asal)."
 }

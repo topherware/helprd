@@ -35,7 +35,7 @@ foreach ($files as $file) {
 
 $dims = array_keys(QualityReport::standard()['bobot']);
 $short = ['konsistensi' => 'Kons', 'keterukuran' => 'Ukur', 'kejujuran' => 'Jujur', 'keamanan' => 'Aman', 'kecocokan_stack' => 'Stack',
-    'keterlacakan' => 'Lacak', 'struktur' => 'Strk', 'keterbacaan' => 'Baca', 'kesiapan_bangun' => 'Siap'];
+    'keterlacakan' => 'Lacak', 'struktur' => 'Strk', 'keterbacaan' => 'Baca', 'kesiapan_bangun' => 'Siap', 'paritas' => 'Par'];
 $md = ["| Fixture | Skor | Status | K/M/m | " . implode(' | ', array_map(fn ($d) => $short[$d], $dims)) . ' | Kekurangan 1–7 |',
     '|---|---|---|---|' . str_repeat('---|', count($dims)) . '---|'];
 foreach ($rows as [$name, , $r, $sev]) {
@@ -54,7 +54,7 @@ if (in_array('--tulis', $argv, true)) {
     }
     $doc = "# Hasil Benchmark Standar Kualitas v1.2\n\nDibuat oleh `php tools/benchmark.php --tulis` pada " . date('Y-m-d H:i') . ".\n\n"
         . "Kolom dimensi: Kons = Konsistensi, Ukur = Keterukuran, Jujur = Kejujuran, Aman = Keamanan (Wajib MVP), Stack = Kecocokan Stack, Lacak = Keterlacakan, "
-        . "Strk = Struktur, Baca = Keterbacaan (belum dinilai otomatis), Siap = Kesiapan Bangun (V12–V19). \"–\" = tidak berlaku atau belum dinilai.\n\n"
+        . "Strk = Struktur, Baca = Keterbacaan (belum dinilai otomatis), Siap = Kesiapan Bangun (V12–V19), Par = Paritas P1–P10 (v1.2.1). \"–\" = tidak berlaku atau belum dinilai.\n\n"
         . "Kekurangan 1–7: design system, peta rute, data dummy, skema kode, layanan & .env, beban keamanan, milestone & checkpoint.\n\n"
         . "$table\n\n## Rincian\n\n" . implode("\n\n", $detail) . "\n";
     file_put_contents(__DIR__ . '/../docs/hasil-benchmark-v1.2.md', $doc);
