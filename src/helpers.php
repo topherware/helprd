@@ -368,14 +368,14 @@ function page_header(string $title, int $step, ?array $project = null, string $b
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="<?= e(csrf_token()) ?>">
     <title><?= e($title) ?> · <?= e(APP_NAME) ?></title>
-    <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/logo-32.png">
-    <link rel="icon" type="image/png" sizes="64x64" href="assets/img/logo-64.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/logo-180.png">
+    <link rel="icon" type="image/svg+xml" href="<?= asset('img/logo.svg') ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= asset('img/logo-32.png') ?>">
+    <link rel="icon" type="image/png" sizes="64x64" href="<?= asset('img/logo-64.png') ?>">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= asset('img/logo-180.png') ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
 <?php if (lang() === 'en'): ?>
     <script type="application/json" id="i18nData"><?= json_encode(require __DIR__ . '/lang/en.php', JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) ?></script>
 <?php endif; ?>
@@ -432,11 +432,18 @@ function theme_toggle(): string
         . '<span class="tt-knob">' . $svg($sun, 'tt-sun') . $svg($moon, 'tt-moon') . '</span></button>';
 }
 
+/** URL aset di public/assets dengan versi waktu-ubah berkas, supaya browser memuat ulang CSS/JS/logo setelah berkas berubah. */
+function asset(string $path): string
+{
+    $mtime = @filemtime(__DIR__ . '/../public/assets/' . $path);
+    return e('assets/' . $path . ($mtime ? '?v=' . $mtime : ''));
+}
+
 function page_footer(array $scripts = []): void
 {
-    echo '<script src="assets/js/app.js"></script>';
+    echo '<script src="' . asset('js/app.js') . '"></script>';
     foreach ($scripts as $src) {
-        echo '<script src="assets/js/' . e($src) . '"></script>';
+        echo '<script src="' . asset('js/' . $src) . '"></script>';
     }
     echo '</body></html>';
 }
@@ -444,7 +451,7 @@ function page_footer(array $scripts = []): void
 /** Logo aplikasi (dokumen + kilau AI). Sumber: public/assets/img/logo.svg; PNG 32/64/180/512 dirender dari SVG itu. */
 function brand_logo(): string
 {
-    return '<img class="logo" src="assets/img/logo.svg" width="30" height="30" alt="" aria-hidden="true">';
+    return '<img class="logo" src="' . asset('img/logo.svg') . '" width="30" height="30" alt="" aria-hidden="true">';
 }
 
 /** Nama aplikasi di header: "Hel" warna teks, "PRD" warna aksen. */
