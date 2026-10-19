@@ -357,7 +357,8 @@ function ai_stream(string $endpoint, array $project, string $prompt, string $moc
  */
 function page_header(string $title, int $step, ?array $project = null, string $bodyClass = '', string $actions = ''): void
 {
-    $steps = [1 => 'Ide', 2 => 'Pertanyaan', 3 => 'Teknologi', 4 => 'Peta Fitur', 5 => 'Workspace'];
+    // Stepper hanya langkah isian; Peta Fitur & Workspace dicapai lewat tombol aksi di kanan atas.
+    $steps = [1 => 'Ide', 2 => 'Pertanyaan', 3 => 'Teknologi'];
     $max = max_step($project);
     ?>
 <!doctype html>
