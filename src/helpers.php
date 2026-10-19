@@ -384,7 +384,7 @@ function page_header(string $title, int $step, ?array $project = null, string $b
 <body class="<?= e($bodyClass) ?>">
 <?php if ($step < 4): ?>
 <header class="topbar">
-    <a class="brand" href="index.php"><?= brand_logo() ?><span><?= e(APP_NAME) ?></span></a>
+    <a class="brand" href="index.php"><?= brand_logo() ?><?= brand_name() ?></a>
     <nav class="stepper" aria-label="Langkah">
         <?php foreach ($steps as $n => $label):
             $cls = $n === $step ? 'is-active' : ($n < $step ? 'is-done' : '');
@@ -444,5 +444,11 @@ function page_footer(array $scripts = []): void
 /** Logo aplikasi (dokumen + kilau AI). Sumber: public/assets/img/logo.svg; PNG 32/64/180/512 dirender dari SVG itu. */
 function brand_logo(): string
 {
-    return '<img class="logo" src="assets/img/logo.svg" width="28" height="28" alt="" aria-hidden="true">';
+    return '<img class="logo" src="assets/img/logo.svg" width="30" height="30" alt="" aria-hidden="true">';
+}
+
+/** Nama aplikasi di header: "Hel" warna teks, "PRD" warna aksen. */
+function brand_name(): string
+{
+    return '<span class="brand-name">Hel<span class="brand-accent">PRD</span></span>';
 }

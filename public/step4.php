@@ -11,7 +11,7 @@ page_header('Peta fitur', 4, $project, 'canvas-page');
 ?>
 <header class="topbar topbar-full">
     <div class="crumbs">
-        <a class="brand" href="index.php"><?= brand_logo() ?><span><?= e(APP_NAME) ?></span></a>
+        <a class="brand" href="index.php"><?= brand_logo() ?><?= brand_name() ?></a>
         <span class="crumb-sep">/</span>
         <span class="crumb" id="projectTitle"><?= e($project['judul']) ?></span>
     </div>
