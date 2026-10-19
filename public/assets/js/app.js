@@ -33,6 +33,70 @@ function el(tag, attrs = {}, ...children) {
   return node;
 }
 
+/**
+ * Terjemahan antarmuka (bahasa Inggris bawaan). Kamus dari src/lang/en.php disisipkan di <head> sebagai #i18nData.
+ * Teks node & atribut UI yang cocok persis diterjemahkan, termasuk yang ditambahkan JS belakangan (MutationObserver).
+ * Konten pengguna/AI (PRD, chat, pertanyaan, nama fitur & task) dilewati.
+ */
+const I18N = (() => {
+  const node = document.getElementById('i18nData');
+  const data = node ? JSON.parse(node.textContent) : null;
+  const dict = data ? { ...data.words, ...data.dict } : {};
+  const patterns = data ? data.patterns.map(([re, rep]) => [new RegExp(re), rep]) : [];
+  const SKIP = '.prose, .msg, .q-text, .question .chips .chip:not(.chip-dashed), .node-title, .node-meta .truncate, .sub-item, .task-item, '
+    + '.kb-card-title, .kb-card-sub, .kb-chip-fitur, .plan-folder .truncate, .plan-item .truncate, #projectName, #projectTitle, .crumb, '
+    + '.rm-raw, .ft-title, .ft-item, .ft-subs, .rm-subs, .rm-lead, .stack-panel p, .ws-history li span:first-child, pre, code, script, style, textarea';
+
+  function translate(text) {
+    const key = text.trim();
+    if (!data || !key) return null;
+    if (dict[key] !== undefined) return dict[key];
+    for (const [re, rep] of patterns) {
+      const m = key.match(re);
+      if (m) return rep.replace(/\{(t?)(\d)\}/g, (_, t, n) => (t ? (dict[m[n]] ?? m[n]) : m[n]));
+    }
+    return null;
+  }
+  /** Terjemahkan string (untuk kode JS); kembali apa adanya bila tidak ada di kamus atau bahasa Indonesia. */
+  const tr = (text) => translate(text) ?? text;
+
+  function textNode(n) {
+    const v = translate(n.nodeValue);
+    // Tulis hanya bila berubah: menulis nilai yang sama tetap memicu mutasi (loop tanpa akhir).
+    if (v !== null && v !== n.nodeValue.trim() && !n.parentElement?.closest(SKIP)) n.nodeValue = n.nodeValue.replace(n.nodeValue.trim(), v);
+  }
+  function element(elm) {
+    // Atribut textarea (placeholder) tetap diterjemahkan; yang dilewati hanya konten di dalam area konten.
+    if (elm.tagName !== 'TEXTAREA' && elm.closest(SKIP)) return;
+    for (const attr of ['placeholder', 'title', 'aria-label']) {
+      const v = elm.getAttribute(attr);
+      const t = v && translate(v);
+      if (t && t !== v) elm.setAttribute(attr, t);
+    }
+  }
+  function walk(root) {
+    if (root.nodeType === 3) return textNode(root);
+    if (root.nodeType !== 1) return;
+    element(root);
+    root.querySelectorAll('[placeholder], [title], [aria-label]').forEach(element);
+    const it = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    for (let n = it.nextNode(); n; n = it.nextNode()) textNode(n);
+  }
+
+  if (data) {
+    document.title = document.title.split(' · ').map(tr).join(' · ');
+    walk(document.body);
+    new MutationObserver((records) => records.forEach((r) => {
+      if (r.type === 'characterData') textNode(r.target);
+      else if (r.type === 'attributes') element(r.target);
+      else r.addedNodes.forEach(walk);
+    })).observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['placeholder', 'title', 'aria-label'] });
+    // Pilihan dropdown kustom dibuat dari <option>: terjemahkan teks opsinya di sumbernya.
+    document.querySelectorAll('select option').forEach((o) => { const t = translate(o.textContent); if (t && t !== o.textContent) o.textContent = t; });
+  }
+  return { tr, lang: data ? 'en' : 'id' };
+})();
+
 const SVG_NS = 'http://www.w3.org/2000/svg';
 /** Ikon SVG garis (24×24) dari atribut d. */
 function svgIcon(d, size = 16) {
@@ -229,13 +293,21 @@ const ui = (() => {
   return { confirm, notify, enhanceSelect, svgIcon };
 })();
 
+// Pilihan bahasa antarmuka: cookie dibaca server (PHP lang()), lalu halaman dimuat ulang.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-lang]');
+  if (!btn || btn.getAttribute('aria-pressed') === 'true') return;
+  document.cookie = `planku_lang=${btn.dataset.lang}; path=/; max-age=31536000; samesite=lax`;
+  location.reload();
+});
+
 // Toggle mode gelap: html[data-theme], pilihan disimpan di localStorage (dibaca lebih awal di <head> supaya tidak berkedip).
 (() => {
   const root = document.documentElement;
   const sync = () => document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
     const dark = root.dataset.theme === 'dark';
-    btn.setAttribute('aria-pressed', String(dark));
-    btn.title = dark ? 'Mode terang' : 'Mode gelap';
+    btn.setAttribute('aria-checked', String(dark));
+    btn.title = I18N.tr(dark ? 'Mode terang' : 'Mode gelap');
     btn.setAttribute('aria-label', btn.title);
   });
   document.addEventListener('click', (e) => {

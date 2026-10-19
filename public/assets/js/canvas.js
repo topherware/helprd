@@ -42,6 +42,9 @@ function createCanvas(viewport, world, edges, { zoomRoot = document } = {}) {
 
   function apply() {
     world.style.transform = `translate(${view.x}px, ${view.y}px) scale(${view.k})`;
+    // Grid latar ikut digeser & diperbesar bersama kanvas (seperti editor diagram).
+    viewport.style.setProperty('--grid', `${20 * view.k}px`);
+    viewport.style.backgroundPosition = `${view.x}px ${view.y}px`;
   }
 
   function zoomAt(px, py, factor) {

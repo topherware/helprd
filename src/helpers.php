@@ -361,7 +361,7 @@ function page_header(string $title, int $step, ?array $project = null, string $b
     $max = max_step($project);
     ?>
 <!doctype html>
-<html lang="id">
+<html lang="<?= lang() ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -372,6 +372,9 @@ function page_header(string $title, int $step, ?array $project = null, string $b
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="assets/css/app.css">
+<?php if (lang() === 'en'): ?>
+    <script type="application/json" id="i18nData"><?= json_encode(require __DIR__ . '/lang/en.php', JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) ?></script>
+<?php endif; ?>
     <script>try { var t = localStorage.getItem('planku.theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch (e) { /* penyimpanan tidak tersedia */ }</script>
 </head>
 <body class="<?= e($bodyClass) ?>">
@@ -390,18 +393,39 @@ function page_header(string $title, int $step, ?array $project = null, string $b
             <?php endif; ?>
         <?php endforeach; ?>
     </nav>
-    <div class="topbar-actions"><?= $actions ?><?= theme_toggle() ?></div>
+    <div class="topbar-actions"><?= $actions ?><?= header_controls() ?></div>
 </header>
 <?php endif;
 }
 
-/** Tombol toggle mode gelap/terang (perilaku di assets/js/app.js, pilihan disimpan di localStorage). */
+/** Bahasa antarmuka: cookie planku_lang ("en" bawaan, atau "id"). Konten buatan AI tetap mengikuti prompt. */
+function lang(): string
+{
+    return ($_COOKIE['planku_lang'] ?? 'en') === 'id' ? 'id' : 'en';
+}
+
+/** Kontrol kanan atas yang sama di semua halaman: pilihan bahasa + saklar mode gelap. */
+function header_controls(): string
+{
+    return lang_toggle() . theme_toggle();
+}
+
+/** Pilihan bahasa EN/ID (perilaku di assets/js/app.js: set cookie lalu muat ulang). */
+function lang_toggle(): string
+{
+    $btn = fn (string $code, string $label) => '<button type="button" data-lang="' . $code . '" aria-pressed="' . (lang() === $code ? 'true' : 'false') . '">' . $label . '</button>';
+    return '<div class="lang-toggle" role="group" aria-label="Bahasa">' . $btn('en', 'EN') . $btn('id', 'ID') . '</div>';
+}
+
+/** Saklar mode gelap/terang berbentuk pil dengan kenop matahari/bulan (perilaku di assets/js/app.js). */
 function theme_toggle(): string
 {
-    $svg = fn (string $d) => '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $d . '</svg>';
-    return '<button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false" title="Mode gelap" aria-label="Mode gelap">'
-        . '<span class="theme-moon">' . $svg('<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>') . '</span>'
-        . '<span class="theme-sun">' . $svg('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>') . '</span></button>';
+    $svg = fn (string $d, string $cls) => '<svg class="' . $cls . '" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $d . '</svg>';
+    $sun = '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>';
+    $moon = '<path d="M19 14.2A7.5 7.5 0 0 1 9.8 5a7.5 7.5 0 1 0 9.2 9.2z"/><path d="M17.5 3.5v3M16 5h3M20.5 8.5v2M19.5 9.5h2"/>';
+    return '<button type="button" class="theme-toggle" data-theme-toggle role="switch" aria-checked="false" title="Mode gelap" aria-label="Mode gelap">'
+        . '<span class="tt-track">' . $svg($sun, 'tt-sun-dim') . $svg($moon, 'tt-moon-dim') . '</span>'
+        . '<span class="tt-knob">' . $svg($sun, 'tt-sun') . $svg($moon, 'tt-moon') . '</span></button>';
 }
 
 function page_footer(array $scripts = []): void

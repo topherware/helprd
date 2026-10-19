@@ -185,3 +185,10 @@ Pemilik meminta G1–G6 dikerjakan berurutan tanpa konfirmasi. Rancangan di `doc
 - **Urutan langkah**: Ide → Pertanyaan → Teknologi → Peta Fitur → Workspace. Nama berkas tetap (`step3.php` = Pertanyaan, `step2.php` = Teknologi) supaya tautan lama tidak rusak; nilai status lama tetap dipakai: `teknologi` = boleh menjawab, `pertanyaan` = boleh memilih teknologi. Mengganti stack kini hanya membuat ulang peta fitur; jawaban pertanyaan tidak lagi dihapus.
 - **Tombol konsisten di kanan atas**: tombol aksi halaman (Kembali/Lanjut) dipindah ke kepala halaman bagian kanan, bersama toggle mode gelap; header Peta Fitur dikembalikan ke flex (sebelumnya tombolnya jatuh ke kolom tengah grid). Toggle selalu paling kanan.
 - **Mode gelap**: token warna di `:root[data-theme="dark"]`; pilihan disimpan di localStorage dan dibaca di `<head>` supaya tidak berkedip. Bawaan tetap terang (putih + oranye).
+
+## Bahasa antarmuka, saklar tema, grid kanvas (permintaan pemilik)
+
+- **Bahasa**: antarmuka bawaan bahasa Inggris, bisa diganti ke Indonesia lewat pilihan EN/ID di kanan atas (cookie `planku_lang`). Diterapkan sebagai kamus di sisi browser (`src/lang/en.php` → `I18N` di `app.js`): teks UI dan atribut yang cocok persis diterjemahkan, termasuk yang dibuat JS belakangan (MutationObserver), dengan pola regex untuk teks berangka/bernama. Dipilih supaya tidak perlu menulis ulang semua string di 12 berkas JS dan 6 halaman PHP; teks sumber tetap bahasa Indonesia sehingga mode ID tidak berubah. Konten pengguna dan buatan AI (PRD, pertanyaan, peta fitur, task, chat agent) tidak diterjemahkan; prompt AI tetap berbahasa Indonesia karena validator kualitas memakai heuristik bahasa Indonesia.
+- **Saklar tema** berbentuk pil dengan kenop matahari/bulan (`role="switch"`), menggantikan tombol ikon.
+- **Grid kanvas** peta fitur & roadmap: garis kecil tiap 20px dan garis besar tiap 100px, ikut pan & zoom seperti editor diagram; versi terang dan gelap lewat token.
+- **Audit di popup Implemen dihapus** dari antarmuka; endpoint `api/quality_audit.php` dan validatornya tetap ada (tidak menghapus fungsi yang sudah teruji).
