@@ -23,8 +23,8 @@
   const THICK = 64;        // setengah tebal pita (px): pita lebar, titik tersebar
   const CURSOR_R = 120;    // radius pengaruh kursor
   const PUSH = 40;         // jarak sibak maksimum
-  const PALE = [251, 176, 128];  // oranye pucat
-  const HOT = [234, 88, 12];     // oranye pekat (sorotan yang mengalir)
+  const PALE = [147, 197, 253];  // biru muda (#93C5FD, accent palet)
+  const HOT = [37, 99, 235];      // biru pekat (#2563EB) untuk sorotan yang mengalir
   let w = 0;
   let h = 0;
   let dots = [];

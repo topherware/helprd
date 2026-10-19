@@ -1,94 +1,101 @@
 /*
- * PlanKu — tema terang minimalis (putih + oranye).
+ * PlanKu — palet "Clean Professional": navy #0F172A, primary #3B82F6, accent #93C5FD, teks terang #F8FAFC.
+ * Mode terang: latar putih, teks navy, aksen biru. Mode gelap: latar navy #0F172A, teks #F8FAFC, aksen #93C5FD.
+ * Tombol utama memakai #2563EB (kontras teks putih 5.17:1; #3B82F6 hanya 3.68:1) dan #3B82F6 untuk aksen/ikon.
  * Semua warna lewat token di :root; komponen tidak memakai hex mentah kecuali putih di atas aksen.
  */
 :root {
   --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #f5f5f4;
-  --surface-sunk: #fafaf9;
-  --border: #ebebe9;
-  --border-strong: #d6d6d3;
-  --control-border: #d4d4d8;
+  --surface-2: #f1f5f9;
+  --surface-sunk: #f8fafc;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --control-border: #cbd5e1;
   --canvas-bg: #ffffff;
-  --grid-minor: #eef0f2;
-  --grid-major: #dfe2e6;
-  --text: #18181b;
-  --text-2: #3f3f46;
-  --muted: #71717a;
-  --accent: #ea580c;
-  --accent-hover: #c2410c;
-  --accent-btn: #cf470b;
-  --accent-btn-hover: #b53d09;
-  --accent-ink: #c2410c;
-  --accent-soft: #fff4ec;
-  --accent-soft-2: #ffe7d6;
-  --accent-line: rgba(234, 88, 12, .32);
+  --grid-minor: #eef2f7;
+  --grid-major: #dde4ee;
+  --text: #0f172a;
+  --text-2: #334155;
+  --muted: #64748b;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-btn: #2563eb;
+  --accent-btn-hover: #1d4ed8;
+  --accent-ink: #1d4ed8;
+  --accent-soft: #eff6ff;
+  --accent-soft-2: #dbeafe;
+  --accent-line: rgba(59, 130, 246, .35);
   --danger: #dc2626;
   --danger-soft: #fef2f2;
   --warn: #b45309;
   --warn-soft: #fffbeb;
-  --fase-1: #ea580c;
+  --fase-1: #2563eb;
   --fase-2: #d97706;
-  --fase-3: #2563eb;
-  --fase-4: #7c3aed;
-  --st-direncanakan: #a1a1aa;
+  --fase-3: #7c3aed;
+  --fase-4: #0f766e;
+  --st-direncanakan: #94a3b8;
   --st-dikerjakan: #d97706;
   --st-selesai: #16a34a;
   --radius: 12px;
   --radius-lg: 18px;
-  --shadow-xs: 0 1px 2px rgba(24, 24, 27, .05);
-  --shadow-sm: 0 1px 2px rgba(24, 24, 27, .04), 0 2px 8px -2px rgba(24, 24, 27, .06);
-  --shadow-md: 0 12px 32px -12px rgba(24, 24, 27, .16), 0 2px 6px -2px rgba(24, 24, 27, .05);
-  --shadow-lg: 0 28px 70px -18px rgba(24, 24, 27, .24), 0 4px 12px -4px rgba(24, 24, 27, .06);
-  --ring: 0 0 0 4px rgba(234, 88, 12, .14);
-  --scrim: rgba(24, 24, 27, .28);
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, .05);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, .04), 0 2px 8px -2px rgba(15, 23, 42, .07);
+  --shadow-md: 0 12px 32px -12px rgba(15, 23, 42, .18), 0 2px 6px -2px rgba(15, 23, 42, .06);
+  --shadow-lg: 0 28px 70px -18px rgba(15, 23, 42, .28), 0 4px 12px -4px rgba(15, 23, 42, .07);
+  --ring: 0 0 0 4px rgba(59, 130, 246, .18);
+  --scrim: rgba(15, 23, 42, .32);
   --ease: cubic-bezier(.2, .7, .2, 1);
   --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, "JetBrains Mono", "Cascadia Code", Consolas, monospace;
-  --scroll-thumb: rgba(113, 113, 122, .22);
-  --scroll-thumb-hover: rgba(113, 113, 122, .42);
-  --subtle: #a1a1aa;
+  --scroll-thumb: rgba(100, 116, 139, .22);
+  --scroll-thumb-hover: rgba(100, 116, 139, .42);
+  --subtle: #94a3b8;
   --glass: rgba(255, 255, 255, .86);
   --glass-soft: rgba(255, 255, 255, .55);
   --glass-0: rgba(255, 255, 255, 0);
   --success-soft: #f0fdf4;
   --danger-hover: #b91c1c;
-  --edge: #d4d4d1;
+  --edge: #cbd5e1;
   --inverse-text: #ffffff;
+  --btn-shadow: rgba(29, 78, 216, .25);
   color-scheme: light;
 }
 
 /* Mode gelap: aktif lewat toggle (html[data-theme="dark"]), pilihan disimpan di localStorage. */
 :root[data-theme="dark"] {
-  --bg: #111113;
-  --surface: #18181b;
-  --surface-2: #232327;
-  --surface-sunk: #141416;
-  --border: #2a2a2f;
-  --border-strong: #3b3b42;
-  --control-border: #3f3f46;
-  --canvas-bg: #1c1c1f;
-  --grid-minor: #26262a;
-  --grid-major: #313136;
-  --text: #f4f4f5;
-  --text-2: #d4d4d8;
-  --muted: #a1a1aa;
-  --subtle: #71717a;
-  --accent: #f97316;
-  --accent-hover: #fb923c;
-  --accent-btn: #cf470b;
-  --accent-btn-hover: #e2560f;
-  --accent-ink: #fb923c;
-  --accent-soft: rgba(249, 115, 22, .12);
-  --accent-soft-2: rgba(249, 115, 22, .24);
-  --accent-line: rgba(251, 146, 60, .4);
+  --bg: #0f172a;
+  --surface: #162036;
+  --surface-2: #1e293b;
+  --surface-sunk: #111a2e;
+  --border: #233047;
+  --border-strong: #334155;
+  --control-border: #3b4a63;
+  --canvas-bg: #0f172a;
+  --grid-minor: #172238;
+  --grid-major: #1f2c45;
+  --text: #f8fafc;
+  --text-2: #cbd5e1;
+  --muted: #94a3b8;
+  --subtle: #64748b;
+  --accent: #3b82f6;
+  --accent-hover: #93c5fd;
+  --accent-btn: #2563eb;
+  --accent-btn-hover: #3b82f6;
+  --accent-ink: #93c5fd;
+  --accent-soft: rgba(59, 130, 246, .14);
+  --accent-soft-2: rgba(59, 130, 246, .26);
+  --accent-line: rgba(147, 197, 253, .4);
   --danger: #f87171;
   --danger-soft: rgba(248, 113, 113, .12);
   --danger-hover: #ef4444;
   --warn: #fbbf24;
   --warn-soft: rgba(251, 191, 36, .1);
-  --st-direncanakan: #71717a;
+  --fase-1: #3b82f6;
+  --fase-2: #f59e0b;
+  --fase-3: #a78bfa;
+  --fase-4: #2dd4bf;
+  --st-direncanakan: #64748b;
   --st-dikerjakan: #f59e0b;
   --st-selesai: #22c55e;
   --success-soft: rgba(34, 197, 94, .12);
@@ -96,15 +103,16 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, .35), 0 2px 8px -2px rgba(0, 0, 0, .4);
   --shadow-md: 0 12px 32px -12px rgba(0, 0, 0, .6), 0 2px 6px -2px rgba(0, 0, 0, .4);
   --shadow-lg: 0 28px 70px -18px rgba(0, 0, 0, .75), 0 4px 12px -4px rgba(0, 0, 0, .45);
-  --ring: 0 0 0 4px rgba(249, 115, 22, .2);
-  --scrim: rgba(0, 0, 0, .55);
-  --scroll-thumb: rgba(161, 161, 170, .2);
-  --scroll-thumb-hover: rgba(161, 161, 170, .4);
-  --glass: rgba(17, 17, 19, .82);
-  --glass-soft: rgba(24, 24, 27, .55);
-  --glass-0: rgba(17, 17, 19, 0);
-  --edge: #3b3b42;
-  --inverse-text: #111113;
+  --ring: 0 0 0 4px rgba(147, 197, 253, .22);
+  --scrim: rgba(2, 6, 23, .6);
+  --scroll-thumb: rgba(148, 163, 184, .2);
+  --scroll-thumb-hover: rgba(148, 163, 184, .4);
+  --glass: rgba(15, 23, 42, .84);
+  --glass-soft: rgba(22, 32, 54, .55);
+  --glass-0: rgba(15, 23, 42, 0);
+  --edge: #334155;
+  --inverse-text: #0f172a;
+  --btn-shadow: rgba(0, 0, 0, .35);
   color-scheme: dark;
 }
 
@@ -186,7 +194,7 @@ a.step:hover { color: var(--accent-ink); }
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 44px; padding: 0 22px; border: 1px solid transparent; border-radius: 12px; white-space: nowrap;
   background: var(--accent-btn); color: #fff; font-weight: 600; line-height: 1; text-decoration: none; cursor: pointer;
-  box-shadow: 0 1px 2px rgba(194, 65, 12, .25), inset 0 1px 0 rgba(255, 255, 255, .14);
+  box-shadow: 0 1px 2px var(--btn-shadow), inset 0 1px 0 rgba(255, 255, 255, .14);
   transition: background-color .2s var(--ease), border-color .2s var(--ease), box-shadow .2s var(--ease), transform .1s ease;
 }
 .btn:hover { background: var(--accent-btn-hover); }

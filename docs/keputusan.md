@@ -198,3 +198,9 @@ Pemilik meminta G1–G6 dikerjakan berurutan tanpa konfirmasi. Rancangan di `doc
 - **Peta Fitur (langkah 4) tempat mengedit**: tambah fitur (`api/feature_create.php`, asal `keputusan`), ubah nama/fase/sub fitur (sub fitur disinkronkan menurut nama: yang tetap dipertahankan beserta task-nya, yang baru ditambah, yang hilang dihapus), hapus fitur, dan nyalakan usulan AI. Pilihan status dihapus dari editor karena status kini dihitung dari task.
 - **Tombol utama mengikuti status PRD** (dibandingkan lewat sidik peta + Teknologi, `Documents::hash`): "Buat PRD" (belum ada) → "Buka PRD" (sesuai) → "Buat ulang PRD" (peta/Teknologi berubah). "Buat ulang" meminta konfirmasi lalu membuka `workspace.php?regen=1`, yang langsung menyusun ulang PRD; versi lama tetap di riwayat.
 - **Roadmap & halaman fitur di workspace hanya tampilan**: tombol edit/hapus diganti satu tombol "Ubah di Peta Fitur", supaya hanya ada satu tempat mengedit dan PRD selalu dibuat dari peta yang sama.
+
+## Palet "Clean Professional" (permintaan pemilik)
+
+- Oranye diganti palet navy #0F172A / primary #3B82F6 / accent #93C5FD / teks #F8FAFC. Palet ini palet gelap, jadi dipakai utuh di mode gelap (latar navy, teks #F8FAFC, aksen #93C5FD); mode terang tetap latar putih dengan teks navy dan aksen biru.
+- Latar tombol utama #2563EB (bukan #3B82F6) karena teks putih di atas #3B82F6 hanya 3.68:1 (di bawah WCAG AA 4.5:1); #2563EB = 5.17:1. #3B82F6 dipakai untuk aksen, ikon, garis fokus, dan titik latar.
+- Warna fase disesuaikan supaya fase 1 (biru) tidak bentrok dengan fase lain: fase 2 amber, fase 3 ungu, fase 4 teal. Ikon matahari pada saklar tema tetap kuning seperti referensi saklar.

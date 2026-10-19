@@ -104,13 +104,13 @@
           theme: 'base',
           // Warna diagram mengikuti mode saat diagram pertama dirender (terang atau gelap).
           themeVariables: document.documentElement.dataset.theme === 'dark' ? {
-            background: '#141416', primaryColor: '#18181b', primaryTextColor: '#f4f4f5', primaryBorderColor: '#3b3b42',
-            lineColor: '#71717a', secondaryColor: '#2a1a10', tertiaryColor: '#232327', fontFamily: 'Inter, system-ui, sans-serif',
-            noteBkgColor: '#2a1a10', noteBorderColor: '#9a3412', actorBkg: '#18181b', actorBorder: '#3b3b42',
+            background: '#111a2e', primaryColor: '#162036', primaryTextColor: '#f8fafc', primaryBorderColor: '#334155',
+            lineColor: '#64748b', secondaryColor: '#172554', tertiaryColor: '#1e293b', fontFamily: 'Inter, system-ui, sans-serif',
+            noteBkgColor: '#172554', noteBorderColor: '#3b82f6', actorBkg: '#162036', actorBorder: '#334155',
           } : {
-            background: '#fafaf9', primaryColor: '#ffffff', primaryTextColor: '#18181b', primaryBorderColor: '#d6d6d3',
-            lineColor: '#a1a1aa', secondaryColor: '#fff4ec', tertiaryColor: '#f5f5f4', fontFamily: 'Inter, system-ui, sans-serif',
-            noteBkgColor: '#fff4ec', noteBorderColor: '#fdba8c', actorBkg: '#ffffff', actorBorder: '#d6d6d3',
+            background: '#f8fafc', primaryColor: '#ffffff', primaryTextColor: '#0f172a', primaryBorderColor: '#cbd5e1',
+            lineColor: '#94a3b8', secondaryColor: '#eff6ff', tertiaryColor: '#f1f5f9', fontFamily: 'Inter, system-ui, sans-serif',
+            noteBkgColor: '#eff6ff', noteBorderColor: '#93c5fd', actorBkg: '#ffffff', actorBorder: '#cbd5e1',
           },
         });
         resolve();

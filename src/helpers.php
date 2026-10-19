@@ -440,7 +440,7 @@ function page_footer(array $scripts = []): void
 
 function logo_svg(): string
 {
-    return '<svg class="logo" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#ea580c"/>'
+    return '<svg class="logo" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#2563eb"/>'
         . '<circle cx="10" cy="16" r="3" fill="#fff"/><circle cx="22" cy="9" r="3" fill="#fff"/><circle cx="22" cy="23" r="3" fill="#fff"/>'
         . '<path d="M12.5 15 19.5 10M12.5 17l7 5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
 }
