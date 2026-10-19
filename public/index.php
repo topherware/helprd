@@ -31,6 +31,12 @@ $examples = [
     'Aplikasi absensi siswa untuk sekolah kecil',
     'Toko online baju muslim dengan pre-order',
 ];
+// Ikon contoh ide (garis 24×24): kalender acara, daftar centang, tas belanja.
+$exampleIcons = [
+    '<rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/>',
+    '<path d="M9 6h11M9 12h11M9 18h11"/><path d="m3.5 6 1.5 1.5L7.5 5M3.5 12l1.5 1.5L7.5 11M3.5 18l1.5 1.5L7.5 17"/>',
+    '<path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>',
+];
 
 page_header('Mau bikin apa?', 1, $previous, 'has-plans');
 $icon = fn (string $path, int $size = 18) => '<svg viewBox="0 0 24 24" width="' . $size . '" height="' . $size . '" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $path . '</svg>';
@@ -73,6 +79,7 @@ $steps = ['teknologi' => 'Teknologi', 'pertanyaan' => 'Pertanyaan', 'peta_fitur'
 </aside>
 <div class="plans-scrim" id="plansScrim" hidden></div>
 <button type="button" class="btn btn-ghost btn-sm plans-show" id="plansShow" title="Buka sidebar" aria-controls="plans"><?= $icon('<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16M13 10l2 2-2 2"/>', 16) ?>Semua plan</button>
+<canvas class="dots-bg" id="dots" aria-hidden="true"></canvas>
 <main class="page hero">
     <button type="button" class="btn btn-ghost btn-sm plans-open" id="plansOpen" aria-controls="plans"><?= $icon('<path d="M4 6h16M4 12h16M4 18h16"/>', 16) ?>Semua plan</button>
     <h1>Mau bikin apa?</h1>
@@ -85,16 +92,18 @@ $steps = ['teknologi' => 'Teknologi', 'pertanyaan' => 'Pertanyaan', 'peta_fitur'
             placeholder="Ceritakan ide aplikasi atau website kamu… misalnya: website pemesanan catering untuk acara kantor"><?= e($ide) ?></textarea>
         <?php if ($error): ?><p class="form-error" role="alert"><?= e($error) ?></p><?php endif; ?>
         <div class="composer-bar">
-            <div class="chips chips-sm">
-                <?php foreach ($examples as $ex): ?>
-                    <button type="button" class="chip" data-example="<?= e($ex) ?>"><?= e($ex) ?></button>
-                <?php endforeach; ?>
-            </div>
+            <span class="composer-hint"><kbd>Ctrl</kbd><kbd>Enter</kbd> untuk lanjut</span>
             <button type="submit" class="btn btn-icon" aria-label="Lanjut">
-                <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
         </div>
     </form>
+
+    <div class="examples" aria-label="Contoh ide">
+        <?php foreach ($examples as $n => $ex): ?>
+            <button type="button" class="chip" data-example="<?= e($ex) ?>"><?= $icon($exampleIcons[$n], 17) ?><?= e($ex) ?></button>
+        <?php endforeach; ?>
+    </div>
 
     <?php if ($previous): ?>
         <a class="link-muted" href="<?= step_url(max_step($previous)) ?>">
@@ -103,4 +112,4 @@ $steps = ['teknologi' => 'Teknologi', 'pertanyaan' => 'Pertanyaan', 'peta_fitur'
         </a>
     <?php endif; ?>
 </main>
-<?php page_footer(['plans.js']);
+<?php page_footer(['dots.js', 'plans.js']);

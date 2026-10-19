@@ -52,7 +52,7 @@
     if (!del) return;
     const group = del.closest('.plan-group');
     const name = group.querySelector('.plan-folder .truncate').textContent;
-    if (!confirm(`Hapus plan "${name}"?\n\nPRD, peta fitur, task, dan chat agent ikut terhapus permanen dan tidak bisa dikembalikan.`)) return;
+    if (!(await ui.confirm(`Hapus plan "${name}"?`, 'PRD, peta fitur, task, dan chat agent ikut terhapus permanen dan tidak bisa dikembalikan.', { ok: 'Hapus plan', tone: 'danger', icon: 'trash' }))) return;
     del.disabled = true;
     try {
       const res = await api('plan_delete.php', { id: Number(group.dataset.id) });
@@ -65,7 +65,7 @@
       filter();
     } catch (err) {
       del.disabled = false;
-      alert(err.message);
+      ui.notify('Plan gagal dihapus', err.message);
     }
   });
 

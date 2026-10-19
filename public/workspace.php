@@ -126,9 +126,9 @@ $i = [
                 </div>
                 <div class="loading loading-overlay" id="rmLoading" hidden></div>
                 <div class="zoom-controls">
-                    <button type="button" data-zoom="in" aria-label="Perbesar">+</button>
-                    <button type="button" data-zoom="out" aria-label="Perkecil">−</button>
-                    <button type="button" data-zoom="fit" aria-label="Pas di layar"><?= $icon('<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>', 14) ?></button>
+                    <button type="button" data-zoom="in" aria-label="Perbesar"><?= $icon('<path d="M12 5v14M5 12h14"/>', 16) ?></button>
+                    <button type="button" data-zoom="out" aria-label="Perkecil"><?= $icon('<path d="M5 12h14"/>', 16) ?></button>
+                    <button type="button" data-zoom="fit" aria-label="Pas di layar"><?= $icon('<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>', 15) ?></button>
                 </div>
             </div>
             <aside class="rm-panel" id="rmPanel" hidden></aside>

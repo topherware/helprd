@@ -241,7 +241,7 @@ const Kanban = (() => {
     try {
       await api('task_update.php', { ids, status });
     } catch (err) {
-      alert(err.message);
+      ui.notify('Status task gagal disimpan', err.message);
       return;
     }
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');

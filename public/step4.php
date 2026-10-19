@@ -31,10 +31,10 @@ page_header('Peta fitur', 4, $project, 'canvas-page');
     </div>
 
     <div class="zoom-controls">
-        <button type="button" data-zoom="in" aria-label="Perbesar">+</button>
-        <button type="button" data-zoom="out" aria-label="Perkecil">−</button>
+        <button type="button" data-zoom="in" aria-label="Perbesar"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button type="button" data-zoom="out" aria-label="Perkecil"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <button type="button" data-zoom="fit" aria-label="Pas di layar">
-            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
     </div>
 
@@ -48,7 +48,7 @@ page_header('Peta fitur', 4, $project, 'canvas-page');
     <aside class="panel stack-panel" id="stackPanel" hidden>
         <div class="panel-head">
             <strong id="stackTitle">Tech stack</strong>
-            <button type="button" class="icon-btn" data-close aria-label="Tutup">×</button>
+            <button type="button" class="icon-btn" data-close aria-label="Tutup"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         </div>
         <p id="stackBody"></p>
     </aside>
@@ -56,7 +56,7 @@ page_header('Peta fitur', 4, $project, 'canvas-page');
     <form class="panel editor" id="editor" hidden>
         <div class="panel-head">
             <strong>Ubah fitur</strong>
-            <button type="button" class="icon-btn" data-close aria-label="Tutup">×</button>
+            <button type="button" class="icon-btn" data-close aria-label="Tutup"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         </div>
         <label class="field-label" for="edNama">Nama</label>
         <input type="text" id="edNama" maxlength="100" required>

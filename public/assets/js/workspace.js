@@ -101,10 +101,11 @@
         mermaid.initialize({
           startOnLoad: false,
           securityLevel: 'strict',
-          theme: 'dark',
+          theme: 'base',
           themeVariables: {
-            background: '#121a2e', primaryColor: '#18213a', primaryTextColor: '#e9edf7', primaryBorderColor: '#34406a',
-            lineColor: '#8b95b4', secondaryColor: '#121a2e', tertiaryColor: '#0f1628', fontFamily: 'Inter, system-ui, sans-serif',
+            background: '#fafaf9', primaryColor: '#ffffff', primaryTextColor: '#18181b', primaryBorderColor: '#d6d6d3',
+            lineColor: '#a1a1aa', secondaryColor: '#fff4ec', tertiaryColor: '#f5f5f4', fontFamily: 'Inter, system-ui, sans-serif',
+            noteBkgColor: '#fff4ec', noteBorderColor: '#fdba8c', actorBkg: '#ffffff', actorBorder: '#d6d6d3',
           },
         });
         resolve();
@@ -352,9 +353,9 @@
     }
   }
 
-  editBtn.addEventListener('click', () => {
+  editBtn.addEventListener('click', async () => {
     if (!editing) return setEditing(true);
-    if (dirty && !confirm('Perubahan belum disimpan. Tinggalkan mode edit?')) return;
+    if (dirty && !(await ui.confirm('Tinggalkan mode edit?', 'Perubahan belum disimpan dan akan hilang.', { ok: 'Tinggalkan', tone: 'danger' }))) return;
     setEditing(false);
   });
   editorText.addEventListener('input', () => { dirty = editorText.value !== data.prd; });
@@ -404,7 +405,7 @@
   });
 
   async function restore(id) {
-    if (editing && dirty && !confirm('Perubahan di editor belum disimpan dan akan hilang. Lanjutkan?')) return;
+    if (editing && dirty && !(await ui.confirm('Pulihkan versi ini?', 'Perubahan di editor belum disimpan dan akan hilang.', { ok: 'Pulihkan', tone: 'danger' }))) return;
     try {
       const res = await api('prd_versions.php', { action: 'restore', id });
       data.prd = res.content_md;
@@ -605,14 +606,14 @@
     }
   }
 
-  bikinBtn.addEventListener('click', () => {
-    if (data.taskCount > 0 && !confirm('Buat ulang task? Status lama akan hilang.')) return;
+  bikinBtn.addEventListener('click', async () => {
+    if (data.taskCount > 0 && !(await ui.confirm('Buat ulang task?', 'Status task yang lama akan hilang.', { ok: 'Buat ulang', tone: 'danger' }))) return;
     bikinTask(data.taskCount > 0);
   });
 
   retryBtn.addEventListener('click', () => startStream(false));
-  regenBtn.addEventListener('click', () => {
-    if (confirm('Buat ulang PRD? Versi sekarang tetap disimpan di riwayat.')) startStream(true);
+  regenBtn.addEventListener('click', async () => {
+    if (await ui.confirm('Buat ulang PRD?', 'Versi sekarang tetap disimpan di riwayat versi.', { ok: 'Buat ulang' })) startStream(true);
   });
 
   function buildToc() {

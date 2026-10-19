@@ -169,3 +169,12 @@ Pemilik meminta G1–G6 dikerjakan berurutan tanpa konfirmasi. Rancangan di `doc
 - **G6 — penegakan deterministik `Pipeline::finalize`**: uji AI sungguhan menunjukkan AI melanggar aturan prompt (usulan masuk rute/milestone, 38 tugas rencana, Master Prompt tanpa pertanyaan kesiapan). Diputuskan menegakkan setelah perakitan PRD dan setelah tiap perbaikan Pass 5: rute/navigasi/cakupan/rencana yang hanya melayani usulan dibuang, rencana digabung (isi berkas/FR/tabel disatukan, bukan dibuang) sampai ≤ 10 per milestone dan ≤ 30, dan butir gerbang yang belum ada ditambahkan ke Master Prompt. Lebih andal daripada mengandalkan prompt saja, tanpa panggilan AI tambahan.
 - **G6 — pemicu keamanan "Pembayaran"** tidak lagi aktif oleh kalimat pembayaran luring ("dibayar langsung di tempat", "tunai", "tanpa pembayaran online").
 - **G6 — uji AI sungguhan dibatasi satu project** (22 panggilan). Pass 5 yang gagal karena galat layanan tidak diulang demi kuota; dicatat sebagai belum selesai.
+
+## Redesain tampilan terang (permintaan pemilik)
+
+- **Tema**: latar putih, aksen oranye. Gaya Minimalism & Swiss dari skill ui-ux-pro-max (Inter, ruang lega, bayangan halus); palet skill (ungu) diganti sesuai permintaan. Tombol memakai `#CF470B` (kontras teks putih 4.61:1, lulus AA); `#EA580C` hanya untuk aksen/ikon, `#C2410C` untuk teks oranye. Semua warna lewat token `:root`; warna gelap yang di-hardcode dihapus, tema mermaid ikut terang.
+- **Fungsi tidak diubah**: tidak ada tombol yang ditambah atau dihapus. Contoh ide di halaman awal dipindah ke bawah kotak ide sebagai daftar berikon. Glyph teks (×, +, −) diganti ikon SVG supaya ukurannya seragam.
+- **Halaman awal**: kanvas titik pada cincin konsentris; posisi berdenyut seperti ombak, opasitas hilang-timbul, dan titik menyibak menjauhi kursor. Dekoratif (`aria-hidden`, tanpa event pointer), berhenti saat tab tersembunyi, statis bila `prefers-reduced-motion`.
+- **Tanpa alert/confirm bawaan**: `ui.confirm()` / `ui.notify()` (dialog modal, Promise) menggantikan 4 `confirm` dan 3 `alert`. Aksi hapus memakai nada bahaya dengan fokus awal di "Batal".
+- **Dropdown kustom**: semua `<select>` (termasuk yang dibuat lewat JS) otomatis diberi tombol + listbox kustom. `<select>` asli tetap ada sebagai sumber nilai, form, dan event `change`, sehingga kode lama tidak berubah. Mendukung keyboard (panah, Home/End, Enter, Esc, ketik huruf awal), ARIA listbox, dan posisi naik/turun otomatis.
+- **Checkbox kustom** lewat CSS `appearance: none`, elemen dan perilaku tetap sama.

@@ -269,13 +269,13 @@ const Roadmap = (() => {
   /** Hapus fitur setelah konfirmasi; true bila terhapus. */
   async function removeFeature(f) {
     const detail = `${f.sub_fitur.length} sub-fitur dan ${f.task_total} task`;
-    if (!confirm(`Hapus fitur "${f.nama}" beserta ${detail}? Teks PRD tidak berubah.`)) return false;
+    if (!(await ui.confirm(`Hapus fitur "${f.nama}"?`, `Fitur beserta ${detail} ikut terhapus. Teks PRD tidak berubah.`, { ok: 'Hapus fitur', tone: 'danger', icon: 'trash' }))) return false;
     try {
       await api('feature_delete.php', { id: f.id });
       notifyDataChanged();
       return true;
     } catch (err) {
-      alert(err.message);
+      ui.notify('Fitur gagal dihapus', err.message);
       return false;
     }
   }
