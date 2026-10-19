@@ -35,6 +35,42 @@ final class Validator
         return self::text($value, 'Ide', 10, 3000);
     }
 
+    /**
+     * Lampiran referensi dari form ide ($_FILES['lampiran'], multiple). Jenis dicek dari isi berkas (finfo), bukan nama.
+     * @return array<int, array{tmp: string, nama: string, mime: string, ukuran: int}>
+     */
+    public static function lampiran($files): array
+    {
+        if (!is_array($files) || !isset($files['name']) || !is_array($files['name'])) {
+            return [];
+        }
+        $out = [];
+        foreach ($files['name'] as $i => $name) {
+            $err = (int) ($files['error'][$i] ?? UPLOAD_ERR_NO_FILE);
+            if ($err === UPLOAD_ERR_NO_FILE) {
+                continue;
+            }
+            $nama = mb_substr(trim(preg_replace('#[[:cntrl:]]+#u', '', basename(str_replace(chr(92), '/', (string) $name)))), 0, 160) ?: 'berkas';
+            if ($err === UPLOAD_ERR_INI_SIZE || $err === UPLOAD_ERR_FORM_SIZE || (int) $files['size'][$i] > ATTACH_MAX_BYTES) {
+                throw new UserError("Lampiran \"$nama\" terlalu besar. Maksimal " . (ATTACH_MAX_BYTES / 1048576) . ' MB per berkas.');
+            }
+            if ($err !== UPLOAD_ERR_OK || !is_uploaded_file($files['tmp_name'][$i])) {
+                throw new UserError("Lampiran \"$nama\" gagal diunggah. Coba lagi.");
+            }
+            $mime = (new finfo(FILEINFO_MIME_TYPE))->file($files['tmp_name'][$i]) ?: '';
+            // Markdown sering terdeteksi text/plain; teks hanya diterima dengan ekstensi .txt/.md.
+            $ext = strtolower(pathinfo($nama, PATHINFO_EXTENSION));
+            if (!isset(ATTACH_TYPES[$mime]) || (ATTACH_TYPES[$mime] === 'teks' && !in_array($ext, ['txt', 'md', 'markdown'], true))) {
+                throw new UserError("Jenis lampiran \"$nama\" tidak didukung. Gunakan gambar (PNG, JPG, WEBP, GIF), PDF, atau teks (TXT, MD).");
+            }
+            $out[] = ['tmp' => $files['tmp_name'][$i], 'nama' => $nama, 'mime' => $mime, 'ukuran' => (int) $files['size'][$i]];
+        }
+        if (count($out) > ATTACH_MAX_FILES) {
+            throw new UserError('Maksimal ' . ATTACH_MAX_FILES . ' lampiran.');
+        }
+        return $out;
+    }
+
     public static function techStack($value): string
     {
         return self::text($value, 'Tech stack', 2, 255);

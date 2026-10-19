@@ -3,6 +3,23 @@
 /** Data contoh saat USE_MOCK_AI=true, supaya alur bisa dicoba tanpa API key. Bentuknya sama dengan hasil AI. */
 final class MockData
 {
+    /** Ringkasan referensi tiruan: daftar lampiran + potongan isi berkas teks. */
+    public static function referensi(array $files): array
+    {
+        $lines = [];
+        foreach ($files as $f) {
+            $kind = ATTACH_TYPES[$f['mime']] ?? 'teks';
+            $line = "- {$f['nama_asli']} ($kind)";
+            if ($kind === 'teks') {
+                $line .= ': ' . mb_strimwidth(preg_replace('/\s+/u', ' ', (string) @file_get_contents(UPLOAD_DIR . '/' . $f['path'])), 0, 300, '…');
+            } else {
+                $line .= ': contoh referensi tampilan dan alur dari pengguna.';
+            }
+            $lines[] = $line;
+        }
+        return ['ringkasan' => implode("\n", $lines)];
+    }
+
     /** Pertanyaan tiruan: satu per celah dari Triggers::celah (jumlahnya ikut ide, 3–8). */
     public static function questions(array $project): array
     {
@@ -19,7 +36,7 @@ final class MockData
             'prioritas' => ['teks' => 'Dari fitur di bawah, pilih 3 yang paling wajib ada.', 'tipe' => 'pilihan', 'opsi' => ['Daftar produk + harga', 'Form pemesanan', 'Chat WhatsApp', 'Pembayaran online', 'Galeri foto', 'Testimoni'], 'boleh_pilih_banyak' => true],
             'kembali' => ['teks' => 'Apa yang bikin orang mau balik lagi, bukan cuma buka sekali terus lupa?', 'tipe' => 'pilihan', 'opsi' => ['Konten baru rutin', 'Diskon pelanggan setia', 'Pesan ulang cepat', 'Notifikasi promo'], 'boleh_pilih_banyak' => true],
         ];
-        return ['pertanyaan' => array_map(fn ($g) => ['celah' => $g] + $bank[$g], Triggers::celah($project['ide_awal']))];
+        return ['pertanyaan' => array_map(fn ($g) => ['celah' => $g] + $bank[$g], Triggers::celah(Prompts::ideWithReference($project)))];
     }
 
     public static function features(array $project): array

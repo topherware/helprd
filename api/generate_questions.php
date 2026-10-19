@@ -10,6 +10,7 @@ $questions = project_questions($id);
 
 // Pertanyaan hanya dibuat sekali per project; panggilan berikutnya mengembalikan yang sudah ada.
 if (!$questions) {
+    ensure_reference($project); // lampiran → teks referensi (sekali), dipakai pertanyaan, peta fitur, dan PRD
     $raw = ai_generate('generate_questions', $project, Prompts::questions($project), MockData::questions($project));
     $data = Validator::aiQuestions($raw);
 

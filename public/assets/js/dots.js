@@ -15,12 +15,12 @@
   const ctx = canvas.getContext('2d');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const CORNERS = 8;       // jumlah sudut bentuk
-  const REACH = [1.46, 0.98, 1.3, 0.94, 1.52, 1.02, 1.24, 0.9]; // panjang relatif tiap sudut
-  const ROWS = 11;         // jumlah baris titik melintang pita
+  const REACH = [0.9, 1.46, 0.6, 1.3, 1.1, 1.52, 0.7, 1.24]; // panjang relatif 8 tonjolan (sisi, sudut, sisi, sudut, …), tak beraturan
+  const ROWS = 13;         // jumlah baris titik melintang pita
   const STEP = 14;         // jarak antar titik sepanjang pita (px)
-  const GAP = 26;          // jarak tepi dalam pita ke kotak judul + kotak ide (px)
-  const THICK = 64;        // setengah tebal pita (px): pita lebar, titik tersebar
+  const GAP = 16;          // jarak tepi dalam pita ke kotak judul + kotak ide (px), sama di semua sisi
+  const THICK = 80;        // setengah tebal pita di sisi kiri-kanan (px): pita lebar, titik tersebar
+  const THICK_Y = 50;      // setengah tebal pita di atas-bawah (px): lebih tipis karena ruang di bawah stepper terbatas
   const CURSOR_R = 120;    // radius pengaruh kursor
   const PUSH = 40;         // jarak sibak maksimum
   const PALE = [147, 197, 253];  // biru muda (#93C5FD, accent palet)
@@ -39,10 +39,12 @@
   };
   /** Puncak lembut di sekitar selisih sudut 0 (untuk sorotan warna). */
   const peak = (delta, sharp) => (0.5 + 0.5 * Math.cos(delta)) ** sharp;
+  /** Setengah tebal pita menurut arah normal: penuh di samping, lebih tipis di atas-bawah. */
+  const thick = (nx, ny) => Math.hypot(THICK * nx, THICK_Y * ny);
 
-  /** Kotak yang dikelilingi pita: dari judul sampai kotak ide, relatif terhadap kanvas. */
+  /** Kotak yang dikelilingi pita: dari judul sampai kotak ide (+ tautan "lanjutkan" bila ada), relatif terhadap kanvas. */
   function target(rect) {
-    const parts = [document.querySelector('.hero h1'), document.getElementById('ideForm')].filter(Boolean).map((n) => n.getBoundingClientRect());
+    const parts = [document.querySelector('.hero h1'), document.getElementById('ideForm'), document.querySelector('.hero > .link-muted')].filter(Boolean).map((n) => n.getBoundingClientRect());
     if (!parts.length) return { x: rect.width * 0.2, y: rect.height * 0.25, w: rect.width * 0.6, h: rect.height * 0.5 };
     const left = Math.min(...parts.map((r) => r.left));
     const right = Math.max(...parts.map((r) => r.right));
@@ -66,42 +68,57 @@
     return out;
   }
 
-  /** Garis tengah pita: poligon 8 sudut tak beraturan di sekeliling kotak, diambil merata per panjang busur. */
+  /**
+   * Garis tengah pita: poligon 8 sudut tak beraturan di sekeliling kotak, diambil merata per panjang busur.
+   * Jarak diukur dalam piksel dari tepi kotak (bukan skala elips), jadi celah kiri-kanan sama dengan atas-bawah
+   * walau kotaknya lebar. Sudut kotak mendapat tonjolan panjang (ujung bintang), tengah sisi tonjolan pendek.
+   */
   function outline(box) {
     const cx = box.x + box.w / 2;
     const cy = box.y + box.h / 2;
-    // Sudut tak beraturan di sekitar elips seukuran kotak; panjang sudut selang-seling seperti bintang abstrak.
-    const shapeAt = (scale) => {
-      const verts = [];
-      for (let k = 0; k < CORNERS; k++) {
-        const a = (k / CORNERS) * Math.PI * 2 + Math.PI / CORNERS + (rand(k + 101) - 0.5) * 0.7;
-        // Panjang sudut kontras (menonjol jauh vs melekuk ke dalam) supaya bentuknya abstrak, bukan bulat.
-        const r = REACH[k] + rand(k + 202) * 0.06;
-        // Tonjolan sudut lebih ke samping daripada ke atas/bawah, supaya pita tidak menabrak stepper.
-        verts.push([cx + Math.cos(a) * (box.w / 2) * r * scale.x, cy + Math.sin(a) * (box.h / 2) * (1 + (r - 1) * 0.75) * scale.y]);
-      }
-      return soften(verts, 1);
+    // Garis tengah pita minimal GAP + setengah tebal dari kotak: pita tidak menyentuh konten.
+    const hw = box.w / 2 + GAP + THICK;
+    const hh = box.h / 2 + GAP + THICK_Y;
+    // Titik pada kotak yang diperbesar, di arah sudut a dari pusat.
+    const onBox = (a) => {
+      const c = Math.cos(a);
+      const s = Math.sin(a);
+      const k = 1 / Math.max(Math.abs(c) / hw, Math.abs(s) / hh);
+      return [cx + c * k, cy + s * k, c, s];
     };
-    // Perbesar bertahap sampai seluruh garis tengah pita berjarak ≥ GAP + THICK dari kotak (pita tidak menyentuh konten).
-    const need = GAP + THICK;
-    const distToBox = ([x, y]) => Math.hypot(Math.max(box.x - x, 0, x - box.x - box.w), Math.max(box.y - y, 0, y - box.y - box.h));
+    const diag = Math.atan2(hh, hw);
+    // Urutan arah: kanan, kanan-bawah, bawah, kiri-bawah, kiri, kiri-atas, atas, kanan-atas (sedikit diacak).
+    const dirs = [0, diag, Math.PI / 2, Math.PI - diag, Math.PI, Math.PI + diag, Math.PI * 1.5, Math.PI * 2 - diag];
+    const shapeAt = (extra) => soften(dirs.map((a0, k) => {
+      const a = a0 + (rand(k + 101) - 0.5) * (k % 2 ? 0.22 : 0.5);
+      const [x, y, c, s] = onBox(a);
+      // Panjang tonjolan (px): ujung di sudut kotak jauh, tengah sisi dekat; tak beraturan per sudut.
+      const out = extra + REACH[k] * (k % 2 ? 95 : 20) + rand(k + 202) * 14;
+      return [x + c * out, y + s * out];
+    }), 1);
+    // Kekurangan jarak titik p: jarak yang dibutuhkan (GAP + tebal pita ke arah p) dikurangi jarak sebenarnya ke kotak.
+    const lackAt = ([x, y]) => {
+      const ex = Math.max(box.x - x, 0, x - box.x - box.w);
+      const ey = Math.max(box.y - y, 0, y - box.y - box.h);
+      const d = Math.hypot(ex, ey) || 0.001;
+      return GAP + thick(ex / d, ey / d) - d;
+    };
     // Periksa juga titik di sepanjang sisi, bukan hanya sudut poligon.
     const dense = (pts) => pts.flatMap((p, i) => {
       const q = pts[(i + 1) % pts.length];
       return [0, 0.25, 0.5, 0.75].map((f) => [p[0] + (q[0] - p[0]) * f, p[1] + (q[1] - p[1]) * f]);
     });
-    const scale = { x: 1.05, y: 1.1 };
-    let poly = shapeAt(scale);
-    for (let i = 0; i < 80 && Math.min(...dense(poly).map(distToBox)) < need; i++) {
-      const worst = dense(poly).reduce((m, p) => (distToBox(p) < distToBox(m) ? p : m));
-      // Tambah skala pada sumbu yang paling membantu titik terdekat (sisi atas/bawah → y, sisi kiri/kanan → x).
-      const dx = Math.abs(worst[0] - cx) / (box.w / 2);
-      const dy = Math.abs(worst[1] - cy) / (box.h / 2);
-      if (dx >= dy) scale.x *= 1.025; else scale.y *= 1.025;
-      poly = shapeAt(scale);
+    // Sisi poligon memotong sudut kotak: dorong seluruh tonjolan keluar sedikit demi sedikit sampai aman.
+    let extra = 0;
+    let poly = shapeAt(extra);
+    for (let i = 0; i < 60; i++) {
+      const lack = Math.max(...dense(poly).map(lackAt));
+      if (lack <= 0) break;
+      extra += Math.max(2, lack * 0.6);
+      poly = shapeAt(extra);
     }
-    // Batas lembut atas: ruang stepper (± 80px dari atas kanvas) tetap bersih dari pita.
-    const top = 80 + THICK + 10;
+    // Batas lembut atas: ruang stepper (± 84px dari atas kanvas) tetap bersih dari pita.
+    const top = 84 + THICK_Y;
     poly = poly.map(([x, y]) => [x, y < top ? top - (top - y) * 0.25 : y]);
     // Batas lembut kiri-kanan: sudut yang keluar kanvas (mis. sidebar terbuka) diredam ke dalam tepi.
     const left = THICK + 14;
@@ -142,7 +159,9 @@
       nxs[m] = nx / l;
       nys[m] = ny / l;
     }
-    return { xs, ys, nxs, nys, M, total };
+    const ts = new Float64Array(M);
+    for (let m = 0; m < M; m++) ts[m] = thick(nxs[m], nys[m]);
+    return { xs, ys, nxs, nys, ts, M, total };
   }
 
   function build() {
@@ -165,7 +184,7 @@
         // Tersebar: baris pinggir makin jarang (sebagian titik dilewati), posisi digeser acak sepanjang & melintang pita.
         if (rand(id + 31) > 1 - 0.5 * Math.abs(v) ** 1.4) continue;
         const pos = (((i + (row % 2) * 0.5 + (rand(id + 41) - 0.5) * 0.8) / count) % 1 + 1) % 1;
-        const jitter = (rand(id + 53) - 0.5) * 14;
+        const jitter = (rand(id + 53) - 0.5) * 20;
         dots.push({
           idx: Math.floor(pos * path.M) % path.M, u: pos * Math.PI * 2, v, jitter,
           phase: rand(id) * Math.PI * 2, speed: 0.6 + rand(id + 7) * 0.9, tint: rand(id + 13), ox: 0, oy: 0,
@@ -180,12 +199,12 @@
     mouse.y += (mouse.ty - mouse.y) * 0.18;
     const time = t / 1000;
     const flow = time * 0.45; // posisi sorotan warna yang mengalir sepanjang pita
-    const { xs, ys, nxs, nys } = path;
+    const { xs, ys, nxs, nys, ts } = path;
     for (const d of dots) {
       const u = d.u; // posisi sepanjang pita tetap: tidak memutar
       // Maju-mundur: titik bergeser keluar-masuk tegak lurus pita mengikuti gelombang yang merambat.
       const swing = Math.sin(time * 1.3 - u * 5 + d.v * 1.2) * 6 + Math.sin(time * 0.7 + d.phase) * 2;
-      const off = d.v * THICK + d.jitter + swing;
+      const off = d.v * ts[d.idx] + d.jitter + swing;
       let x = xs[d.idx] + nxs[d.idx] * off;
       let y = ys[d.idx] + nys[d.idx] * off;
       if (x < -20 || x > w + 20 || y < -20 || y > h + 20) continue;
@@ -250,7 +269,7 @@
     resizeTimer = setTimeout(() => { build(); start(); }, 80);
   });
   // Ikuti ukuran kanvas dan kotak yang dikelilingi (mis. pesan galat menambah tinggi kotak ide).
-  [canvas, document.querySelector('.hero h1'), document.getElementById('ideForm')].filter(Boolean).forEach((n) => resized.observe(n));
+  [canvas, document.querySelector('.hero h1'), document.getElementById('ideForm'), document.getElementById('attachList')].filter(Boolean).forEach((n) => resized.observe(n));
   addEventListener('pointermove', (e) => {
     const rect = canvas.getBoundingClientRect();
     mouse.tx = e.clientX - rect.left;

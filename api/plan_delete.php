@@ -21,6 +21,12 @@ if (!$project) {
     throw new UserError('Plan tidak ditemukan.', 404);
 }
 Database::run('DELETE FROM projects WHERE id = ?', [$project['id']]);
+// Berkas lampiran referensi ikut dihapus (baris project_files sudah terhapus lewat CASCADE).
+$dir = UPLOAD_DIR . '/' . (int) $project['id'];
+if (is_dir($dir)) {
+    array_map('unlink', glob($dir . '/*') ?: []);
+    @rmdir($dir);
+}
 
 // Plan yang sedang aktif dihapus: lepas cookie project supaya halaman lain tidak menunjuk project yang sudah tidak ada.
 $active = hash_equals($project['session_token'], (string) ($_COOKIE[COOKIE_NAME] ?? ''));

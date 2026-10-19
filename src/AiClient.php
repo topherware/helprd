@@ -17,7 +17,7 @@ final class AiClient
     /**
      * @return array{0: array, 1: int, 2: int} [data JSON, input_tokens, output_tokens]
      */
-    public static function json(string $system, string $prompt, ?int $maxTokens = null): array
+    public static function json(string $system, string|array $prompt, ?int $maxTokens = null): array
     {
         for ($attempt = 0; ; $attempt++) {
             try {
@@ -33,14 +33,14 @@ final class AiClient
     }
 
     /**
-     * Streaming teks jawaban Claude.
+     * Streaming teks jawaban Claude. $prompt berupa teks, atau daftar blok konten (image/document/text) untuk lampiran.
      * $onText(string $potongan) dipanggil untuk tiap potongan teks; $onTick() dipanggil berkala (±1 detik)
      * selama koneksi terbuka, dan bila mengembalikan false permintaan dibatalkan.
      * Streaming juga menjaga koneksi tetap hidup lewat proxy (mis. Cloudflare memutus setelah ~100 detik diam).
      *
      * @return array{0: string, 1: int, 2: int} [teks lengkap, input_tokens, output_tokens]
      */
-    public static function stream(string $system, string $prompt, ?int $maxTokens, callable $onText, ?callable $onTick = null): array
+    public static function stream(string $system, string|array $prompt, ?int $maxTokens, callable $onText, ?callable $onTick = null): array
     {
         $key = env('API_KEY');
         if (!$key) {

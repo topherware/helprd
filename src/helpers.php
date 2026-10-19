@@ -140,6 +140,12 @@ function owner_token(bool $create = false): ?string
     return $token;
 }
 
+/** Judul awal plan: potongan ide (diganti judul dari AI saat peta fitur dibuat, kecuali pengguna sudah mengganti namanya). */
+function auto_title(string $ide): string
+{
+    return mb_strimwidth(preg_replace('/\s+/u', ' ', $ide), 0, 60, '…');
+}
+
 /**
  * Riwayat plan milik browser ini, terbaru dulu. Project aktif yang belum punya pemilik ikut diklaim.
  * Project lama (dibuat sebelum ada riwayat) hanya bisa diklaim browser lama itu sendiri: cookie project-nya menunjuk
@@ -156,10 +162,69 @@ function owner_projects(?array $current): array
         }
     }
     return Database::run(
-        'SELECT p.id, p.judul, p.status, p.created_at, (SELECT COUNT(*) FROM features f WHERE f.project_id = p.id) AS fitur
+        'SELECT p.id, p.judul, p.status, p.folder_id, p.created_at, (SELECT COUNT(*) FROM features f WHERE f.project_id = p.id) AS fitur
          FROM projects p WHERE p.owner_token = ? ORDER BY p.created_at DESC, p.id DESC LIMIT 200',
         [$owner]
     )->fetchAll();
+}
+
+/** Folder sidebar milik browser ini (urut dibuat). Folder bawaan "Umum" tidak disimpan: plan dengan folder_id NULL. */
+function owner_folders(): array
+{
+    $owner = owner_token();
+    return $owner ? Database::run('SELECT id, nama FROM plan_folders WHERE owner_token = ? ORDER BY created_at, id', [$owner])->fetchAll() : [];
+}
+
+/** Simpan lampiran (hasil Validator::lampiran) untuk project; nama berkas acak, di luar folder public. */
+function save_attachments(int $projectId, array $files): void
+{
+    if (!$files) {
+        return;
+    }
+    $dir = UPLOAD_DIR . '/' . $projectId;
+    if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
+        throw new RuntimeException('Folder lampiran tidak bisa dibuat: ' . $dir);
+    }
+    $ext = ['image/png' => 'png', 'image/jpeg' => 'jpg', 'image/webp' => 'webp', 'image/gif' => 'gif', 'application/pdf' => 'pdf'];
+    foreach ($files as $f) {
+        $path = $projectId . '/' . bin2hex(random_bytes(12)) . '.' . ($ext[$f['mime']] ?? 'txt');
+        if (!move_uploaded_file($f['tmp'], UPLOAD_DIR . '/' . $path)) {
+            throw new RuntimeException('Lampiran gagal disimpan: ' . $f['nama']);
+        }
+        Database::run('INSERT INTO project_files (project_id, nama_asli, mime, ukuran, path) VALUES (?, ?, ?, ?, ?)',
+            [$projectId, $f['nama'], $f['mime'], $f['ukuran'], $path]);
+    }
+}
+
+function project_files(int $projectId): array
+{
+    return Database::run('SELECT id, nama_asli, mime, ukuran, path FROM project_files WHERE project_id = ? ORDER BY id', [$projectId])->fetchAll();
+}
+
+/**
+ * Ringkasan lampiran referensi (projects.referensi). Dibuat sekali oleh AI dari gambar/PDF/teks yang dilampirkan,
+ * lalu dipakai sebagai teks di semua prompt berikutnya, supaya berkas tidak dikirim ulang di tiap panggilan.
+ * Mengisi $project['referensi'] dan mengembalikannya ('' bila tanpa lampiran).
+ */
+function ensure_reference(array &$project): string
+{
+    if (($project['referensi'] ?? null) !== null) {
+        return (string) $project['referensi'];
+    }
+    $files = project_files((int) $project['id']);
+    if (!$files) {
+        return '';
+    }
+    try {
+        $raw = ai_generate('referensi', $project, Prompts::referensi($project, $files), MockData::referensi($files), 3000);
+    } catch (AiException $e) {
+        // Ringkasan gagal: alur tetap jalan tanpa referensi; referensi tetap NULL sehingga dicoba lagi di langkah berikutnya.
+        log_error('Ringkasan lampiran gagal: ' . $e->getMessage());
+        return '';
+    }
+    $text = mb_substr(trim((string) ($raw['ringkasan'] ?? '')), 0, 8000);
+    Database::run('UPDATE projects SET referensi = ? WHERE id = ?', [$text, $project['id']]);
+    return $project['referensi'] = $text;
 }
 
 function current_project(): ?array
@@ -293,7 +358,7 @@ function api_request(): array
 }
 
 /** Panggil AI (atau data contoh bila USE_MOCK_AI=true), dengan rate limit dan pencatatan token. */
-function ai_generate(string $endpoint, array $project, string $prompt, array $mock, ?int $maxTokens = null): array
+function ai_generate(string $endpoint, array $project, string|array $prompt, array $mock, ?int $maxTokens = null): array
 {
     $ip = client_ip();
     $useMock = (bool) env('USE_MOCK_AI', true);

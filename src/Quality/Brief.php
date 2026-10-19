@@ -39,6 +39,8 @@ final class Brief
         public string $extraNotes = '',
         /** Fitur usulan AI yang belum disertakan pengguna: [nama, alasan] (v1.2.1, bab 2 "Usulan Tambahan"). */
         public array $usulan = [],
+        /** Ringkasan lampiran referensi pengguna (projects.referensi), '' bila tanpa lampiran. */
+        public string $referensi = '',
     ) {
     }
 
@@ -59,6 +61,7 @@ final class Brief
             (string) ($project['extra_notes'] ?? ''),
             array_map(fn ($f) => ['nama' => $f['nama'], 'alasan' => (string) ($f['asal_alasan'] ?? '')], Database::run(
                 'SELECT nama, asal_alasan FROM features WHERE project_id = ? AND disertakan = 0 ORDER BY fase, urutan, id', [$id])->fetchAll()),
+            (string) ($project['referensi'] ?? ''),
         );
     }
 

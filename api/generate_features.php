@@ -13,6 +13,7 @@ $features = project_features($id, true);
 
 // Peta fitur hanya dibuat sekali; dibuat ulang hanya bila jawaban berubah (lihat save_answers.php).
 if (!$features) {
+    ensure_reference($project); // bila ringkasan lampiran gagal saat pertanyaan dibuat, dicoba lagi di sini
     $raw = ai_generate('generate_features', $project, Prompts::features($project, project_qa($id)), MockData::features($project));
     $data = Validator::aiFeatures($raw);
 
@@ -35,7 +36,8 @@ if (!$features) {
         Database::run(
             'UPDATE projects SET judul = ?, rekomendasi_stack = ? WHERE id = ?',
             [
-                $data['judul'] !== '' ? $data['judul'] : $project['judul'],
+                // Judul dari AI hanya menggantikan judul otomatis dari ide; judul yang sudah diganti pengguna di sidebar tetap.
+                $data['judul'] !== '' && $project['judul'] === auto_title($project['ide_awal']) ? $data['judul'] : $project['judul'],
                 $project['tech_mode'] === 'ai' ? $data['rekomendasi_stack'] : null,
                 $id,
             ]

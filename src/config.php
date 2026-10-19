@@ -7,6 +7,16 @@ const COOKIE_NAME = 'planku_token';
 const OWNER_COOKIE = 'planku_owner';
 const ROOT_DIR = __DIR__ . '/..';
 const LOG_DIR = ROOT_DIR . '/logs';
+/** Lampiran referensi dari kotak ide (di luar public; diblokir .htaccess). */
+const UPLOAD_DIR = ROOT_DIR . '/storage/uploads';
+/** Batas lampiran: jumlah berkas dan ukuran per berkas (byte). */
+const ATTACH_MAX_FILES = 5;
+const ATTACH_MAX_BYTES = 5 * 1024 * 1024;
+/** Jenis berkas yang diterima (MIME hasil deteksi isi => jenis). */
+const ATTACH_TYPES = [
+    'image/png' => 'gambar', 'image/jpeg' => 'gambar', 'image/webp' => 'gambar', 'image/gif' => 'gambar',
+    'application/pdf' => 'pdf', 'text/plain' => 'teks', 'text/markdown' => 'teks', 'text/x-markdown' => 'teks',
+];
 
 /** Parser .env sederhana: KEY=VALUE per baris, # untuk komentar. */
 function load_env(string $path): void

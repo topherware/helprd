@@ -44,7 +44,7 @@ const I18N = (() => {
   const dict = data ? { ...data.words, ...data.dict } : {};
   const patterns = data ? data.patterns.map(([re, rep]) => [new RegExp(re), rep]) : [];
   const SKIP = '.prose, .msg, .q-text, .question .chips .chip:not(.chip-dashed), .node-title, .node-meta .truncate, .sub-item, .task-item, '
-    + '.kb-card-title, .kb-card-sub, .kb-chip-fitur, .plan-folder .truncate, .plan-item .truncate, #projectName, #projectTitle, .crumb, '
+    + '.kb-card-title, .kb-card-sub, .kb-chip-fitur, .folder-name, .plan-title, .menu-item .truncate, .attach-name, #projectName, #projectTitle, .crumb, '
     + '.rm-raw, .ft-title, .ft-item, .ft-subs, .rm-subs, .rm-lead, .stack-panel p, .ws-history li span:first-child, pre, code, script, style, textarea';
 
   function translate(text) {

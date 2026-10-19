@@ -5,4 +5,4 @@ Options -Indexes
     Require all denied
 </FilesMatch>
 
-RedirectMatch 403 /(src|logs|referensi|tests|migrations|docs|ref-ui|ref-input|tools|benchmark)(/|$)
+RedirectMatch 403 /(src|logs|storage|referensi|tests|migrations|docs|ref-ui|ref-input|tools|benchmark)(/|$)
