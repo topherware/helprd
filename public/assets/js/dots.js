@@ -16,6 +16,7 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const CORNERS = 8;       // jumlah sudut bentuk
+  const REACH = [1.46, 0.98, 1.3, 0.94, 1.52, 1.02, 1.24, 0.9]; // panjang relatif tiap sudut
   const ROWS = 7;          // jumlah baris titik melintang pita
   const STEP = 17;         // jarak antar titik sepanjang pita (px)
   const GAP = 40;          // jarak tepi dalam pita ke kotak judul + kotak ide (px)
@@ -50,7 +51,7 @@
     return { x: left - rect.left, y: top - rect.top, w: right - left, h: bottom - top };
   }
 
-  /** Haluskan sudut poligon tertutup (Chaikin dengan rasio 0.18/0.82: sudut tetap terlihat, tidak runcing). */
+  /** Haluskan sudut poligon tertutup (Chaikin satu putaran, rasio 0.22/0.78: sudut tegas, ujungnya tidak runcing). */
   function soften(pts, rounds) {
     let out = pts;
     for (let r = 0; r < rounds; r++) {
@@ -58,7 +59,7 @@
       for (let i = 0; i < out.length; i++) {
         const [ax, ay] = out[i];
         const [bx, by] = out[(i + 1) % out.length];
-        next.push([ax + (bx - ax) * 0.18, ay + (by - ay) * 0.18], [ax + (bx - ax) * 0.82, ay + (by - ay) * 0.82]);
+        next.push([ax + (bx - ax) * 0.22, ay + (by - ay) * 0.22], [ax + (bx - ax) * 0.78, ay + (by - ay) * 0.78]);
       }
       out = next;
     }
@@ -73,12 +74,13 @@
     const shapeAt = (scale) => {
       const verts = [];
       for (let k = 0; k < CORNERS; k++) {
-        const a = (k / CORNERS) * Math.PI * 2 + Math.PI / CORNERS + (rand(k + 101) - 0.5) * 0.5;
-        const r = 1 + (k % 2 ? 0.02 : 0.16) + rand(k + 202) * 0.08;
+        const a = (k / CORNERS) * Math.PI * 2 + Math.PI / CORNERS + (rand(k + 101) - 0.5) * 0.7;
+        // Panjang sudut kontras (menonjol jauh vs melekuk ke dalam) supaya bentuknya abstrak, bukan bulat.
+        const r = REACH[k] + rand(k + 202) * 0.06;
         // Tonjolan sudut lebih ke samping daripada ke atas/bawah, supaya pita tidak menabrak stepper.
-        verts.push([cx + Math.cos(a) * (box.w / 2) * r * scale.x, cy + Math.sin(a) * (box.h / 2) * (1 + (r - 1) * 0.35) * scale.y]);
+        verts.push([cx + Math.cos(a) * (box.w / 2) * r * scale.x, cy + Math.sin(a) * (box.h / 2) * (1 + (r - 1) * 0.75) * scale.y]);
       }
-      return soften(verts, 2);
+      return soften(verts, 1);
     };
     // Perbesar bertahap sampai seluruh garis tengah pita berjarak ≥ GAP + THICK dari kotak (pita tidak menyentuh konten).
     const need = GAP + THICK;
@@ -90,24 +92,21 @@
     });
     const scale = { x: 1.05, y: 1.1 };
     let poly = shapeAt(scale);
-    // Bentuk awal sudah keluar kanvas (layar sempit): kecilkan lebarnya dulu.
-    while (scale.x > 0.6 && poly.some(([x]) => x < THICK + 12 || x > w - THICK - 12)) {
-      scale.x *= 0.97;
-      poly = shapeAt(scale);
-    }
     for (let i = 0; i < 80 && Math.min(...dense(poly).map(distToBox)) < need; i++) {
       const worst = dense(poly).reduce((m, p) => (distToBox(p) < distToBox(m) ? p : m));
       // Tambah skala pada sumbu yang paling membantu titik terdekat (sisi atas/bawah → y, sisi kiri/kanan → x).
       const dx = Math.abs(worst[0] - cx) / (box.w / 2);
       const dy = Math.abs(worst[1] - cy) / (box.h / 2);
-      // Lebar kanvas terbatas (mis. sidebar terbuka): bila melebar akan keluar kanvas, perbesar ke arah vertikal saja.
-      const wide = shapeAt({ x: scale.x * 1.025, y: scale.y }).some(([x]) => x < THICK + 12 || x > w - THICK - 12);
-      if (dx >= dy && !wide) scale.x *= 1.025; else scale.y *= 1.025;
+      if (dx >= dy) scale.x *= 1.025; else scale.y *= 1.025;
       poly = shapeAt(scale);
     }
     // Batas lembut atas: ruang stepper (± 80px dari atas kanvas) tetap bersih dari pita.
     const top = 80 + THICK + 10;
     poly = poly.map(([x, y]) => [x, y < top ? top - (top - y) * 0.25 : y]);
+    // Batas lembut kiri-kanan: sudut yang keluar kanvas (mis. sidebar terbuka) diredam ke dalam tepi.
+    const left = THICK + 14;
+    const right = w - THICK - 14;
+    poly = poly.map(([x, y]) => [x < left ? left - (left - x) * 0.2 : x > right ? right + (x - right) * 0.2 : x, y]);
     const lens = [0];
     for (let i = 1; i <= poly.length; i++) {
       const [ax, ay] = poly[i - 1];
