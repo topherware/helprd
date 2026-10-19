@@ -17,10 +17,10 @@
 
   const CORNERS = 8;       // jumlah sudut bentuk
   const REACH = [1.46, 0.98, 1.3, 0.94, 1.52, 1.02, 1.24, 0.9]; // panjang relatif tiap sudut
-  const ROWS = 7;          // jumlah baris titik melintang pita
-  const STEP = 17;         // jarak antar titik sepanjang pita (px)
-  const GAP = 40;          // jarak tepi dalam pita ke kotak judul + kotak ide (px)
-  const THICK = 32;        // setengah tebal pita (px)
+  const ROWS = 11;         // jumlah baris titik melintang pita
+  const STEP = 14;         // jarak antar titik sepanjang pita (px)
+  const GAP = 26;          // jarak tepi dalam pita ke kotak judul + kotak ide (px)
+  const THICK = 64;        // setengah tebal pita (px): pita lebar, titik tersebar
   const CURSOR_R = 120;    // radius pengaruh kursor
   const PUSH = 40;         // jarak sibak maksimum
   const PALE = [251, 176, 128];  // oranye pucat
@@ -162,9 +162,12 @@
       const v = (row / (ROWS - 1)) * 2 - 1; // -1 (dalam) … 1 (luar)
       for (let i = 0; i < count; i++) {
         id++;
-        const pos = (i + (row % 2) * 0.5) / count;
+        // Tersebar: baris pinggir makin jarang (sebagian titik dilewati), posisi digeser acak sepanjang & melintang pita.
+        if (rand(id + 31) > 1 - 0.5 * Math.abs(v) ** 1.4) continue;
+        const pos = (((i + (row % 2) * 0.5 + (rand(id + 41) - 0.5) * 0.8) / count) % 1 + 1) % 1;
+        const jitter = (rand(id + 53) - 0.5) * 14;
         dots.push({
-          idx: Math.floor(pos * path.M) % path.M, u: pos * Math.PI * 2, v,
+          idx: Math.floor(pos * path.M) % path.M, u: pos * Math.PI * 2, v, jitter,
           phase: rand(id) * Math.PI * 2, speed: 0.6 + rand(id + 7) * 0.9, tint: rand(id + 13), ox: 0, oy: 0,
         });
       }
@@ -182,7 +185,7 @@
       const u = d.u; // posisi sepanjang pita tetap: tidak memutar
       // Maju-mundur: titik bergeser keluar-masuk tegak lurus pita mengikuti gelombang yang merambat.
       const swing = Math.sin(time * 1.3 - u * 5 + d.v * 1.2) * 6 + Math.sin(time * 0.7 + d.phase) * 2;
-      const off = d.v * THICK + swing;
+      const off = d.v * THICK + d.jitter + swing;
       let x = xs[d.idx] + nxs[d.idx] * off;
       let y = ys[d.idx] + nys[d.idx] * off;
       if (x < -20 || x > w + 20 || y < -20 || y > h + 20) continue;
