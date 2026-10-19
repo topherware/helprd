@@ -1,8 +1,9 @@
 'use strict';
 
 /**
- * Latar halaman awal: titik-titik pada cincin konsentris yang bergerak seperti ombak (posisi berdenyut radial),
- * opasitasnya hilang-timbul, dan menyibak menjauhi kursor. Dekoratif saja (canvas aria-hidden, pointer-events: none).
+ * Latar halaman awal: pita titik bergelombang yang melingkari judul (bukan menutupi seluruh halaman).
+ * Bentuk pita berubah pelan seperti ombak (jari-jari & ketebalan berdenyut), opasitas titik hilang-timbul,
+ * dan titik menyibak menjauhi kursor. Warna: oranye dan oranye pucat. Dekoratif (aria-hidden, pointer-events: none).
  * prefers-reduced-motion: digambar sekali tanpa animasi.
  */
 (() => {
@@ -11,15 +12,17 @@
   const ctx = canvas.getContext('2d');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const RING_GAP = 30;     // jarak antar cincin (px)
-  const DOT_GAP = 15;      // jarak antar titik dalam satu cincin (px)
-  const CURSOR_R = 130;    // radius pengaruh kursor
-  const PUSH = 46;         // jarak sibak maksimum
+  const ROWS = 9;          // jumlah baris titik melintang pita
+  const STEP = 17;         // jarak antar titik sepanjang pita (px)
+  const CURSOR_R = 120;    // radius pengaruh kursor
+  const PUSH = 40;         // jarak sibak maksimum
+  const COLORS = ['234, 88, 12', '249, 115, 22', '253, 186, 140']; // oranye tua, oranye, oranye pucat
   let w = 0;
   let h = 0;
-  let dpr = 1;
   let cx = 0;
   let cy = 0;
+  let rx = 0;
+  let ry = 0;
   let dots = [];
   let frame = 0;
   const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
@@ -34,25 +37,27 @@
     const rect = canvas.getBoundingClientRect();
     w = rect.width;
     h = rect.height;
-    dpr = Math.min(devicePixelRatio || 1, 2);
+    const dpr = Math.min(devicePixelRatio || 1, 2);
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     cx = w / 2;
-    cy = h * 0.47;
-    const inner = Math.min(w, h) * 0.36;
-    const outer = Math.hypot(w, h) * 0.62;
+    cy = h * 0.5;
+    rx = Math.max(320, w * 0.4);
+    ry = Math.max(240, h * 0.38);
+    const perimeter = Math.PI * (3 * (rx + ry) - Math.sqrt((3 * rx + ry) * (rx + 3 * ry)));
+    const count = Math.round(perimeter / STEP);
     dots = [];
     let id = 0;
-    for (let r = inner, ring = 0; r < outer; r += RING_GAP, ring++) {
-      const n = Math.max(12, Math.round((Math.PI * 2 * r) / DOT_GAP));
-      const offset = rand(ring + 1) * Math.PI * 2;
-      for (let i = 0; i < n; i++) {
+    for (let row = 0; row < ROWS; row++) {
+      const v = (row / (ROWS - 1)) * 2 - 1; // -1 (dalam) … 1 (luar)
+      for (let i = 0; i < count; i++) {
         id++;
+        const tone = rand(id + 13);
         dots.push({
-          r, a: offset + (i / n) * Math.PI * 2, ring,
-          phase: rand(id) * Math.PI * 2, speed: 0.6 + rand(id + 7) * 0.9,
-          accent: rand(id + 13) < 0.06, ox: 0, oy: 0,
+          u: ((i + (row % 2) * 0.5) / count) * Math.PI * 2, v,
+          phase: rand(id) * Math.PI * 2, speed: 0.7 + rand(id + 7) * 1.1,
+          color: tone < 0.22 ? 0 : tone < 0.55 ? 1 : 2, ox: 0, oy: 0,
         });
       }
     }
@@ -64,12 +69,16 @@
     mouse.y += (mouse.ty - mouse.y) * 0.18;
     const time = t / 1000;
     for (const d of dots) {
-      // Ombak: jari-jari berdenyut dengan gelombang yang merambat ke luar, cincin berputar sangat pelan.
-      const wave = Math.sin(d.r * 0.016 - time * 1.1 + d.a * 2);
-      const rr = d.r + wave * 7;
-      const ang = d.a + time * 0.012 * (d.ring % 2 ? 1 : -1);
-      let x = cx + Math.cos(ang) * rr * 1.18;
-      let y = cy + Math.sin(ang) * rr;
+      // Bentuk pita: elips yang berombak (jari-jari dimodulasi beberapa gelombang yang bergeser pelan).
+      const u = d.u + time * 0.025;
+      const radial = 1 + 0.07 * Math.sin(2 * u + time * 0.35) + 0.05 * Math.sin(3 * u - time * 0.5) + 0.03 * Math.sin(5 * u + time * 0.8);
+      const thick = 46 + 30 * Math.sin(u * 2 - time * 0.45) + 14 * Math.sin(u * 5 + time * 0.6); // pita menebal-menipis
+      const ripple = Math.sin(u * 9 + d.v * 2.2 - time * 1.4) * 5;                             // riak kecil merambat
+      const off = d.v * thick + ripple;
+      const ex = Math.cos(u) * rx * radial;
+      const ey = Math.sin(u) * ry * radial;
+      let x = cx + ex + Math.cos(u) * off;
+      let y = cy + ey + Math.sin(u) * off;
       if (x < -20 || x > w + 20 || y < -20 || y > h + 20) continue;
 
       // Sibak kursor: titik terdorong menjauh secara radial, kembali pelan (pegas).
@@ -88,14 +97,16 @@
       x += d.ox;
       y += d.oy;
 
-      // Hilang-timbul: kedip per titik dikali pita terang yang ikut merambat bersama ombak.
+      // Hilang-timbul: kedip per titik × pita terang yang berjalan memutar × tepi pita lebih tipis.
       const twinkle = 0.5 + 0.5 * Math.sin(time * d.speed + d.phase);
-      const band = 0.55 + 0.45 * Math.sin(d.r * 0.011 - time * 0.8);
-      const fade = Math.min(1, (d.r - Math.min(w, h) * 0.36) / 140 + 0.2);
-      const alpha = (0.16 + 0.72 * twinkle * band) * fade;
-      ctx.fillStyle = d.accent ? `rgba(234, 88, 12, ${Math.min(0.95, alpha + 0.12)})` : `rgba(63, 63, 70, ${alpha})`;
-      const s = d.accent ? 2.3 : 1.7;
-      ctx.fillRect(x - s / 2, y - s / 2, s, s);
+      const sweep = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(u * 1.5 - time * 0.6));
+      const edge = 1 - Math.abs(d.v) * 0.55;
+      const alpha = (0.12 + 0.8 * twinkle) * sweep * edge;
+      if (alpha < 0.03) continue;
+      ctx.fillStyle = `rgba(${COLORS[d.color]}, ${alpha})`;
+      ctx.beginPath();
+      ctx.arc(x, y, d.color === 0 ? 1.9 : 1.6 + (1 - Math.abs(d.v)) * 0.6, 0, Math.PI * 2);
+      ctx.fill();
     }
   }
 

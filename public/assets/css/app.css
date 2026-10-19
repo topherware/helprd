@@ -83,11 +83,15 @@ svg { flex-shrink: 0; }
 ::selection { background: var(--accent-soft-2); }
 
 /* ---------- Topbar & stepper ---------- */
+/* Grid 3 kolom sama lebar: brand kiri, stepper tepat di tengah halaman, kolom kanan kosong penyeimbang. */
 .topbar {
   position: relative; z-index: 2;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  max-width: 1040px; margin: 0 auto; padding: 24px 24px 8px;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px;
+  max-width: 1200px; margin: 0 auto; padding: 24px 24px 8px;
 }
+.topbar > .brand { justify-self: start; }
+/* Halaman awal saat sidebar tertutup: tombol "Semua plan" (fixed, kiri atas) mendapat ruang; padding simetris agar stepper tetap di tengah. */
+.has-plans.plans-closed .topbar { max-width: none; padding-inline: 176px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 650; font-size: 16.5px; text-decoration: none; letter-spacing: -.02em; }
 .logo { flex: none; display: block; }
 .stepper {
@@ -184,16 +188,6 @@ input[type="checkbox"]:focus-visible { outline: none; box-shadow: var(--ring); }
 .composer-hint kbd { padding: 1px 6px; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 6px; background: var(--surface-sunk); font: 11px var(--font); color: var(--muted); }
 .composer .btn-icon { width: 44px; height: 44px; border-radius: 14px; }
 
-/* Contoh ide di bawah kotak ide (halaman awal) */
-.examples { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 26px; }
-.examples .chip {
-  display: inline-flex; align-items: center; gap: 10px; max-width: 100%; min-height: 36px; padding: 6px 14px;
-  border: 0; border-radius: 10px; background: transparent; color: var(--muted); font-size: 14.5px;
-}
-.examples .chip svg { display: block; color: #a1a1aa; transition: color .15s ease; }
-.examples .chip:hover:not(:disabled) { color: var(--text); background: rgba(245, 245, 244, .85); }
-.examples .chip:hover svg { color: var(--accent); }
-
 /* ---------- Chip ---------- */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
@@ -232,7 +226,7 @@ input[type="checkbox"]:focus-visible { outline: none; box-shadow: var(--ring); }
 .plans-new { border-color: var(--accent-line); background: var(--accent-soft); color: var(--accent-ink); }
 .plans-new:hover { background: var(--accent-soft-2); }
 .plans-close:hover, .plans-sort:hover { color: var(--text); border-color: var(--border-strong); }
-.plans-show { position: fixed; z-index: 30; top: 16px; left: 16px; display: none; }
+.plans-show { position: fixed; z-index: 30; top: 22px; left: 24px; display: none; }
 .plans-closed .plans-show { display: inline-flex; }
 .plans-tools { display: flex; gap: 8px; padding: 0 16px 14px 20px; }
 .plans-sort { width: 40px; height: 40px; }
@@ -804,8 +798,15 @@ a.card-more:hover, .node-tasks:hover .card-more { color: var(--accent-ink); }
 .dd-opt[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
 
 /* ---------- Responsif ---------- */
+@media (max-width: 1100px) {
+  .has-plans.plans-closed .topbar { padding-inline: 24px; padding-top: 72px; }
+}
+@media (max-width: 900px) {
+  .topbar:not(.topbar-full) { grid-template-columns: 1fr auto; }
+  .has-plans.plans-closed .topbar { padding-top: 24px; }
+}
 @media (max-width: 640px) {
-  .topbar:not(.topbar-full) { flex-direction: column; align-items: flex-start; padding-top: 18px; }
+  .topbar:not(.topbar-full) { display: flex; flex-direction: column; align-items: flex-start; padding-top: 18px; }
   .stepper { max-width: 100%; overflow-x: auto; }
   .stepper-line { width: 8px; }
   .page { padding: 28px 18px 72px; }

@@ -26,17 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $previous = current_project();
 $plans = owner_projects($previous);
-$examples = [
-    'Website pemesanan catering untuk acara kantor',
-    'Aplikasi absensi siswa untuk sekolah kecil',
-    'Toko online baju muslim dengan pre-order',
-];
-// Ikon contoh ide (garis 24×24): kalender acara, daftar centang, tas belanja.
-$exampleIcons = [
-    '<rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/>',
-    '<path d="M9 6h11M9 12h11M9 18h11"/><path d="m3.5 6 1.5 1.5L7.5 5M3.5 12l1.5 1.5L7.5 11M3.5 18l1.5 1.5L7.5 17"/>',
-    '<path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>',
-];
 
 page_header('Mau bikin apa?', 1, $previous, 'has-plans');
 $icon = fn (string $path, int $size = 18) => '<svg viewBox="0 0 24 24" width="' . $size . '" height="' . $size . '" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $path . '</svg>';
@@ -98,12 +87,6 @@ $steps = ['teknologi' => 'Teknologi', 'pertanyaan' => 'Pertanyaan', 'peta_fitur'
             </button>
         </div>
     </form>
-
-    <div class="examples" aria-label="Contoh ide">
-        <?php foreach ($examples as $n => $ex): ?>
-            <button type="button" class="chip" data-example="<?= e($ex) ?>"><?= $icon($exampleIcons[$n], 17) ?><?= e($ex) ?></button>
-        <?php endforeach; ?>
-    </div>
 
     <?php if ($previous): ?>
         <a class="link-muted" href="<?= step_url(max_step($previous)) ?>">
