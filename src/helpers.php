@@ -389,11 +389,11 @@ function page_header(string $title, int $step, ?array $project = null, string $b
         <?php foreach ($steps as $n => $label):
             $cls = $n === $step ? 'is-active' : ($n < $step ? 'is-done' : '');
             $href = step_url($n); ?>
-            <?php if ($n > 1): ?><span class="stepper-line"></span><?php endif; ?>
+            <?php if ($n > 1): ?><span class="stepper-line<?= $n <= $step ? ' is-done' : '' ?>"></span><?php endif; ?>
             <?php if ($n <= $max && $n !== $step): ?>
-                <a class="step <?= $cls ?>" href="<?= $href ?>"><i></i><?= $label ?></a>
+                <a class="step <?= $cls ?>" href="<?= $href ?>"><i><?= $n ?></i><span><?= $label ?></span></a>
             <?php else: ?>
-                <span class="step <?= $cls ?>" <?= $n === $step ? 'aria-current="step"' : '' ?>><i></i><?= $label ?></span>
+                <span class="step <?= $cls ?>" <?= $n === $step ? 'aria-current="step"' : '' ?>><i><?= $n ?></i><span><?= $label ?></span></span>
             <?php endif; ?>
         <?php endforeach; ?>
     </nav>

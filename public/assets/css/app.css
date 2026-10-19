@@ -166,18 +166,25 @@ svg { flex-shrink: 0; }
 .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 26px; line-height: 1; text-decoration: none; letter-spacing: -.03em; }
 .brand-accent { color: var(--accent); }
 .logo { flex: none; display: block; }
-.stepper {
-  display: flex; align-items: center; gap: 6px; padding: 5px 6px; font-size: 13px; color: var(--muted);
-  border: 1px solid var(--border); border-radius: 999px; background: var(--glass); backdrop-filter: blur(8px);
+/* Stepper bernomor: lingkaran + label di bawah, garis penghubung sejajar tengah lingkaran.
+   Selesai = lingkaran biru penuh; aktif = cincin biru; berikutnya = cincin abu. */
+.stepper { display: flex; align-items: flex-start; padding: 0 24px; font-size: 12px; color: var(--muted); }
+.step { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; width: 30px; text-decoration: none; white-space: nowrap; transition: color .15s ease; }
+.step > span { font-weight: 500; }
+.step i {
+  display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+  font-style: normal; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums;
+  background: var(--surface); border: 2px solid var(--border-strong); color: var(--muted);
+  transition: border-color .15s ease, background-color .15s ease, color .15s ease;
 }
-.step { display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 10px; border-radius: 999px; text-decoration: none; white-space: nowrap; transition: color .15s ease, background-color .15s ease; }
-.step i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .45; }
-.step.is-active { color: var(--text); font-weight: 600; background: var(--surface-2); }
-.step.is-active i { background: var(--accent); opacity: 1; }
-.step.is-done { color: var(--text-2); }
-.step.is-done i { background: var(--accent); opacity: .7; }
-a.step:hover { color: var(--accent-ink); }
-.stepper-line { width: 14px; height: 1px; background: var(--border-strong); }
+.step.is-done, .step.is-active { color: var(--accent-ink); }
+.step.is-done i { background: linear-gradient(135deg, #3b82f6, #2563eb); border-color: transparent; color: #fff; }
+.step.is-active i { border-color: var(--accent); color: var(--accent-ink); box-shadow: 0 0 0 4px var(--accent-soft); }
+.step.is-active > span { font-weight: 600; }
+a.step:hover i { border-color: var(--accent); }
+a.step.is-done:hover i { background: var(--accent-btn-hover); }
+.stepper-line { width: 72px; height: 2px; margin-top: 14px; border-radius: 2px; background: var(--border-strong); }
+.stepper-line.is-done { background: var(--accent); }
 
 /* ---------- Layout halaman ---------- */
 .page { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
@@ -896,7 +903,7 @@ a.card-more:hover, .node-tasks:hover .card-more { color: var(--accent-ink); }
 @media (max-width: 640px) {
   .topbar:not(.topbar-full) { display: flex; flex-direction: column; align-items: flex-start; padding-top: 18px; }
   .stepper { max-width: 100%; overflow-x: auto; }
-  .stepper-line { width: 8px; }
+  .stepper-line { width: 40px; }
   .page { padding: 28px 18px 72px; }
   .composer-hint { display: none; }
   .composer-bar { justify-content: flex-end; }
