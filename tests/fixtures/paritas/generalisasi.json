@@ -1,0 +1,65 @@
+{
+    "catatan": "Uji generalisasi v1.2.1 (spec 5.6): tiga jenis app berbeda di tiga stack berbeda, peta fitur dengan asal seperti hasil v1.2.1. Hanya untuk tes.",
+    "kasus": {
+        "reservasi_ruang": {
+            "judul": "PinjamRuang",
+            "ide": "Aplikasi reservasi ruang rapat kantor bersama. Tamu dari perusahaan penyewa memesan ruang tanpa akun, cukup isi nama dan email, lalu memilih ruang, tanggal, jam mulai, dan jam selesai. Pengelola gedung mengelola daftar ruang, jam operasional, dan status reservasi. Tamu mendapat pengingat email sebelum jadwal.",
+            "qa": [
+                {"teks": "Bagaimana reservasi dilakukan sekarang?", "jawaban": "Lewat telepon ke resepsionis, kadang dua tim memesan ruang yang sama di jam yang bertabrakan. Ada juga yang datang langsung ke resepsionis."},
+                {"teks": "Apa yang paling penting?", "jawaban": "Ruang tidak boleh dipesan ganda di rentang waktu yang sama"}
+            ],
+            "features": [
+                {"nama": "Reservasi Tanpa Akun", "fase": 1, "asal": "ide", "sub_fitur": ["Pilih ruang dan jam", "Isi nama dan email", "Konfirmasi reservasi"]},
+                {"nama": "Ketersediaan Ruang", "fase": 1, "asal": "jawaban", "sub_fitur": ["Cek jam kosong", "Kunci jam terpakai"]},
+                {"nama": "Kelola Ruang", "fase": 1, "asal": "ide", "sub_fitur": ["Tambah ruang", "Atur jam operasional"]},
+                {"nama": "Kelola Status Reservasi", "fase": 2, "asal": "ide", "sub_fitur": ["Ubah status", "Daftar reservasi harian"]},
+                {"nama": "Pengingat Email", "fase": 2, "asal": "ide", "sub_fitur": ["Kirim pengingat 1 jam sebelum"]}
+            ],
+            "usulan": [{"nama": "Laporan Pemakaian Ruang", "alasan": "Membantu pengelola melihat ruang yang paling sering dipakai."}],
+            "design_style": "minimalis",
+            "stack_choice": "react_node",
+            "ai_workflow": "task",
+            "extra_notes": "Pengingat dikirim 1 jam sebelum jadwal. Reservasi maksimal 4 jam per sesi."
+        },
+        "tugas_tim": {
+            "judul": "TimRapi",
+            "ide": "Aplikasi manajemen tugas untuk tim kecil. Anggota tim login dengan email, membuat tugas, menugaskan ke anggota lain, memberi tenggat, dan mengubah status tugas. Ketua tim mengelola anggota dan melihat ringkasan progres. Anggota mendapat notifikasi email sebelum tenggat.",
+            "qa": [
+                {"teks": "Masalah apa yang ingin diselesaikan?", "jawaban": "Tugas tim tercecer di chat grup dan sering lewat tenggat tanpa ada yang sadar."},
+                {"teks": "Siapa saja penggunanya?", "jawaban": "Ketua tim dan anggota tim, semuanya punya akun"}
+            ],
+            "features": [
+                {"nama": "Daftar Tugas", "fase": 1, "asal": "ide", "sub_fitur": ["Buat tugas", "Ubah status tugas", "Filter tugas"]},
+                {"nama": "Penugasan Anggota", "fase": 1, "asal": "ide", "sub_fitur": ["Pilih penanggung jawab", "Atur tenggat"]},
+                {"nama": "Kelola Anggota", "fase": 1, "asal": "ide", "sub_fitur": ["Undang anggota", "Atur peran"]},
+                {"nama": "Ringkasan Progres", "fase": 2, "asal": "ide", "sub_fitur": ["Tugas per status", "Tugas lewat tenggat"]},
+                {"nama": "Notifikasi Tenggat", "fase": 2, "asal": "ide", "sub_fitur": ["Email 1 hari sebelum tenggat"]}
+            ],
+            "usulan": [{"nama": "Komentar Tugas", "alasan": "Diskusi per tugas mengurangi chat grup."}],
+            "design_style": "korporat",
+            "stack_choice": "full_supabase",
+            "ai_workflow": "fase",
+            "extra_notes": "Notifikasi dikirim 1 hari sebelum tenggat. Satu tugas hanya punya satu penanggung jawab."
+        },
+        "toko_online": {
+            "judul": "KueRumah",
+            "ide": "Toko online kecil kue rumahan. Pembeli melihat katalog kue, memasukkan ke keranjang, lalu checkout tanpa akun dengan nama, alamat, dan nomor WhatsApp. Pemilik toko mengelola produk, stok, dan status pesanan. Pembeli bisa cek status pesanan.",
+            "qa": [
+                {"teks": "Apa yang sering jadi masalah?", "jawaban": "Stok kue sering minus karena dua pembeli checkout bersamaan untuk kue terakhir."},
+                {"teks": "Bagaimana pembayaran?", "jawaban": "Transfer manual, pemilik konfirmasi lewat dashboard"}
+            ],
+            "features": [
+                {"nama": "Katalog Kue", "fase": 1, "asal": "ide", "sub_fitur": ["Daftar kue", "Detail kue"]},
+                {"nama": "Keranjang & Checkout", "fase": 1, "asal": "ide", "sub_fitur": ["Tambah ke keranjang", "Checkout tanpa akun"]},
+                {"nama": "Kelola Produk & Stok", "fase": 1, "asal": "ide", "sub_fitur": ["Tambah produk", "Atur stok"]},
+                {"nama": "Kelola Status Pesanan", "fase": 2, "asal": "ide", "sub_fitur": ["Konfirmasi transfer", "Ubah status pesanan"]},
+                {"nama": "Cek Status Pesanan", "fase": 2, "asal": "ide", "sub_fitur": ["Cek status dengan kode pesanan"]}
+            ],
+            "usulan": [{"nama": "Ulasan Kue", "alasan": "Ulasan pembeli menambah kepercayaan."}],
+            "design_style": "bersih_modern",
+            "stack_choice": "react_cloudflare",
+            "ai_workflow": "sekaligus",
+            "extra_notes": "Stok tidak boleh minus. Ongkir flat Rp 10.000 untuk dalam kota."
+        }
+    }
+}

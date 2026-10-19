@@ -171,6 +171,18 @@ foreach (['P1', 'P3', 'P7', 'P9'] as $id) {
 }
 check('mode UI-only: P5 hanya versi (lulus)', $r['aturan']['P5']['status'] === 'lulus', json_encode($r['aturan']['P5'], JSON_UNESCAPED_UNICODE));
 
+// --- G6: uji generalisasi (spec 5.6): tiga jenis app di tiga stack berbeda, pipeline mock ---
+foreach (json_decode(file_get_contents(__DIR__ . '/fixtures/paritas/generalisasi.json'), true)['kasus'] as $name => $case) {
+    $gb = Brief::fromArray($case);
+    $gp = Pipeline::mockPrd($gb);
+    $gt = Pipeline::mockTasks($gb, $gp);
+    $gr = QualityReport::evaluate($gb, $gp, $gt);
+    $kritis = array_filter($gr['temuan'], fn ($f) => $f['sev'] === 'K');
+    $pNot = array_filter($gr['paritas'], fn ($p) => !in_array($p['status'], ['lulus', 'tidak berlaku'], true));
+    check("generalisasi $name ({$case['stack_choice']}): lulus tanpa temuan kritis, P1–P10 lulus", $gr['lulus'] && !$kritis && !$pNot,
+        json_encode(['skor' => $gr['skor'], 'temuan' => $gr['temuan'], 'paritas' => $pNot], JSON_UNESCAPED_UNICODE));
+}
+
 // --- G5: skor, laporan, dan Pass 5 ---
 $std = QualityReport::standard();
 check('bobot: Kesiapan Bangun 15 + Paritas 10', $std['bobot']['kesiapan_bangun'] === 15 && $std['bobot']['paritas'] === 10 && $std['versi'] === '1.2.1');
