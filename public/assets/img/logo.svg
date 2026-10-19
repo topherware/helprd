@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3B82F6"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <linearGradient id="ai" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#C7DCFE"/>
+    </linearGradient>
+    <path id="star" d="M0-14Q4.2-4.2 14 0Q4.2 4.2 0 14Q-4.2 4.2-14 0Q-4.2-4.2 0-14z"/>
+    <mask id="cut">
+      <rect width="64" height="64" fill="#fff"/>
+      <use href="#star" transform="translate(45 45)" fill="#000" stroke="#000" stroke-width="7" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
+  <g mask="url(#cut)">
+    <path d="M19 11h14l9 9v28a4 4 0 0 1-4 4H19a4 4 0 0 1-4-4V15a4 4 0 0 1 4-4z" fill="#fff"/>
+    <path d="M33 11v6a3 3 0 0 0 3 3h6z" fill="#BFDBFE"/>
+    <rect x="20" y="25" width="11" height="3.2" rx="1.6" fill="#93C5FD"/>
+    <rect x="20" y="31.5" width="16" height="3.2" rx="1.6" fill="#93C5FD"/>
+    <rect x="20" y="38" width="8" height="3.2" rx="1.6" fill="#93C5FD"/>
+  </g>
+  <use href="#star" transform="translate(45 45)" fill="url(#ai)"/>
+  <use href="#star" transform="translate(52 14) scale(.4)" fill="#fff"/>
+</svg>

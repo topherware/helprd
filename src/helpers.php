@@ -368,6 +368,7 @@ function page_header(string $title, int $step, ?array $project = null, string $b
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="<?= e(csrf_token()) ?>">
     <title><?= e($title) ?> · <?= e(APP_NAME) ?></title>
+    <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/img/logo-32.png">
     <link rel="icon" type="image/png" sizes="64x64" href="assets/img/logo-64.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/logo-180.png">
@@ -440,8 +441,8 @@ function page_footer(array $scripts = []): void
     echo '</body></html>';
 }
 
-/** Logo aplikasi (dokumen + bola lampu). Berkas: public/assets/img/logo-{32,64,180,512}.png. */
+/** Logo aplikasi (dokumen + kilau AI). Sumber: public/assets/img/logo.svg; PNG 32/64/180/512 dirender dari SVG itu. */
 function brand_logo(): string
 {
-    return '<img class="logo" src="assets/img/logo-64.png" width="28" height="28" alt="" aria-hidden="true">';
+    return '<img class="logo" src="assets/img/logo.svg" width="28" height="28" alt="" aria-hidden="true">';
 }
