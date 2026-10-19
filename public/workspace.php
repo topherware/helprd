@@ -34,6 +34,8 @@ $wsData = [
     'prd' => $prd ? $prd['content_md'] : null,
     'prdSelesai' => $prd ? (bool) $prd['selesai'] : false,
     'prdBasi' => $stale,
+    // Dari tombol "Buat ulang PRD" di peta fitur: PRD dibuat ulang otomatis bila memang basi.
+    'regen' => !empty($_GET['regen']) && $stale,
     'taskCount' => (int) Database::run('SELECT COUNT(*) FROM tasks WHERE project_id = ?', [$id])->fetchColumn(),
     'agentMessages' => array_reverse(array_slice($agentRows, 0, 30)),
     'agentMore' => count($agentRows) > 30,
@@ -113,7 +115,7 @@ $i = [
                 <button type="button" class="btn btn-sm" id="prdRetry" hidden>Lanjutkan / coba lagi</button>
                 <button type="button" class="btn btn-ghost btn-sm" id="prdRegen" hidden>Buat ulang PRD</button>
             </div>
-            <p class="ws-banner" id="staleBanner" hidden>Peta fitur atau pilihan Bagian B (desain, stack, cara kerja AI, catatan) sudah berubah sejak PRD ini dibuat, atau PRD ini masih format lama. Klik "Buat ulang PRD" untuk format Standar Kualitas v1.2.</p>
+            <p class="ws-banner" id="staleBanner" hidden>Peta fitur atau pilihan Teknologi sudah berubah sejak PRD ini dibuat. Klik "Buat ulang PRD" supaya PRD dan roadmap sesuai dengan peta fitur terbaru.</p>
             <article class="prose" id="prd"></article>
             <div class="prd-editor" id="prdEditor" hidden>
                 <button type="button" class="btn btn-ghost btn-sm prd-save" id="prdSave"><?= $icon($i['save'], 16) ?>Simpan versi</button>

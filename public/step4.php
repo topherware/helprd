@@ -3,6 +3,10 @@ require __DIR__ . '/../src/helpers.php';
 
 $project = require_project(4);
 
+// Status PRD untuk tombol utama: belum ada → "Buat PRD"; sesuai peta fitur sekarang → "Buka PRD"; peta/Bagian B berubah → "Buat ulang PRD".
+$latest = Documents::latestPrd((int) $project['id']);
+$prdState = !$latest ? 'none' : ($latest[1] === Documents::hash(project_features((int) $project['id']), $project) ? 'fresh' : 'stale');
+
 page_header('Peta fitur', 4, $project, 'canvas-page');
 ?>
 <header class="topbar topbar-full">
@@ -14,8 +18,11 @@ page_header('Peta fitur', 4, $project, 'canvas-page');
     <div class="topbar-actions">
         <a class="btn btn-ghost btn-sm" href="step3.php">Ubah jawaban</a>
         <button type="button" class="btn btn-ghost btn-sm" id="stackToggle" hidden>Tech stack</button>
-        <a class="btn btn-sm" href="workspace.php#/prd">Lanjutkan
-            <svg viewBox="0 0 24 24" width="16" height="16"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="btn btn-ghost btn-sm" id="addFeature">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Tambah fitur
+        </button>
+        <a class="btn btn-sm" id="prdGo" data-state="<?= $prdState ?>" href="workspace.php#/prd"><span id="prdGoLabel"><?= ['none' => 'Buat PRD', 'fresh' => 'Buka PRD', 'stale' => 'Buat ulang PRD'][$prdState] ?></span>
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <?= header_controls() ?>
     </div>
@@ -40,10 +47,7 @@ page_header('Peta fitur', 4, $project, 'canvas-page');
     </div>
 
     <div class="legend">
-        <span><i class="dot dot-direncanakan"></i>Direncanakan</span>
-        <span><i class="dot dot-dikerjakan"></i>Dikerjakan</span>
-        <span><i class="dot dot-selesai"></i>Selesai</span>
-        <span class="legend-hint">Klik fitur untuk mengubah</span>
+        <span class="legend-hint">Klik fitur untuk mengubah. Peta ini dipakai untuk membuat PRD.</span>
     </div>
 
     <aside class="panel stack-panel" id="stackPanel" hidden>
@@ -56,7 +60,7 @@ page_header('Peta fitur', 4, $project, 'canvas-page');
 
     <form class="panel editor" id="editor" hidden>
         <div class="panel-head">
-            <strong>Ubah fitur</strong>
+            <strong id="edTitle">Ubah fitur</strong>
             <button type="button" class="icon-btn" data-close aria-label="Tutup"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         </div>
         <label class="field-label" for="edNama">Nama</label>
@@ -68,18 +72,17 @@ page_header('Peta fitur', 4, $project, 'canvas-page');
             <option value="3">Fase 3 · Pengembangan</option>
             <option value="4">Fase 4 · Tambahan</option>
         </select>
-        <label class="field-label" for="edStatus">Status</label>
-        <select id="edStatus">
-            <option value="direncanakan">Direncanakan</option>
-            <option value="dikerjakan">Dikerjakan</option>
-            <option value="selesai">Selesai</option>
-        </select>
+        <label class="field-label" for="edSubs">Sub fitur (satu per baris)</label>
+        <textarea id="edSubs" rows="5" maxlength="900" required></textarea>
         <div class="usulan-field" id="edUsulan" hidden>
             <p class="muted small" id="edAlasan"></p>
             <label class="check-row"><input type="checkbox" id="edDisertakan"> Sertakan ke PRD</label>
         </div>
         <p class="form-error" id="edError" hidden></p>
-        <button type="submit" class="btn btn-sm">Simpan</button>
+        <div class="editor-actions">
+            <button type="button" class="btn btn-ghost btn-sm btn-danger-ghost" id="edDelete">Hapus fitur</button>
+            <button type="submit" class="btn btn-sm">Simpan</button>
+        </div>
     </form>
 </div>
 

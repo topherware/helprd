@@ -485,6 +485,13 @@ input[type="checkbox"]:focus-visible { outline: none; box-shadow: var(--ring); }
 .panel { position: absolute; top: 16px; right: 16px; width: min(320px, calc(100% - 32px)); padding: 16px 18px 18px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow-lg); z-index: 4; cursor: default; user-select: text; }
 .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .panel .btn { width: 100%; margin-top: 18px; }
+.editor-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 18px; }
+.panel .editor-actions .btn { width: auto; margin-top: 0; }
+.panel .editor-actions .btn[type="submit"] { margin-left: auto; }
+.btn-danger-ghost { color: var(--danger); }
+.btn-danger-ghost:hover { background: var(--danger-soft); border-color: var(--danger); }
+.editor textarea { resize: vertical; min-height: 96px; }
+.legend-hint:first-child { padding-left: 0; border-left: 0; }
 .stack-panel p { white-space: pre-line; color: var(--text-2); font-size: 14px; margin: 10px 0 0; }
 
 

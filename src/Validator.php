@@ -152,10 +152,21 @@ final class Validator
             $items = array_values(array_filter(array_map(fn ($i) => self::optional($i, 'Kriteria Selesai bila', 500), $items), 'strlen'));
             $fields['selesai_bila'] = json_encode(array_slice($items, 0, 12), JSON_UNESCAPED_UNICODE);
         }
-        if (!$fields) {
+        if (!$fields && !array_key_exists('sub_fitur', $body)) {
             throw new UserError('Tidak ada perubahan.', 422);
         }
         return $fields;
+    }
+
+    /** Sub fitur dari editor peta fitur: array atau teks satu per baris, 1–8 butir, masing-masing ≤ 100 karakter. */
+    public static function subFeatures($value): array
+    {
+        $items = is_array($value) ? $value : preg_split('/\R/u', (string) $value);
+        $items = array_values(array_unique(array_filter(array_map(fn ($i) => self::optional($i, 'Sub fitur', 100), $items), 'strlen')));
+        if (!$items) {
+            throw new UserError('Isi minimal satu sub fitur.', 422);
+        }
+        return array_slice($items, 0, 8);
     }
 
     /** Rapikan hasil AI untuk pertanyaan klarifikasi. */

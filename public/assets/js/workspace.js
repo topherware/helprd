@@ -714,7 +714,10 @@
 
   document.getElementById('staleBanner').hidden = !data.prdBasi;
   renderPrd(data.prd);
-  if (!data.prd) {
+  if (data.regen) {
+    history.replaceState(null, '', location.pathname + location.hash); // jangan ulangi saat dimuat ulang
+    startStream(true);
+  } else if (!data.prd) {
     startStream(false); // dibuka dari "Lanjutkan" dan PRD belum ada: susun langsung
   } else if (!data.prdSelesai) {
     setPrdState({ status: 'PRD belum selesai disusun (proses sebelumnya terputus).', retry: true });

@@ -19,7 +19,6 @@ const FiturPage = (() => {
   const tasksByFeature = new Map();
   let route = {};
   let sideOpen = true;
-  let editing = false;
 
   document.addEventListener('ws:data', () => {
     features = null;
@@ -37,7 +36,6 @@ const FiturPage = (() => {
 
   async function show(r) {
     route = r;
-    editing = false;
     try {
       if (!features) {
         message(el('span', { class: 'spinner' }));
@@ -60,15 +58,7 @@ const FiturPage = (() => {
     const f = features[index];
     const sub = route.sub ? f.sub_fitur.find((s) => s.id === route.sub) : null;
     const tasks = tasksByFeature.get(f.id) || [];
-    let body;
-    if (editing) {
-      body = el('div', { class: 'ft-content' }, Roadmap.editForm(f, {
-        onSaved: () => show(route),
-        onCancel: () => { editing = false; render(); },
-      }));
-    } else {
-      body = sub ? subDetail(f, sub, tasks.filter((t) => t.sub_feature_id === sub.id)) : featureDetail(f, tasks);
-    }
+    const body = sub ? subDetail(f, sub, tasks.filter((t) => t.sub_feature_id === sub.id)) : featureDetail(f, tasks);
     section.replaceChildren(...[
       sideOpen ? sidebar(f) : null,
       el('div', { class: 'ft-main' }, header(f, index), body),
@@ -105,10 +95,7 @@ const FiturPage = (() => {
         el('span', {}, `${index + 1} / ${features.length}`),
         iconBtn(ICON.next, 'Fitur berikutnya', () => nav(index + 1), { disabled: index === features.length - 1 })),
       el('div', { class: 'rm-panel-tools ft-tools' },
-        iconBtn(ICON.edit, 'Edit fitur', () => { editing = true; render(); }),
-        iconBtn(ICON.trash, 'Hapus fitur', async () => {
-          if (await Roadmap.removeFeature(f)) go('#/roadmap');
-        }),
+        iconBtn(ICON.edit, 'Ubah di Peta Fitur', () => { location.href = 'step4.php'; }),
         el('span', { class: 'rm-tools-sep' }),
         iconBtn(ICON.collapse, 'Kembali ke Roadmap', () => go(`#/roadmap?fitur=${f.id}`))));
   }

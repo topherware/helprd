@@ -1,6 +1,6 @@
 <?php
 /**
- * Ubah fitur: nama, fase, deskripsi, tujuan, selesai_bila, dan status (status hanya bila fitur belum punya task;
+ * Ubah fitur: nama, fase, sub_fitur, disertakan, deskripsi, tujuan, selesai_bila, dan status (status hanya bila fitur belum punya task;
  * setelah ada task, status dihitung dari task). Dipakai peta fitur langkah 4 dan Roadmap workspace.
  */
 const IS_API = true;
@@ -16,6 +16,27 @@ if (!$exists) {
 }
 if (isset($fields['status']) && Database::run('SELECT 1 FROM tasks WHERE feature_id = ? LIMIT 1', [$featureId])->fetchColumn()) {
     unset($fields['status']); // status dihitung dari task
+}
+
+if (array_key_exists('sub_fitur', $body)) {
+    // Sinkronkan sub fitur menurut nama: yang tetap dipertahankan (beserta task-nya), yang baru ditambah, yang hilang dihapus.
+    $names = Validator::subFeatures($body['sub_fitur']);
+    Database::transaction(function () use ($featureId, $names) {
+        $current = Database::run('SELECT id, nama FROM sub_features WHERE feature_id = ?', [$featureId])->fetchAll(PDO::FETCH_KEY_PAIR);
+        foreach ($current as $subId => $nama) {
+            if (!in_array($nama, $names, true)) {
+                Database::run('DELETE FROM sub_features WHERE id = ?', [$subId]);
+            }
+        }
+        foreach ($names as $i => $nama) {
+            $subId = array_search($nama, $current, true);
+            if ($subId === false) {
+                Database::run('INSERT INTO sub_features (feature_id, nama, urutan) VALUES (?, ?, ?)', [$featureId, $nama, $i]);
+            } else {
+                Database::run('UPDATE sub_features SET urutan = ? WHERE id = ?', [$i, $subId]);
+            }
+        }
+    });
 }
 
 if ($fields) {

@@ -192,3 +192,9 @@ Pemilik meminta G1–G6 dikerjakan berurutan tanpa konfirmasi. Rancangan di `doc
 - **Saklar tema** berbentuk pil dengan kenop matahari/bulan (`role="switch"`), menggantikan tombol ikon.
 - **Grid kanvas** peta fitur & roadmap: garis kecil tiap 20px dan garis besar tiap 100px, ikut pan & zoom seperti editor diagram; versi terang dan gelap lewat token.
 - **Audit di popup Implemen dihapus** dari antarmuka; endpoint `api/quality_audit.php` dan validatornya tetap ada (tidak menghapus fungsi yang sudah teruji).
+
+## Peta Fitur = editor, Roadmap = tampilan final (permintaan pemilik, opsi B)
+
+- **Peta Fitur (langkah 4) tempat mengedit**: tambah fitur (`api/feature_create.php`, asal `keputusan`), ubah nama/fase/sub fitur (sub fitur disinkronkan menurut nama: yang tetap dipertahankan beserta task-nya, yang baru ditambah, yang hilang dihapus), hapus fitur, dan nyalakan usulan AI. Pilihan status dihapus dari editor karena status kini dihitung dari task.
+- **Tombol utama mengikuti status PRD** (dibandingkan lewat sidik peta + Teknologi, `Documents::hash`): "Buat PRD" (belum ada) → "Buka PRD" (sesuai) → "Buat ulang PRD" (peta/Teknologi berubah). "Buat ulang" meminta konfirmasi lalu membuka `workspace.php?regen=1`, yang langsung menyusun ulang PRD; versi lama tetap di riwayat.
+- **Roadmap & halaman fitur di workspace hanya tampilan**: tombol edit/hapus diganti satu tombol "Ubah di Peta Fitur", supaya hanya ada satu tempat mengedit dan PRD selalu dibuat dari peta yang sama.

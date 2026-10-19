@@ -62,11 +62,6 @@ const Roadmap = (() => {
     }
   }
 
-  async function reload() {
-    features = null;
-    if (await load()) render();
-  }
-
   /* ---------- Pohon ---------- */
 
   function render() {
@@ -181,7 +176,7 @@ const Roadmap = (() => {
     panel.hidden = false;
   }
 
-  function panelFitur(f, index, editing = false) {
+  function panelFitur(f, index) {
     const nav = (i) => go(`#/roadmap?fitur=${features[i].id}`);
     const head = el('div', { class: 'rm-panel-head' },
       el('div', { class: 'rm-counter' },
@@ -189,21 +184,11 @@ const Roadmap = (() => {
         el('span', {}, `${index + 1} / ${features.length}`),
         iconBtn(ICON.next, 'Fitur berikutnya', () => nav(index + 1), { disabled: index === features.length - 1 })),
       el('div', { class: 'rm-panel-tools' },
-        iconBtn(ICON.edit, 'Edit fitur', () => panelFitur(f, index, true)),
-        iconBtn(ICON.trash, 'Hapus fitur', async () => {
-          if (await removeFeature(f)) {
-            await reload();
-            go('#/roadmap');
-          }
-        }),
+        iconBtn(ICON.edit, 'Ubah di Peta Fitur', () => { location.href = 'step4.php'; }),
         el('span', { class: 'rm-tools-sep' }),
         iconBtn(ICON.expand, 'Buka halaman fitur', () => go(`#/fitur/${f.id}`)),
         iconBtn(ICON.close, 'Tutup', () => go('#/roadmap'))));
-    const form = () => editForm(f, {
-      onSaved: async () => { await reload(); renderPanel(); },
-      onCancel: () => panelFitur(f, index),
-    });
-    panel.replaceChildren(head, editing ? form() : featureDetail(f));
+    panel.replaceChildren(head, featureDetail(f));
     panel.hidden = false;
     panel.scrollTop = 0;
   }
@@ -228,56 +213,6 @@ const Roadmap = (() => {
           s.task_total && s.task_selesai === s.task_total ? svgIcon(ICON.check, 14) : null)))
         : el('p', { class: 'muted' }, 'Belum ada sub fitur.'),
       f.task_total ? el('a', { class: 'rm-kanban-link', href: `#/kanban?fitur=${f.id}` }, `Buka ${f.task_total} task di Kanban →`) : null);
-  }
-
-  /** Form edit fitur (dipakai Roadmap dan Halaman Fitur). */
-  function editForm(f, { onSaved, onCancel }) {
-    const field = (label, input) => el('label', { class: 'rm-field' }, el('span', {}, label), input);
-    const nama = el('input', { type: 'text', maxlength: 100, required: true, value: f.nama });
-    const deskripsi = el('textarea', { rows: 2, maxlength: 500 }, f.deskripsi);
-    const fase = el('select', {}, ...[1, 2, 3, 4].map((n) => el('option', { value: n, selected: n === f.fase }, PHASES[n])));
-    const tujuan = el('textarea', { rows: 3, maxlength: 800 }, f.tujuan);
-    const selesai = el('textarea', { rows: 5 }, f.selesai_bila.join('\n'));
-    const error = el('p', { class: 'form-error', hidden: true });
-    const save = el('button', { type: 'submit', class: 'btn btn-sm' }, 'Simpan');
-    return el('form', {
-      class: 'rm-panel-body rm-form',
-      onsubmit: async (e) => {
-        e.preventDefault();
-        save.disabled = true;
-        try {
-          await api('feature_update.php', {
-            id: f.id, nama: nama.value, deskripsi: deskripsi.value, fase: Number(fase.value), tujuan: tujuan.value, selesai_bila: selesai.value,
-          });
-          notifyDataChanged();
-          await onSaved();
-        } catch (err) {
-          error.textContent = err.message;
-          error.hidden = false;
-          save.disabled = false;
-        }
-      },
-    },
-      el('h2', {}, 'Edit fitur'),
-      field('Nama', nama), field('Deskripsi', deskripsi), field('Fase', fase), field('Tujuan', tujuan),
-      field('Selesai bila (satu kriteria per baris)', selesai),
-      error,
-      el('div', { class: 'rm-form-actions' },
-        el('button', { type: 'button', class: 'btn btn-ghost btn-sm', onclick: onCancel }, 'Batal'), save));
-  }
-
-  /** Hapus fitur setelah konfirmasi; true bila terhapus. */
-  async function removeFeature(f) {
-    const detail = `${f.sub_fitur.length} sub-fitur dan ${f.task_total} task`;
-    if (!(await ui.confirm(`Hapus fitur "${f.nama}"?`, `Fitur beserta ${detail} ikut terhapus. Teks PRD tidak berubah.`, { ok: 'Hapus fitur', tone: 'danger', icon: 'trash' }))) return false;
-    try {
-      await api('feature_delete.php', { id: f.id });
-      notifyDataChanged();
-      return true;
-    } catch (err) {
-      ui.notify('Fitur gagal dihapus', err.message);
-      return false;
-    }
   }
 
   /* ---------- API untuk router ---------- */
@@ -306,5 +241,5 @@ const Roadmap = (() => {
   // Data berubah di tampilan lain (mis. status task di Kanban): muat ulang saat Roadmap dibuka berikutnya.
   document.addEventListener('ws:data', () => { features = null; });
 
-  return { show, editForm, removeFeature };
+  return { show };
 })();
