@@ -183,6 +183,42 @@ foreach (json_decode(file_get_contents(__DIR__ . '/fixtures/paritas/generalisasi
         json_encode(['skor' => $gr['skor'], 'temuan' => $gr['temuan'], 'paritas' => $pNot], JSON_UNESCAPED_UNICODE));
 }
 
+// --- G6: regresi dari uji AI sungguhan ---
+$fp = Pipeline::mockPrd($s121);
+$fp['rute']['rute'][] = ['path' => '/admin/statistik', 'halaman' => 'Statistik', 'peran' => ['admin'], 'layout' => 'Admin', 'sumber' => ['Dashboard Pemilik']];
+$fp['milestone']['daftar'][4]['cakupan'][] = 'Dashboard Pemilik';
+$fp['milestone']['rencana'][] = ['id' => 'M4.9', 'judul' => 'Bangun Dashboard Pemilik', 'berkas' => ['app/admin/statistik/page.tsx'], 'perilaku' => 'x', 'dataset' => [], 'sec' => [], 'fr' => [], 'tabel' => [], 'selesai_bila' => 'x'];
+for ($i = 1; $i <= 12; $i++) {
+    $fp['milestone']['rencana'][] = ['id' => "M2.9$i", 'judul' => "Tugas tambahan $i", 'berkas' => ["lib/x$i.ts"], 'perilaku' => "p$i", 'dataset' => [], 'sec' => [], 'fr' => [], 'tabel' => [], 'selesai_bila' => "s$i"];
+}
+$fp['milestone']['master_prompt'] = 'Baca PRD.md. Patuhi skema, rute, hak akses, aturan bisnis, design system.';
+$ff = Pipeline::finalize($s121, $fp);
+$plan = $ff['milestone']['rencana'];
+check('finalize: usulan keluar dari rute, cakupan, dan rencana', !array_filter($ff['rute']['rute'], fn ($r) => $r['path'] === '/admin/statistik')
+    && !in_array('Dashboard Pemilik', $ff['milestone']['daftar'][4]['cakupan'], true) && !array_filter($plan, fn ($t) => str_contains($t['judul'], 'Dashboard Pemilik')));
+$perMs = array_count_values(array_map(fn ($t) => strtok($t['id'], '.'), $plan));
+check('finalize: rencana ≤ 30 dan ≤ 10 per milestone, berkas tidak hilang', count($plan) <= 30 && max($perMs) <= 10
+    && in_array('lib/x12.ts', array_merge(...array_column($plan, 'berkas')), true), json_encode($perMs));
+$gr = parity($s121, fn (&$p) => $p['milestone']['master_prompt'] = $ff['milestone']['master_prompt']);
+check('finalize: Master Prompt dilengkapi gerbang → P10 lulus', $gr['aturan']['P10']['status'] === 'lulus', json_encode($gr['aturan']['P10'], JSON_UNESCAPED_UNICODE));
+check('gerbang "BERHENTI menunggu izin" dikenali (awalan me- meluluhkan t)', (bool) preg_match(P10MasterPrompt::GERBANG, 'lalu BERHENTI menunggu izin eksplisit sebelum lanjut'));
+$r = parity($s121, function (&$p) {
+    $p['tech_stack'][] = ['lapisan' => 'Penyimpanan Berkas', 'pilihan' => 'Penyimpanan objek (mis. untuk foto produk) lewat URL', 'alasan' => 'x'];
+});
+check('"mis. untuk foto" bukan alternatif keputusan (P5)', $r['aturan']['P5']['status'] === 'lulus', json_encode($r['aturan']['P5'], JSON_UNESCAPED_UNICODE));
+$r = parity($s121, function (&$p) {
+    $p['tech_stack'][] = ['lapisan' => 'Deployment', 'pilihan' => 'Platform serverless (mis. Vercel)', 'alasan' => 'x'];
+});
+check('"(mis. Vercel)" tetap dianggap alternatif (P5)', $r['aturan']['P5']['status'] === 'gagal');
+$sec = SecurityTriggers::detect(['ide_awal' => 'Pelanggan memesan jadwal. Pembayaran dilakukan langsung di tempat.'], [], [], []);
+check('pembayaran luring tidak memicu kontrol pembayaran online', !isset($sec['bayar']));
+$sec = SecurityTriggers::detect(['ide_awal' => 'Pelanggan membayar online lewat QRIS dan e-wallet.'], [], [], []);
+check('pembayaran online tetap memicu kontrol pembayaran', isset($sec['bayar']));
+$ids = failing(function (&$p) {
+    $p['milestone']['rencana'][1]['dataset'][] = 'DUMMY-PROFIL_TOKO';
+});
+check('ID dataset DUMMY-PROFIL_TOKO tidak dianggap variabel lingkungan (V16)', !in_array('V16', $ids, true), implode(', ', $ids));
+
 // --- G5: skor, laporan, dan Pass 5 ---
 $std = QualityReport::standard();
 check('bobot: Kesiapan Bangun 15 + Paritas 10', $std['bobot']['kesiapan_bangun'] === 15 && $std['bobot']['paritas'] === 10 && $std['versi'] === '1.2.1');

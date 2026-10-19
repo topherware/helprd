@@ -23,6 +23,131 @@ final class Pipeline
         ];
     }
 
+    /**
+     * Penegakan deterministik v1.2.1 setelah PRD dirakit (AI kadang mengabaikan aturan prompt, terbukti di uji AI sungguhan G6):
+     * - fitur usulan yang belum disertakan dikeluarkan dari rute, navigasi, cakupan milestone, dan rencana tugas (P2);
+     * - rencana tugas dipadatkan ≤ 10 per milestone dan ≤ 30 total dengan menggabung tugas bertetangga (P8, isi tidak dibuang);
+     * - Master Prompt dilengkapi butir gerbang yang belum ada (P10).
+     */
+    public static function finalize(Brief $b, array $prd): array
+    {
+        $names = array_values(array_filter(array_map(fn ($u) => mb_strtolower(trim($u['nama'])), $b->usulan)));
+        $isUsulan = fn (string $s) => (bool) array_filter($names, fn ($n) => mb_stripos($s, $n) !== false);
+        if ($names && isset($prd['rute']['rute'])) {
+            $kept = [];
+            foreach ($prd['rute']['rute'] as $r) {
+                $own = array_values(array_filter($r['sumber'], fn ($s) => !$isUsulan($s)));
+                if ($r['sumber'] && !$own && $isUsulan(implode(' ', $r['sumber']))) {
+                    continue; // rute yang hanya melayani fitur usulan
+                }
+                $kept[] = ['sumber' => $own] + $r;
+            }
+            $prd['rute']['rute'] = $kept;
+            foreach ($prd['rute']['navigasi'] ?? [] as $i => $nav) {
+                $prd['rute']['navigasi'][$i]['item'] = array_values(array_filter($nav['item'], fn ($x) => !$isUsulan($x)));
+            }
+        }
+        if (isset($prd['milestone'])) {
+            $m = &$prd['milestone'];
+            if ($names) {
+                foreach ($m['daftar'] as $i => $x) {
+                    $m['daftar'][$i]['cakupan'] = array_values(array_filter($x['cakupan'], fn ($c) => !$isUsulan($c)));
+                }
+                $m['rencana'] = array_values(array_filter($m['rencana'] ?? [], fn ($t) => !$isUsulan($t['judul'] . ' ' . $t['perilaku'])));
+            }
+            $m['rencana'] = self::compactPlan($m['rencana'] ?? []);
+            $m['master_prompt'] = self::gatePrompt($b, $m['master_prompt'] ?? '');
+            unset($m);
+        }
+        return $prd;
+    }
+
+    /** Gabung tugas rencana bertetangga dalam milestone yang sama sampai ≤ 10 per milestone dan ≤ 30 total; ID dinomori ulang. */
+    public static function compactPlan(array $plan): array
+    {
+        if (!$plan) {
+            return $plan;
+        }
+        $groups = [];
+        foreach ($plan as $t) {
+            $groups[preg_match('/^M(\d+)\./', $t['id'], $mm) ? (int) $mm[1] : 9][] = $t;
+        }
+        ksort($groups);
+        $merge = function (array $a, array $c): array {
+            $out = $a;
+            $out['judul'] = mb_substr($a['judul'] . ' + ' . $c['judul'], 0, 150);
+            foreach (['berkas', 'dataset', 'sec', 'fr', 'tabel'] as $k) {
+                $out[$k] = array_values(array_unique(array_merge($a[$k], $c[$k])));
+            }
+            $out['perilaku'] = mb_substr(trim($a['perilaku'] . ' ' . $c['perilaku']), 0, 800);
+            $out['selesai_bila'] = mb_substr(trim($a['selesai_bila'] . ' ' . $c['selesai_bila']), 0, 400);
+            return $out;
+        };
+        foreach ($groups as $ms => $list) {
+            while (count($list) > P08Batas::PER_MILESTONE) {
+                $list = self::mergeSmallest($list, $merge);
+            }
+            $groups[$ms] = $list;
+        }
+        while (array_sum(array_map('count', $groups)) > P08Batas::RENCANA) {
+            $ms = array_search(max(array_map('count', $groups)), array_map('count', $groups), true);
+            $groups[$ms] = self::mergeSmallest($groups[$ms], $merge);
+        }
+        $out = [];
+        foreach ($groups as $ms => $list) {
+            foreach (array_values($list) as $k => $t) {
+                $out[] = ['id' => ($ms === 9 ? 'M9' : "M$ms") . '.' . ($k + 1)] + $t;
+            }
+        }
+        return $out;
+    }
+
+    /** Gabung pasangan bertetangga dengan teks terpendek (paling sedikit kehilangan keterbacaan). */
+    private static function mergeSmallest(array $list, callable $merge): array
+    {
+        $best = 0;
+        $size = PHP_INT_MAX;
+        for ($i = 0; $i < count($list) - 1; $i++) {
+            $n = mb_strlen($list[$i]['perilaku'] . $list[$i + 1]['perilaku']);
+            if ($n < $size) {
+                [$best, $size] = [$i, $n];
+            }
+        }
+        array_splice($list, $best, 2, [$merge($list[$best], $list[$best + 1])]);
+        return $list;
+    }
+
+    /** Lengkapi Master Prompt dengan butir gerbang P10 yang belum ada, sesuai Cara Kerja AI. */
+    public static function gatePrompt(Brief $b, string $prompt): string
+    {
+        if (trim($prompt) === '') {
+            return $prompt;
+        }
+        $lines = [];
+        $has = fn (string $key) => (bool) preg_match(P10MasterPrompt::BUTIR[$key], $prompt);
+        if (!$has('ringkasan pemahaman maks. 10 poin')) {
+            $lines[] = 'Sebelum menulis kode, berikan ringkasan pemahamanmu maksimal 10 poin.';
+        }
+        if (!$has('rencana berkas milestone pertama')) {
+            $lines[] = 'Sebutkan rencana berkas untuk milestone pertama.';
+        }
+        if (!$has('pertanyaan kesiapan')) {
+            $lines[] = 'Lalu tanyakan apakah saya siap kamu mulai, dan tunggu jawaban saya.';
+        }
+        if ($b->aiWorkflow !== 'sekaligus' && !preg_match(P10MasterPrompt::GERBANG, $prompt)) {
+            $lines[] = $b->aiWorkflow === 'task'
+                ? 'Kerjakan satu task per giliran; task berikutnya hanya dimulai setelah saya memberi izin.'
+                : 'Milestone berikutnya hanya dimulai setelah saya memberi izin.';
+        }
+        if ($b->aiWorkflow === 'task' && !preg_match('/(setiap|tiap|per|satu)\s+task/iu', $prompt)) {
+            $lines[] = 'Berhenti di setiap task untuk konfirmasi.';
+        }
+        if (!$has('larangan mengarang data')) {
+            $lines[] = 'Jangan mengarang data di luar bab 11.';
+        }
+        return $lines ? rtrim($prompt) . "\n\nGERBANG KERJA:\n- " . implode("\n- ", $lines) : $prompt;
+    }
+
     /** Konteks prompt untuk potongan berikutnya; kontrol keamanan dihitung dari PRD yang sudah ditulis (tabel & tech stack). */
     public static function context(Brief $b, array $profil, array $prd): array
     {
@@ -44,7 +169,7 @@ final class Pipeline
         $raw = MockData::prd($b, self::context($b, $profil, []));
         $prd = Validator::aiPrd(json_decode(json_encode($raw), true), count($b->features));
         $prd['profil'] = $profil;
-        return $prd;
+        return self::finalize($b, $prd);
     }
 
     /** Task tiruan untuk semua fitur: [fitur, title, milestone, status]. */

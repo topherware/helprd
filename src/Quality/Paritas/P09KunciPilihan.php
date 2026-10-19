@@ -48,10 +48,21 @@ final class P09KunciPilihan
             }
         }
         $b = $c['brief'];
-        if ($p->data && !in_array($b->designStyle, ['bebas', 'tulis_sendiri'], true)
-            && mb_stripos($p->section('/design system|desain/i'), $b->designLabel()) === false) {
+        if ($p->data && !in_array($b->designStyle, ['bebas', 'tulis_sendiri'], true) && !self::designUsed($b, $p->section('/design system|desain/i'))) {
             $out[] = QV::finding('P9', 'K', 9, "Design system tidak memakai gaya pilihan pengguna ({$b->designLabel()}).", 'Pakai gaya desain pilihan di bab 9.');
         }
         return $out;
+    }
+
+    /** Gaya pilihan dipakai: labelnya disebut, atau ≥ 60% kata ciri dari keterangan gaya (Brief::DESIGN) muncul di design system. */
+    private static function designUsed(Brief $b, string $design): bool
+    {
+        if (mb_stripos($design, $b->designLabel()) !== false) {
+            return true;
+        }
+        preg_match_all('/\p{L}{4,}/u', mb_strtolower(Brief::DESIGN[$b->designStyle][1] ?? ''), $m);
+        $words = array_values(array_diff(array_unique($m[0]), ['dengan', 'untuk', 'cocok', 'aplikasi', 'bisnis', 'pada']));
+        $hit = array_filter($words, fn ($w) => mb_stripos($design, $w) !== false);
+        return $words && count($hit) / count($words) >= 0.6;
     }
 }

@@ -183,7 +183,7 @@ try {
             $done += $piece;
         }
 
-        $prd = ['profil' => $profil] + Validator::aiPrd($done, $count);
+        $prd = Pipeline::finalize($brief, ['profil' => $profil] + Validator::aiPrd($done, $count));
         Documents::save($id, 0, $hash, $prd);
         Database::run("DELETE FROM prd_parts WHERE project_id = ? AND bagian LIKE 'v12:%'", [$id]);
     }

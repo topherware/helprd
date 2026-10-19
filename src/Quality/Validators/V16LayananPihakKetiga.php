@@ -56,7 +56,8 @@ final class V16LayananPihakKetiga
         }
         $mentioned = array_merge(...array_map(fn ($r) => $r['env'], $l['layanan'] ?? []), ...[[]]);
         $scan = json_encode([$c['prd']['tech_stack'] ?? [], $c['prd']['keputusan_teknologi'] ?? [], $l['layanan'] ?? [], $l['rate_limit'] ?? '', $c['prd']['milestone'] ?? []], JSON_UNESCAPED_UNICODE);
-        preg_match_all('/\b[A-Z][A-Z0-9]*_[A-Z0-9_]+\b/', $scan, $tok);
+        // Bukan ID dataset (DUMMY-PROFIL_TOKO) atau bagian nama lain bertanda hubung.
+        preg_match_all('/(?<![A-Za-z0-9_-])[A-Z][A-Z0-9]*_[A-Z0-9_]+\b/', $scan, $tok);
         $mentioned = array_diff(array_unique(array_merge($mentioned, $tok[0])), self::NOT_ENV);
         $missing = array_diff($mentioned, array_keys($defined));
         if ($missing) {

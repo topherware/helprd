@@ -29,7 +29,8 @@ final class P05KedalamanStack
         $alt = [];
         foreach (array_merge(Paket::tableRows($tech), array_map(fn ($b) => [$b], Paket::bullets($tech))) as $row) {
             $cell = implode(' | ', $row);
-            if (preg_match('/\(mis\.|\bmis\.\s/iu', $cell, $m) || preg_match('#\b(' . self::ALAT . ')\s*/\s*(' . self::ALAT . ')\b#iu', $cell, $m)) {
+            // "mis." hanya terlarang bila diikuti nama alat (huruf kapital) atau alternatif "A / B" / "A atau B"; "mis. untuk foto" boleh.
+            if (preg_match('/\bmis\.\s+(?=\p{Lu}|\d)[^)\n|]{0,40}|\bmis\.[^)\n|]{0,40}(?:\s\/\s|\batau\b)/u', $cell, $m) || preg_match('#\b(' . self::ALAT . ')\s*/\s*(' . self::ALAT . ')\b#iu', $cell, $m)) {
                 $alt[] = trim($m[0]);
             }
         }

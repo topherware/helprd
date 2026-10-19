@@ -130,6 +130,9 @@ final class SecurityTriggers
         ],
     ];
 
+    /** Kalimat/klausa pembayaran luring yang tidak memicu kontrol pembayaran online. */
+    public const BAYAR_LURING = '/[^.\n;]*\b(pembayaran|bayar|dibayar)\b[^.\n;]*\b(langsung di|di tempat|di lokasi|di kasir|tunai|cash|cod|tanpa (pembayaran|bayar) online|tidak (ada|memproses|melalui) pembayaran)\b[^.\n;]*/iu';
+
     /** Pemicu khusus: aktif bila ada akun atau tabel yang menyimpan data per pengguna. */
     public const MULTI = [
         'label' => 'Database multi-pengguna',
@@ -198,13 +201,15 @@ final class SecurityTriggers
 
         $found = [];
         foreach (self::RULES as $code => $rule) {
+            // Pembayaran luring ("dibayar langsung di tempat", "tanpa pembayaran online") bukan pemicu kontrol pembayaran online.
+            $text = fn (string $t) => $code === 'bayar' ? preg_replace(self::BAYAR_LURING, ' ', $t) : $t;
             $fitur = [];
             foreach ($features as $f) {
-                if (preg_match($rule['regex'], $f['nama'] . ' ' . implode(' ', $f['sub_fitur']))) {
+                if (preg_match($rule['regex'], $text($f['nama'] . ' ' . implode(' ', $f['sub_fitur'])))) {
                     $fitur[] = $f['nama'];
                 }
             }
-            if ($fitur || preg_match($rule['regex'], $global)) {
+            if ($fitur || preg_match($rule['regex'], $text($global))) {
                 $found[$code] = $rule + ['fitur' => $fitur];
                 unset($found[$code]['regex']);
             }

@@ -76,7 +76,7 @@ if (($body['langkah'] ?? '') === 'perbaiki') {
         $raw = $call('perbaikan_prd', Prompts::prdPart($brief, $ctx, $keys, Prompts::dependencies($part, $prd), $fixes), $mock, Documents::PRD_MAX_TOKENS);
         $piece = array_intersect_key($raw, array_flip($keys));
         Validator::requireKeys(Validator::aiPrd($piece, count($features), true), $keys, count($features));
-        $prd = ['profil' => $prd['profil']] + Validator::aiPrd(array_replace($prd, $piece), count($features));
+        $prd = Pipeline::finalize($brief, ['profil' => $prd['profil']] + Validator::aiPrd(array_replace($prd, $piece), count($features)));
         Documents::save($id, 0, $hash, $prd);
         Database::run("INSERT INTO prd_versions (project_id, content_md, source, selesai) VALUES (?, ?, 'ai', 1)", [$id, Documents::renderPrd($features, $prd)]);
     }

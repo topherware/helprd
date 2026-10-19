@@ -262,7 +262,11 @@ final class Paket
     /** Blok Master Prompt: blok kode pertama setelah judul "Master … Prompt". */
     public function masterPrompt(): string
     {
-        $section = $this->section('/master.*prompt|starter prompt/i');
+        // Judul yang diawali "Master … Prompt" (bukan judul bab "Milestone … & Master Prompt" yang berisi blok kode lain).
+        $section = $this->section('/^(\d+(\.\d+)*\.?\s*)?master\b.*prompt|starter prompt/iu');
+        if ($section === '') {
+            $section = $this->section('/master.*prompt/i');
+        }
         $blocks = self::codeBlocks($section);
         return $blocks[0][1] ?? trim(preg_replace('/^#.*$/m', '', $section));
     }

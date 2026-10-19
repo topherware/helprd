@@ -18,7 +18,7 @@ final class P10MasterPrompt
         'patuh aturan bisnis' => '/aturan bisnis/iu',
         'patuh design system' => '/design system|desain/iu',
     ];
-    public const GERBANG = '/(hanya|baru)\s+(dimulai|mulai|lanjut\w*|dikerjakan)\s+setelah[^\n]{0,40}(izin|persetujuan|konfirmasi|setuju)|tunggu\w*[^\n]{0,40}(izin|persetujuan|konfirmasi)|menunggu konfirmasi/iu';
+    public const GERBANG = '/(hanya|baru)\s+(dimulai|mulai|lanjut\w*|dikerjakan)\s+setelah[^\n]{0,40}(izin|persetujuan|konfirmasi|setuju)|(tunggu|menunggu)\w*[^\n]{0,40}(izin|persetujuan|konfirmasi)/iu';
 
     public static function berlaku(array $c): bool
     {
