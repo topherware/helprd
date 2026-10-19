@@ -163,7 +163,7 @@ svg { flex-shrink: 0; }
 /* Halaman awal saat sidebar tertutup: tombol "Semua plan" (fixed, kiri atas) mendapat ruang; padding simetris agar stepper tetap di tengah. */
 /* Halaman awal, sidebar tertutup: tombol "Semua plan" (fixed) berada di kiri brand pada baris yang sama. */
 .has-plans.plans-closed .topbar > .brand { margin-left: 148px; }
-.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 30px; line-height: 1; text-decoration: none; letter-spacing: -.03em; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 26px; line-height: 1; text-decoration: none; letter-spacing: -.03em; }
 .brand-accent { color: var(--accent); }
 .logo { flex: none; display: block; }
 .stepper {
