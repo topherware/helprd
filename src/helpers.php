@@ -368,7 +368,9 @@ function page_header(string $title, int $step, ?array $project = null, string $b
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="<?= e(csrf_token()) ?>">
     <title><?= e($title) ?> · <?= e(APP_NAME) ?></title>
-    <link rel="icon" href="data:image/svg+xml,<?= rawurlencode(logo_svg()) ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/logo-32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/img/logo-64.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/logo-180.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
@@ -381,7 +383,7 @@ function page_header(string $title, int $step, ?array $project = null, string $b
 <body class="<?= e($bodyClass) ?>">
 <?php if ($step < 4): ?>
 <header class="topbar">
-    <a class="brand" href="index.php"><?= logo_svg() ?><span><?= e(APP_NAME) ?></span></a>
+    <a class="brand" href="index.php"><?= brand_logo() ?><span><?= e(APP_NAME) ?></span></a>
     <nav class="stepper" aria-label="Langkah">
         <?php foreach ($steps as $n => $label):
             $cls = $n === $step ? 'is-active' : ($n < $step ? 'is-done' : '');
@@ -438,9 +440,8 @@ function page_footer(array $scripts = []): void
     echo '</body></html>';
 }
 
-function logo_svg(): string
+/** Logo aplikasi (dokumen + bola lampu). Berkas: public/assets/img/logo-{32,64,180,512}.png. */
+function brand_logo(): string
 {
-    return '<svg class="logo" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#2563eb"/>'
-        . '<circle cx="10" cy="16" r="3" fill="#fff"/><circle cx="22" cy="9" r="3" fill="#fff"/><circle cx="22" cy="23" r="3" fill="#fff"/>'
-        . '<path d="M12.5 15 19.5 10M12.5 17l7 5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
+    return '<img class="logo" src="assets/img/logo-64.png" width="28" height="28" alt="" aria-hidden="true">';
 }

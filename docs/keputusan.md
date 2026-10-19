@@ -204,3 +204,9 @@ Pemilik meminta G1–G6 dikerjakan berurutan tanpa konfirmasi. Rancangan di `doc
 - Oranye diganti palet navy #0F172A / primary #3B82F6 / accent #93C5FD / teks #F8FAFC. Palet ini palet gelap, jadi dipakai utuh di mode gelap (latar navy, teks #F8FAFC, aksen #93C5FD); mode terang tetap latar putih dengan teks navy dan aksen biru.
 - Latar tombol utama #2563EB (bukan #3B82F6) karena teks putih di atas #3B82F6 hanya 3.68:1 (di bawah WCAG AA 4.5:1); #2563EB = 5.17:1. #3B82F6 dipakai untuk aksen, ikon, garis fokus, dan titik latar.
 - Warna fase disesuaikan supaya fase 1 (biru) tidak bentrok dengan fase lain: fase 2 amber, fase 3 ungu, fase 4 teal. Ikon matahari pada saklar tema tetap kuning seperti referensi saklar.
+
+## Logo dan nama aplikasi HelPRD (permintaan pemilik)
+
+- Nama aplikasi diganti dari PlanKu menjadi HelPRD lewat `APP_NAME` dan semua teks yang terlihat pengguna atau masuk ke dokumen hasil (PRD, prompt agent, nama standar kualitas, nama berkas unduhan cadangan).
+- Kunci cookie dan localStorage (`planku_lang`, `planku.theme`, dst.) sengaja tidak diganti supaya preferensi pengguna yang sudah tersimpan tidak hilang. Komentar kode juga dibiarkan.
+- Logo dari gambar pemilik disimpan sebagai PNG 32/64/180/512 di `public/assets/img/` (pojok di luar kotak membulat dibuat transparan). Favicon memakai PNG 32 dan 64 px, ditambah `apple-touch-icon` 180 px. `logo_svg()` diganti `brand_logo()`.

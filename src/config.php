@@ -1,6 +1,6 @@
 <?php
 // Ganti nama aplikasi cukup di sini.
-const APP_NAME = 'PlanKu';
+const APP_NAME = 'HelPRD';
 
 const COOKIE_NAME = 'planku_token';
 /** Penanda browser pemilik riwayat plan (tanpa login). */

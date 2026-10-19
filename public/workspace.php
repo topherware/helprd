@@ -67,7 +67,7 @@ $i = [
 ?>
 <header class="ws-top">
     <button type="button" class="icon-btn ws-only-mobile" id="tocToggle" data-views="prd" aria-label="Daftar isi"><?= $icon($i['menu']) ?></button>
-    <a class="brand" href="index.php"><?= logo_svg() ?><span><?= e(APP_NAME) ?></span></a>
+    <a class="brand" href="index.php"><?= brand_logo() ?><span><?= e(APP_NAME) ?></span></a>
     <span class="ws-dot" aria-hidden="true">·</span>
     <nav class="ws-crumbs" aria-label="Lokasi">
         <span class="ws-crumb"><?= $icon($i['folder'], 17) ?><span class="truncate" id="projectName"><?= e($project['judul']) ?></span></span>

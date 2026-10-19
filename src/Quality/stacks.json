@@ -12,7 +12,7 @@
   "stacks": [
     {
       "id": "standar_planku",
-      "nama": "Standar PlanKu",
+      "nama": "Standar HelPRD",
       "ringkas": "Next.js + Auth.js + PostgreSQL (Neon) + Drizzle ORM + Tailwind CSS + shadcn/ui",
       "kata_kunci": ["Next.js", "Drizzle"],
       "kunci": {"framework": ["Next.js"], "orm": ["Drizzle"], "auth": ["Auth.js", "NextAuth"], "db": ["Neon", "PostgreSQL"]},

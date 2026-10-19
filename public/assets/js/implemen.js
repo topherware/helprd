@@ -31,7 +31,7 @@ const Implemen = (() => {
         const d = await res.json().catch(() => null);
         throw new Error((d && d.error) || 'Gagal mengunduh.');
       }
-      const name = (res.headers.get('Content-Disposition') || '').match(/filename="([^"]+)"/)?.[1] || `planku.${format}`;
+      const name = (res.headers.get('Content-Disposition') || '').match(/filename="([^"]+)"/)?.[1] || `helprd.${format}`;
       const url = URL.createObjectURL(await res.blob());
       const a = el('a', { href: url, download: name });
       document.body.append(a);

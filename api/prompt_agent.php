@@ -25,7 +25,7 @@ $order = array_map(fn ($i, $f) => ($i + 1) . ". [Fase {$f['fase']}] {$f['nama']}
 $taskCount = array_sum(array_map(fn ($f) => count($f['tasks']), $features));
 
 $prompt = implode("\n", [
-    "Kamu akan membangun \"{$project['judul']}\" berdasarkan dokumen perencanaan dari PlanKu.",
+    "Kamu akan membangun \"{$project['judul']}\" berdasarkan dokumen perencanaan dari HelPRD.",
     '',
     'Ringkasan produk:',
     preg_replace('/\*\*/', '', $summary),
@@ -34,9 +34,9 @@ $prompt = implode("\n", [
     ...$stack,
     '',
     'Sebelum mulai:',
-    '1. Baca PRD.md dan semua file di folder features/ (dari ZIP PlanKu yang sudah diletakkan di root project ini).',
+    '1. Baca PRD.md dan semua file di folder features/ (dari ZIP HelPRD yang sudah diletakkan di root project ini).',
     '2. Baca TASKS.md: daftar ' . ($taskCount ?: 'semua') . ' task bercentang, dikelompokkan per fase dan per fitur.',
-    '3. Bila file-file itu belum ada di project, berhenti dan minta saya mengunduh ZIP dari PlanKu dulu.',
+    '3. Bila file-file itu belum ada di project, berhenti dan minta saya mengunduh ZIP dari HelPRD dulu.',
     '',
     'Urutan fitur:',
     ...$order,

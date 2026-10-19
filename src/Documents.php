@@ -592,7 +592,7 @@ final class Documents
 
         $done = count(array_filter($f['tasks'], fn ($t) => $t['status'] === 'selesai'));
         $md[] = "## Task\n\n" . ($f['tasks'] ? "Progres: $done/" . count($f['tasks']) . " selesai\n\n" . implode("\n", array_map(fn ($t) => self::taskLine($t, false), $f['tasks']))
-            : '_Belum ada task. Klik "Bikin Task" di PlanKu._');
+            : '_Belum ada task. Klik "Bikin Task" di HelPRD._');
 
         return implode("\n\n", $md) . "\n";
     }
@@ -605,7 +605,7 @@ final class Documents
         $md = [
             "# TASKS — $judul",
             'Kerjakan berurutan sesuai milestone ([M1] prototipe UI dengan data tiruan, [M2] backend & data, [M3] keamanan & uji) dan aturan checkpoint di CLAUDE.md. Ubah `[ ]` menjadi `[x]` setelah task selesai dan diuji.',
-            $all ? "Progres: $done/" . count($all) . ' selesai' : '_Belum ada task. Klik "Bikin Task" di PlanKu._',
+            $all ? "Progres: $done/" . count($all) . ' selesai' : '_Belum ada task. Klik "Bikin Task" di HelPRD._',
         ];
         $phases = [1 => 'Inti', 2 => 'Penting', 3 => 'Pengembangan', 4 => 'Tambahan'];
         foreach ($phases as $fase => $label) {
