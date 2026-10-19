@@ -1,6 +1,9 @@
 <?php
 
-/** V19 BatasTugas (minor): ≤ 14 task per fitur, ≤ 12 × jumlah fitur total, tanpa duplikat, Master Prompt merujuk berkas yang benar. */
+/**
+ * V19 BatasTugas (minor): tanpa judul task ganda, Master Prompt merujuk berkas yang benar.
+ * Batas jumlah task (≤ 8 per fitur, ≤ 8 × jumlah fitur) ditegakkan P08Batas (kritis) sejak v1.2.1.
+ */
 final class V19BatasTugas
 {
     public const BERKAS = ['CLAUDE.md', 'PRD.md', 'features/', 'PROGRESS.md'];
@@ -9,16 +12,6 @@ final class V19BatasTugas
     {
         $f = fn ($pesan, $saran = '') => QV::finding('V19', 'm', 13, $pesan, $saran);
         $out = [];
-        $counts = array_count_values(array_column($c['tasks'], 'fitur'));
-        foreach ($counts as $name => $n) {
-            if ($n > 14) {
-                $out[] = $f("Fitur \"$name\" punya $n task (maksimal 14).", 'Gabungkan task sepele.');
-            }
-        }
-        $limit = 12 * max(1, count($c['features']));
-        if (count($c['tasks']) > $limit) {
-            $out[] = $f('Total task ' . count($c['tasks']) . " melebihi batas $limit (12 × jumlah fitur).");
-        }
         $titles = array_map(fn ($t) => QV::lower(preg_replace('/^\[M\d\]\s*/', '', $t['title'])), $c['tasks']);
         $dupes = array_keys(array_filter(array_count_values($titles), fn ($n) => $n > 1));
         if ($dupes) {

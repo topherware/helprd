@@ -15,7 +15,8 @@
                 "sub_fitur": [
                     "Jadwal Menu Harian",
                     "Foto Masakan"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Paket & Harga",
@@ -23,7 +24,8 @@
                 "sub_fitur": [
                     "Perbandingan Paket",
                     "Harga per Porsi"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Pesan via WhatsApp",
@@ -31,7 +33,8 @@
                 "sub_fitur": [
                     "Pesan Tanpa Akun",
                     "Pesan Otomatis Terisi"
-                ]
+                ],
+                "asal": "keputusan"
             },
             {
                 "nama": "Akun Orang Tua",
@@ -39,7 +42,8 @@
                 "sub_fitur": [
                     "Daftar & Masuk",
                     "Data Anak & Alergi"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Riwayat Pesanan",
@@ -47,7 +51,8 @@
                 "sub_fitur": [
                     "Daftar Pesanan",
                     "Pesan Ulang"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Kelola Menu Sendiri",
@@ -56,7 +61,8 @@
                     "Ubah Menu",
                     "Unggah Foto",
                     "Ubah Harga"
-                ]
+                ],
+                "asal": "ide"
             }
         ],
         "stack_choice": "full_supabase",
@@ -80,7 +86,8 @@
                 "sub_fitur": [
                     "Daftar Layanan",
                     "Tarif per Jam"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Booking Jadwal",
@@ -89,7 +96,8 @@
                     "Pilih Tanggal",
                     "Pilih Jam",
                     "Email Konfirmasi"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Akun Pelanggan",
@@ -97,7 +105,8 @@
                 "sub_fitur": [
                     "Daftar & Masuk",
                     "Riwayat Booking"
-                ]
+                ],
+                "asal": "keputusan"
             },
             {
                 "nama": "Dasbor Admin",
@@ -106,7 +115,8 @@
                     "Setujui Booking",
                     "Tugaskan Petugas",
                     "Kelola Tarif"
-                ]
+                ],
+                "asal": "keputusan"
             },
             {
                 "nama": "Ulasan Pelanggan",
@@ -114,7 +124,8 @@
                 "sub_fitur": [
                     "Beri Rating",
                     "Tampilkan Ulasan"
-                ]
+                ],
+                "asal": "keputusan"
             }
         ],
         "stack_choice": "react_node",
@@ -138,7 +149,8 @@
                 "sub_fitur": [
                     "Daftar Alat",
                     "Status Tersedia"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Ajukan Pinjam",
@@ -146,7 +158,8 @@
                 "sub_fitur": [
                     "Form Pengajuan",
                     "Pilih Tanggal Kembali"
-                ]
+                ],
+                "asal": "ide"
             },
             {
                 "nama": "Daftar Pengajuan",
@@ -154,7 +167,8 @@
                 "sub_fitur": [
                     "Antrian Pengajuan",
                     "Detail Pengajuan"
-                ]
+                ],
+                "asal": "ide"
             }
         ],
         "stack_choice": "react_cloudflare",

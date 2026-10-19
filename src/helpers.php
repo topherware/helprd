@@ -14,7 +14,7 @@ require_once __DIR__ . '/Quality/Report.php';
 require_once __DIR__ . '/Quality/Pipeline.php';
 require_once __DIR__ . '/Quality/Security/Triggers.php';
 require_once __DIR__ . '/Quality/Security/Validators.php';
-foreach (glob(__DIR__ . '/Quality/Validators/*.php') as $file) {
+foreach (array_merge(glob(__DIR__ . '/Quality/Validators/*.php'), glob(__DIR__ . '/Quality/Paritas/*.php')) as $file) {
     require_once $file;
 }
 

@@ -18,7 +18,7 @@ final class Triggers
     /** Keterangan singkat tiap bendera (untuk prompt dan laporan). */
     public const LABELS = [
         'uiOnly' => 'mode hanya-UI', 'hasDatabase' => 'memakai database', 'hasPricedEntity' => 'ada harga/tarif/diskon/biaya',
-        'hasTransactionRecord' => 'ada catatan transaksi (pesanan, booking, pinjam, tagihan)', 'hasAdminMutation' => 'pemilik/admin mengubah data atau status',
+        'hasTransactionRecord' => 'ada catatan transaksi (pesanan, reservasi, pinjam, tagihan)', 'hasAdminMutation' => 'pemilik/admin mengubah data atau status',
         'hasGuestFlow' => 'transaksi bisa tanpa akun (tamu)', 'usesOtp' => 'memakai OTP', 'usesEmail' => 'mengirim email',
         'usesWhatsappApi' => 'mengirim WhatsApp otomatis (API)', 'usesPayment' => 'pembayaran online', 'usesFileStorage' => 'menyimpan berkas/foto',
         'usesRateLimit' => 'butuh pembatasan laju (login, OTP, formulir publik)', 'serverless' => 'berjalan di lingkungan serverless',
@@ -43,7 +43,7 @@ final class Triggers
     /** Jaring pengaman kata kunci; dicocokkan ke ide, jawaban, catatan, dan nama fitur/sub fitur. */
     public const KEYWORDS = [
         'hasPricedEntity' => '/\b(harga|tarif|diskon|biaya|ongkir|ongkos kirim|paket berbayar|price|pricing)\b|\brp\s?\d/iu',
-        'hasTransactionRecord' => '/\b(pesan|pesanan|memesan|order|booking|reservasi|pinjam|peminjaman|sewa|tagihan|invoice|checkout|transaksi)\b/iu',
+        'hasTransactionRecord' => '/\b(pesan|pesanan|memesan|order|reservasi|pinjam|peminjaman|sewa|tagihan|invoice|checkout|transaksi)\b/iu',
         'hasAdminMutation' => '/\b(admin|administrator|pemilik|pengelola|kelola|mengelola|moderasi|setujui|menyetujui|approve|dashboard|dasbor)\b/iu',
         'hasGuestFlow' => '/\b(tanpa akun|tanpa login|tanpa daftar|tanpa registrasi|tamu|guest)\b/iu',
         'usesOtp' => '/\b(otp|kode verifikasi|verifikasi nomor|kode sekali pakai)\b/iu',
@@ -53,7 +53,7 @@ final class Triggers
         'usesFileStorage' => '/\b(unggah|upload|foto|gambar|berkas|lampiran|avatar|bukti transfer|galeri)\b/iu',
         'usesRateLimit' => '/\b(login|masuk akun|daftar akun|registrasi|otp|formulir|komentar|ulasan|testimoni|kontak)\b/iu',
         'hasDarkTheme' => '/\b(gelap|dark)\b/iu',
-        'hasTimeFields' => '/\b(jadwal|jam|tanggal|waktu|pengingat|tenggat|deadline|batas waktu|booking|reservasi|janji temu|sesi|shift|periode|kalender)\b/iu',
+        'hasTimeFields' => '/\b(jadwal|jam|tanggal|waktu|pengingat|tenggat|deadline|batas waktu|reservasi|janji temu|sesi|shift|periode|kalender)\b/iu',
         'hasScheduler' => '/\b(pengingat|reminder|terjadwal|cron|otomatis\s+(terkirim|dikirim|mengirim)|setiap\s+(hari|minggu|jam|pagi|malam)|\d+\s*(jam|hari|menit)\s+sebelum)\b/iu',
         'hasPublicPages' => '/\b(tanpa akun|tanpa login|tanpa daftar|pengunjung|publik|katalog|landing page|toko online|halaman (depan|utama)|website)\b/iu',
         'hasOfflineChannel' => '/\b(datang langsung|walk-?in|lewat telepon|via telepon|offline|luring|tatap muka)\b/iu',

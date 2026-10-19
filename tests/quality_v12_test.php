@@ -44,11 +44,8 @@ $cases = [
     'aturan "respons < 200 ms" di MVP → V17' => ['V17', fn (&$p) => $p['keamanan']['persyaratan'][0]['teks'] .= ' Respons login harus < 200 ms.'],
     'tugas M1 menyebut tabel → V18' => ['V18', fn (&$p, &$t) => $t[0]['title'] = 'Buat tabel database pesanan untuk menu'],
     'hapus CHECKPOINT → V18' => ['V18', fn (&$p) => $p['milestone']['daftar'][1]['checkpoint'] = ''],
-    '20 tugas pada satu fitur → V19' => ['V19', function (&$p, &$t) {
-        for ($i = 1; $i <= 20; $i++) {
-            $t[] = ['fitur' => 'Menu Minggu Ini', 'title' => "Rapikan detail tampilan ke-$i", 'milestone' => 'M3', 'status' => 'belum_mulai'];
-        }
-    }],
+    // Batas jumlah task pindah ke P08Batas (v1.2.1, diuji di paritas_test.php); V19 tinggal judul ganda & rujukan Master Prompt.
+    'judul task ganda → V19' => ['V19', fn (&$p, &$t) => $t[] = $t[0]],
 ];
 foreach ($cases as $name => [$id, $mutate]) {
     $override = $cases[$name][2] ?? [];

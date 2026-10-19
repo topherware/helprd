@@ -1,6 +1,9 @@
 <?php
 
-/** V17 BebanKeamanan (bab 8): MVP ≤ 12 aturan, Hardening ≤ 8, tanpa ambang mikro/ritual berkala/sertifikasi di MVP, per fitur ≤ 3 rujukan. */
+/**
+ * V17 BebanKeamanan (bab 8): MVP ≤ 12 aturan, tanpa ambang mikro/ritual berkala/sertifikasi di MVP, per fitur ≤ 3 rujukan.
+ * Batas Hardening ≤ 8 ditegakkan P08Batas (kritis) sejak v1.2.1 agar tidak dihitung ganda.
+ */
 final class V17BebanKeamanan
 {
     public const TERLARANG = '/\b\d+\s*(ms|milidetik)\b|<\s*\d+\s*ms|kuartal|triwulan|bulanan|setiap bulan|per bulan|tahunan|setiap tahun|disaster recovery|pemulihan bencana|(?-i:\bDR\b)|sertifikasi|ISO\s*27001|SOC\s*2|rotasi kunci (terjadwal|berkala)|uji penetrasi berkala/iu';
@@ -13,9 +16,6 @@ final class V17BebanKeamanan
         $out = [];
         if (count($sec) > 12) {
             $out[] = $f('Aturan keamanan Wajib MVP ada ' . count($sec) . ' (maksimal 12).', 'Gabungkan aturan sejenis; pindahkan sisanya ke Hardening setelah MVP.');
-        }
-        if (count($k['hardening'] ?? []) > 8) {
-            $out[] = $f('Butir Hardening ada ' . count($k['hardening']) . ' (maksimal 8).');
         }
         $bad = array_column(array_filter($sec, fn ($s) => preg_match(self::TERLARANG, $s['teks'])), 'id');
         if ($bad) {

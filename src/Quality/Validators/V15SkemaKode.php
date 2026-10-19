@@ -6,7 +6,7 @@
  */
 final class V15SkemaKode
 {
-    public const TRANSAKSI = '/pesan|order|booking|reservasi|pinjam|sewa|tagihan|transaksi|invoice|checkout/iu';
+    public const TRANSAKSI = '/pesan|order|reservasi|pinjam|sewa|tagihan|transaksi|invoice|checkout/iu';
     public const UANG = '/harga|total|biaya|tarif|subtotal|ongkir|nominal|diskon|price|amount|_rp$|saldo|bayar/iu';
 
     public static function check(array $c): array
