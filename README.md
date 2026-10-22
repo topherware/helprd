@@ -76,7 +76,7 @@ then open <http://localhost:8000/public/>. This is fine for a quick look. Genera
 | `API_KEY` | empty | Your Anthropic API key. Only used when demo mode is off. |
 | `API_MODEL` | `claude-opus-5` | Model to use. A smaller model is cheaper and faster. |
 | `API_BASE_URL` | `https://api.anthropic.com` | Leave as is unless you use a compatible gateway. |
-| `AI_EFFORT` | empty | `low`, `medium`, or `high`. Lower finishes faster. |
+| `AI_EFFORT` | `low` | `low`, `medium`, or `high`. Lower finishes faster. |
 | `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS` | XAMPP defaults | Database connection. |
 | `RATE_LIMIT_PER_HOUR` | `30` | AI calls per IP per hour. |
 | `DOC_MAX_CALLS_PER_PROJECT` | `36` | AI calls allowed for documents per plan. |
